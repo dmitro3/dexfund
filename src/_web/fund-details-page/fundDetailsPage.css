@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
+
+.w-fund-details-page-wrapper {
+    width: 100vw;
+    background-color: #020202;
+    padding-top: 80px;
+    padding-right: 5%;
+    padding-left: 5%;
+    padding-bottom: 410px;
+}
+
+.w-fund-details-page-content {
+    margin: 40px 0 0 0;
+}
+
+.w-fund-details-page-title {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 42px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.w-fund-details-page-navbar {
+    display: flex;
+    justify-content: left;
+    padding: 20px 0;
+}
+
+.w-fund-details-page-navbar-item {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #999;
+    padding: 8px 24px;
+}
+
+@media(max-width: 1267px) {
+    .w-fund-details-page-navbar-item {
+        padding: 8px 14px;
+    }
+}
+
+@media(max-width: 1120px) {
+    .w-fund-details-page-navbar-item {
+        padding: 8px 7px;
+    }
+}
+
+@media(max-width: 1016px) {
+    .w-fund-details-page-navbar-item {
+        padding: 8px 4px;
+    }
+}
+
+.w-fund-details-page-navbar-item:hover {
+    cursor: pointer;
+    background: linear-gradient(to right, #E926C3 10%, #FF4D86 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

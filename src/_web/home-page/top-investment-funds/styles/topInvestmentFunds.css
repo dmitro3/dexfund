@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
+
+.w-top-investment-funds-wrapper {
+    padding: 80px 0 0 0; 
+}
+
+.w-top-investment-funds-header {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    padding: 0 0 20px 0;
+}
+
+.w-top-investment-funds-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.w-profitable-funds-card {
+    background-color: #070708;
+    padding: 16px;
+    width: 33%;
+}
+
+.w-profitable-funds-card:hover {
+    cursor: pointer;
+    background-color: #17171C;
+}
+
+.w-profitable-funds-card-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 16px;
+}
+
+.w-profitable-funds-card-title {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    text-align: left;
+}
+
+.w-profitable-funds-card-see-all {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    background: linear-gradient(to right, #E926C3 10%, #FF4D86 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: right;
+}
+
+.w-profitable-funds-card-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+}
+
+.w-profitable-funds-card-details-section {
+    display: flex;
+    justify-content: left;
+}
+
+.w-profitable-funds-card-details {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #fff;
+}
+
+.w-profitable-funds-card-asset-bullet {
+    width: 80px;
+    background-color: #17171C;
+    border-radius: 10px;
+    padding: 2px 4px;
+    display: flex;
+    justify-content: center;
+    margin-top: -4px;
+    margin-left: 8px;
+}
+
+.w-profitable-funds-card:hover .w-profitable-funds-card-asset-bullet {
+    background-color: #070708;
+}
+
+.w-profitable-funds-card-asset-bullet-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #fff;
+    margin: 0 0 0 8px;
+}
+
+.profitable-funds-card-weth-icon {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+}
+
+.w-profitable-funds-card-performance {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #999;
+    text-align: right;
+}

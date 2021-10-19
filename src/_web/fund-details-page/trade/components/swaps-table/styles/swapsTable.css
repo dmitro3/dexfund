@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
+
+.w-swaps-table {
+    padding: 88px 0;
+}
+
+.w-swaps-table-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 16px;
+}
+
+.w-swaps-table-header-item {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #999;
+    width: 20%;
+}
+
+.exchange, .price, .amount, .vs-reference {
+    text-align: left;
+}
+
+.vs-best-price {
+    text-align: right;
+}

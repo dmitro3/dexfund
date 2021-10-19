@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
+
+.w-your-investments-wrapper {
+    padding: 80px 0 0 0; 
+}
+
+.w-your-investments-header {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    padding: 0 0 20px 0;
+}
+
+.w-your-investments-table {
+    padding-top: 28px;
+}
+
+.w-your-investments-table-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 16px;
+}
+
+.w-your-investments-table-header-item {
+    width: 25%;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #999;
+}
+
+.name, .your-deposits, .current-value {
+    text-align: left;
+}
+
+.performance {
+    text-align: right;
+}
+
+.w-your-investments-table-row {
+    display: flex;
+    justify-content: space-between;
+    background-color: #070708;
+    padding: 16px;
+}
+
+.w-your-investments-table-row:hover {
+    cursor: pointer;
+    background-color: #17171C;
+}
+
+.your-investments-table-row-cell {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    width: 25%;
+}

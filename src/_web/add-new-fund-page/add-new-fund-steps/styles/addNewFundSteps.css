@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
+
+.w-add-new-fund-step-card {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.w-add-new-fund-step-sidebar {
+    width: 25%;
+    background-color: #020202;
+}
+
+.w-add-new-fund-step {
+    padding: 34px;
+    display: flex;
+    justify-content: left;
+}
+
+.add-new-fund-button-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.w-add-new-fund-step-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #999;
+    padding: 0 0 0 18px;
+    margin: 4px 0 0 0;
+}
+
+.current {
+    background-color: #070708;
+    color: #fff;
+}
+
+.w-add-new-fund-step-input-section {
+    padding: 32px 64px;
+    background-color: #070708;
+    width: 75%;
+    margin: 0 0 120px;
+}
+
+.toggle-input {
+    display: flex;
+    justify-content: left;
+    margin: 0 0 16px 0;
+}
+
+.w-add-new-fund-step-input {
+    border: 1px solid #17171C;
+    padding: 16px;
+}
+
+.denomination-asset-input {
+    display: flex;
+    justify-content: space-between;
+}
+
+.denomination-asset-input:hover {
+    cursor: pointer;
+}
+
+.w-add-new-fund-denomination-asset-input-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #999;
+}
+
+.w-add-new-fund-denomination-assets-list {
+    border: 1px solid #E926C3;
+}
+
+.w-add-new-fund-denomination-asset-row {
+    padding: 16px;
+}
+
+.w-add-new-fund-denomination-asset-row:hover {
+    cursor: pointer;
+    background-color: #17171C;
+}
+
+.w-denomination-asset-primary-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #fff;
+}
+
+.w-denomination-asset-secondary-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #999;
+}
+
+.w-add-new-fund-step-info-text {
+    width: 60%;
+    text-align: left;
+    padding: 16px 0 32px 0;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #999;
+}
+
+.w-add-new-fund-buttons-section {
+    display: flex;
+    justify-content: left;
+    margin: 88px 0 0 0;
+}
+
+.w-add-new-fund-step-previous-button {
+    width: 126px;
+    padding: 16px 0;
+    background-color: #17171C;
+    color: #fff;
+    text-align: center;
+    margin: 0 16px 0 0;
+}
+
+.w-add-new-fund-step-next-button {
+    width: 91px;
+    padding: 16px 0;
+    background: linear-gradient(to right, #E926C3 10%, #FF4D86 100%);
+    color: #020202;
+    text-align: center;
+}
+
+.w-add-new-fund-step-next-button:hover, .w-add-new-fund-step-previous-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.w-add-new-fund-toggle-row {
+    display: flex;
+    justify-content: left;
+    padding: 0 0 16px 0;
+}
+
+.w-add-new-fund-toggle-text {
+    text-align: left;
+    padding: 0 0 0 8px;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #fff;
+}
+
+.add-new-fund-toggle-icon:hover {
+    cursor: pointer;
+}
+
+.w-fund-review-terms {
+    padding: 16px 0;
+    text-align: left;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #999;
+}
+
+.w-fund-finish-header {
+    text-align: left;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 32px 0;
+}
+
+.w-fund-finish-row {
+    text-align: left;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #999;
+}
+
+.w-fund-finish-row.prim {
+    margin: 0 0 32px 0;
+}
+
+.w-fund-finish-row.sec {
+    margin: 0 0 8px 0;
+}
+
+.w-fund-finish-your-funds-button {
+    width: 190px;
+    margin: 100px 0 15px 0;
+    padding: 16px 0;
+    background: linear-gradient(to right, #E926C3 10%, #FF4D86 100%);
+    color: #020202;
+    text-align: center;
+}
+
+.w-fund-finish-your-funds-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.w-add-new-fund-advanced-info {
+    text-align: left;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #999;
+}
+
+.w-add-new-fund-advanced-info.header {
+    font-weight: 600;
+    color: #fff;
+    padding: 32px 0 16px 0;
+}
+
+.w-add-new-fund-add-policy-button {
+    width: 190px;
+    padding: 16px 0;
+    background: linear-gradient(to right, #E926C3 10%, #FF4D86 100%);
+    color: #020202;
+    text-align: center;
+}
+
+.w-add-new-fund-add-policy-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.w-add-new-fund-policy-popup-wrapper {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: #252528a6;
+
+    display: 'flex';
+    justify-content:'center';
+    align-items:'center';
+}
+
+.w-add-new-fund-policy-popup-box {
+    background-color: #070708;
+
+    width: 510px;
+
+    margin: 10% auto 10% auto;
+    padding: 32px;
+
+    border-radius: 3px;
+}
+
+.w-add-new-fund-policy-popup-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0 64px 0;
+}
+
+.w-add-new-fund-policy-popup-header-text {
+    text-align: left;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.policy-popup-close-icon:hover {
+    cursor: pointer;
+}
+
+.w-add-new-fund-policy-popup-info {
+    text-align: left;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #999;
+    margin: 0 0 16px 0;
+}
+
+.w-add-new-fund-policy-popup-policy-header {
+    text-align: left;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    margin: 32px 0 16px 0;
+}

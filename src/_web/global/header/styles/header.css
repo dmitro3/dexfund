@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
+
+.w-header-wrapper {
+    width: 100vw;
+    background-color: #070708;
+
+    /* sticky sidebar */
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+}
+
+.w-header-content {
+    width: 90%;
+    margin: auto;
+    padding: 16px 0;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.w-header-navbar-section {
+    width: 25%;
+    display: flex;
+    justify-content: left;
+    padding: 8px 0 0 0;
+}
+
+.radar-protocol-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.w-header-navbar-item {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #999999;
+    margin: 5px 0 0 32px;
+}
+
+.w-header-navbar-item:hover {
+    cursor: pointer;
+}
+
+.w-header-account-section {
+    display: flex;
+    justify-content: right;
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.w-header-eth-button {
+    background-color: #17171C;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 16px;
+}
+
+.w-header-eth-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.w-header-eth-button-asset-section {
+    display: flex;
+    justify-content: left;
+    margin: 0 12px 0 0;
+}
+
+.eth-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.w-header-eth-button-asset-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #999999;
+    margin: 0 0 0 8px;
+}
+
+.chevron-down-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.chevron-down-icon.address {
+    margin-top: 4px;
+}
+
+.w-header-connect-wallet-button {
+    background: linear-gradient(90deg, #E926C3 0%, #FF4D86 97.5%);
+    padding: 12px 20px;
+    margin: 0 16px;
+}
+
+.w-header-connect-wallet-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.w-header-connect-wallet-button-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #020202;
+    text-align: center;
+    line-height: 24px;
+}
+
+.w-header-settings-button {
+    background-color: #17171C;
+    text-align: center;
+}
+
+.w-header-settings-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.activity-icon {
+    width: 48px;
+    height: 48px;
+}
+
+.w-header-address-button {
+    display: flex;
+    justify-content: space-between;
+    background-color: #17171C;
+    padding: 8px 16px;
+}
+
+.w-header-address-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.w-header-address-button-amount-button {
+    background-color: #070708;
+    padding: 0 6px;
+    border-radius: 10px;
+}
+
+.w-header-address-button-amount-button-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #fff;
+    text-align: center;
+    margin-top: 4px;
+}
+
+.w-header-address-button-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #999999;
+    text-align: center;
+    margin: 5px 8px 0 8px;
+}

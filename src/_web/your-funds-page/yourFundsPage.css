@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
+
+.w-your-funds-page-wrapper {
+    width: 100vw;
+    background-color: #020202;
+    padding-top: 80px;
+}
+
+.w-your-funds-page-content {
+    width: 90%;
+    margin: auto;
+}

@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
+
+.w-swap-card-wrapper {
+    padding: 80px 0;
+}
+
+.w-swap-card {
+    background-color: #070708;
+    padding: 32px;
+}
+
+.w-swap-card-inputs-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+.w-swap-card-half-section {
+    width: 45%;
+}
+
+.w-swap-card-half-section-header {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    padding: 0 0 16px 0;
+}
+
+.w-swap-card-half-section-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #999;
+}
+
+.w-swap-card-half-section-asset-input {
+    width: 100%;
+    border: 1px solid #17171C;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0 16px 0;
+}
+
+.w-swap-card-half-section-asset-input:hover {
+    cursor: pointer;
+    background-color: #17171C;
+}
+
+.w-swap-card-half-section-asset-section {
+    display: flex;
+    justify-content: left;
+}
+
+.w-swap-card-half-section-asset-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #fff;
+    padding: 0 0 0 8px;
+}
+
+.swap-asset-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.w-swap-card-half-section-amount-input {
+    width: 100%;
+    border: 1px solid #17171C;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0 4px 0;
+}
+
+.w-swap-card-max-amount-bullet {
+    background-color: #2E2E38;
+    border-radius: 10px;
+    width: 120px;
+    padding: 4px 0;
+}
+
+.w-swap-card-max-amount-bullet-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #999;
+    text-align: center;
+}
+
+.w-swap-card-max-amount-bullet:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.w-swap-card-half-section-amount-input-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #999;
+}
+
+.w-swap-card-button-section {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    border-top: 1px solid #17171C;
+    padding-top: 16px;
+    margin-top: 32px;
+}
+
+.w-swap-card-button {
+    background: linear-gradient(90deg, #E926C3 0%, #FF4D86 97.5%);
+    width: 170px;
+    padding: 16px 0;
+}
+
+.w-swap-card-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.w-swap-card-button-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #020202;
+    text-align: center;
+}
+
+.w-swaps-table-row {
+    display: flex;
+    justify-content: space-between;
+    background-color: #070708;
+    padding: 16px;
+}
+
+.w-swaps-table-row:hover {
+    cursor: pointer;
+    background-color: #17171C;
+}
+
+.w-swaps-table-row-cell {
+    width: 20%;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.w-swaps-exchange-cell-section {
+    display: flex;
+    justify-content: left;
+}
+
+.swap-paraswap-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.w-swaps-exchange-cell-text {
+    padding: 0 0 0 10px;
+}

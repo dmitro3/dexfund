@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
+
+.w-fund-statistics-your-investments-wrapper {
+    
+}
+
+.w-fund-your-investments-table-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 28px 16px 8px 16px;
+}
+
+.w-fund-your-investments-table-header-item {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #999;
+}
+
+.asset {
+    width: 40%;
+    text-align: left;
+}
+
+.price, .value {
+    width: 15%;
+    text-align: left;
+}
+
+.performance {
+    width: 30%;
+    text-align: right;
+}
+
+.w-fund-your-investments-table-row {
+    display: flex;
+    justify-content: space-between;
+    background-color: #070708;
+    padding: 16px;
+}
+
+.w-fund-your-investments-table-row:hover {
+    cursor: pointer;
+    background-color: #17171C;
+}
+
+.w-fund-your-investments-table-row:hover .w-fund-your-investments-asset-bullet {
+    background-color: #070708;
+}
+
+.w-fund-your-investments-table-row-cell {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.w-fund-your-investments-asset-bullet {
+    width: 120px;
+    background-color: #17171C;
+    border-radius: 10px;
+    padding: 4px 6px;
+    display: flex;
+    justify-content: center;
+    margin-top: -4px;
+}
+
+.w-fund-your-investments-asset-bullet-text {
+    margin: 0 0 0 4px;
+}
