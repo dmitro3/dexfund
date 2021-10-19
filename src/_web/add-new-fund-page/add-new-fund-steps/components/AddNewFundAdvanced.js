@@ -28,11 +28,14 @@ class AddNewFundAdvanced extends Component {
 
       selectedPolicyItem: "",
       displaySelectedPolicyList: false,
+      ...this.props.state,
     };
   }
 
   goToNextStep = () => {
-    this.props.goToNextStepEvent();
+    this.props.goToNextStepEvent({
+      ...this.state,
+    });
   };
 
   goToPreviousStep = () => {

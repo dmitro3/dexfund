@@ -20,6 +20,7 @@ class AddNewFundGeneral extends Component {
       managerName: "",
       denominationAsset: "Denomination asset",
       denominationAssetsList: false,
+      ...this.props.state,
     };
   }
 
@@ -31,11 +32,7 @@ class AddNewFundGeneral extends Component {
     ) {
       return;
     } else {
-      this.props.goToNextStepEvent(
-        this.state.fundName,
-        this.state.managerName,
-        this.state.denominationAsset
-      );
+      this.props.goToNextStepEvent({ ...this.state });
     }
   };
 

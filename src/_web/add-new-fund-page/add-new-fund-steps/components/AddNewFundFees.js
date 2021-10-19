@@ -24,6 +24,7 @@ class AddNewFundFees extends Component {
       displayManagementFee: false,
       displayPerformanceFee: false,
       displayEntryFee: false,
+      ...this.props.state,
     };
   }
 
@@ -316,7 +317,9 @@ class AddNewFundFees extends Component {
   }
 
   goToNextStep = () => {
-    this.props.goToNextStepEvent();
+    this.props.goToNextStepEvent({
+      ...this.state,
+    });
   };
 
   goToPreviousStep = () => {

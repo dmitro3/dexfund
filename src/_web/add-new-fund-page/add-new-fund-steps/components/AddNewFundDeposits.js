@@ -22,6 +22,8 @@ class AddNewFundDeposits extends Component {
 
       displayMinDeposit: false,
       displayMaxDeposit: false,
+
+      ...this.props.state,
     };
   }
 
@@ -214,7 +216,9 @@ class AddNewFundDeposits extends Component {
   }
 
   goToNextStep = () => {
-    this.props.goToNextStepEvent();
+    this.props.goToNextStepEvent({
+      ...this.state,
+    });
   };
 
   goToPreviousStep = () => {

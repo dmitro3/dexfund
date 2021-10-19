@@ -22,10 +22,6 @@ class AddNewFundPage extends Component {
     this.state = {
       settingsPopup: false,
       currentStep: "General",
-
-      fundName: "",
-      managerName: "",
-      denominationAsset: "",
     };
   }
 
@@ -35,6 +31,7 @@ class AddNewFundPage extends Component {
         <AddNewFundGeneral
           {...this.props}
           goToNextStepEvent={this.goToFeesStep}
+          state={this.state}
         />
       </>
     );
@@ -47,6 +44,7 @@ class AddNewFundPage extends Component {
           {...this.props}
           goToNextStepEvent={this.goToDepositsStep}
           goToPreviousStepEvent={this.goToGeneralStep}
+          state={this.state}
         />
       </>
     );
@@ -72,6 +70,7 @@ class AddNewFundPage extends Component {
           {...this.props}
           goToNextStepEvent={this.goToAdvancedStep}
           goToPreviousStepEvent={this.goToFeesStep}
+          state={this.state}
         />
       </>
     );
@@ -84,6 +83,7 @@ class AddNewFundPage extends Component {
           {...this.props}
           goToNextStepEvent={this.goToReview}
           goToPreviousStepEvent={this.goToDepositsStep}
+          state={this.state}
         />
       </>
     );
@@ -96,9 +96,7 @@ class AddNewFundPage extends Component {
           {...this.props}
           goToNextStepEvent={this.goToFundCreated}
           goToPreviousStepEvent={this.goToAdvancedStep}
-          fundNameFromParent={this.state.fundName}
-          managerNameFromParent={this.state.managerName}
-          denominationAssetFromParent={this.state.denominationAsset}
+          state={this.state}
         />
       </>
     );
@@ -112,37 +110,52 @@ class AddNewFundPage extends Component {
     );
   }
 
-  goToGeneralStep = () => {
-    this.setState({ currentStep: "General" });
-  };
-
-  goToFeesStep = (
-    fundNameFromChild,
-    managerNameFromChild,
-    denominationAssetFromChild
-  ) => {
+  goToGeneralStep = (stateFromChild = {}) => {
     this.setState({
-      currentStep: "Fees",
-      fundName: fundNameFromChild,
-      managerName: managerNameFromChild,
-      denominationAsset: denominationAssetFromChild,
+      ...this.state,
+      ...stateFromChild,
+      currentStep: "General",
     });
   };
 
-  goToDepositsStep = () => {
-    this.setState({ currentStep: "Deposits" });
+  goToFeesStep = (stateFromChild) => {
+    this.setState({
+      ...this.state,
+      ...stateFromChild,
+      currentStep: "Fees",
+    });
   };
 
-  goToAdvancedStep = () => {
-    this.setState({ currentStep: "Advanced" });
+  goToDepositsStep = (stateFromChild) => {
+    this.setState({
+      ...this.state,
+      ...stateFromChild,
+      currentStep: "Deposits",
+    });
   };
 
-  goToReview = () => {
-    this.setState({ currentStep: "Review" });
+  goToAdvancedStep = (stateFromChild) => {
+    this.setState({
+      ...this.state,
+      ...stateFromChild,
+      currentStep: "Advanced",
+    });
   };
 
-  goToFundCreated = () => {
-    this.setState({ currentStep: "FundCreated" });
+  goToReview = (stateFromChild) => {
+    this.setState({
+      ...this.state,
+      ...stateFromChild,
+      currentStep: "Review",
+    });
+  };
+
+  goToFundCreated = (stateFromChild) => {
+    this.setState({
+      ...this.state,
+      ...stateFromChild,
+      currentStep: "FundCreated",
+    });
   };
 
   displaySettingsPopup = () => {
