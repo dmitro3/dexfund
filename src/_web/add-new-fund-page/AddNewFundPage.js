@@ -11,7 +11,6 @@ import AddNewFundFinish from "./add-new-fund-steps/components/AddNewFundFinish";
 import AddNewFundAdvanced from "./add-new-fund-steps/components/AddNewFundAdvanced";
 
 // ASSETS
-// ...
 
 // STYLES
 import "./addNewFundPage.css";
@@ -49,19 +48,6 @@ class AddNewFundPage extends Component {
       </>
     );
   }
-
-  // renderDeposits() {
-
-  //     return (
-
-  //         <>
-  //             <AddNewFundDeposits {...this.props}
-  //                 goToNextStepEvent={this.goToReview}
-  //                 goToPreviousStepEvent={this.goToFeesStep}
-  //             />
-  //         </>
-  //     )
-  // }
 
   renderDeposits() {
     return (
