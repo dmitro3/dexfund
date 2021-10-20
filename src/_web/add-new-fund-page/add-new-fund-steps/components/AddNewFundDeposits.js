@@ -222,7 +222,9 @@ class AddNewFundDeposits extends Component {
   };
 
   goToPreviousStep = () => {
-    this.props.goToPreviousStepEvent();
+    this.props.goToPreviousStepEvent({
+      ...this.state,
+    });
   };
 
   render() {

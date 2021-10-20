@@ -19,15 +19,18 @@ class AddNewFundGeneral extends Component {
       fundName: "",
       managerName: "",
       denominationAsset: "Denomination asset",
+      denominationAddress: null,
       denominationAssetsList: false,
       ...this.props.state,
     };
+    console.log(`assets`, this.state);
   }
 
   goToNextStep = () => {
     if (
       this.state.fundName === "" ||
       this.state.managerName === "" ||
+      this.state.denominationAddress === null ||
       this.state.denominationAsset === "Denomination asset"
     ) {
       return;
@@ -42,7 +45,11 @@ class AddNewFundGeneral extends Component {
         <div
           className="w-add-new-fund-step-input denomination-asset-input"
           style={{ border: "1px solid #E926C3" }}
-          onClick={() => this.setState({ denominationAssetsList: false })}
+          onClick={() =>
+            this.setState({
+              denominationAssetsList: false,
+            })
+          }
         >
           <div className="w-add-new-fund-denomination-asset-input-text">
             {this.state.denominationAsset}
@@ -50,62 +57,27 @@ class AddNewFundGeneral extends Component {
           <img src={caretUpIcon} alt="caret-up-icon" />
         </div>
         <div className="w-add-new-fund-denomination-assets-list">
-          <div
-            className="w-add-new-fund-denomination-asset-row"
-            onClick={() =>
-              this.setState({
-                denominationAsset: "DA 1",
-                denominationAssetsList: false,
-              })
-            }
-          >
-            <div className="w-denomination-asset-primary-text">DA 1</div>
-            <div className="w-denomination-asset-secondary-text">
-              Denomination asset 1
-            </div>
-          </div>
-          <div
-            className="w-add-new-fund-denomination-asset-row"
-            onClick={() =>
-              this.setState({
-                denominationAsset: "DA 2",
-                denominationAssetsList: false,
-              })
-            }
-          >
-            <div className="w-denomination-asset-primary-text">DA 2</div>
-            <div className="w-denomination-asset-secondary-text">
-              Denomination asset 2
-            </div>
-          </div>
-          <div
-            className="w-add-new-fund-denomination-asset-row"
-            onClick={() =>
-              this.setState({
-                denominationAsset: "DA 3",
-                denominationAssetsList: false,
-              })
-            }
-          >
-            <div className="w-denomination-asset-primary-text">DA 3</div>
-            <div className="w-denomination-asset-secondary-text">
-              Denomination asset 3
-            </div>
-          </div>
-          <div
-            className="w-add-new-fund-denomination-asset-row"
-            onClick={() =>
-              this.setState({
-                denominationAsset: "DA 4",
-                denominationAssetsList: false,
-              })
-            }
-          >
-            <div className="w-denomination-asset-primary-text">DA 4</div>
-            <div className="w-denomination-asset-secondary-text">
-              Denomination asset 4
-            </div>
-          </div>
+          {this.state.assets.map((asset) => {
+            return (
+              <div
+                className="w-add-new-fund-denomination-asset-row"
+                onClick={() =>
+                  this.setState({
+                    denominationAsset: asset.symbol,
+                    denominationAddress: asset.id,
+                    denominationAssetsList: false,
+                  })
+                }
+              >
+                <div className="w-denomination-asset-primary-text">
+                  {asset.symbol}
+                </div>
+                <div className="w-denomination-asset-secondary-text">
+                  {asset.name}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </>
     );
@@ -116,7 +88,12 @@ class AddNewFundGeneral extends Component {
       <>
         <div
           className="w-add-new-fund-step-input denomination-asset-input"
-          onClick={() => this.setState({ denominationAssetsList: true })}
+          onClick={() =>
+            this.setState({
+              ...this.props.state,
+              denominationAssetsList: true,
+            })
+          }
         >
           <div className="w-add-new-fund-denomination-asset-input-text">
             {this.state.denominationAsset}

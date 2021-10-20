@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 // COMPONENTS
 import Header from "../global/header/Header";
@@ -21,7 +22,83 @@ class AddNewFundPage extends Component {
     this.state = {
       settingsPopup: false,
       currentStep: "General",
+      assets: [],
     };
+  }
+
+  componentDidMount() {
+    const url = "https://api.thegraph.com/subgraphs/name/trust0212/radar-graph";
+    axios
+      .post(url, {
+        query: `
+        {
+          assets(orderBy: symbol, orderDirection: asc) {
+           decimals
+           curvePoolAssetDetails {
+             pool
+             gauge
+             gaugeToken {
+               id
+               decimals
+               symbol
+             }
+             invariantProxyAsset {
+               decimals
+               id
+               symbol
+             }
+             lpToken {
+               decimals
+               id
+               symbol
+             }
+             numberOfTokens
+             pool
+            
+             token1 {
+               decimals
+               id
+               symbol
+             }
+             token2 {
+               decimals
+               id
+               symbol
+             }
+             
+           }
+           decimals
+           derivativeType
+           id
+           name
+           price {
+             price
+             timestamp
+           }
+           symbol
+           type
+           underlyingAsset {
+             id
+             decimals
+             name
+             symbol
+           }
+           uniswapV2PoolAssetDetails {
+             id
+           }
+         }
+         }
+        `,
+      })
+      .then((response) => {
+        let assets = response.data.data.assets;
+        this.setState({
+          assets,
+        });
+      })
+      .catch((err) => {
+        console.log(`Error:`, err);
+      });
   }
 
   renderGeneral() {
