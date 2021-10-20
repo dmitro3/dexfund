@@ -43,9 +43,10 @@ class InvestmentFunds extends React.Component {
                 `
             }
         ).then((response) => {
-            const allFunds = response.data.data.funds
+            const investments = response.data.data.funds
             this.setState({
-                investments: allFunds
+                ...this.state,
+                investments
             })
         }).catch((err) => {
             console.log("Error: ", err);
@@ -71,6 +72,7 @@ class InvestmentFunds extends React.Component {
                     {
                         this.state.investments.map((investment) =>
                             <InvestmentFundsTableRow
+                                idFromParrent={investment.id}   
                                 nameFromParent={investment.name}
                                 typeFromParent='Investment'
                                 denominationAssetFromParent={investment.trackedAssets[0].symbol}
