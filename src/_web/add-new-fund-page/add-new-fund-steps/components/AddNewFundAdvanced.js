@@ -13,7 +13,7 @@ import caretUpIcon from '../assets/caret-up-icon.svg';
 
 // STYLES
 import '../styles/addNewFundSteps.css';
-import { ThreeDRotationSharp, ThreeSixtyOutlined } from '@material-ui/icons';
+// import { ThreeDRotationSharp, ThreeSixtyOutlined } from '@material-ui/icons';
 
 class AddNewFundAdvanced extends Component {
 
@@ -47,7 +47,7 @@ class AddNewFundAdvanced extends Component {
             return;
         }
 
-        if (e.target.value == '') {
+        if (e.target.value === '') {
             this.setState({
                 timeLock: '0',
             });
@@ -275,7 +275,7 @@ class AddNewFundAdvanced extends Component {
                     <div className="w-add-new-fund-step-input-section">
                         <div className="w-add-new-fund-advanced-info">
                             Only change these settings if you know what you are doing. 
-                            <a style={{fontWeight:'600', color:'#fff'}}> Advanced settings cannot be changed after creation. </a>
+                            <a href="" style={{fontWeight:'600', color:'#fff'}}> Advanced settings cannot be changed after creation. </a>
                         </div>
                         <div className="w-add-new-fund-advanced-info header">
                             Flash Loan Protection

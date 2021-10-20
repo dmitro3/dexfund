@@ -38,7 +38,7 @@ class AddNewFundFees extends Component {
             return;
         }
 
-        if (e.target.value == '') {
+        if (e.target.value === '') {
             this.setState({
                 managementFee: '0',
             });
@@ -64,7 +64,7 @@ class AddNewFundFees extends Component {
             return;
         }
 
-        if (e.target.value == '') {
+        if (e.target.value === '') {
             this.setState({
                 performanceFee: '0',
             });
@@ -90,7 +90,7 @@ class AddNewFundFees extends Component {
             return;
         }
 
-        if (e.target.value == '') {
+        if (e.target.value === '') {
             this.setState({
                 entryFee: '0',
             });

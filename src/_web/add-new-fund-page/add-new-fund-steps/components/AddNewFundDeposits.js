@@ -36,7 +36,7 @@ class AddNewFundDeposits extends Component {
             return;
         }
 
-        if (e.target.value == '') {
+        if (e.target.value === '') {
             this.setState({
                 minDeposit: '0',
             });
@@ -58,7 +58,7 @@ class AddNewFundDeposits extends Component {
             return;
         }
 
-        if (e.target.value == '') {
+        if (e.target.value === '') {
             this.setState({
                 maxDeposit: '0',
             });

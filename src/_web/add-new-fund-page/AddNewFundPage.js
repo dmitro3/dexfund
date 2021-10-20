@@ -15,7 +15,7 @@ import AddNewFundAdvanced from './add-new-fund-steps/components/AddNewFundAdvanc
 
 // STYLES
 import './addNewFundPage.css';
-import { ThumbDownSharp } from '@material-ui/icons';
+// import { ThumbDownSharp } from '@material-ui/icons';
 
 class AddNewFundPage extends Component {
 
@@ -69,18 +69,18 @@ class AddNewFundPage extends Component {
         )
     }
 
-    renderDeposits() {
+    // renderDeposits() {
 
-        return (
+    //     return (
 
-            <>
-                <AddNewFundDeposits {...this.props}
-                    goToNextStepEvent={this.goToAdvancedStep}
-                    goToPreviousStepEvent={this.goToFeesStep}
-                />
-            </>
-        )
-    }
+    //         <>
+    //             <AddNewFundDeposits {...this.props}
+    //                 goToNextStepEvent={this.goToAdvancedStep}
+    //                 goToPreviousStepEvent={this.goToFeesStep}
+    //             />
+    //         </>
+    //     )
+    // }
 
     renderAdvanced() {
 
