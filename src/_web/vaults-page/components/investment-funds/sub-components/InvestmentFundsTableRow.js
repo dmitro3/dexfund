@@ -14,7 +14,7 @@ class InvestmentFundsTableRow extends Component {
 
         this.state = {
             searchedValue: this.props.searchedValueFromParent,
-            id: this.props.idFromParent,
+
             name: this.props.nameFromParent,
             type: this.props.typeFromParent,
             denominationAsset: this.props.denominationAssetFromParent,
@@ -22,13 +22,13 @@ class InvestmentFundsTableRow extends Component {
             depositors: this.props.depositorsFromParent,
             lifetimeGain: this.props.lifetimeGainFromParent,
         }
-
     }
 
     render() {
 
         return (
 
+            <>
                 <div className="w-your-transactions-table-row">
                     <div className="w-your-transactions-table-cell"
                     style={{width:'16.6%'}}>
@@ -55,6 +55,7 @@ class InvestmentFundsTableRow extends Component {
                         {this.state.lifetimeGain}
                     </div>
                 </div>
+            </>
         )
     }
 }
