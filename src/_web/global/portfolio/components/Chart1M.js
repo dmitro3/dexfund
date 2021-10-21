@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import Paper from '@material-ui/core/Paper';
 import {
   Chart,
   ArgumentAxis,
-  ValueAxis,
+  // ValueAxis,
   LineSeries,
-  Title,
+  // Title,
   Legend,
 } from '@devexpress/dx-react-chart-material-ui';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import { ArgumentScale, Animation } from '@devexpress/dx-react-chart';
 import {
   curveCatmullRom,
@@ -46,18 +46,18 @@ const Line = props => (
       marginBottom: '10px',
     },
   };
-  const Text = withStyles(titleStyles)((props) => {
-    const { text, classes } = props;
-    const [mainText, subText] = text.split('\\n');
-    return (
-      <div className={classes.title}>
-        <Typography component="h3" variant="h5">
-          {mainText}
-        </Typography>
-        <Typography variant="subtitle1">{subText}</Typography>
-      </div>
-    );
-  });
+  // const Text = withStyles(titleStyles)((props) => {
+  //   const { text, classes } = props;
+  //   const [mainText, subText] = text.split('\\n');
+  //   return (
+  //     <div className={classes.title}>
+  //       <Typography component="h3" variant="h5">
+  //         {mainText}
+  //       </Typography>
+  //       <Typography variant="subtitle1">{subText}</Typography>
+  //     </div>
+  //   );
+  // });
   
   const legendStyles = () => ({
     root: {

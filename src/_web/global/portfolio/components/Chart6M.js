@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import Paper from '@material-ui/core/Paper';
 import {
   Chart,
   ArgumentAxis,
-  ValueAxis,
+  // ValueAxis,
   LineSeries,
-  Title,
+  // Title,
   Legend,
 } from '@devexpress/dx-react-chart-material-ui';
 import { withStyles } from '@material-ui/core/styles';
@@ -78,18 +78,18 @@ const Line = props => (
     },
   });
   
-  const legendRootBase = ({ classes, ...restProps }) => (
-    <Legend.Root {...restProps} className={classes.root} />
-  );
-  const legendLabelBase = ({ classes, ...restProps }) => (
-    <Legend.Label className={classes.label} {...restProps} />
-  );
-  const legendItemBase = ({ classes, ...restProps }) => (
-    <Legend.Item className={classes.item} {...restProps} />
-  );
-  const Root = withStyles(legendStyles, { name: 'LegendRoot' })(legendRootBase);
-  const Label = withStyles(legendLabelStyles, { name: 'LegendLabel' })(legendLabelBase);
-  const Item = withStyles(legendItemStyles, { name: 'LegendItem' })(legendItemBase);
+  // const legendRootBase = ({ classes, ...restProps }) => (
+  //   <Legend.Root {...restProps} className={classes.root} />
+  // );
+  // const legendLabelBase = ({ classes, ...restProps }) => (
+  //   <Legend.Label className={classes.label} {...restProps} />
+  // );
+  // const legendItemBase = ({ classes, ...restProps }) => (
+  //   <Legend.Item className={classes.item} {...restProps} />
+  // );
+  // const Root = withStyles(legendStyles, { name: 'LegendRoot' })(legendRootBase);
+  // const Label = withStyles(legendLabelStyles, { name: 'LegendLabel' })(legendLabelBase);
+  // const Item = withStyles(legendItemStyles, { name: 'LegendItem' })(legendItemBase);
   const demoStyles = () => ({
     chart: {
       paddingRight: '30px',
