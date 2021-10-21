@@ -1,13 +1,16 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import thunk from 'redux-thunk';
-import loginReducer from "./reducers/LoginReducer";
-import registerReducer from "./reducers/RegisterReducer";
+import { createStore, applyMiddleware, combineReducers } from "redux";
+import thunk from "redux-thunk";
+import logger from "redux-logger";
+import { composeWithDevTools } from "redux-devtools-extension";
+import connectAccountReducer from "./reducers/AccountConnectReducer";
 
 const rootReducer = combineReducers({
-    loginInfo: loginReducer,
-    registerInfo: registerReducer
+  connect: connectAccountReducer,
 });
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk, logger))
+);
 
 export default store;

@@ -13,7 +13,8 @@ import VaultsPage from './_web/vaults-page/VaultsPage';
 // web3 connect
 import Web3 from 'web3';
 import { Web3ReactProvider } from '@web3-react/core'
-
+import {connectMetamask}  from  './ethereum/index'
+import ProtectedRoute from './_web/ProtectedRoute/ProtectedRoute';
 
 function getLibrary(provider) {
     return new Web3(provider)
@@ -29,7 +30,7 @@ const app = (
                         <Route path="/" exact component={HomePage} />
                         <Route path="/your-funds" exact component={YourFundsPage} />
                         <Route path="/fund/:address" exact component={FundDetailsPage} />
-                        <Route path="/add-new-fund" exact component={AddNewFundPage} />
+                        <ProtectedRoute path="/add-new-fund" exact component={AddNewFundPage} />
                         <Route path="/vaults" exact component={VaultsPage} />
                     </Switch>
                 </BrowserRouter>
