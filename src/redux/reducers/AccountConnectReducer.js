@@ -33,7 +33,7 @@ export default function connectToAccountReducer(state = initialState, action) {
 
     case ACCOUNT_CONNECT_DISCONNECT:
       return {
-        ...state,
+        account: null,
         connectSuccess: false,
         message: "Disconnected. Please use correct network",
         error: "",

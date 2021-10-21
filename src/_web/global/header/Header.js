@@ -14,8 +14,8 @@ import {
   connectAccount,
   disconnectAccount,
 } from "./../../../redux/actions/AccountActions";
-import {utils}  from 'ethers'
-import {createNewFund}  from './../../../ethereum/release/fund'
+
+import {activateLoaderOverlay, deactivateLoaderOverlay}  from  './../../../redux/actions/LoaderAction'
 
 
 class Header extends Component {
@@ -36,28 +36,6 @@ class Header extends Component {
     });
   }
 
-  saveItem = async () => {
-    console.log("Create Fund")
-    const fundOwner = this.props.account.account.address;
-    const fundName = "Mashujaa Fund";
-    const timeLockInSeconds = 1;
-    const denominationAsset = "0xd0a1e359811322d97991e03f863a0c30c2cf029c"
-
-    try {
-        const fund =  await createNewFund(
-            fundOwner,
-            fundName,
-            denominationAsset,
-            timeLockInSeconds,
-            utils.hexlify('0x'),
-            utils.hexlify('0x'),
-            1000000);
-    
-        console.log(fund)
-    } catch (error) {
-        console.log(error)
-    }
-}
 
   displaySettingsPopup = () => {
     this.setState({ settingsPopup: true });
@@ -94,6 +72,18 @@ class Header extends Component {
               >
                 HOME
               </div>
+              <div
+                className="w-header-navbar-item"
+                style={
+                  this.props.match.path === "/your-funds"
+                    ? selectedNavbarItemStyle
+                    : {}
+                }
+                onClick={() => this.toPage("/vaults")}
+              >
+                VAULTS
+              </div>
+
               <div
                 className="w-header-navbar-item"
                 style={
@@ -148,17 +138,21 @@ class Header extends Component {
                 </div>
                 <button
                   className="w-header-connect-wallet-button"
-                  onClick={() => this.saveItem()}
+                  onClick={() => this.props.disconnectAccount()}
                 >
                   <div className="w-header-connect-wallet-button-text">
-                    Create Fund
+                    DISCONNECT
                   </div>
                 </button>
                 </>
               ) : (
                 <button
                   className="w-header-connect-wallet-button"
-                  onClick={() => this.props.connectAccount()}
+                  onClick={() => {
+                     this.props.activateLoaderOverlay();
+                     this.props.connectAccount();
+                     this.props.deactivateLoaderOverlay();
+                    }}
                 >
                   <div className="w-header-connect-wallet-button-text">
                     CONNECT WALLET
@@ -182,7 +176,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   connectAccount,
-  disconnectAccount
+  disconnectAccount,
+  deactivateLoaderOverlay,
+  activateLoaderOverlay
 };
 
 

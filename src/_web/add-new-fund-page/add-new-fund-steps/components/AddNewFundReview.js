@@ -1,26 +1,72 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { utils } from 'ethers'
+import { activateLoaderOverlay, deactivateLoaderOverlay } from './../../../../redux/actions/LoaderAction'
 
 // COMPONENTS
 // ...
 
 // ASSETS
 import pinkOutlineButtonIcon from "../assets/pink-outline-button-icon.svg";
-import pinkFillButtonIcon from "../assets/pink-fill-button-icon.svg";
+import pinkFillButtonIcon from "../assets/pink-fill-button-icon.svg"
+
 
 // STYLES
 import "../styles/addNewFundSteps.css";
 
+
+// CREATE FUND 
+import { createNewFund } from './../../../../ethereum/release/fund'
+
 class AddNewFundReview extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = this.props.state;
   }
 
-  goToNextStep = () => {
-    this.props.goToNextStepEvent({
-      ...this.state,
-    });
+  goToNextStep = async () => {
+    console.log("Create Fund")
+    this.props.activateLoaderOverlay();
+    const fundOwner = this.props.account.account.address;
+    const fundName = "Mashujaa Fund";
+    const timeLockInSeconds = 1;
+    const denominationAsset = "0xd0a1e359811322d97991e03f863a0c30c2cf029c"
+    // console.log(this.state)
+
+    this.props.activateLoaderOverlay();
+
+    // if (this.state.managerName && !this.state.fundName && !this.state.denominationAddress && !this.state.timeLock) {
+    try {
+      const fund = await createNewFund(
+        this.state.managerName,
+        this.state.fundName,
+        this.state.denominationAddress,
+        this.state.timeLock,
+        utils.hexlify('0x'),
+        utils.hexlify('0x'),
+        1000000
+      );
+      console.log(fund)
+      this.props.deactivateLoaderOverlay();
+      
+      this.props.goToNextStepEvent({
+        ...this.state,
+      });
+  
+    } catch (error) {
+      console.log(error)
+    }
+
+    // save Fundd
+    
+    // } else {
+    //   console.log("Provide all fields")
+    // }
+
+
+
+
+
   };
 
   goToPreviousStep = () => {
@@ -178,7 +224,7 @@ class AddNewFundReview extends Component {
                 className="w-add-new-fund-step-next-button"
                 onClick={() => this.goToNextStep()}
               >
-                NEXT
+                SAVE FUND
               </div>
             </div>
           </div>
@@ -188,4 +234,19 @@ class AddNewFundReview extends Component {
   }
 }
 
-export default AddNewFundReview;
+const mapStateToProps = (state) => {
+  return {
+    account: state.connect,
+  };
+};
+
+
+const mapDispatchToProps = {
+  deactivateLoaderOverlay,
+  activateLoaderOverlay
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddNewFundReview);
+
+
