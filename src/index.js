@@ -13,7 +13,6 @@ import VaultsPage from './_web/vaults-page/VaultsPage';
 // web3 connect
 import Web3 from 'web3';
 import { Web3ReactProvider } from '@web3-react/core'
-import {connectMetamask}  from  './ethereum/index'
 import ProtectedRoute from './_web/ProtectedRoute/ProtectedRoute';
 
 function getLibrary(provider) {

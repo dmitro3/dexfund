@@ -1,10 +1,8 @@
 import { ethers } from 'ethers'
-import Web3 from  'web3'
 let provider;
 let signer;
 let address;
 let balance;
-let web3
 
 const init = async () => {
     if (window.ethereum) {

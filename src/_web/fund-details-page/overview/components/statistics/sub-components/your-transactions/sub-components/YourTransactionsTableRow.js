@@ -31,7 +31,7 @@ class YourTransactionsTableRow extends Component {
                 <div className="w-funds-your-transactions-table-row">
                     <div className="w-funds-your-transactions-table-cell action">
                         <div className="w-funds-your-transactions-action-cell">
-                            <img src={this.state.action === 'Invest' ? addIcon : minusIcon} />
+                            <img alt="" src={this.state.action === 'Invest' ? addIcon : minusIcon} />
                             <div className="w-your-transactions-action-text">
                                 {this.state.action}
                             </div>

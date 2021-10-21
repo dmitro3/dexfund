@@ -1,4 +1,4 @@
-import { TimerSharp } from '@material-ui/icons';
+// import { TimerSharp } from '@material-ui/icons';
 import React, { Component } from 'react';
 
 // COMPONENTS

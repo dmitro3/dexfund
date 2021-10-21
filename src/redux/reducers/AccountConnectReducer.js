@@ -4,7 +4,6 @@ import {
   ACCOUNT_CONNECT_SUCCESS,
 } from "../actions/AccountActions";
 
-import { loadAccountInfoFromLocalStorage } from "./../../managers/LocalStorageManager";
 
 const initialState = {
   connectSuccess: false,

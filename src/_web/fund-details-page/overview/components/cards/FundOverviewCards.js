@@ -23,7 +23,7 @@ class FundOverviewCards extends Component {
 
     render() {
 
-        var width = window.innerWidth;
+        // var width = window.innerWidth;
 
         return (
 

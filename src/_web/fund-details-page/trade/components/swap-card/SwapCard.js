@@ -26,7 +26,7 @@ class SwapCard extends Component {
 
     inputField = (e) => {
 
-        if (e.target.value == '') {
+        if (e.target.value === '') {
             this.setState({ amountToSwap: '0.00' });
             return;
         }
