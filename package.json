@@ -12,22 +12,15 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-<<<<<<< HEAD
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
-    "axios": "^0.21.1",
-=======
     "axios": "^0.23.0",
->>>>>>> daf5639d6834047dc06d1463d372d21f35afbc82
     "bootstrap": "^5.0.0-beta2",
     "classnames": "^2.2.6",
     "cors": "^2.8.5",
     "d3-scale": "^3.2.0",
     "d3-shape": "^1.3.7",
-<<<<<<< HEAD
     "ethers": "^5.4.7",
-=======
->>>>>>> daf5639d6834047dc06d1463d372d21f35afbc82
     "express": "^4.17.1",
     "mongodb": "^3.6.2",
     "primeicons": "^4.1.0",
@@ -47,12 +40,8 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-<<<<<<< HEAD
     "sweetalert2": "^10.8.1",
     "web3": "^1.6.0"
-=======
-    "sweetalert2": "^10.8.1"
->>>>>>> daf5639d6834047dc06d1463d372d21f35afbc82
   },
   "scripts": {
     "start": "node server/app.js",
