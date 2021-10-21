@@ -15,8 +15,7 @@ import {
   disconnectAccount,
 } from "./../../../redux/actions/AccountActions";
 import {utils}  from 'ethers'
-import walletWrapper from "../../../ethereum/provider";
-import {createNewFund}  from '@ngeni-we-do/radar-protocol'
+import {createNewFund}  from './../../../ethereum/release/fund'
 
 
 class Header extends Component {
@@ -40,23 +39,19 @@ class Header extends Component {
   saveItem = async () => {
     console.log("Create Fund")
     const fundOwner = this.props.account.account.address;
-    const fundName = "mashujaa Fund";
+    const fundName = "Mashujaa Fund";
     const timeLockInSeconds = 1;
-    const connectedWallet  =  await walletWrapper(this.props.account.account.provider, this.props.account.account.address)
-    const options = {
-        nonce: await connectedWallet.getNonce(),
-        gasLimit: 1000000
-    }
-    console.log("REACHED")
+    const denominationAsset = "0xd0a1e359811322d97991e03f863a0c30c2cf029c"
+
     try {
         const fund =  await createNewFund(
             fundOwner,
             fundName,
+            denominationAsset,
             timeLockInSeconds,
             utils.hexlify('0x'),
             utils.hexlify('0x'),
-            this.props.account.account.signer,
-            options);
+            1000000);
     
         console.log(fund)
     } catch (error) {

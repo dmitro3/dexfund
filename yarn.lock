@@ -2015,10 +2015,10 @@
     prop-types "^15.7.2"
     react-is "^16.8.0 || ^17.0.0"
 
-"@ngeni-we-do/radar-protocol@^1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@ngeni-we-do/radar-protocol/-/radar-protocol-1.0.8.tgz#27320763fbf0ab313235e6b0aecdd4f4ba8dcf1d"
-  integrity sha512-GIC0FnwvQDgcyrQQcb9A0VLkTLArxCEgJICi0Lbtyozx/Egm8LPH7rl0MntUG729B1+MpVXrF7OZNdIShKmBWA==
+"@ngeni-we-do/radar-protocol@1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@ngeni-we-do/radar-protocol/-/radar-protocol-1.0.9.tgz#09efdd8f3959eb38be1ba24c4c0611d32888a672"
+  integrity sha512-xqfRCdAUsFTBRYSuqvC+Of7Zr7lyLH9w8ZWfn0t0wS15+U7QjEcFm9fAWbYtP6IbItwcGyrUusECVnr+vemJ2Q==
   dependencies:
     del-cli "^4.0.1"
     ethers "^5.4.7"
