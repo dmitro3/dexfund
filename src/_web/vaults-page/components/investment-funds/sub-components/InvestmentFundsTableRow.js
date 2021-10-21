@@ -14,7 +14,6 @@ class InvestmentFundsTableRow extends Component {
 
         this.state = {
             searchedValue: this.props.searchedValueFromParent,
-
             name: this.props.nameFromParent,
             type: this.props.typeFromParent,
             denominationAsset: this.props.denominationAssetFromParent,
