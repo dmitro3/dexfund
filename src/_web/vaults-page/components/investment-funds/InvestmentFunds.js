@@ -22,7 +22,9 @@ class InvestmentFunds extends React.Component {
     }
 
     componentDidMount() {
-        const url = 'https://api.thegraph.com/subgraphs/name/trust0212/radar-graph'
+        // const url = 'https://api.thegraph.com/subgraphs/name/trust0212/radar-graph'
+        const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
+ 
 
 
         axios.post(
@@ -30,10 +32,11 @@ class InvestmentFunds extends React.Component {
             {
                 query: `
                 {
-                    funds {
+                    funds(first: 5, orderBy: lastKnowGavInEth, orderDirection: desc) {
                       id
                       name
                       investmentCount
+                      lastKnowGavInEth
                       trackedAssets {
                         name
                         symbol
@@ -70,7 +73,7 @@ class InvestmentFunds extends React.Component {
                                 nameFromParent={investment.name}
                                 typeFromParent='Investment'
                                 denominationAssetFromParent={investment.trackedAssets[0].symbol}
-                                AUMFromParent='$1.000.000,00'
+                                AUMFromParent={investment.lastKnowGavInEth}
                                 depositorsFromParent={investment.investmentCount}
                                 lifetimeGainFromParent='21.31%'
                             />
