@@ -39,7 +39,7 @@ class YourInvestmentsTableRow extends Component {
                     </div>
                     <div className="your-investments-table-row-cell performance"
                         style={{ color: '#00AF00' }}>
-                        {this.state.performance}
+                        {this.state.performance}%
                     </div>
                 </div>
             </>
