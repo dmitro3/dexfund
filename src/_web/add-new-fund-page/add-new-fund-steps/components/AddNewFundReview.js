@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { utils } from 'ethers'
+import { ethers, utils } from 'ethers'
 import { activateLoaderOverlay, deactivateLoaderOverlay } from './../../../../redux/actions/LoaderAction'
-
+import { generateFeeManagerConfigData } from './../../../../ethereum/release/fees-policy-management'
 // COMPONENTS
 // ...
+
+import { BigNumber } from 'bignumber.js'
 
 // ASSETS
 import pinkOutlineButtonIcon from "../assets/pink-outline-button-icon.svg";
@@ -16,57 +18,87 @@ import "../styles/addNewFundSteps.css";
 
 
 // CREATE FUND 
-import { createNewFund } from './../../../../ethereum/release/fund'
+import {
+  createNewFund,
+  getFeesManagerConfigArgsData,
+  getManagementFees,
+  getPerformanceFees,
+  getEntranceRateFeeConfigArgs,
+  PerformanceFee,
+  ManagementFee,
+  EntranceRateDirectFee
+} from './../../../../ethereum/funds/fund-related'
 
 class AddNewFundReview extends Component {
   constructor(props) {
     super(props);
-    this.state = this.props.state;
+    this.state = { ...this.props.state, hash: '' };
   }
 
   goToNextStep = async () => {
     console.log("Create Fund")
     this.props.activateLoaderOverlay();
-    const fundOwner = this.props.account.account.address;
-    const fundName = "Mashujaa Fund";
-    const timeLockInSeconds = 1;
-    const denominationAsset = "0xd0a1e359811322d97991e03f863a0c30c2cf029c"
-    // console.log(this.state)
+    let feeManagerSettingsData = [];
+    let fees = []
 
-    this.props.activateLoaderOverlay();
+    if (this.state.displayManagementFee && this.state.managementFee) {
+      feeManagerSettingsData.push(getEntranceRateFeeConfigArgs(this.state.managementFee));
+      fees.push(ManagementFee.address)
+    }
 
-    // if (this.state.managerName && !this.state.fundName && !this.state.denominationAddress && !this.state.timeLock) {
+    if (this.state.displayEntryFee && this.state.entryFee) {
+      fees.push(EntranceRateDirectFee.address)
+      feeManagerSettingsData.push(getManagementFees(this.state.managementFee))
+    }
+
+
+    if (this.state.displayPerformanceFee && this.state.getPerformanceFees) {
+      fees.push(PerformanceFee.address);
+      feeManagerSettingsData.push(getPerformanceFees(this.state.getPerformanceFees, 6))
+    }
+
+    let feeArgsData;
+
+    // IF CONFIGURATIONS(FEES and FEE SETTING) are not Provided
+    if (fees.length === 0) {
+      /// PREPARE FEE CONFIGURATIONS DATA
+      feeArgsData = await getFeesManagerConfigArgsData(fees, feeManagerSettingsData, this.props.account.account.signer, false);
+
+      fees = utils.hexlify('0x')
+      feeManagerSettingsData = utils.hexlify('0x')
+    }
+    else {
+      /// PREPARE FEE CONFIGURATIONS DATA
+      feeArgsData = await getFeesManagerConfigArgsData(fees, feeManagerSettingsData, this.props.account.account.signer, true);
+
+    }
+
+
+
+
     try {
       const fund = await createNewFund(
-        this.state.managerName,
+        this.props.account.account.address,
         this.state.fundName,
         this.state.denominationAddress,
         this.state.timeLock,
-        utils.hexlify('0x'),
+        feeArgsData,
         utils.hexlify('0x'),
         1000000
       );
       console.log(fund)
+
+      this.setState({ ...this.state, hash: fund.hash })
+
       this.props.deactivateLoaderOverlay();
-      
       this.props.goToNextStepEvent({
         ...this.state,
       });
-  
+
     } catch (error) {
       console.log(error)
+      this.props.deactivateLoaderOverlay();
     }
-
-    // save Fundd
-    
-    // } else {
-    //   console.log("Provide all fields")
-    // }
-
-
-
-
-
   };
 
   goToPreviousStep = () => {

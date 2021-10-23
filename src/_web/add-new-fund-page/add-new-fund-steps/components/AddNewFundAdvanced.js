@@ -29,6 +29,10 @@ class AddNewFundAdvanced extends Component {
       selectedPolicyItem: "",
       displaySelectedPolicyList: false,
       ...this.props.state,
+      blackListingAssets: [],
+      whiteListingAssets: [],
+      blackListingAdapters: [],
+      whiteListingAdapters: []
     };
   }
 
@@ -152,6 +156,108 @@ class AddNewFundAdvanced extends Component {
     );
   }
 
+
+  // render whitelisting Adapters
+  renderPoliciesListWhitelisting () {
+    return (
+      this.state.adaptersList.map((item) => (<div
+        className="w-add-new-fund-denomination-asset-row"
+        key={item.id}
+        onClick={() =>
+          this.setState({
+            ...this.state,
+            whiteListingAdapters: this.state.whiteListingAdapters.push(item.id),
+            displaySelectedPolicyList: false,
+          })
+        }
+      >
+        <div className="w-denomination-asset-primary-text">{item.identifier}</div>
+      </div>))
+    )
+  }
+
+   // render blacklisting Adapters
+   renderPoliciesListBlacklisting () {
+    return (
+      this.state.adaptersList.map((item) => (<div
+        className="w-add-new-fund-denomination-asset-row"
+        key={item.id}
+        onClick={() =>
+          this.setState({
+            ...this.state,
+            blackListingAdapters: this.state.blackListingAdapters.push(item.id),
+            displaySelectedPolicyList: false,
+          })
+        }
+      >
+        <div className="w-denomination-asset-primary-text">{item.identifier}</div>
+      </div>))
+    )
+  }
+
+  // Assets
+
+  // render whitelisting Adapters
+  renderAssetsListWhitelisting () {
+    return (
+      this.state.assetList.map((item) => (<div
+        className="w-add-new-fund-denomination-asset-row"
+        key={item.id}
+        onClick={() =>
+          this.setState({
+            ...this.state,
+            whiteListingAssets: this.state.whiteListingAdapters.push(item.id),
+            displaySelectedPolicyList: false,
+          })
+        }
+      >
+        <div className="w-denomination-asset-primary-text">{item.name} ({item.symbol}) </div>
+      </div>))
+    )
+  }
+
+   // render blacklisting Adapters
+   renderAssetBlacklisting () {
+    return (
+      this.state.assetList.map((item) => (<div
+        className="w-add-new-fund-denomination-asset-row"
+        key={item.id}
+        onClick={() =>
+          this.setState({
+            ...this.state,
+            blackListingAssets: this.state.blackListingAssets.push(item.id),
+            displaySelectedPolicyList: false,
+          })
+        }
+      >
+        <div className="w-denomination-asset-primary-text">{item.name} ({item.symbol}) </div>
+      </div>))
+    )
+  }
+
+  // end of assets
+
+
+  renderWhichForm() {
+    if(this.state.selectedPolicy === 'Adapter Blacklist') {
+      return this.renderPoliciesListBlacklisting();
+    }
+
+    if(this.state.selectedPolicy === 'Adapter Whitelist') {
+      return this.renderPoliciesListWhitelisting();
+    }
+
+    if(this.state.selectedPolicy === 'Asset Blacklist') {
+      return this.renderAssetBlacklisting();
+    }
+
+    if(this.state.selectedPolicy === 'Asset Whitelist') {
+      return this.renderAssetsListWhitelisting();
+    }
+
+    return (<div> </div>)
+  }
+
   renderSelectedPolicyListOn() {
     return (
       <>
@@ -166,39 +272,12 @@ class AddNewFundAdvanced extends Component {
           <img src={caretUpIcon} alt="caret-up-icon" />
         </div>
         <div className="w-add-new-fund-denomination-assets-list">
-          <div
-            className="w-add-new-fund-denomination-asset-row"
-            onClick={() =>
-              this.setState({
-                selectedPolicyItem: "Item 1",
-                displaySelectedPolicyList: false,
-              })
-            }
-          >
-            <div className="w-denomination-asset-primary-text">Item 1</div>
-          </div>
-          <div
-            className="w-add-new-fund-denomination-asset-row"
-            onClick={() =>
-              this.setState({
-                selectedPolicyItem: "Item 2",
-                displaySelectedPolicyList: false,
-              })
-            }
-          >
-            <div className="w-denomination-asset-primary-text">Item 2</div>
-          </div>
-          <div
-            className="w-add-new-fund-denomination-asset-row"
-            onClick={() =>
-              this.setState({
-                selectedPolicyItem: "Item 3",
-                displaySelectedPolicyList: false,
-              })
-            }
-          >
-            <div className="w-denomination-asset-primary-text">Item 3</div>
-          </div>
+
+          {
+            this.renderWhichForm()
+          }
+
+          
         </div>
       </>
     );

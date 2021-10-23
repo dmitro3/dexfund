@@ -24,11 +24,6 @@ export const createNewFund = async (
     const FundDeployerInterface = new ethers.utils.Interface(
         JSON.parse(JSON.stringify(FundDeployer.abi))
     );
-
-    console.log(`Signer: ${signer}, denominationAsset: ${denominationAsset}, 
-    timeLockInSeconds: ${timeLockInSeconds}, feeManagerConfig:${feeManagerConfig}, 
-    policyManagerConfigData: ${policyManagerConfigData}, gaslimit: ${gaslimit}`);
-
     // FundDeployer Contract
     try {
         const fundDeployer = new ethers.Contract(FundDeployer.address, FundDeployerInterface, signer);
@@ -38,7 +33,7 @@ export const createNewFund = async (
             fundName,
             denominationAsset,
             timeLockInSeconds,
-            utils.hexlify('0x'),
+            feeManagerConfig,
             utils.hexlify('0x'),
             { nonce: nonce, gasLimit:  gaslimit }
         );

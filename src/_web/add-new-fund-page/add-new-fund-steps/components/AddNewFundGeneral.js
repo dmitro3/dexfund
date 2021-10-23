@@ -29,7 +29,7 @@ class AddNewFundGeneral extends Component {
   goToNextStep = () => {
     if (
       this.state.fundName === "" ||
-      this.state.managerName === "" ||
+      // this.state.managerName === "" ||
       this.state.denominationAddress === null ||
       this.state.denominationAsset === "Denomination asset"
     ) {
@@ -206,7 +206,9 @@ class AddNewFundGeneral extends Component {
                 }}
               ></input>
             </div>
-            <div
+            <br/>
+          
+            {/* <div
               className="w-add-new-fund-step-input"
               style={{ margin: "16px 0" }}
             >
@@ -229,7 +231,7 @@ class AddNewFundGeneral extends Component {
                   width: "100%",
                 }}
               ></input>
-            </div>
+            </div> */}
             {this.state.denominationAssetsList === false &&
               this.renderAssetsListOff()}
             {this.state.denominationAssetsList === true &&
@@ -244,7 +246,6 @@ class AddNewFundGeneral extends Component {
               onClick={() => this.goToNextStep()}
               style={
                 this.state.fundName === "" ||
-                this.state.managerName === "" ||
                 this.state.denominationAsset === "Denomination asset"
                   ? disabledNextButtonStyle
                   : {}
