@@ -1,5 +1,5 @@
-import { thisTypeAnnotation } from '@babel/types';
 import React, { Component } from 'react';
+import axios from 'axios';
 
 // COMPONENTS
 import YourInvestmentFundsCard from './components/YourInvestmentFundsCard';
@@ -21,28 +21,55 @@ class YourInvestmentFunds extends Component {
             addNewFund: this.props.addNewFundFromParent,
 
             // DATA
-            fundAddress1: '1',
-            funds1: '2,4123.23',
-            performance1: '4.30',
-            fundName1: 'RADAR SWAP',
-
-            fundAddress2: '2',
-            funds2: '2,4123.23',
-            performance2: '4.30',
-            fundName2: 'RADAR SWAP',
-
-            fundAddress3: '3',
-            funds3: '2,4123.23',
-            performance3: '4.30',
-            fundName3: 'RADAR SWAP',
-
-            fundAddress4: '4',
-            funds4: '2,4123.23',
-            performance4: '4.30',
-            fundName4: 'RADAR SWAP',
+            investments: []
         }
     }
 
+    componentDidMount() {
+        // const url = 'https://api.thegraph.com/subgraphs/name/trust0212/radar-graph'
+        const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
+
+        const investorAddr = '"0x028a968aca00b3258b767edc9dbba4c2e80f7d00"'
+
+        const investmentQuery = {
+            query: `
+            { 
+                sharesBoughtEvents(first: 4,where:  {investor_contains: ${investorAddr}}){
+                    investmentAmount
+                    investmentState {
+                        shares
+                    }
+                    fund {
+                        name
+                        id
+                    }
+                    investor {
+                        firstSeen
+                        investorSince
+                    }
+                } 
+            }
+        
+            `
+        }
+
+
+        axios.post(
+            url,
+            investmentQuery
+        ).then((response) => {
+            const investments = response.data.data.sharesBoughtEvents
+            console.log('investing', investments);
+
+            this.setState({
+                ...this.state,
+                investments
+            })
+        }).catch((err) => {
+            console.log("Error: ", err);
+        })
+
+    }
     toPage(path) {
         this.props.history.push(path);
         window.scrollTo({
@@ -77,34 +104,17 @@ class YourInvestmentFunds extends Component {
                         </div>
                     </div>
                     <div className="w-your-investments-cards-section">
+                    {  this.state.investments.map((investment) => 
+
                         <YourInvestmentFundsCard {...this.props}
-                            fundAddressFromParent={this.state.fundAddress1}
-                            fundsFromParent={this.state.funds1}
-                            performanceFromParent={this.state.performance1}
-                            fundNameFromParent={this.state.fundName1}
-                            sharePriceDataFromParent={this.state.sharePriceChartData1}
+                            fundAddressFromParent={investment.fund.id}
+                            fundsFromParent={investment.investmentAmount}
+                            performanceFromParent={((investment.investmentAmount - investment.investmentState.shares) / investment.investmentAmount) * 100}
+                            fundNameFromParent={investment.fund.name}
+                            sharePriceDataFromParent={investment.investmentState.shares}
                         />
-                        <YourInvestmentFundsCard {...this.props}
-                            fundAddressFromParent={this.state.fundAddress2}
-                            fundsFromParent={this.state.funds2}
-                            performanceFromParent={this.state.performance2}
-                            fundNameFromParent={this.state.fundName2}
-                            sharePriceDataFromParent={this.state.sharePriceChartData2}
-                        />
-                        <YourInvestmentFundsCard {...this.props}
-                            fundAddressFromParent={this.state.fundAddress3}
-                            fundsFromParent={this.state.funds3}
-                            performanceFromParent={this.state.performance3}
-                            fundNameFromParent={this.state.fundName3}
-                            sharePriceDataFromParent={this.state.sharePriceChartData3}
-                        />
-                        <YourInvestmentFundsCard {...this.props}
-                            fundAddressFromParent={this.state.fundAddress4}
-                            fundsFromParent={this.state.funds4}
-                            performanceFromParent={this.state.performance4}
-                            fundNameFromParent={this.state.fundName4}
-                            sharePriceDataFromParent={this.state.sharePriceChartData4}
-                        />
+                    )
+                    }
                     </div>
                 </div>
             </>

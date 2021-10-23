@@ -63,7 +63,7 @@ class YourInvestmentsCard extends Component {
                             <div className="w-your-investments-performance-section">
                                 <img src={greenArrowIcon} alt='green-arrow-icon' className="performance-green-arrow-icon" />
                                 <div className="w-your-investments-value green">
-                                    ${this.state.funds}
+                                ${this.state.performance}
                                 </div>
                             </div>
                         </div>
@@ -76,11 +76,11 @@ class YourInvestmentsCard extends Component {
                             <div className="w-your-investments-type right">
                                 Share Price
                             </div>
-                            {/* <div className="w-your-investments-performance-section">
+                            <div className="w-your-investments-performance-section">
                                 <div className="w-your-investments-value green">
                                     *chart*
                                 </div>
-                            </div> */}
+                            </div>
                             <img src={chartIcon} alt='chart-icon' className="chart-icon" />
                         </div>
                     </div>

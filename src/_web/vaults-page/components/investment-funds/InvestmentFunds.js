@@ -24,7 +24,7 @@ class InvestmentFunds extends React.Component {
     componentDidMount() {
         // const url = 'https://api.thegraph.com/subgraphs/name/trust0212/radar-graph'
         const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
- 
+
 
 
         axios.post(
@@ -57,6 +57,15 @@ class InvestmentFunds extends React.Component {
 
     }
 
+    toPage(path) {
+        this.props.history.push(path);
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+        })
+    }
+
     render() {
         return (
 
@@ -69,7 +78,7 @@ class InvestmentFunds extends React.Component {
                     {
                         this.state.investments.map((investment) =>
                             <InvestmentFundsTableRow
-                                idFromParrent={investment.id}   
+                                idFromParrent={investment.id}
                                 nameFromParent={investment.name}
                                 typeFromParent='Investment'
                                 denominationAssetFromParent={investment.trackedAssets[0].symbol}
