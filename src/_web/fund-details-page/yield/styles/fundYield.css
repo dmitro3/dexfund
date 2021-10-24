@@ -1,0 +1,130 @@
+.w-fund-yield-wrapper {
+
+}
+
+.w-fund-yield-header {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.w-search-bar-wrapper {
+    border-bottom: 1px solid #171717;
+    padding: 24px 0;
+}
+
+.w-search-bar {
+    display: flex;
+    justify-content: left;
+}
+
+.w-search-bar-input {
+    padding: 0 0 0 16px;
+}
+
+.w-markets-table-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 28px 16px;
+}
+
+.w-markets-table-header-item {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #999;
+}
+
+.name {
+    width: 30%;
+}
+
+.protocols {
+    width: 40%;
+}
+
+.balance {
+    width: 15%;
+}
+
+.best-apy {
+    width: 15%;
+    text-align: right;
+}
+
+.w-markets-table-row {
+    display: flex;
+    justify-content: space-between;
+    background-color: #070708;
+    margin: 2px 0;
+    padding: 16px;
+}
+
+.w-markets-table-row:hover {
+    cursor: pointer;
+    background-color: #171717;
+}
+
+.w-markets-table-name-cell {
+    display: flex;
+    justify-content: left;
+}
+
+.w-markets-table-name-icon {
+    width: 36px;
+    height: 36px;
+}
+
+.w-markets-table-name-cell-text {
+    margin: 0 0 0 20px;
+}
+
+.w-markets-table-name {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.w-markets-table-full-name {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #999;
+}
+
+.w-markets-table-protocols-cell {
+    display: flex;
+    justify-content: left;
+}
+
+.w-markets-protocol {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    padding: 4px;
+    margin: 4px 4px 0 0;
+    width: 85px;
+    background-color: #17171C;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.w-markets-table-cell.balance {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    margin: 8px 0 0 0;
+}
+
+.w-markets-table-cell.best-apy {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    text-align: right;
+    margin: 8px 0 0 0;
+}

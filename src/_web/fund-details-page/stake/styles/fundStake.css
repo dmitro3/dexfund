@@ -1,0 +1,115 @@
+.w-fund-stake-wrapper {
+    
+}
+
+.w-fund-stake-header {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.w-stake-table-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 28px 16px 12px 16px;
+}
+
+.w-stake-table-header-item {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #999;
+    width: 25%;
+}
+
+.w-stake-table-row {
+    display: flex;
+    justify-content: space-between;
+    background-color: #070708;
+    margin: 2px 0;
+    padding: 16px;
+}
+
+.w-stake-table-row-cell {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    width: 25%;
+    color: #fff;
+}
+
+.w-stake-table-asset-cell {
+    display: flex;
+    justify-content: left;
+}
+
+.w-stake-table-curve-icon {
+    width: 36px;
+    height: 36px;
+}
+
+.w-stake-table-asset-text-section {
+    margin: 0 0 0 20px;
+}
+
+.w-stake-table-asset {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.w-stake-table-exchange {
+    color: #999;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.w-stake-table-stake-cell {
+    display: flex;
+    justify-content: right;
+
+}
+
+.w-stake-table-stake-button {
+    display: flex;
+    justify-content: space-between;
+    background-color: #171717;
+    padding: 8px 12px;
+    width: 102px;
+    float: right;
+    position: relative;
+}
+
+.w-stake-table-stake-button-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    color: #fff;
+}
+
+.w-stake-table-stake-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.w-stake-table-unstake-button {
+    display: flex;
+    justify-content: space-between;
+    background-color: #171717;
+    padding: 8px 12px;
+    width: 124px;
+    float: right;
+    position: relative;
+    margin: 0 0 0 10px;
+}
+
+.w-stake-table-unstake-button-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    color: #fff;
+}
+
+.w-stake-table-unstake-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}

@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 
+//REDUX 
+import {connect}  from 'react-redux'
+import {activateLoaderOverlay, deactivateLoaderOverlay}  from  './../../redux/actions/LoaderAction'
+
+
 // COMPONENTS
 import Header from '../global/header/Header';
 import SettingsPopup from '../global/settings-popup/SettingsPopup';
@@ -13,14 +18,29 @@ import InvestmentFunds from './components/investment-funds/InvestmentFunds';
 import './vaultsPage.css';
 import '../your-funds-page/yourFundsPage.css';
 
+// QUERYS
+import {getAllInvestments}  from './../../sub-graph-integrations/index'
+
 class VaultsPage extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             sidebar: false,
-            settingsPopup: false
+            settingsPopup: false,
+            investments: []
         }
+    }
+
+    async componentDidMount() {
+        this.props.activateLoaderOverlay()
+        const investments =  await getAllInvestments();
+        this.setState({
+            ...this.state,
+            investments:  investments
+        })
+        this.props.deactivateLoaderOverlay();
+
     }
 
     displaySettingsPopup = () => {
@@ -48,7 +68,7 @@ class VaultsPage extends Component {
                     <div className="w-your-funds-page-wrapper" style={{padding: '60px 0 120px 0'}}>
                         <div className="w-your-funds-page-content">
                             <TopInvestmentFunds {...this.props} />
-                            <InvestmentFunds />
+                            <InvestmentFunds investments={this.state.investments} />
                         </div>
                     </div>
                     <div style={this.state.settingsPopup === false ? doNotDisplay : {}}>
@@ -69,4 +89,18 @@ class VaultsPage extends Component {
     }
 }
 
-export default VaultsPage;
+
+const mapStateToProps = (state) => {
+    return {
+        account: state.connect,
+    };
+};
+
+
+const mapDispatchToProps = {
+    activateLoaderOverlay, 
+    deactivateLoaderOverlay
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(VaultsPage);

@@ -146,7 +146,7 @@ export const getFeesManagerConfigArgsData = async (fees, feeManagerSettingsData,
     }
 
 }
-
+ 
 export const withdraw = async (fundAddress, amount)  => {
     const vaultProxyAddress = await getVaultProxyAddress(fundAddress);
     const { provider, signer, address, balance } = await connectMetamask()

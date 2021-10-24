@@ -12,7 +12,7 @@ import ethIcon from '../assets/eth-icon.svg';
 // CSS
 import '../styles/sidebar.css';
 // WEB3/ETHERSjs
-import {investToAFundActionWrapper}  from  './../../../../ethereum/funds/fund-action-wrapper'
+import { investToAFundActionWrapper } from './../../../../ethereum/funds/fund-action-wrapper'
 
 
 class SidebarInvestCard extends Component {
@@ -23,8 +23,6 @@ class SidebarInvestCard extends Component {
             amountToInvest: '0.00',
             maxAmountToInvest: '5.00',
         }
-
-        console.log(this.props)
     }
 
     inputField = (e) => {
@@ -41,21 +39,21 @@ class SidebarInvestCard extends Component {
 
         var value = e.target.value;
         this.setState({ amountToInvest: value });
-    } 
+    }
 
     // invest  any amount toa fund
-    investAmountToFund = async () =>  {
-        const deposit  = await investToAFundActionWrapper(
-            "_comptroller_proxy", 
+    investAmountToFund = async () => {
+        const deposit = await investToAFundActionWrapper(
+            "_comptroller_proxy",
             "denominationAssetAddress",
             "buyer",
-            this.props.account.account.signer,
-            this.props.account.account.provider,
+            this.props.account.signer,
+            this.props.account.provider,
             this.state.amountToInvest,
             "excTargetAddress",
             "exchangeData"
         )
-
+        console.log(deposit)
     }
 
 
@@ -63,7 +61,7 @@ class SidebarInvestCard extends Component {
 
     render() {
 
-        return (
+        return this.props.account && (
 
             <>
                 <div className="w-invest-card">
@@ -104,7 +102,7 @@ class SidebarInvestCard extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="w-invest-card-button" onClick={() => {this.investAmountToFund()}}>
+                    <div className="w-invest-card-button" onClick={() => { this.investAmountToFund() }}>
                         <div className="w-invest-card-button-text">
                             INVEST {this.state.amountToInvest}ETH
                         </div>
@@ -119,15 +117,14 @@ class SidebarInvestCard extends Component {
 
 const mapStateToProps = (state) => {
     return {
-      account: state.connect,
+        account: state.connect,
     };
-  };
-  
-  
-  const mapDispatchToProps = {
-  };
-  
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(SidebarInvestCard);
-  
-  
+};
+
+
+const mapDispatchToProps = {
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarInvestCard);
+

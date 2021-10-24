@@ -5,7 +5,11 @@ import Header from '../global/header/Header';
 import SettingsPopup from '../global/settings-popup/SettingsPopup';
 import FundOverview from './overview/FundOverview';
 import FundTrade from './trade/FundTrade';
-
+import FundProviderLiquidity from  './provide-liquidity/FundProvideLiquidity'
+import FundStake from './stake/FundStake'
+import FundYield from './yield/FundYield'
+import FundReward from './rewards/FundRewards'
+import FundSettings from './settings/FundSettings'
 // ASSETS
 // ... 
 
@@ -50,6 +54,60 @@ class FundDetailsPage extends Component {
 
             <>
                 <FundTrade />
+            </>
+        )
+    }
+
+
+    renderProvideLiquidity() {
+        return (
+            <>
+            <FundProviderLiquidity />
+            </>
+        )
+    }
+
+
+    renderStake() {
+        return (
+            <>
+            <FundStake />
+            </>
+        )
+    }
+
+
+    renderYield() {
+        return (
+            <>
+            <FundYield />
+            </>
+        )
+    }
+
+
+    renderYield() {
+        return (
+            <>
+            <FundYield />
+            </>
+        )
+    }
+
+    renderRewards() {
+        return (
+            <>
+            <FundReward />
+            </>
+        )
+    }
+
+
+
+    renderSettings() {
+        return (
+            <>
+            <FundSettings />
             </>
         )
     }
@@ -124,7 +182,12 @@ class FundDetailsPage extends Component {
                                 </div>
                             </div>
                             {this.state.selectedNavbarItem === 'overview' && this.renderOverview()}
+                            {this.state.selectedNavbarItem === 'provideLiquidity' && this.renderProvideLiquidity()}
                             {this.state.selectedNavbarItem === 'trade' && this.renderTrade()}
+                            {this.state.selectedNavbarItem === 'stake' && this.renderStake()}
+                            {this.state.selectedNavbarItem === 'yield' && this.renderYield()}
+                            {this.state.selectedNavbarItem === 'rewards' && this.renderRewards()}
+                            {this.state.selectedNavbarItem === 'settings' && this.renderSettings()}
                         </div>
                     </div>
                     <div style={this.state.settingsPopup === false ? doNotDisplay : {}}>

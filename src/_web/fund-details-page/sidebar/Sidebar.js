@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+// REDUX
+import {connect}  from  'react-redux'
+
 // COMPONENTS
 import SidebarInvestCard from './components/SidebarInvestCard';
 import SidebarWithdrawCard from './components/SidebarWithdrawCard';
@@ -12,8 +15,8 @@ import './styles/sidebar.css';
 
 class Sidebar extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             selectedSidebarItem: 'invest'
@@ -48,7 +51,7 @@ class Sidebar extends Component {
             '-webkit-text-fill-color': 'transparent'
         }
 
-        return (
+        return this.props.account && (this.props.account.connectSuccess ? (
 
             <>
                 <div className="w-sidebar-wrapper">
@@ -72,10 +75,23 @@ class Sidebar extends Component {
                         {this.state.selectedSidebarItem === 'withdraw' && this.renderWithdrawCard()}
                     </div>
                 </div>
-            </>
-        )
+            </> 
+        ): <> </>)
 
     }
 }
 
-export default Sidebar;
+
+const mapStateToProps = (state) => {
+    return {
+        account: state.connect,
+    };
+};
+
+
+const mapDispatchToProps = {
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+
