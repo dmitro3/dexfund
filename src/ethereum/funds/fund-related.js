@@ -6,8 +6,10 @@ import ManagementFee from './../abis/ManagementFee.json'
 import PerformanceFee from './../abis/PerformanceFee.json'
 import FeeManager from './../abis/FeeManager.json'
 import EntranceRateDirectFee from './../abis/EntranceRateDirectFee.json'
+import { IMigrationHookHandler, StandardToken, VaultLib, WETH } from '@enzymefinance/protocol';
 import { encodeArgs, } from './../utils/index'
-
+import config from '../../config'
+import axios from 'axios';
 
 export { PerformanceFee, ManagementFee, EntranceRateDirectFee }
 
@@ -143,4 +145,56 @@ export const getFeesManagerConfigArgsData = async (fees, feeManagerSettingsData,
         console.log(error)
     }
 
+}
+
+export const withdraw = async (fundAddress, amount)  => {
+    const vaultProxyAddress = await getVaultProxyAddress(fundAddress);
+    const { provider, signer, address, balance } = await connectMetamask()
+    const vaultProxy = new VaultLib(vaultProxyAddress, provider);
+    const weth = "0xd0a1e359811322d97991e03f863a0c30c2cf029c";
+    await vaultProxy.connect(signer).withdrawAssetTo(weth, address, utils.parseEther(amount));
+}
+
+const getVaultProxyAddress = async (fundAddress) => {
+    const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
+    // const url = config.SUB_GRAPH_ENDPOINT;
+
+    // const investorAddr = '"0x028a968aca00b3258b767edc9dbba4c2e80f7d00"'
+    fundAddress = "0xee89c37bf01b115a79242a98ef4f90939b59a58b";
+    const fundQuery = {
+        query: `
+        { 
+            newFundCreatedEvents(first: 5, where: {fund: "${fundAddress}"}) {
+                id
+                fund {
+                  id
+                }
+                vaultProxy {
+                  id
+                  name
+                }
+              
+            }
+        }
+    
+        `
+    }
+
+
+    let vaultProxy = await axios.post(
+        url,
+        fundQuery
+    ).then((response) => {
+        console.log('newFundCreatedEvents: ', response.data);
+        const fundData = response.data.data.newFundCreatedEvents
+        console.log('fundData', fundData);
+        if (fundData) {
+            return fundData[0].vaultProxy.id;
+        } else {
+            return undefined;
+        }
+    }).catch((err) => {
+        console.log("Error: ", err);
+    });
+    return vaultProxy;
 }

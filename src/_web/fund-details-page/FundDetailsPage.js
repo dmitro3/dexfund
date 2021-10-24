@@ -76,7 +76,7 @@ class FundDetailsPage extends Component {
                     <div className="w-fund-details-page-wrapper">
                         <div className="w-fund-details-page-content">
                             <div className="w-fund-details-page-title">
-                                {this.props.location.state.fundName}
+                                {/* {this.props.location.state.fundName} */}
                             </div>
                             <div className="w-fund-details-page-navbar">
                                 <div className="w-fund-details-page-navbar-item"
