@@ -155,12 +155,17 @@ export const getFeesManagerConfigArgsData = async (fees, feeManagerSettingsData,
     }
 
 }
+
+
+  
  
 export const withdraw = async (fundAddress, amount)  => {
     const vaultProxyAddress = await getVaultProxyAddress(fundAddress);
     const { provider, signer, address, balance } = await connectMetamask()
     const vaultProxy = new VaultLib(vaultProxyAddress, provider);
     const weth = "0xd0a1e359811322d97991e03f863a0c30c2cf029c";
+
+    // comptroller call RedeemShares function
     await vaultProxy.connect(signer).withdrawAssetTo(weth, address, utils.parseEther(amount));
 }
 
