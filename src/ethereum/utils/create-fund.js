@@ -38,6 +38,25 @@ export function payoutSharesOutstandingForFeesArgs(fees) {
 }
 
 
+// START OF MANANGEMENT FEES
+export function managementFeeConfigArgs(scaledPerSecondRate) {
+    console.log(encodeArgs(['uint256'], [scaledPerSecondRate]))
+    return encodeArgs(['uint256'], [scaledPerSecondRate]);
+}
+
+export function convertRateToScaledPerSecondRate(rate) {
+  const effectivRate = rate.div(new Decimal(1).minus(rate));
+
+  const factor = new Decimal(1)
+    .plus(effectivRate)
+    .pow(1 / secondsPerYear)
+    .toSignificantDigits(managementFeeDigits)
+    .mul(managementFeeScaleDecimal);
+
+  return BigNumber.from(factor.toFixed(0));
+}
+// END OF MANAGEMENT FEES
+
 
 
 // PERFORMANCE FEES
@@ -63,31 +82,6 @@ export function entranceRateFeeSharesDue({ rate, sharesBought }) {
 // START OF MANANGEMENT FEES
 
 
-export function managementFeeConfigArgs(rate) {
-    const convertRateToScaledPerSecondRateValue = convertRateToScaledPerSecondRate(rate)
-    return encodeArgs(['uint256'], [convertRateToScaledPerSecondRateValue]);
-}
-
-export function convertRateToScaledPerSecondRate(rate) {
-    const rateD = new Decimal(utils.formatEther(rate));
-    const effectivRate = rateD.div(new Decimal(1).minus(rateD));
-
-    const factor = new Decimal(1)
-        .plus(effectivRate)
-        .pow(1 / secondsPerYear)
-        .toSignificantDigits(managementFeeDigits)
-        .mul(managementFeeScaleDecimal);
-
-    return BigNumber.from(factor.toFixed(0));
-}
-
-export function convertScaledPerSecondRateToRate(scaledPerSecondRate) {
-    const scaledPerSecondRateD = new Decimal(scaledPerSecondRate.toString()).div(managementFeeScaleDecimal);
-    const effectiveRate = scaledPerSecondRateD.pow(secondsPerYear).minus(new Decimal(1));
-    const rate = effectiveRate.div(new Decimal(1).plus(effectiveRate));
-
-    return utils.parseEther(rate.toFixed(17, Decimal.ROUND_UP));
-}
 
 export function rpow(x, n, b) {
     const xD = new Decimal(BigNumber.from(x).toString());
