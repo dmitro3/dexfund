@@ -15,6 +15,7 @@ class FundYield extends Component {
 
     constructor(props) {
         super(props);
+        console.log('props: ', props, props.fundAddress, props.fundAddressFromParent);
         this.state = {
             searchedValue: '',
 

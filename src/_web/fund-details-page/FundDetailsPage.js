@@ -80,7 +80,7 @@ class FundDetailsPage extends Component {
     renderYield() {
         return (
             <>
-            <FundYield />
+            <FundYield {...this.props}/>
             </>
         )
     }
@@ -89,7 +89,7 @@ class FundDetailsPage extends Component {
     renderYield() {
         return (
             <>
-            <FundYield />
+            <FundYield {...this.props}/>
             </>
         )
     }
