@@ -77,7 +77,7 @@ class InvestmentFunds extends React.Component {
                     <InvestmentFundsTableHeader />
                     {
                         this.state.investments.map((investment) =>
-                            <InvestmentFundsTableRow
+                            <InvestmentFundsTableRow key={investment.id}
                                 idFromParrent={investment.id}
                                 nameFromParent={investment.name}
                                 typeFromParent='Investment'

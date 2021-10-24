@@ -82,11 +82,11 @@ class YourInvestments extends Component {
                         {
                             this.state.investments.map((investment) => 
 
-                                <YourinvestmentsTableRow
+                                <YourinvestmentsTableRow key={investment.id}
                                     fundNameFromParent={investment.fund.name}
                                     yourDepositsFromParent={investment.investmentAmount}
                                     currentValueFromParent={investment.investmentState.shares}
-                                    performanceFromParent={((investment.investmentAmount - investment.investmentState.shares) / investment.investmentAmount) * 100}
+                                    performanceFromParent={(((investment.investmentAmount - investment.investmentState.shares) / investment.investmentAmount) * 100).toFixed(2)}
                                 />
                             )
                         }

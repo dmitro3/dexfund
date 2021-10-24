@@ -78,14 +78,27 @@ export function getEntranceRateFeeConfigArgs(rate) {
     return encodeArgs(['uint256'], [rate]);
 }
 
+
+/**
+ * 
+ * @param {*} fees 
+ * @param {*} feeManagerSettingsData 
+ * @param {*} signer 
+ * @param {*} allow 
+ * @returns 
+ */
+
 export const getFeesManagerConfigArgsData = async (fees, feeManagerSettingsData, signer, allow) => {
 
 
     const FeeManagerInterface = new ethers.utils.Interface(
         JSON.parse(JSON.stringify(FeeManager.abi))
     );
+
+    // remove in mainnet
     const feeManager = new ethers.Contract(FeeManager.address, FeeManagerInterface, signer);
     let fees_unregister = [];
+    // end 
 
     try {
 
@@ -107,10 +120,10 @@ export const getFeesManagerConfigArgsData = async (fees, feeManagerSettingsData,
                     fees_unregister.push(PerformanceFee.address)
                 }
 
-                // if(!registeredFees.includes(EntranceRateDirectFee.address)){
-                //     fees_unregister.push(EntranceRateDirectFee.address)
-                // }
-
+                if(!registeredFees.includes(EntranceRateDirectFee.address)){
+                    fees_unregister.push(EntranceRateDirectFee.address)
+                }
+                
             }
             // Register this fees for app use
             if (fees_unregister.length > 0) {

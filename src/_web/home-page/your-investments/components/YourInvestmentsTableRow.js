@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { currencyFormat } from '../../../../ethereum/utils';
 
 // COMPONENTS
 // ...
@@ -32,14 +33,14 @@ class YourInvestmentsTableRow extends Component {
                         {this.state.fundName}
                     </div>
                     <div className="your-investments-table-row-cell your-deposits">
-                        {this.state.yourDeposits}
+                        {currencyFormat(this.state.yourDeposits, "$")}
                     </div>
                     <div className="your-investments-table-row-cell current-value">
-                        {this.state.currentValue}
+                        {currencyFormat(this.state.currentValue, "$")}
                     </div>
                     <div className="your-investments-table-row-cell performance"
                         style={{ color: '#00AF00' }}>
-                        {this.state.performance}%
+                        {currencyFormat(this.state.performance, "")} %
                     </div>
                 </div>
             </>

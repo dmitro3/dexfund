@@ -9,6 +9,7 @@ import chartIcon from '../assets/chart-icon.svg';
 
 // CSS
 import '../styles/yourInvestmentFunds.css';
+import { currencyFormat } from '../../../../ethereum/utils';
 
 class YourInvestmentsCard extends Component {
 
@@ -53,7 +54,7 @@ class YourInvestmentsCard extends Component {
                                 Funds
                             </div>
                             <div className="w-your-investments-value">
-                                ${this.state.funds}
+                                { currencyFormat(this.state.funds, "$")}
                             </div>
                         </div>
                         <div>
@@ -63,7 +64,7 @@ class YourInvestmentsCard extends Component {
                             <div className="w-your-investments-performance-section">
                                 <img src={greenArrowIcon} alt='green-arrow-icon' className="performance-green-arrow-icon" />
                                 <div className="w-your-investments-value green">
-                                ${this.state.performance}
+                                {currencyFormat(this.state.performance, "")} %
                                 </div>
                             </div>
                         </div>
