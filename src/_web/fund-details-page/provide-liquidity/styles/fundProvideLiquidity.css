@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
+
+.w-fund-provide-liquidity-wrapper {
+    
+}
+
+.w-fund-provide-liquidity-header {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.w-search-bar-wrapper {
+    border-bottom: 1px solid #171717;
+    padding: 24px 0;
+}
+
+.w-search-bar {
+    display: flex;
+    justify-content: left;
+}
+
+.w-search-bar-input {
+    padding: 0 0 0 16px;
+}
+
+.w-pools-table-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 28px 16px 12px 16px;
+}
+
+.w-pools-table-header-item {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #999;
+}
+
+.tokens {
+    width: 30%;
+    text-align: left;
+}
+
+.pool-size {
+    width: 15%;
+    text-align: left;
+}
+
+.total-apy {
+    width: 10%;
+    text-align: left;
+}
+
+.your-assets {
+    width: 10%;
+    text-align: left;
+}
+
+.deposit {
+    width: 30%;
+    text-align: right;
+}
+
+.w-pools-table-row {
+    display: flex;
+    justify-content: space-between;
+    background-color: #070708;
+    margin: 2px 0;
+    padding: 16px;
+}
+
+.w-pools-table-row-cell {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.w-pools-table-tokens-cell {
+    display: flex;
+    justify-content: left;
+}
+
+.w-pools-token-cell-icons-section {
+    display: flex;
+    justify-content: left;
+}
+
+.w-pools-token-cell-icon {
+    width: 36px;
+    height: 36px;
+    margin: 0 4px 0 0;
+}
+
+.w-pools-token-cell-text-section {
+    margin: -4px 0 0 16px;
+}
+
+.w-pools-token-cell-tokens-text {
+    display: flex;
+    justify-content: left;
+    color: #fff;
+}
+
+.w-pools-token-cell-exchange {
+    color: #999;
+}
+
+.w-pools-table-row-cell.pool-size, 
+.w-pools-table-row-cell.total-apy,
+.w-pools-table-row-cell.your-assets {
+    color: #fff;
+    margin: 4px 0 0 0;
+}
+
+.w-pools-deposit-button {
+    display: flex;
+    justify-content: space-between;
+    background-color: #171717;
+    padding: 8px 12px;
+    width: 120px;
+    float: right;
+    position: relative;
+}
+
+.w-pools-deposit-button-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    color: #fff;
+}
+
+.w-pools-deposit-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.w-pools-withdraw-button {
+    display: flex;
+    justify-content: space-between;
+    background-color: #171717;
+    padding: 8px 12px;
+    width: 140px;
+    float: right;
+    position: relative;
+    margin: 0 0 0 10px;
+}
+
+.w-pools-withdraw-button-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    color: #fff;
+}
+
+.w-pools-withdraw-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}

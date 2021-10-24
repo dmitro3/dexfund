@@ -1,6 +1,6 @@
-import { utils, BigNumber } from 'ethers';
+import { utils, BigNumber, ethers } from 'ethers';
 import { resolveArguments } from '@enzymefinance/ethers';
-
+import { Decimal } from 'decimal.js';
 
 export function sighash(fragment) {
     return utils.hexDataSlice(utils.id(fragment.format()), 0, 4);
@@ -8,12 +8,13 @@ export function sighash(fragment) {
 
 
 
+// ethers.utils.parseEther("0.1") // 10%
 
 export function encodeArgs(types, args) {
     const params = types.map((type) => utils.ParamType.from(type));
-    const resolved = resolveArguments(params, args);
+    const resolved = resolveArguments(params, args); // byteLike value
     const hex = utils.defaultAbiCoder.encode(params, resolved);
-    return utils.hexlify(utils.arrayify(hex));
+    return utils.hexlify(utils.arrayify(hex)); 
 }
 
 export function encodeFunctionData(fragment, args) {
@@ -23,7 +24,6 @@ export function encodeFunctionData(fragment, args) {
 
 
 export function feeManagerConfigArgs({ fees, settings }) {
-    console.log(encodeArgs(['address[]', 'bytes[]'], [fees, settings]))
     return encodeArgs(['address[]', 'bytes[]'], [fees, settings]);
 }
 
@@ -32,19 +32,10 @@ export function payoutSharesOutstandingForFeesArgs(fees) {
 }
 
 
-// START OF MANANGEMENT FEES
-export function managementFeeConfigArgs(scaledPerSecondRate) {
-    console.log(encodeArgs(['uint256'], [scaledPerSecondRate]))
-    return encodeArgs(['uint256'], [scaledPerSecondRate]);
-}
-// END OF MANAGEMENT FEES
-
 
 
 // PERFORMANCE FEES
 export function performanceFeeConfigArgs(rate, period) {
-    console.log([rate, period])
-    console.log([parseInt(rate), parseInt(period)])
     return encodeArgs(['uint256', 'uint256'], [parseInt(rate), parseInt(period)]);
 }
 
@@ -63,55 +54,119 @@ export function entranceRateFeeSharesDue({ rate, sharesBought }) {
 
 // END OF ENTRACE FEES
 
+// START OF MANANGEMENT FEES
+
+export const managementFeeDigits = 27;
+export const managementFeeScale = BigNumber.from(10).pow(managementFeeDigits);
+export const managementFeeScaleDecimal = new Decimal(managementFeeScale.toString());
+export const secondsPerYear = 365 * 24 * 60 * 60;
+
+Decimal.set({ precision: 2 * managementFeeDigits });
+
+export function managementFeeConfigArgs(rate) {
+    const convertRateToScaledPerSecondRateValue = convertRateToScaledPerSecondRate(rate)
+    return encodeArgs(['uint256'], [convertRateToScaledPerSecondRateValue]);
+}
+
+export function convertRateToScaledPerSecondRate(rate) {
+    const rateD = new Decimal(utils.formatEther(rate));
+    const effectivRate = rateD.div(new Decimal(1).minus(rateD));
+
+    const factor = new Decimal(1)
+        .plus(effectivRate)
+        .pow(1 / secondsPerYear)
+        .toSignificantDigits(managementFeeDigits)
+        .mul(managementFeeScaleDecimal);
+
+    return BigNumber.from(factor.toFixed(0));
+}
+
+export function convertScaledPerSecondRateToRate(scaledPerSecondRate) {
+    const scaledPerSecondRateD = new Decimal(scaledPerSecondRate.toString()).div(managementFeeScaleDecimal);
+    const effectiveRate = scaledPerSecondRateD.pow(secondsPerYear).minus(new Decimal(1));
+    const rate = effectiveRate.div(new Decimal(1).plus(effectiveRate));
+
+    return utils.parseEther(rate.toFixed(17, Decimal.ROUND_UP));
+}
+
+export function rpow(x, n, b) {
+    const xD = new Decimal(BigNumber.from(x).toString());
+    const bD = new Decimal(BigNumber.from(b).toString());
+    const nD = new Decimal(BigNumber.from(n).toString());
+
+    const xDPow = xD.div(bD).pow(nD);
+
+    return BigNumber.from(xDPow.mul(bD).toFixed(0));
+}
+
+export function managementFeeSharesDue({
+    scaledPerSecondRate,
+    sharesSupply,
+    secondsSinceLastSettled,
+}) {
+    const timeFactor = rpow(scaledPerSecondRate, secondsSinceLastSettled, managementFeeScale);
+
+    const sharesDue = BigNumber.from(sharesSupply).mul(timeFactor.sub(managementFeeScale)).div(managementFeeScale);
+
+    return sharesDue;
+}
+
+
+// END OF MANAGEMENT FEES
+
+
+
+///
 
 export function adapterBlacklistArgs(adapters) {
     return encodeArgs(['address[]'], [adapters]);
-  }
-  
-  export function adapterWhitelistArgs(adapters) {
+}
+
+export function adapterWhitelistArgs(adapters) {
     return encodeArgs(['address[]'], [adapters]);
-  }
-  
-  export function assetBlacklistArgs(assets) {
+}
+
+export function assetBlacklistArgs(assets) {
     return encodeArgs(['address[]'], [assets]);
-  }
-  
-  export function assetWhitelistArgs(assets) {
+}
+
+export function assetWhitelistArgs(assets) {
     return encodeArgs(['address[]'], [assets]);
-  }
-  
-  export function buySharesCallerWhitelistArgs({
+}
+
+export function buySharesCallerWhitelistArgs({
     buySharesCallersToAdd = [],
     buySharesCallersToRemove = [],
-  }) {
+}) {
     return encodeArgs(['address[]', 'address[]'], [buySharesCallersToAdd, buySharesCallersToRemove]);
-  }
-  
-  export function buySharesPriceFeedToleranceArgs(tolerance) {
+}
+
+export function buySharesPriceFeedToleranceArgs(tolerance) {
     return encodeArgs(['uint256'], [tolerance]);
-  }
-  
-  export function guaranteedRedemptionArgs({
+}
+
+export function guaranteedRedemptionArgs({
     startTimestamp,
     duration,
-  }) {
+}) {
     return encodeArgs(['uint256', 'uint256'], [startTimestamp, duration]);
-  }
-  
-  export function investorWhitelistArgs({
+}
+
+export function investorWhitelistArgs({
     investorsToAdd = [],
     investorsToRemove = [],
-  }) {
+}) {
     return encodeArgs(['address[]', 'address[]'], [investorsToAdd, investorsToRemove]);
-  }
-  
-  export function maxConcentrationArgs(maxConcentration) {
+}
+
+export function maxConcentrationArgs(maxConcentration) {
     return encodeArgs(['uint256'], [maxConcentration]);
-  }
-  
-  export function minMaxInvestmentArgs({
+}
+
+export function minMaxInvestmentArgs({
     minInvestmentAmount,
     maxInvestmentAmount,
-  }) {
+}) {
     return encodeArgs(['uint256', 'uint256'], [minInvestmentAmount, maxInvestmentAmount]);
-  }
+}
+

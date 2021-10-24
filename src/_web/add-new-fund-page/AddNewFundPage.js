@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
+import {connect}  from 'react-redux'
 
 // COMPONENTS
 import Header from "../global/header/Header";
@@ -22,6 +22,10 @@ import {
   getDenominationAssets, 
   getAllAssetsIntegrations}  from  './../../sub-graph-integrations/index'
 
+// REDUX
+import {activateLoaderOverlay, deactivateLoaderOverlay}  from  './../../redux/actions/LoaderAction'
+
+
 class AddNewFundPage extends Component {
   constructor(props) {
     super(props);
@@ -35,6 +39,8 @@ class AddNewFundPage extends Component {
   }
 
   async componentDidMount() {
+    // show loader
+    this.props.activateLoaderOverlay();
     const assets  =  await getDenominationAssets();
     const adaptersList  =  await getAllAdapterIntegrations();
     const assetList  =  await getAllAssetsIntegrations();
@@ -43,6 +49,8 @@ class AddNewFundPage extends Component {
       adaptersList,
       assetList
     });
+
+    this.props.deactivateLoaderOverlay()
 
   }
 
@@ -182,7 +190,7 @@ class AddNewFundPage extends Component {
     };
 
     if (width > 1000) {
-      return (
+      return this.props.account && (
         <>
           <Header
             {...this.props}
@@ -214,4 +222,17 @@ class AddNewFundPage extends Component {
   }
 }
 
-export default AddNewFundPage;
+const mapStateToProps = (state) => {
+  return {
+      account: state.connect,
+  };
+};
+
+
+const mapDispatchToProps = {
+  activateLoaderOverlay, 
+  deactivateLoaderOverlay
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddNewFundPage);

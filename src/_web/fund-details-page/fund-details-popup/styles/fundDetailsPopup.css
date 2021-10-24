@@ -1,0 +1,170 @@
+.w-fund-details-popup-wrapper {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(37, 37, 40, 0.342);
+
+    display: 'flex';
+    justify-content:'center';
+    align-items:'center';
+}
+
+.w-fund-details-popup-box {
+    background-color: #020202;
+
+    width: 600px;
+
+    margin: 10% auto 10% auto;
+    padding: 32px;
+}
+
+.w-fund-details-popup-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.w-fund-details-popup-title {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.w-fund-details-popup-close-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.w-fund-details-popup-close-icon:hover {
+    cursor: pointer;
+}
+
+.w-fund-details-popup-subtitle {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #fff;
+    padding: 32px 0 8px 0;
+}
+
+.w-fund-details-popup-input-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+.w-fund-details-popup-asset-input {
+    width: 136px;
+    padding: 16px;
+    border: 1px solid #17171C;
+    display: flex;
+    justify-content: space-between;
+}
+
+.w-fund-details-popup-input-section:hover {
+    cursor: pointer;
+}
+
+.w-fund-details-popup-amount-input {
+    width: 400px;
+    padding: 16px;
+    border: 1px solid #17171C;
+    display: flex;
+    justify-content: space-between;
+}
+
+.w-fund-details-popup-asset-input.clicked {
+    border: 1px solid #E926C3;
+}
+
+.w-fund-details-popup-asset-input-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #fff;
+}
+
+.w-fund-details-popup-asset-list {
+    width: 536px;
+    border: 1px solid #E926C3;
+}
+
+.w-fund-details-popup-asset-row {
+    padding: 16px;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #999;
+}
+
+.w-fund-details-popup-asset-row:hover {
+    cursor: pointer;
+    background-color: #17171C;
+}
+
+.w-fund-details-popup-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0 0 0;
+    margin: 32px 0 0 0;
+    border-top: 1px solid #17171C;
+}
+
+.w-fund-details-popup-network-fee-section {
+    display: flex;
+    justify-content: left;
+}
+
+.w-fund-details-popup-network-fee-text {
+    margin: 0 0 0 16px;
+}
+
+.w-fund-details-popup-network-fee-header {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #999;
+}
+
+.w-fund-details-popup-network-fee-eth {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.w-fund-details-popup-network-fee-usd {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #999;
+}
+
+.w-fund-details-popup-deposit-button {
+    background: linear-gradient(90deg, #E926C3 0%, #FF4D86 97.5%);
+    width: 150px;
+    padding: 16px;
+    text-align: center;
+}
+
+.w-fund-details-popup-network-fee-icon {
+    width: 24px;
+    height: 24px;
+    margin: 0 12px 0 0;
+}
+
+.w-fund-details-popup-deposit-button-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #020202;
+}
+
+.w-fund-details-popup-deposit-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}

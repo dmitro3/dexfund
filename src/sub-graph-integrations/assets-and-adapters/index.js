@@ -153,7 +153,7 @@ export const getAllAssetsIntegrations = async () => {
         }
       }`
     });
-    return data.data.assets
+    return data.assets
   } catch (error) {
     console.log(error)
   }

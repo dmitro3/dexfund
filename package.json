@@ -33,6 +33,7 @@
     "react-copy-to-clipboard": "^5.0.3",
     "react-date-countdown-timer": "^1.0.9",
     "react-dom": "^16.13.1",
+    "react-js-loading-shimmer": "^1.0.10",
     "react-loading-overlay-ts": "^1.0.4",
     "react-mailchimp-form": "^1.0.2",
     "react-redux": "^7.2.1",

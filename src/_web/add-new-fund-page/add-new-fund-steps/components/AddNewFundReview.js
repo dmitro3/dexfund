@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { ethers, utils } from 'ethers'
+import { utils } from 'ethers'
 import { activateLoaderOverlay, deactivateLoaderOverlay } from './../../../../redux/actions/LoaderAction'
-import { generateFeeManagerConfigData } from './../../../../ethereum/release/fees-policy-management'
 // COMPONENTS
 // ...
 
-import { BigNumber } from 'bignumber.js'
 
 // ASSETS
 import pinkOutlineButtonIcon from "../assets/pink-outline-button-icon.svg";
@@ -37,18 +35,22 @@ class AddNewFundReview extends Component {
 
   goToNextStep = async () => {
     console.log("Create Fund")
+    
     this.props.activateLoaderOverlay();
-    let feeManagerSettingsData = [];
-    let fees = []
 
+    let feeManagerSettingsData = []; // value configurations
+    let fees = [] // list of address
+
+
+    // make sure option feilds are formated 
     if (this.state.displayManagementFee && this.state.managementFee) {
-      feeManagerSettingsData.push(getEntranceRateFeeConfigArgs(this.state.managementFee));
       fees.push(ManagementFee.address)
+      feeManagerSettingsData.push(getManagementFees(this.state.managementFee))
     }
-
+    
     if (this.state.displayEntryFee && this.state.entryFee) {
       fees.push(EntranceRateDirectFee.address)
-      feeManagerSettingsData.push(getManagementFees(this.state.managementFee))
+      feeManagerSettingsData.push(getEntranceRateFeeConfigArgs(this.state.entryFee));
     }
 
 
@@ -57,15 +59,17 @@ class AddNewFundReview extends Component {
       feeManagerSettingsData.push(getPerformanceFees(this.state.getPerformanceFees, 6))
     }
 
+    
     let feeArgsData;
 
-    // IF CONFIGURATIONS(FEES and FEE SETTING) are not Provided
+    // IF CONFIGURATIONS (FEES and FEE SETTING) are not Provided
     if (fees.length === 0) {
       /// PREPARE FEE CONFIGURATIONS DATA
-      feeArgsData = await getFeesManagerConfigArgsData(fees, feeManagerSettingsData, this.props.account.account.signer, false);
-
       fees = utils.hexlify('0x')
       feeManagerSettingsData = utils.hexlify('0x')
+
+      feeArgsData = await getFeesManagerConfigArgsData(fees, feeManagerSettingsData, this.props.account.account.signer, false);
+
     }
     else {
       /// PREPARE FEE CONFIGURATIONS DATA
@@ -77,11 +81,13 @@ class AddNewFundReview extends Component {
 
 
     try {
+
+      const timeLockInSeconds  =  this.state.timeLock * 60 * 60;
       const fund = await createNewFund(
         this.props.account.account.address,
         this.state.fundName,
         this.state.denominationAddress,
-        this.state.timeLock,
+        timeLockInSeconds,
         feeArgsData,
         utils.hexlify('0x'),
         1000000
@@ -256,7 +262,7 @@ class AddNewFundReview extends Component {
                 className="w-add-new-fund-step-next-button"
                 onClick={() => this.goToNextStep()}
               >
-                SAVE FUND
+                SAVE
               </div>
             </div>
           </div>

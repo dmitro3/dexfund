@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+// REDUX
+import { connect } from "react-redux";
+
 // COMPONENTS
 // ...
 
@@ -8,11 +11,14 @@ import ethIcon from '../assets/eth-icon.svg';
 
 // CSS
 import '../styles/sidebar.css';
+// WEB3/ETHERSjs
+import { investToAFundActionWrapper } from './../../../../ethereum/funds/fund-action-wrapper'
+
 
 class SidebarInvestCard extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             amountToInvest: '0.00',
             maxAmountToInvest: '5.00',
@@ -35,9 +41,27 @@ class SidebarInvestCard extends Component {
         this.setState({ amountToInvest: value });
     }
 
+    // invest  any amount toa fund
+    investAmountToFund = async () => {
+        const deposit = await investToAFundActionWrapper(
+            "_comptroller_proxy",
+            "denominationAssetAddress",
+            "buyer",
+            this.props.account.signer,
+            this.props.account.provider,
+            this.state.amountToInvest,
+            "excTargetAddress",
+            "exchangeData"
+        )
+        console.log(deposit)
+    }
+
+
+    // end of invest to a fund.
+
     render() {
 
-        return (
+        return this.props.account && (
 
             <>
                 <div className="w-invest-card">
@@ -78,7 +102,7 @@ class SidebarInvestCard extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="w-invest-card-button">
+                    <div className="w-invest-card-button" onClick={() => { this.investAmountToFund() }}>
                         <div className="w-invest-card-button-text">
                             INVEST {this.state.amountToInvest}ETH
                         </div>
@@ -90,4 +114,17 @@ class SidebarInvestCard extends Component {
     }
 }
 
-export default SidebarInvestCard;
+
+const mapStateToProps = (state) => {
+    return {
+        account: state.connect,
+    };
+};
+
+
+const mapDispatchToProps = {
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarInvestCard);
+
