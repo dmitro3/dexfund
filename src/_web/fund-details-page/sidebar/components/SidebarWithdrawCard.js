@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withdraw } from '../../../../ethereum/funds/fund-related';
 
 // COMPONENTS
 // ...
@@ -11,8 +12,16 @@ import '../styles/sidebar.css';
 
 class SidebarWithdrawCard extends Component {
 
-    render() {
+    onWithdraw = () => {
+        const pathName = window.location.pathname;
+        const pathArray = pathName.split('/');
+        const fundAddress = pathArray.pop();
+        console.log('pathName: ', fundAddress);
+        withdraw(fundAddress, "0.005");
+    }
 
+    render() {
+    
         return (
 
             <>
@@ -22,7 +31,7 @@ class SidebarWithdrawCard extends Component {
                     </div>
                     
                     <div className="w-invest-card-button">
-                        <div className="w-invest-card-button-text">
+                        <div className="w-invest-card-button-text" onClick={() => this.onWithdraw()}>
                             WITHDRAW
                         </div>
                     </div>
