@@ -146,8 +146,7 @@ const getVaultProxyAddress = async (fundAddress) => {
     const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
     // const url = config.SUB_GRAPH_ENDPOINT;
 
-    // const investorAddr = '"0x028a968aca00b3258b767edc9dbba4c2e80f7d00"'
-    fundAddress = "0xee89c37bf01b115a79242a98ef4f90939b59a58b";
+    fundAddress = "0xee89c37bf01b115a79242a98ef4f90939b59a58b"; //dummy for now.
     const fundQuery = {
         query: `
         { 
