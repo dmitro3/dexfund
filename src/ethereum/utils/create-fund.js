@@ -1,11 +1,16 @@
 import { utils, BigNumber } from 'ethers';
 import { resolveArguments } from '@enzymefinance/ethers';
+import { Decimal } from 'decimal.js';
 
 
 export function sighash(fragment) {
     return utils.hexDataSlice(utils.id(fragment.format()), 0, 4);
 }
 
+export const managementFeeDigits = 27;
+export const managementFeeScale = BigNumber.from(10).pow(managementFeeDigits);
+export const managementFeeScaleDecimal = new Decimal(managementFeeScale.toString());
+export const secondsPerYear = 365 * 24 * 60 * 60;
 
 
 
@@ -36,6 +41,18 @@ export function payoutSharesOutstandingForFeesArgs(fees) {
 export function managementFeeConfigArgs(scaledPerSecondRate) {
     console.log(encodeArgs(['uint256'], [scaledPerSecondRate]))
     return encodeArgs(['uint256'], [scaledPerSecondRate]);
+}
+
+export function convertRateToScaledPerSecondRate(rate) {
+  const effectivRate = rate.div(new Decimal(1).minus(rate));
+
+  const factor = new Decimal(1)
+    .plus(effectivRate)
+    .pow(1 / secondsPerYear)
+    .toSignificantDigits(managementFeeDigits)
+    .mul(managementFeeScaleDecimal);
+
+  return BigNumber.from(factor.toFixed(0));
 }
 // END OF MANAGEMENT FEES
 

@@ -1,4 +1,4 @@
-import { utils, ethers } from 'ethers'
+import { utils, ethers, BigNumber } from 'ethers'
 import FundDeployer from './../abis/FundDeployer.json'
 import { connectMetamask } from './../web3'
 import { managementFeeConfigArgs, performanceFeeConfigArgs, feeManagerConfigArgs } from './../utils/index'
@@ -6,7 +6,8 @@ import ManagementFee from './../abis/ManagementFee.json'
 import PerformanceFee from './../abis/PerformanceFee.json'
 import FeeManager from './../abis/FeeManager.json'
 import EntranceRateDirectFee from './../abis/EntranceRateDirectFee.json'
-import { encodeArgs, } from './../utils/index'
+import { encodeArgs, convertRateToScaledPerSecondRate } from './../utils/index'
+import { Decimal } from 'decimal.js';
 
 
 export { PerformanceFee, ManagementFee, EntranceRateDirectFee }
@@ -59,7 +60,9 @@ export const createNewFund = async (
  * Rate is  number representing a 1%
  */
 export const getManagementFees = (rate) => {
-    return managementFeeConfigArgs(rate)
+    // Must convert from rate to scaledPerSecondRate
+    var scaledPerSecondRate = convertRateToScaledPerSecondRate(new Decimal(rate/100));
+    return managementFeeConfigArgs(scaledPerSecondRate)
 }
 
 /**
@@ -68,13 +71,20 @@ export const getManagementFees = (rate) => {
  * @param {*} period Period at which it will be applied
  */
 export const getPerformanceFees = (rate, period) => {
-    return performanceFeeConfigArgs(rate, period);
+    // The period will default to 30 days
+    const defaultPeriod = 2592000;
+
+    // The rate must be (rate/100 * 10**18) or directly rate * 10**16;
+    rate = utils.parseEther((rate/100).toString());
+    return performanceFeeConfigArgs(rate, defaultPeriod);
 }
 
 /**
  * Rate is  number representing a 1%
  */
 export function getEntranceRateFeeConfigArgs(rate) {
+    // The rate must be (rate/100 * 10**18) or directly rate * 10**16;
+    rate = utils.parseEther((rate/100).toString());
     return encodeArgs(['uint256'], [rate]);
 }
 

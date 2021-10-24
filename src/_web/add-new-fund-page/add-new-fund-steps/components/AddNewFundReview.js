@@ -42,13 +42,13 @@ class AddNewFundReview extends Component {
     let fees = []
 
     if (this.state.displayManagementFee && this.state.managementFee) {
-      feeManagerSettingsData.push(getEntranceRateFeeConfigArgs(this.state.managementFee));
+      feeManagerSettingsData.push(getManagementFees(this.state.managementFee));
       fees.push(ManagementFee.address)
     }
 
     if (this.state.displayEntryFee && this.state.entryFee) {
-      fees.push(EntranceRateDirectFee.address)
-      feeManagerSettingsData.push(getManagementFees(this.state.managementFee))
+      feeManagerSettingsData.push(getEntranceRateFeeConfigArgs(this.state.managementFee));
+      fees.push(EntranceRateDirectFee.address);
     }
 
 
