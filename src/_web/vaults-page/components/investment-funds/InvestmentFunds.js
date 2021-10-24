@@ -41,8 +41,7 @@ class InvestmentFunds extends React.Component {
                     </div>
                     <InvestmentFundsTableHeader />
 
-                    this.props.investments ?
-                    ({
+                    {
                         this.props.investments.map((investment) =>
                             <InvestmentFundsTableRow key={investment.id}
                                 idFromParrent={investment.id}
@@ -54,7 +53,7 @@ class InvestmentFunds extends React.Component {
                                 lifetimeGainFromParent='21.31%'
                             />
                         )
-                    }) : (<InvestmentFundsTableRow > </InvestmentFundsTableRow>)
+                    }
                 </div>
             </>
         )

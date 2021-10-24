@@ -6,6 +6,12 @@ export function sighash(fragment) {
     return utils.hexDataSlice(utils.id(fragment.format()), 0, 4);
 }
 
+export const managementFeeDigits = 27;
+export const managementFeeScale = BigNumber.from(10).pow(managementFeeDigits);
+export const managementFeeScaleDecimal = new Decimal(managementFeeScale.toString());
+export const secondsPerYear = 365 * 24 * 60 * 60;
+
+Decimal.set({ precision: 2 * managementFeeDigits });
 
 
 // ethers.utils.parseEther("0.1") // 10%
@@ -56,12 +62,6 @@ export function entranceRateFeeSharesDue({ rate, sharesBought }) {
 
 // START OF MANANGEMENT FEES
 
-export const managementFeeDigits = 27;
-export const managementFeeScale = BigNumber.from(10).pow(managementFeeDigits);
-export const managementFeeScaleDecimal = new Decimal(managementFeeScale.toString());
-export const secondsPerYear = 365 * 24 * 60 * 60;
-
-Decimal.set({ precision: 2 * managementFeeDigits });
 
 export function managementFeeConfigArgs(rate) {
     const convertRateToScaledPerSecondRateValue = convertRateToScaledPerSecondRate(rate)
