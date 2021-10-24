@@ -169,3 +169,4 @@ export function minMaxInvestmentArgs({
 }) {
     return encodeArgs(['uint256', 'uint256'], [minInvestmentAmount, maxInvestmentAmount]);
 }
+

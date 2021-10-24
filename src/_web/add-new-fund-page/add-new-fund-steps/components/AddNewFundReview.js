@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { ethers, utils } from 'ethers'
+import { utils } from 'ethers'
 import { activateLoaderOverlay, deactivateLoaderOverlay } from './../../../../redux/actions/LoaderAction'
-import { generateFeeManagerConfigData } from './../../../../ethereum/release/fees-policy-management'
 // COMPONENTS
 // ...
 
-import { BigNumber } from 'bignumber.js'
 
 // ASSETS
 import pinkOutlineButtonIcon from "../assets/pink-outline-button-icon.svg";

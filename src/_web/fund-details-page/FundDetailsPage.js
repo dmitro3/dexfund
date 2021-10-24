@@ -12,6 +12,7 @@ import FundTrade from './trade/FundTrade';
 // CSS
 import './fundDetailsPage.css';
 
+
 class FundDetailsPage extends Component {
 
     constructor(props) {
