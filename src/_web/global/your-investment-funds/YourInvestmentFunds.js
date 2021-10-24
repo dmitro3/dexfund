@@ -9,6 +9,7 @@ import addIcon from './assets/add-icon.svg';
 
 // CSS
 import './styles/yourInvestmentFunds.css';
+import { getYourInvestments } from '../../../sub-graph-integrations';
 
 class YourInvestmentFunds extends Component {
 
@@ -24,51 +25,11 @@ class YourInvestmentFunds extends Component {
             investments: []
         }
     }
-
-    componentDidMount() {
-        // const url = 'https://api.thegraph.com/subgraphs/name/trust0212/radar-graph'
-        const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
-
-        const investorAddr = '"0x028a968aca00b3258b767edc9dbba4c2e80f7d00"'
-
-        const investmentQuery = {
-            query: `
-            { 
-                sharesBoughtEvents(first: 4,where:  {investor_contains: ${investorAddr}}){
-                    investmentAmount
-                    investmentState {
-                        shares
-                    }
-                    fund {
-                        name
-                        id
-                    }
-                    investor {
-                        firstSeen
-                        investorSince
-                    }
-                } 
-            }
-        
-            `
-        }
-
-
-        axios.post(
-            url,
-            investmentQuery
-        ).then((response) => {
-            const investments = response.data.data.sharesBoughtEvents
-            console.log('investing', investments);
-
-            this.setState({
-                ...this.state,
-                investments
-            })
-        }).catch((err) => {
-            console.log("Error: ", err);
+    async componentDidMount() {
+        const investments = await getYourInvestments();
+        this.setState({
+            investments
         })
-
     }
     toPage(path) {
         this.props.history.push(path);
