@@ -42,8 +42,8 @@ class InvestmentFunds extends React.Component {
                     <InvestmentFundsTableHeader />
 
                     {
-                        this.props.investments.map((investment) =>
-                            <InvestmentFundsTableRow key={investment.id}
+                        this.props.investments.map((investment, index) =>
+                            <InvestmentFundsTableRow key={index}
                                 idFromParrent={investment.id}
                                 nameFromParent={investment.name}
                                 typeFromParent='Investment'

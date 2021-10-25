@@ -65,9 +65,9 @@ class InvestmentFunds extends Component {
 
     render() {
 
-        const doNotDisplay = {
-            display: 'none',
-        }
+        // const doNotDisplay = {
+        //     display: 'none',
+        // }
 
         return (
 

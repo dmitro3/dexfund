@@ -1,4 +1,4 @@
-import { utils, ethers, BigNumber } from 'ethers'
+import { utils, ethers } from 'ethers'
 import FundDeployer from './../abis/FundDeployer.json'
 import { connectMetamask } from './../web3'
 import { managementFeeConfigArgs, performanceFeeConfigArgs, feeManagerConfigArgs } from './../utils/index'
@@ -27,7 +27,7 @@ export const createNewFund = async (
 ) => {
 
 
-    const { provider, signer, address, balance } = await connectMetamask()
+    const { provider, signer, address } = await connectMetamask()
     const nonce = await provider.getTransactionCount(address, "pending");
 
     // GET FundDeployer Interface Data
@@ -44,7 +44,7 @@ export const createNewFund = async (
             denominationAsset,
             timeLockInSeconds,
             feeManagerConfig,
-            utils.hexlify('0x'),
+            policyManagerConfigData ? utils.hexlify('0x') : policyManagerConfigData,
             { nonce: nonce, gasLimit: gaslimit }
         );
 
@@ -155,12 +155,17 @@ export const getFeesManagerConfigArgsData = async (fees, feeManagerSettingsData,
     }
 
 }
+
+
+  
  
 export const withdraw = async (fundAddress, amount)  => {
     const vaultProxyAddress = await getVaultProxyAddress(fundAddress);
-    const { provider, signer, address, balance } = await connectMetamask()
+    const { provider, signer, address } = await connectMetamask()
     const vaultProxy = new VaultLib(vaultProxyAddress, provider);
     const weth = "0xd0a1e359811322d97991e03f863a0c30c2cf029c";
+
+    // comptroller call RedeemShares function
     await vaultProxy.connect(signer).withdrawAssetTo(weth, address, utils.parseEther(amount));
 }
 

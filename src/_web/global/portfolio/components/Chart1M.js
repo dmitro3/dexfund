@@ -39,13 +39,13 @@ const Line = props => (
     />
   );
   
-  const titleStyles = {
-    title: {
-      textAlign: 'center',
-      width: '100%',
-      marginBottom: '10px',
-    },
-  };
+  // const titleStyles = {
+  //   title: {
+  //     textAlign: 'center',
+  //     width: '100%',
+  //     marginBottom: '10px',
+  //   },
+  // };
   // const Text = withStyles(titleStyles)((props) => {
   //   const { text, classes } = props;
   //   const [mainText, subText] = text.split('\\n');
@@ -87,9 +87,6 @@ const Line = props => (
   const legendItemBase = ({ classes, ...restProps }) => (
     <Legend.Item className={classes.item} {...restProps} />
   );
-  const Root = withStyles(legendStyles, { name: 'LegendRoot' })(legendRootBase);
-  const Label = withStyles(legendLabelStyles, { name: 'LegendLabel' })(legendLabelBase);
-  const Item = withStyles(legendItemStyles, { name: 'LegendItem' })(legendItemBase);
   const demoStyles = () => ({
     chart: {
       paddingRight: '30px',

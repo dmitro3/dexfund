@@ -21,7 +21,7 @@ class InvestmentFunds extends Component {
 
     inputField = (e) => {
 
-        if (e.target.value == '') {
+        if (e.target.value =='') {
             this.setState({ value: 'Search a pool, a protocol or APY' });
             this.props.parentCallback('');
             return;

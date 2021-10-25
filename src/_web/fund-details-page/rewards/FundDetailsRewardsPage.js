@@ -54,7 +54,7 @@ class FundDetailsRewardsPage extends Component {
         const selectedNavbarItemStyle = {
             background: 'linear-gradient(to right, #E926C3 10%, #FF4D86 100%)',
             '-webkit-background-clip': 'text',
-            '-webkit-text-fill-color': 'transparent',
+            'WebkitTextFillColor': 'transparent',
         }
 
         var fundAddress = this.state.fundAddress;
