@@ -67,6 +67,7 @@
 .type {
     color: #999;
     width: 40%;
+    text-align: right;
 }
 
 .value {

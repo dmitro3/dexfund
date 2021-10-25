@@ -213,56 +213,73 @@ const getVaultProxyAddress = async (fundAddress) => {
 }
 
 
-const getChatDataPerDay = (fundAddress) => {
-    fundAddress = "0x86fb84e92c1eedc245987d28a42e123202bd6701"
-    const  query = {
-        query: `
-        {
-            fundStates(first: 1, where: {fund: "${fundAddress}"}) {
-              fund {
-                id
-                sharesChanges {
-                  calculations {
-                    netSharePrice,
-                    timestamp
-                  }
-                }
-              }
-              
-              
-              currencyPrices(where: {currency: "ETH"}) {
-                currency {
-                  id
-                  price {
-                    price
-                  }
-                }
-              }
-            }
-          }`
-    };
+export const getTransactions = async () => {
+  const { provider, signer, address } = await connectMetamask();
+  const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
+  // const url = config.SUB_GRAPH_ENDPOINT;
 
-    `{
-        fundStates(first: 1, where: {fund: "0x24f3b37934d1ab26b7bda7f86781c90949ae3a79"}){
-          fund {
-            name
-            
-            sharesChanges {
-              calculations {
-                netSharePrice,
-                timestamp
-              }
-            }
-          }
-          currencyPrices(where: {currency: "ETH"}) {
-            currency {
-              id
-              price {
-                price
-              }
-            }
-          }
+  const transactionQuery = {
+    query: `
+    { 
+      fundEventInterfaces(first: 10, orderBy: timestamp orderDirection: desc) {
+        fund{
+          name
         }
-        
-      }`
+        __typename
+        transaction {
+          from
+          to
+          timestamp
+          input
+          value
+          
+        }
+      }
+    }
+    `
+  }
+
+  let result = await axios.post(
+    url,
+    transactionQuery
+  ).then((response) => {
+      console.log('transactions: ', response.data);
+      const transactions = response.data.data.fundEventInterfaces
+      console.log('transactions', transactions);
+      return transactions || [];
+  }).catch((err) => {
+      console.log("Error: ", err);
+  });
+  return result || [];
+}
+
+export const getEthPrice = async () => {
+  const { provider, signer, address } = await connectMetamask();
+  const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
+  // const url = config.SUB_GRAPH_ENDPOINT;
+
+  const priceQuery = {
+    query: `
+    { 
+      currency(id:"ETH") {
+        price {
+          price
+        }
+      }
+    }
+    `
+  }
+
+  let result = await axios.post(
+    url,
+    priceQuery
+  ).then((response) => {
+      console.log('prices: ', response.data);
+      const currency = response.data.data.currency
+      console.log('prices', currency);
+      return parseFloat(currency.price.price) || 0;
+  }).catch((err) => {
+      console.log("Error: ", err);
+  });
+  return result || [];
 }
