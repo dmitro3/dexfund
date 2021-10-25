@@ -17,7 +17,6 @@ import AddNewFundAdvanced from "./add-new-fund-steps/components/AddNewFundAdvanc
 import "./addNewFundPage.css";
 
 // ROUTES
-import { Redirect } from "react-router-dom";
 
 // SUBGRAPH
 import {

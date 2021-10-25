@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 // ...
 
 // ASSETS
-import wethIcon from '../assets/weth-icon.svg';
+// import wethIcon from '../assets/weth-icon.svg';
 
 // CSS
 import '../styles/fundRewards.css';
