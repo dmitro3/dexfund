@@ -206,3 +206,58 @@ const getVaultProxyAddress = async (fundAddress) => {
     });
     return vaultProxy;
 }
+
+
+const getChatDataPerDay = (fundAddress) => {
+    fundAddress = "0x86fb84e92c1eedc245987d28a42e123202bd6701"
+    const  query = {
+        query: `
+        {
+            fundStates(first: 1, where: {fund: "${fundAddress}"}) {
+              fund {
+                id
+                sharesChanges {
+                  calculations {
+                    netSharePrice,
+                    timestamp
+                  }
+                }
+              }
+              
+              
+              currencyPrices(where: {currency: "ETH"}) {
+                currency {
+                  id
+                  price {
+                    price
+                  }
+                }
+              }
+            }
+          }`
+    };
+
+    `{
+        fundStates(first: 1, where: {fund: "0x24f3b37934d1ab26b7bda7f86781c90949ae3a79"}){
+          fund {
+            name
+            
+            sharesChanges {
+              calculations {
+                netSharePrice,
+                timestamp
+              }
+            }
+          }
+          currencyPrices(where: {currency: "ETH"}) {
+            currency {
+              id
+              price {
+                price
+              }
+            }
+          }
+        }
+        
+      }`
+}
