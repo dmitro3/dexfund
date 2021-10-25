@@ -31,7 +31,7 @@ class FundOverview extends Component {
             <Sidebar />
             <div className="w-fund-overview-content">
               <Portfolio />
-              <FundOverviewCards />
+              <FundOverviewCards state={this.state} />
               <FundOverviewStatistics />
               <FundOverviewPerformance />
               <FundComposition />
