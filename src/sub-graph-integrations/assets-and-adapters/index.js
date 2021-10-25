@@ -18,6 +18,11 @@ export const queryFundOverviewDetails = async (fundId) => {
         investmentCount
       }
     }`;
+    const { data } = await axios.post(configs.ENZYME_ENDPOINT, {
+      query,
+    });
+
+    return data.data.fund;
   } catch (error) {
     console.log(error);
   }
