@@ -6,11 +6,8 @@ import {
   ArgumentAxis,
   // ValueAxis,
   LineSeries,
-  // Title,
-  Legend,
 } from '@devexpress/dx-react-chart-material-ui';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import { ArgumentScale, Animation } from '@devexpress/dx-react-chart';
 import {
   curveCatmullRom,
@@ -46,37 +43,7 @@ const Line = props => (
       marginBottom: '10px',
     },
   };
-  const Text = withStyles(titleStyles)((props) => {
-    const { text, classes } = props;
-    const [mainText, subText] = text.split('\\n');
-    return (
-      <div className={classes.title}>
-        <Typography component="h3" variant="h5">
-          {mainText}
-        </Typography>
-        <Typography variant="subtitle1">{subText}</Typography>
-      </div>
-    );
-  });
   
-  const legendStyles = () => ({
-    root: {
-      display: 'flex',
-      margin: 'auto',
-      flexDirection: 'row',
-    },
-  });
-  const legendLabelStyles = theme => ({
-    label: {
-      marginBottom: theme.spacing(1),
-      whiteSpace: 'nowrap',
-    },
-  });
-  const legendItemStyles = () => ({
-    item: {
-      flexDirection: 'column-reverse',
-    },
-  });
   
   // const legendRootBase = ({ classes, ...restProps }) => (
   //   <Legend.Root {...restProps} className={classes.root} />
