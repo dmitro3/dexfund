@@ -17,7 +17,50 @@ export const queryFundOverviewDetails = async (fundId) => {
         }
         investmentCount
       }
-    }
+    }`;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const queryFundDetails = async (fundId) => {
+  try {
+    let query = `
+       { 
+          fund(id: "${fundId}") {
+          id
+          accessor {
+            id
+            sharesActionTimelock
+            denominationAsset {
+              id
+              name
+              symbol
+              decimals
+              type
+              price {
+                id
+                price
+                timestamp
+              }
+            }
+          }
+          inception
+          investmentCount
+          name
+          manager {
+            id
+            manager
+          }
+          release {
+            id
+          }
+          shares {
+            id
+            totalSupply
+          }
+        }
+      }
     `;
     const { data } = await axios.post(configs.ENZYME_ENDPOINT, {
       query,
@@ -28,19 +71,49 @@ export const queryFundOverviewDetails = async (fundId) => {
     console.log(error);
   }
 };
+
+export const queryFundFinancials = async (fundId) => {
+  try {
+    let query = `
+       { 
+          fund(id: "${fundId}") {
+          id
+          shares {
+            id
+            totalSupply
+          }
+          accessor {
+            denominationAsset {
+              name
+              symbol
+            }
+          }
+        }
+      }
+    `;
+    const { data } = await axios.post(configs.ENZYME_ENDPOINT, {
+      query,
+    });
+
+    return data.data.fund;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getAllAdapterIntegrations = async () => {
   try {
     const { data } = await axios.post(configs.SUB_GRAPH_ENDPOINT, {
       query: `
             {
-                integrationAdapters {
-                id
-                identifier
-                whitelisted {
-                  adapters {
-                    id
-                    identifier
-                  }
+              integrationAdapters {
+              id
+              identifier
+              whitelisted {
+                adapters {
+                  id
+                  identifier
+                }
                 }
               }
             }`,
