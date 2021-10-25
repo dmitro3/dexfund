@@ -40,7 +40,7 @@ export const queryFundDetails = async (fundId) => {
         }
       }
     `;
-    const { data } = await axios.post(configs.SUB_GRAPH_ENDPOINT, {
+    const { data } = await axios.post(configs.ENZYME_ENDPOINT, {
       query,
     });
 
@@ -69,7 +69,7 @@ export const queryFundFinancials = async (fundId) => {
         }
       }
     `;
-    const { data } = await axios.post(configs.SUB_GRAPH_ENDPOINT, {
+    const { data } = await axios.post(configs.ENZYME_ENDPOINT, {
       query,
     });
 

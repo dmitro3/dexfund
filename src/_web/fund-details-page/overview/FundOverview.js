@@ -19,7 +19,7 @@ class FundOverview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fundId: "0x24f3b37934d1ab26b7bda7f86781c90949ae3a79",
+      ...this.props.state,
     };
   }
 

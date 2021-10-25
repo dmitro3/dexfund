@@ -24,6 +24,7 @@ class FundDetailsPage extends Component {
 
       sidebar: false,
       settingsPopup: false,
+      fundId: this.props.match.params.address,
     };
   }
 
@@ -38,7 +39,7 @@ class FundDetailsPage extends Component {
   renderOverview() {
     return (
       <>
-        <FundOverview />
+        <FundOverview state={this.state} />
       </>
     );
   }
