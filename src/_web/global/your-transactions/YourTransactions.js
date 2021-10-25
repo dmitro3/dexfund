@@ -47,10 +47,6 @@ class InvestmentFunds extends Component {
         console.log('trs: ', trs);
     }
 
-    isWithdraw(_type) {
-        return (_type === "TrackedAssetRemovedEvent") || (_type === "AssetWithdrawnEvent");
-    }
-
     render() {
 
         // const doNotDisplay = {
@@ -70,14 +66,14 @@ class InvestmentFunds extends Component {
                     </div>
                     <YourTransactionsTableHeader />
                     {
-                        this.state.transactionHistory.map(transaction => (
+                        this.state.transactionHistory && this.state.transactionHistory.map(transaction => (
                             <YourTransactionsTableRow
-                                actionFromParent={this.isWithdraw(transaction.__typename)? "Withdraw" : "Invest"}
-                                tokenFromParent={parseFloat(transaction.transaction.value).toFixed(2)}
-                                valueFromParent={(parseFloat(transaction.transaction.value) * this.state.ethPrice).toFixed(2)}
-                                vaultFromParent={transaction.fund.name}
-                                typeFromParent={this.isWithdraw(transaction.__typename) ? "Withdraw" : "Invest"}
-                                timeFromParent={getTimeDiff(parseInt(transaction.transaction.timestamp) * 1000)}
+                                actionFromParent={transaction.type}
+                                tokenFromParent={parseFloat(transaction.value).toFixed(2)}
+                                valueFromParent={(parseFloat(transaction.value) * this.state.ethPrice).toFixed(2)}
+                                vaultFromParent={transaction.fundName}
+                                typeFromParent={transaction.type}
+                                timeFromParent={getTimeDiff(parseInt(transaction.timestamp) * 1000)}
                             />
                         ))
                     }

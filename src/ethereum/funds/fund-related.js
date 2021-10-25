@@ -220,41 +220,119 @@ export const getTransactions = async () => {
   const { provider, signer, address } = await connectMetamask();
   const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
   // const url = config.SUB_GRAPH_ENDPOINT;
-  const user = "0x6b175474e89094c44da98b954eedeac495271d0f";
-  
-  const transactionQuery = {
+  const user = "0xdcc8d7846f4f957cc58b357994f916d12c7cca95";
+
+  // const transactionQuery = {
+  //   query: `
+  //   { 
+  //     fundEventInterfaces(first: 10, orderBy: timestamp orderDirection: desc) {
+  //       fund{
+  //         name
+  //       }
+  //       __typename
+  //       transaction {
+  //         from
+  //         to
+  //         timestamp
+  //         input
+  //         value
+          
+  //       }
+  //     }
+  //   }
+  //   `
+  // }
+
+  const transactionQuery1 = {
     query: `
-    { 
-      fundEventInterfaces(first: 10, orderBy: timestamp orderDirection: desc) {
-        fund{
+    {
+      transferEvents(first: 10, where: {from: "${user}"},orderBy: timestamp orderDirection: desc) {
+        fund {
           name
         }
-        __typename
         transaction {
           from
           to
-          timestamp
-          input
           value
-          
+          timestamp
         }
       }
     }
     `
   }
 
-  let result = await axios.post(
+  const transactionQuery2 = {
+    query: `
+    {
+      transferEvents(first: 10, where: {to: "${user}"},orderBy: timestamp orderDirection: desc) {
+        fund {
+          name
+        }
+        transaction {
+          from
+          to
+          value
+          timestamp
+        }
+      }
+    }
+    `
+  }
+
+  let result1 = await axios.post(
     url,
-    transactionQuery
+    transactionQuery1
   ).then((response) => {
-      console.log('transactions: ', response.data);
-      const transactions = response.data.data.fundEventInterfaces
+      const transactions = response.data.data.transferEvents
       console.log('transactions', transactions);
       return transactions || [];
   }).catch((err) => {
       console.log("Error: ", err);
   });
-  return result || [];
+
+  let transactions1 = [];
+  if (result1) {
+    result1.map(transaction => {
+      transactions1.push({
+        fundName: transaction.fund.name,
+        to: transaction.transaction.to,
+        from: transaction.transaction.from,
+        value: transaction.transaction.value,
+        type: transaction.transaction.to === user ? "Withdraw" : "Invest",
+        timestamp: transaction.transaction.timestamp
+      });
+    })
+  }
+
+  let result2 = await axios.post(
+    url,
+    transactionQuery2
+  ).then((response) => {
+      const transactions = response.data.data.transferEvents
+      console.log('transactions', transactions);
+      return transactions || [];
+  }).catch((err) => {
+      console.log("Error: ", err);
+  });
+
+  let transactions2 = [];
+  if (result2) {
+    result2.map(transaction => {
+      transactions2.push({
+        fundName: transaction.fund.name,
+        to: transaction.transaction.to,
+        from: transaction.transaction.from,
+        value: transaction.transaction.value,
+        type: transaction.transaction.to === user ? "Withdraw" : "Invest",
+        timestamp: transaction.transaction.timestamp
+      });
+    })
+  }
+  let result = [].concat(transactions1).concat(transactions2);
+  result.sort((a, b) => {
+    return a.timestamp > b.timestamp
+  });
+  return result.slice(0, 5) || [];
 }
 
 export const getEthPrice = async () => {
