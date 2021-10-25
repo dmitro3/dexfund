@@ -16,6 +16,9 @@ import AddNewFundAdvanced from "./add-new-fund-steps/components/AddNewFundAdvanc
 // STYLES
 import "./addNewFundPage.css";
 
+// ROUTES
+import { Redirect } from "react-router-dom";
+
 // SUBGRAPH
 import {
   getAllAdapterIntegrations, 
@@ -190,7 +193,7 @@ class AddNewFundPage extends Component {
     };
 
     if (width > 1000) {
-      return this.props.account && (
+      return this.props.account  ? (
         <>
           <Header
             {...this.props}
@@ -215,10 +218,8 @@ class AddNewFundPage extends Component {
             </div>
           </div>
         </>
-      );
-    } else {
-      return <></>;
-    }
+      ) : this.props.history.push({name: '/'})
+    } 
   }
 }
 

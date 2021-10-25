@@ -65,9 +65,9 @@ class YourInvestmentFunds extends Component {
                         </div>
                     </div>
                     <div className="w-your-investments-cards-section">
-                    {  this.state.investments.map((investment) => 
+                    {  this.state.investments.map((investment, index) => 
 
-                        <YourInvestmentFundsCard {...this.props} key={investment.id}
+                        <YourInvestmentFundsCard {...this.props} key={index}
                             fundAddressFromParent={investment.fund.id}
                             fundsFromParent={investment.investmentAmount}
                             performanceFromParent={((investment.investmentAmount - investment.investmentState.shares) / investment.investmentAmount) * 100}

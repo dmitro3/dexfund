@@ -46,9 +46,9 @@ class YourInvestments extends Component {
                     <div className="w-your-investments-table">
                         <YourInvestmentsTableHeader />
                         {
-                            this.state.investments.map((investment) => 
+                            this.state.investments.map((investment,index) => 
 
-                                <YourinvestmentsTableRow key={investment.id}
+                                <YourinvestmentsTableRow key={index}
                                     fundNameFromParent={investment.fund.name}
                                     yourDepositsFromParent={investment.investmentAmount}
                                     currentValueFromParent={investment.investmentState.shares}
