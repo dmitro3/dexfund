@@ -47,15 +47,20 @@ class SidebarWithdrawCard extends Component {
         const pathName = window.location.pathname;
         const pathArray = pathName.split("/");
         const fundAddress = pathArray.pop();
-        console.log("pathName: ", fundAddress);
-        withdraw(fundAddress, "0.005");
+        console.log(this.props.account);
+        withdraw(
+          "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+          "0.005",
+          this.props.account.account.signer,
+          this.props.account.account.provider
+        );
       } catch (error) {
         console.log(error);
       }
     } else {
       console.log("Show Toast Error");
     }
-    this.deactivateLoaderOverlay();
+    this.props.deactivateLoaderOverlay();
   };
 
   render() {
