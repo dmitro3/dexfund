@@ -58,11 +58,7 @@ export function convertRateToScaledPerSecondRate(rate) {
 
 // PERFORMANCE FEES
 export function performanceFeeConfigArgs(rate, period) {
-<<<<<<< HEAD
-  return encodeArgs(["uint256", "uint256"], [parseInt(rate), parseInt(period)]);
-=======
-    return encodeArgs(['uint256', 'uint256'], [rate, period]);
->>>>>>> 505cb038fb0257a61254957f62dbcbd88a0d8aef
+  return encodeArgs(["uint256", "uint256"], [rate, period]);
 }
 
 // END OF PERFORMANCE FEES
