@@ -44,15 +44,15 @@ class SidebarInvestCard extends Component {
     // invest  any amount toa fund
     investAmountToFund = async () => {
         const deposit = await investToAFundActionWrapper(
-            "_comptroller_proxy",
-            "denominationAssetAddress",
-            "buyer",
-            this.props.account.signer,
-            this.props.account.provider,
-            this.state.amountToInvest,
-            "excTargetAddress",
-            "exchangeData"
-        )
+            "0xcbea44a986a317a551f3fcb0c29b1e0155d07209", // _comptroller_proxyAddress
+            "0xd0a1e359811322d97991e03f863a0c30c2cf029c", // denomination assets
+            this.props.account.address, // currentUser address
+            this.props.account.signer, // JsonSigner
+            this.props.account.provider, // web3Provider
+            "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+            "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D" // exchangeTargetAsset
+            );
+            
         console.log(deposit)
     }
 

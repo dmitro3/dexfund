@@ -54,9 +54,9 @@ class AddNewFundReview extends Component {
     }
 
 
-    if (this.state.displayPerformanceFee && this.state.getPerformanceFees) {
+    if (this.state.displayPerformanceFee && this.state.performanceFee) {
       fees.push(PerformanceFee.address);
-      feeManagerSettingsData.push(getPerformanceFees(this.state.getPerformanceFees, 6))
+      feeManagerSettingsData.push(getPerformanceFees(this.state.performanceFee, 6))
     }
 
     
@@ -76,7 +76,6 @@ class AddNewFundReview extends Component {
       feeArgsData = await getFeesManagerConfigArgsData(fees, feeManagerSettingsData, this.props.account.account.signer, true);
 
     }
-
 
 
 
