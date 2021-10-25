@@ -18,7 +18,9 @@ import "./styles/fundOverview.css";
 class FundOverview extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      ...this.props.state,
+    };
   }
 
   render() {
@@ -31,11 +33,11 @@ class FundOverview extends Component {
             <Sidebar />
             <div className="w-fund-overview-content">
               <Portfolio />
-              <FundOverviewCards />
+              <FundOverviewCards state={this.state} />
               <FundOverviewStatistics />
               <FundOverviewPerformance />
               <FundComposition />
-              <FundDetails />
+              <FundDetails state={this.state} />
             </div>
           </div>
         </>

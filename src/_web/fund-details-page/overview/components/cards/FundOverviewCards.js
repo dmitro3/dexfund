@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { queryFundOverviewDetails } from "../../../../../sub-graph-integrations/assets-and-adapters";
 
 // COMPONENTS
 // ...
@@ -12,12 +13,25 @@ import "../../styles/fundOverview.css";
 class FundOverviewCards extends Component {
   constructor(props) {
     super(props);
+    // TODO
+    // AUM, lifetimeReturn
     this.state = {
       AUM: 10,
-      depositors: 5,
+      depositors: 0,
       lifetimeReturn: 10,
-      denominationAsset: "WETH",
+      denominationAssetSymbol: "",
+      denominationAssetName: "",
+      ...this.props.state,
     };
+  }
+
+  async componentDidMount() {
+    let overview = await queryFundOverviewDetails(this.state.fundId);
+    this.setState({
+      depositors: overview.investmentCount,
+      denominationAssetSymbol: overview.accessor.denominationAsset.symbol,
+      denominationAssetName: overview.accessor.denominationAsset.name,
+    });
   }
 
   render() {
@@ -53,11 +67,11 @@ class FundOverviewCards extends Component {
                   className="fund-overview-weth-icon"
                 />
                 <div className="w-fund-overview-card-value">
-                  {this.state.denominationAsset}
+                  {this.state.denominationAssetSymbol}
                 </div>
               </div>
               <div className="w-fund-overview-card-type">
-                Denomination asset
+                {this.state.denominationAssetName}
               </div>
             </div>
           </div>
