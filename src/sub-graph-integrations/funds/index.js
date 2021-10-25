@@ -3,7 +3,7 @@ import configs from '../../config';
 
 
 const currentInvestor = "0x028a968aca00b3258b767edc9dbba4c2e80f7d00"
-const currentFund = ""
+const currentFundId = ""
 
 // Get all investments
 export const getAllInvestments = async () => {
@@ -80,7 +80,7 @@ export const getYourInvestmentsPerFund = async () => {
       {
         query: `
         { 
-            sharesBoughtEvents(where:  {investor_contains: "${currentInvestor}", fund_contains: "${currentFund}"}){
+            sharesBoughtEvents(where:  {investor_contains: "${currentInvestor}", fund_contains: "${currentFundId}"}){
                 investmentAmount
                 investmentState {
                     shares
@@ -101,6 +101,46 @@ export const getYourInvestmentsPerFund = async () => {
     console.log("YOUR INVESTMENTS: " , data.data)
 
     return data.data.sharesBoughtEvents
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// Fund Compostion
+export const getFundCompostion = async () => {
+  try {
+    const {data} = await axios.post(
+      configs.ENZYME_ENDPOINT,
+      {
+       query: 
+       `
+       {
+        fund(id: "0x24f3b37934d1ab26b7bda7f86781c90949ae3a79"){
+         name
+         id
+         portfolio {
+          holdings {
+            id
+            amount
+            asset {
+              symbol
+              price {
+                price
+              }
+            }
+          }
+        }
+          lastKnowGavInEth
+        }
+      }   
+       `
+      }
+    );
+    console.log("FUND HOLDINGS: " , data.data)
+
+    return data.data.fund
+
   } catch (error) {
     console.log(error);
   }

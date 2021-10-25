@@ -10,24 +10,25 @@ import FundCompositionTableRow from './sub-components/FundCompositionTableRow';
 
 // CSS
 import '../../styles/fundOverview.css';
+import { getFundCompostion } from '../../../../../sub-graph-integrations';
 
 class FundComposition extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            asset1: '100,000,000',
-            value1: '5,000,000.00',
-            weight1: '50',
-
-            asset2: '1,000,000',
-            value2: '900,000.00',
-            weight2: '25',
-
-            asset3: '50,000,000',
-            value3: '1,000,000.00',
-            weight3: '25',
+            holdings: []
         }
+    }
+
+    async componentDidMount() {
+        const fundComposition = await getFundCompostion();
+        var holdings = fundComposition.portfolio.holdings
+        console.log('1', holdings);
+        this.setState({
+            holdings
+        })
+
     }
 
     render() {
@@ -42,21 +43,18 @@ class FundComposition extends Component {
                         </div>
                         <div className="w-fund-composition-table">
                             <FundCompositionTableHeader />
-                            <FundCompositionTableRow 
-                                assetFromParent={this.state.asset1}
-                                valueFromParent={this.state.value1}
-                                weightFromParent={this.state.weight1}
-                            />
-                            <FundCompositionTableRow 
-                                assetFromParent={this.state.asset2}
-                                valueFromParent={this.state.value2}
-                                weightFromParent={this.state.weight2}
-                            />
-                            <FundCompositionTableRow 
-                                assetFromParent={this.state.asset3}
-                                valueFromParent={this.state.value3}
-                                weightFromParent={this.state.weight3}
-                            />
+                            { this.state.holdings.map((composition) =>
+                                    
+                                    <FundCompositionTableRow {...this.props} key={composition.id}
+                                        assetFromParent={composition.amount}
+                                        valueFromParent={(composition.amount)*(composition.asset.price.price)}
+                                        weightFromParent="some"
+                                        symbolFromParent={composition.asset.symbol}
+                                        
+                                    />
+                                )
+                            }
+
                         </div>
                     </div>
                 </div>

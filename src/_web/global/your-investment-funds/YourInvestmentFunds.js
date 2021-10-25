@@ -22,13 +22,14 @@ class YourInvestmentFunds extends Component {
             addNewFund: this.props.addNewFundFromParent,
 
             // DATA
-            investments: []
+            yourInvestments: []
         }
     }
     async componentDidMount() {
-        const investments = await getYourInvestments();
+        const yourInvestments = await getYourInvestments();
+        console.log("i", yourInvestments);
         this.setState({
-            investments
+            yourInvestments
         })
     }
     toPage(path) {
@@ -65,7 +66,7 @@ class YourInvestmentFunds extends Component {
                         </div>
                     </div>
                     <div className="w-your-investments-cards-section">
-                    {  this.state.investments.map((investment) => 
+                    {  this.state.yourInvestments.map((investment) => 
 
                         <YourInvestmentFundsCard {...this.props} key={investment.id}
                             fundAddressFromParent={investment.fund.id}
