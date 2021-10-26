@@ -1,12 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap");
 
 .w-home-page-wrapper {
-    width: 100vw;
-    background-color: #020202;
-    padding-top: 80px;
+  width: 100vw;
+  background-color: #020202;
+  padding-top: 80px;
 }
 
 .w-home-page-content {
-    width: 90%;
-    margin: auto;
+  width: 90%;
+  margin: auto;
+}
+
+.w-home-box {
+  border: 1px solid #020202;
+  position: relative;
+  height: 25rem;
+}
+.w-home-overlay {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  background-color: #020202;
+  transform: translate(50%, 50%);
 }
