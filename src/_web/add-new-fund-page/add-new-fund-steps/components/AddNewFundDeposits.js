@@ -106,7 +106,7 @@ class AddNewFundDeposits extends Component {
             type="text"
             id="minimum-deposit"
             name="minimumDeposit"
-            placeholder="Minimum deposit"
+            placeholder="Minimum"
             value={this.state.minDeposit}
             onChange={(e) => this.setMinDeposit(e)}
             style={{
@@ -125,7 +125,7 @@ class AddNewFundDeposits extends Component {
             type="text"
             id="minimum-deposit"
             name="minimumDeposit"
-            placeholder="Asset"
+            placeholder={this.state.denominationAsset}
             disabled
             style={{
               color: "#fff",
@@ -177,7 +177,7 @@ class AddNewFundDeposits extends Component {
             type="text"
             id="maximum-deposit"
             name="maximumDeposit"
-            placeholder="Maximum deposit"
+            placeholder="Maximum"
             value={this.state.maxDeposit}
             onChange={(e) => this.setMaxDeposit(e)}
             style={{
@@ -196,7 +196,7 @@ class AddNewFundDeposits extends Component {
             type="text"
             id="maximum-deposit"
             name="maximumDeposit"
-            placeholder="Asset"
+            placeholder={this.state.denominationAsset}
             disabled
             style={{
               color: "#fff",
