@@ -37,7 +37,6 @@ class YourInvestmentsCard extends Component {
     render() {
 
         var fundAddress = this.state.fundAddress;
-        console.log('ADDr', fundAddress);
         var fundName = this.state.fundName;
 
         return (
