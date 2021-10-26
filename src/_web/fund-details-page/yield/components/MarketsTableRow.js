@@ -30,7 +30,10 @@ class MarketsTableRow extends Component {
     }
 
     toPage(name, params) {
-        this.props.history.push(('/fund/' + this.state.fundAddress + '/yield/' + name), params);
+        let path = window.location.pathname.split('/');
+        let fundAddress = path.pop();
+
+        this.props.history.push(('/fund/' + fundAddress + '/yield/' + name), params);
         window.scrollTo({
             top: 0,
             left: 0,

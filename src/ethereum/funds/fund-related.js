@@ -184,10 +184,9 @@ const getVaultProxyAddress = async (fundAddress) => {
   const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
   // const url = config.SUB_GRAPH_ENDPOINT;
 
-  // const investorAddr = '"0x028a968aca00b3258b767edc9dbba4c2e80f7d00"'
-  fundAddress = "0xee89c37bf01b115a79242a98ef4f90939b59a58b";
-  const fundQuery = {
-    query: `
+    fundAddress = "0xee89c37bf01b115a79242a98ef4f90939b59a58b"; //dummy for now.
+    const fundQuery = {
+        query: `
         { 
             newFundCreatedEvents(first: 5, where: {fund: "${fundAddress}"}) {
                 id
@@ -220,6 +219,7 @@ const getVaultProxyAddress = async (fundAddress) => {
     .catch((err) => {
       console.log("Error: ", err);
     });
+<<<<<<< HEAD
   return vaultProxy;
 };
 
@@ -252,3 +252,158 @@ export const getPolicies = async () => {
   console.log(policyManagerConfig);
   return policyManagerConfig;
 };
+=======
+    return vaultProxy;
+}
+
+
+export const getTransactions = async () => {
+  const { provider, signer, address } = await connectMetamask();
+  const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
+  // const url = config.SUB_GRAPH_ENDPOINT;
+  const user = "0xdcc8d7846f4f957cc58b357994f916d12c7cca95";
+
+  // const transactionQuery = {
+  //   query: `
+  //   { 
+  //     fundEventInterfaces(first: 10, orderBy: timestamp orderDirection: desc) {
+  //       fund{
+  //         name
+  //       }
+  //       __typename
+  //       transaction {
+  //         from
+  //         to
+  //         timestamp
+  //         input
+  //         value
+          
+  //       }
+  //     }
+  //   }
+  //   `
+  // }
+
+  const transactionQuery1 = {
+    query: `
+    {
+      transferEvents(first: 10, where: {from: "${user}"},orderBy: timestamp orderDirection: desc) {
+        fund {
+          name
+        }
+        transaction {
+          from
+          to
+          value
+          timestamp
+        }
+      }
+    }
+    `
+  }
+
+  const transactionQuery2 = {
+    query: `
+    {
+      transferEvents(first: 10, where: {to: "${user}"},orderBy: timestamp orderDirection: desc) {
+        fund {
+          name
+        }
+        transaction {
+          from
+          to
+          value
+          timestamp
+        }
+      }
+    }
+    `
+  }
+
+  let result1 = await axios.post(
+    url,
+    transactionQuery1
+  ).then((response) => {
+      const transactions = response.data.data.transferEvents
+      console.log('transactions', transactions);
+      return transactions || [];
+  }).catch((err) => {
+      console.log("Error: ", err);
+  });
+
+  let transactions1 = [];
+  if (result1) {
+    result1.map(transaction => {
+      transactions1.push({
+        fundName: transaction.fund.name,
+        to: transaction.transaction.to,
+        from: transaction.transaction.from,
+        value: transaction.transaction.value,
+        type: transaction.transaction.to === user ? "Withdraw" : "Invest",
+        timestamp: transaction.transaction.timestamp
+      });
+    })
+  }
+
+  let result2 = await axios.post(
+    url,
+    transactionQuery2
+  ).then((response) => {
+      const transactions = response.data.data.transferEvents
+      console.log('transactions', transactions);
+      return transactions || [];
+  }).catch((err) => {
+      console.log("Error: ", err);
+  });
+
+  let transactions2 = [];
+  if (result2) {
+    result2.map(transaction => {
+      transactions2.push({
+        fundName: transaction.fund.name,
+        to: transaction.transaction.to,
+        from: transaction.transaction.from,
+        value: transaction.transaction.value,
+        type: transaction.transaction.to === user ? "Withdraw" : "Invest",
+        timestamp: transaction.transaction.timestamp
+      });
+    })
+  }
+  let result = [].concat(transactions1).concat(transactions2);
+  result.sort((a, b) => {
+    return a.timestamp > b.timestamp
+  });
+  return result.slice(0, 5) || [];
+}
+
+export const getEthPrice = async () => {
+  const { provider, signer, address } = await connectMetamask();
+  const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
+  // const url = config.SUB_GRAPH_ENDPOINT;
+
+  const priceQuery = {
+    query: `
+    { 
+      currency(id:"ETH") {
+        price {
+          price
+        }
+      }
+    }
+    `
+  }
+
+  let result = await axios.post(
+    url,
+    priceQuery
+  ).then((response) => {
+      console.log('prices: ', response.data);
+      const currency = response.data.data.currency
+      console.log('prices', currency);
+      return parseFloat(currency.price.price) || 0;
+  }).catch((err) => {
+      console.log("Error: ", err);
+  });
+  return result || [];
+}
+>>>>>>> 32d57490ae3597d9eb1183e6f840179906cb22ee
