@@ -55,10 +55,6 @@ class InvestmentFundsTableRow extends Component {
                     </div>
                     <div className="w-your-transactions-table-cell"
                         style={{ width: '16.6%' }}>
-                        {this.state.type}
-                    </div>
-                    <div className="w-your-transactions-table-cell"
-                        style={{ width: '16.6%' }}>
                         {this.state.denominationAsset}
                     </div>
                     <div className="w-your-transactions-table-cell"

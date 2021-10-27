@@ -35,9 +35,10 @@ class VaultsPage extends Component {
     async componentDidMount() {
         this.props.activateLoaderOverlay()
         const investments =  await getAllInvestments();
+        // const investments = {}
         this.setState({
             ...this.state,
-            investments:  investments
+            investments: investments
         })
         this.props.deactivateLoaderOverlay();
 

@@ -43,6 +43,13 @@
     padding: 16px;
 }
 
+.w-your-transactions-table-row-no-data {
+    justify-content: space-between;
+    background-color: #070708;
+    margin: 2px 0;
+    padding: 16px;
+}
+
 .w-your-transactions-table-row:hover {
     cursor: pointer;
     background-color: #17171C;
