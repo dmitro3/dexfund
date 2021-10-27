@@ -184,9 +184,9 @@ const getVaultProxyAddress = async (fundAddress) => {
   const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
   // const url = config.SUB_GRAPH_ENDPOINT;
 
-    fundAddress = "0xee89c37bf01b115a79242a98ef4f90939b59a58b"; //dummy for now.
-    const fundQuery = {
-        query: `
+  fundAddress = "0xee89c37bf01b115a79242a98ef4f90939b59a58b"; //dummy for now.
+  const fundQuery = {
+    query: `
         { 
             newFundCreatedEvents(first: 5, where: {fund: "${fundAddress}"}) {
                 id
@@ -219,43 +219,8 @@ const getVaultProxyAddress = async (fundAddress) => {
     .catch((err) => {
       console.log("Error: ", err);
     });
-<<<<<<< HEAD
   return vaultProxy;
 };
-
-export const getPolicies = async () => {
-  // policies
-  const maxConcentrationSettings = maxConcentrationArgs(utils.parseEther("1"));
-  const adapterBlacklistSettings = adapterBlacklistArgs([]);
-  const adapterWhitelistSettings = adapterWhitelistArgs([
-    "0xec5588AEd6c5a1238261D77B450951A3bb4e4dE6",
-    "0x532D0653f8E1D998671718cbccB939599A7ebeAA",
-  ]);
-  const assetBlacklistSettings = assetBlacklistArgs([
-    "0x0707de6ea02d4558fea1e0a96cad9003f8c1d384",
-  ]);
-  const policyManagerConfig = policyManagerConfigArgs({
-    policies: [
-      maxConcentrationSettings,
-      adapterBlacklistSettings,
-      adapterWhitelistSettings,
-      assetBlacklistSettings,
-    ],
-    settings: [
-      maxConcentrationSettings,
-      adapterBlacklistSettings,
-      adapterWhitelistSettings,
-      assetBlacklistSettings,
-    ],
-  });
-
-  console.log(policyManagerConfig);
-  return policyManagerConfig;
-};
-=======
-    return vaultProxy;
-}
-
 
 export const getTransactions = async () => {
   const { provider, signer, address } = await connectMetamask();
@@ -265,7 +230,7 @@ export const getTransactions = async () => {
 
   // const transactionQuery = {
   //   query: `
-  //   { 
+  //   {
   //     fundEventInterfaces(first: 10, orderBy: timestamp orderDirection: desc) {
   //       fund{
   //         name
@@ -277,7 +242,7 @@ export const getTransactions = async () => {
   //         timestamp
   //         input
   //         value
-          
+
   //       }
   //     }
   //   }
@@ -299,8 +264,8 @@ export const getTransactions = async () => {
         }
       }
     }
-    `
-  }
+    `,
+  };
 
   const transactionQuery2 = {
     query: `
@@ -317,64 +282,64 @@ export const getTransactions = async () => {
         }
       }
     }
-    `
-  }
+    `,
+  };
 
-  let result1 = await axios.post(
-    url,
-    transactionQuery1
-  ).then((response) => {
-      const transactions = response.data.data.transferEvents
-      console.log('transactions', transactions);
+  let result1 = await axios
+    .post(url, transactionQuery1)
+    .then((response) => {
+      const transactions = response.data.data.transferEvents;
+      console.log("transactions", transactions);
       return transactions || [];
-  }).catch((err) => {
+    })
+    .catch((err) => {
       console.log("Error: ", err);
-  });
+    });
 
   let transactions1 = [];
   if (result1) {
-    result1.map(transaction => {
+    result1.map((transaction) => {
       transactions1.push({
         fundName: transaction.fund.name,
         to: transaction.transaction.to,
         from: transaction.transaction.from,
         value: transaction.transaction.value,
         type: transaction.transaction.to === user ? "Withdraw" : "Invest",
-        timestamp: transaction.transaction.timestamp
+        timestamp: transaction.transaction.timestamp,
       });
-    })
+    });
   }
 
-  let result2 = await axios.post(
-    url,
-    transactionQuery2
-  ).then((response) => {
-      const transactions = response.data.data.transferEvents
-      console.log('transactions', transactions);
+  let result2 = await axios
+    .post(url, transactionQuery2)
+    .then((response) => {
+      const transactions = response.data.data.transferEvents;
+      console.log("transactions", transactions);
       return transactions || [];
-  }).catch((err) => {
+    })
+    .catch((err) => {
       console.log("Error: ", err);
-  });
+    });
 
   let transactions2 = [];
   if (result2) {
-    result2.map(transaction => {
+    result2.map((transaction) => {
       transactions2.push({
         fundName: transaction.fund.name,
         to: transaction.transaction.to,
         from: transaction.transaction.from,
         value: transaction.transaction.value,
         type: transaction.transaction.to === user ? "Withdraw" : "Invest",
-        timestamp: transaction.transaction.timestamp
+        timestamp: transaction.transaction.timestamp,
       });
-    })
+    });
   }
   let result = [].concat(transactions1).concat(transactions2);
   result.sort((a, b) => {
-    return a.timestamp > b.timestamp
+    return a.timestamp > b.timestamp;
   });
   return result.slice(0, 5) || [];
-}
+};
 
 export const getEthPrice = async () => {
   const { provider, signer, address } = await connectMetamask();
@@ -390,20 +355,19 @@ export const getEthPrice = async () => {
         }
       }
     }
-    `
-  }
+    `,
+  };
 
-  let result = await axios.post(
-    url,
-    priceQuery
-  ).then((response) => {
-      console.log('prices: ', response.data);
-      const currency = response.data.data.currency
-      console.log('prices', currency);
+  let result = await axios
+    .post(url, priceQuery)
+    .then((response) => {
+      console.log("prices: ", response.data);
+      const currency = response.data.data.currency;
+      console.log("prices", currency);
       return parseFloat(currency.price.price) || 0;
-  }).catch((err) => {
+    })
+    .catch((err) => {
       console.log("Error: ", err);
-  });
+    });
   return result || [];
-}
->>>>>>> 32d57490ae3597d9eb1183e6f840179906cb22ee
+};
