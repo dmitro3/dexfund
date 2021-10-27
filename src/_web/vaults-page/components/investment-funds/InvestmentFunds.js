@@ -37,20 +37,21 @@ class InvestmentFunds extends React.Component {
             <>
                 <div className="w-top-investment-funds-wrapper" >
                     <div className="w-top-investment-funds-header">
-                        INVESTMENT FUNDS
+                        ALL INVESTMENT FUNDS
                     </div>
                     <InvestmentFundsTableHeader />
 
                     {
                         this.props.investments.map((investment, index) =>
                             <InvestmentFundsTableRow key={index}
-                                idFromParrent={investment.id}
+                                idFromParent={investment.id}
                                 nameFromParent={investment.name}
                                 typeFromParent='Investment'
                                 denominationAssetFromParent={investment.trackedAssets[0].symbol}
                                 AUMFromParent={investment.lastKnowGavInEth}
                                 depositorsFromParent={investment.investmentCount}
                                 lifetimeGainFromParent='21.31%'
+                                {...this.props}
                             />
                         )
                     }
