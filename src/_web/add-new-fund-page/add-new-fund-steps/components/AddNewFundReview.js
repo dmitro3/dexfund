@@ -27,7 +27,12 @@ import {
   EntranceRateDirectFee,
   getMinMaxDepositPolicyArgs,
   MinMaxInvestment,
-  getPolicyArgsData
+  getPolicyArgsData,
+  AssetBlacklist,
+  AssetWhitelist,
+  AdapterBlacklist,
+  AdapterWhitelist,
+  getAddressArrayPolicyArgs
 } from './../../../../ethereum/funds/fund-related'
 
 import { getAssetDecimals } from './../../../../ethereum/utils/index'
@@ -107,6 +112,26 @@ class AddNewFundReview extends Component {
         console.log(e)
         alert("Error processing you Min/Max Deposit values");
       }
+    }
+
+    if (this.state.blackListingAssets.length != 0) {
+      policies.push(AssetBlacklist.address);
+      policyManagerSettingsData.push(getAddressArrayPolicyArgs(this.state.blackListingAssets));
+    }
+
+    if (this.state.whiteListingAssets.length != 0) {
+      policies.push(AssetWhitelist.address);
+      policyManagerSettingsData.push(getAddressArrayPolicyArgs(this.state.whiteListingAssets));
+    }
+
+    if (this.state.blackListingAdapters.length != 0) {
+      policies.push(AdapterBlacklist.address);
+      policyManagerSettingsData.push(getAddressArrayPolicyArgs(this.state.blackListingAdapters));
+    }
+
+    if (this.state.whiteListingAdapters.length != 0) {
+      policies.push(AdapterWhitelist.address);
+      policyManagerSettingsData.push(getAddressArrayPolicyArgs(this.state.whiteListingAdapters));
     }
 
     let policyArgsData;
@@ -207,12 +232,6 @@ class AddNewFundReview extends Component {
                 </div>
               </div>
               <div className="w-fund-review-info-box-row">
-                <div className="w-fund-review-info-type">Manager</div>
-                <div className="w-fund-review-info-value">
-                  {this.state.managerName}
-                </div>
-              </div>
-              <div className="w-fund-review-info-box-row">
                 <div className="w-fund-review-info-type">
                   Denomination asset
                 </div>
@@ -259,23 +278,23 @@ class AddNewFundReview extends Component {
                 </div>
               </div>
             </div>
-            <div className="w-fund-review-header">ADVANCES</div>
+            <div className="w-fund-review-header">ADVANCED</div>
             <div className="w-fund-review-info-box">
               <div className="w-fund-review-info-box-row">
                 <div className="w-fund-review-info-type">Adapter Blacklist</div>
-                <div className="w-fund-review-info-value">*AB from parent*</div>
+                  <div className="w-fund-review-info-value">{this.state.blackListingAdapters.length} Selected</div>
               </div>
               <div className="w-fund-review-info-box-row">
                 <div className="w-fund-review-info-type">Adapter Whitelist</div>
-                <div className="w-fund-review-info-value">*AW from parent*</div>
+                <div className="w-fund-review-info-value">{this.state.whiteListingAdapters.length} Selected</div>
               </div>
               <div className="w-fund-review-info-box-row">
                 <div className="w-fund-review-info-type">Asset Blacklist</div>
-                <div className="w-fund-review-info-value">*aB from parent*</div>
+                <div className="w-fund-review-info-value">{this.state.blackListingAssets.length} Selected</div>
               </div>
               <div className="w-fund-review-info-box-row">
                 <div className="w-fund-review-info-type">Asset Whitelist</div>
-                <div className="w-fund-review-info-value">*aW from parent*</div>
+                <div className="w-fund-review-info-value">{this.state.whiteListingAssets.length} Selected</div>
               </div>
             </div>
             <div className="w-fund-review-header">TERMS AND CONDITIONS</div>
@@ -298,7 +317,7 @@ class AddNewFundReview extends Component {
                 className="w-add-new-fund-step-next-button"
                 onClick={() => this.goToNextStep()}
               >
-                SAVE
+                CREATE
               </div>
             </div>
           </div>

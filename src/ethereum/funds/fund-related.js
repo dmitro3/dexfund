@@ -12,12 +12,25 @@ import FeeManager from "./../abis/FeeManager.json";
 import ComptrollerLib from "./../abis/ComptrollerLib.json";
 import EntranceRateDirectFee from "./../abis/EntranceRateDirectFee.json";
 import MinMaxInvestment from './../abis/MinMaxInvestment.json';
+import AssetBlacklist from './../abis/AssetBlacklist.json';
+import AssetWhitelist from './../abis/AssetWhitelist.json';
+import AdapterBlacklist from './../abis/AdapterBlacklist.json';
+import AdapterWhitelist from './../abis/AdapterWhitelist.json';
 import { encodeArgs, convertRateToScaledPerSecondRate } from "./../utils/index";
 import { Decimal } from "decimal.js";
 import axios from "axios";
 import { VaultLib, redeemShares } from "@enzymefinance/protocol";
 
-export { PerformanceFee, ManagementFee, EntranceRateDirectFee, MinMaxInvestment };
+export {
+  PerformanceFee,
+  ManagementFee,
+  EntranceRateDirectFee,
+  MinMaxInvestment,
+  AssetBlacklist,
+  AssetWhitelist,
+  AdapterBlacklist,
+  AdapterWhitelist
+};
 
 /* CREATE NEW FUND with Configurations*/
 
@@ -52,7 +65,7 @@ export const createNewFund = async (
       timeLockInSeconds,
       feeManagerConfig,
       policyManagerConfigData,
-      { nonce: nonce, gasLimit: gaslimit }
+      { nonce: nonce }
     );
 
     return fund;
@@ -165,6 +178,10 @@ export const getFeesManagerConfigArgsData = async (
 
 export const getMinMaxDepositPolicyArgs = (minDeposit, maxDeposit) => {
   return encodeArgs(['uint256', 'uint256'], [minDeposit, maxDeposit]);
+}
+
+export const getAddressArrayPolicyArgs = (ars) => {
+  return encodeArgs(["address[]"], [ars]);
 }
 
 export const withdraw = async (fundAddress, amount, signer, provider) => {

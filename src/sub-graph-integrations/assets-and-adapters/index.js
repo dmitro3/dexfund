@@ -136,7 +136,7 @@ export const getDenominationAssets = async () => {
     const { data } = await axios.post(configs.SUB_GRAPH_ENDPOINT, {
       query: `
       {
-        assets(orderBy: symbol, orderDirection: asc) {
+        assets(orderBy: symbol, orderDirection: asc, where: {type_in: [ETH, USD]}) {
          decimals
          curvePoolAssetDetails {
            pool
@@ -206,7 +206,7 @@ export const getAllAssetsIntegrations = async () => {
     const { data } = await axios.post(configs.SUB_GRAPH_ENDPOINT, {
       query: `
       {
-        assets{
+        assets (first: 1000, orderBy: symbol, orderDirection: asc){
           id
           name
           decimals
@@ -214,45 +214,10 @@ export const getAllAssetsIntegrations = async () => {
           price{
             price
           }
-          blacklisted{
-            id
-            enabled
-            timestamp
-          }
-          daily{
-            high
-            low 
-            open
-            closeRef{
-              id
-              timestamp
-            }
-          }
-          hourly{
-            high
-            low 
-            open
-            closeRef{
-              id
-              timestamp
-            }
-          }
-          monthly{
-            high
-            low 
-            open
-            closeRef{
-              id
-              timestamp
-            }
-          }
-          priceHistory{
-            price
-          }
         }
       }`,
     });
-    return data.assets;
+    return data.data.assets;
   } catch (error) {
     console.log(error);
   }

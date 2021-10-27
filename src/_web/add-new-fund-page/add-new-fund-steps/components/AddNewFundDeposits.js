@@ -22,22 +22,21 @@ class AddNewFundDeposits extends Component {
 
       displayMinDeposit: false,
       displayMaxDeposit: false,
+      depositLimitsWarningText: "",
 
       ...this.props.state,
     };
+
+    this.checkLimits = this.checkLimits.bind(this);
   }
 
-  setMinDeposit = (e) => {
+  setMinDeposit = async (e) => {
     if (e.target.value < 0) {
       return;
     }
 
-    if (e.target.value > 100) {
-      return;
-    }
-
     if (e.target.value === "") {
-      this.setState({
+      await this.setState({
         minDeposit: "0",
       });
       return;
@@ -49,16 +48,17 @@ class AddNewFundDeposits extends Component {
     }
 
     var value = e.target.value;
-    this.setState({ minDeposit: value });
+    await this.setState({ minDeposit: value });
+    this.checkLimits();
   };
 
-  setMaxDeposit = (e) => {
+  setMaxDeposit = async (e) => {
     if (e.target.value < 0) {
       return;
     }
 
     if (e.target.value === "") {
-      this.setState({
+      await this.setState({
         maxDeposit: "0",
       });
       return;
@@ -70,8 +70,24 @@ class AddNewFundDeposits extends Component {
     }
 
     var value = e.target.value;
-    this.setState({ maxDeposit: value });
+    await this.setState({ maxDeposit: value });
+    this.checkLimits();
   };
+
+  checkLimits() {
+    let wtext;
+    if (this.state.displayMaxDeposit &&
+        this.state.displayMinDeposit &&
+        (parseFloat(this.state.minDeposit) > parseFloat(this.state.maxDeposit))) {
+        wtext = "Warning: Minimum deposit is larger than maximum deposit. Creating the fund will fail."
+    } else {
+      wtext = "";
+    }
+
+    this.setState({
+      depositLimitsWarningText: wtext
+    })
+  }
 
   renderMinDepositOff() {
     return (
@@ -285,6 +301,10 @@ class AddNewFundDeposits extends Component {
             {this.state.displayMaxDeposit === false &&
               this.renderMaxDepositOff()}
             {this.state.displayMaxDeposit === true && this.renderMaxDepositOn()}
+
+            <div className="policy-popup-warning-text">
+              {this.state.depositLimitsWarningText}
+            </div>
 
             <div className="w-add-new-fund-buttons-section">
               <div

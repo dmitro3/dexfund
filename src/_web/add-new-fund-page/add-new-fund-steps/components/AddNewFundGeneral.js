@@ -56,7 +56,7 @@ class AddNewFundGeneral extends Component {
           </div>
           <img src={caretUpIcon} alt="caret-up-icon" />
         </div>
-        <div className="w-add-new-fund-denomination-assets-list">
+        <div style={{overflowY: "scroll", height: "25vh"}} className="w-add-new-fund-denomination-assets-list">
           {this.state.assets.map((asset) => {
             return (
               <div
