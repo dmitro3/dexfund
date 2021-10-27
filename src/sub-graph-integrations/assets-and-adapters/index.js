@@ -18,7 +18,8 @@ export const queryFundOverviewDetails = async (fundId) => {
         investmentCount
       }
     }`;
-    const { data } = await axios.post(configs.ENZYME_ENDPOINT, {
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const { data } = await axios.post(endpoint, {
       query,
     });
 
@@ -67,7 +68,8 @@ export const queryFundDetails = async (fundId) => {
         }
       }
     `;
-    const { data } = await axios.post(configs.ENZYME_ENDPOINT, {
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const { data } = await axios.post(endpoint, {
       query,
     });
 
@@ -96,7 +98,8 @@ export const queryFundFinancials = async (fundId) => {
         }
       }
     `;
-    const { data } = await axios.post(configs.ENZYME_ENDPOINT, {
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const { data } = await axios.post(endpoint, {
       query,
     });
 
@@ -108,7 +111,8 @@ export const queryFundFinancials = async (fundId) => {
 
 export const getAllAdapterIntegrations = async () => {
   try {
-    const { data } = await axios.post(configs.SUB_GRAPH_ENDPOINT, {
+    const endpoint = configs.DEBUG_MODE ? configs.SUB_GRAPH_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const { data } = await axios.post(endpoint, {
       query: `
             {
               integrationAdapters {
@@ -133,7 +137,8 @@ export const getAllAdapterIntegrations = async () => {
 // denomination Assets
 export const getDenominationAssets = async () => {
   try {
-    const { data } = await axios.post(configs.SUB_GRAPH_ENDPOINT, {
+    const endpoint = configs.DEBUG_MODE ? configs.SUB_GRAPH_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const { data } = await axios.post(endpoint, {
       query: `
       {
         assets(orderBy: symbol, orderDirection: asc, where: {type_in: [ETH, USD]}) {
@@ -203,7 +208,8 @@ export const getDenominationAssets = async () => {
 
 export const getAllAssetsIntegrations = async () => {
   try {
-    const { data } = await axios.post(configs.SUB_GRAPH_ENDPOINT, {
+    const endpoint = configs.DEBUG_MODE ? configs.SUB_GRAPH_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const { data } = await axios.post(endpoint, {
       query: `
       {
         assets (first: 1000, orderBy: symbol, orderDirection: asc){

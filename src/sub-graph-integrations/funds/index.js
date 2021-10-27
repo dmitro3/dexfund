@@ -8,8 +8,9 @@ const currentFundId = ""
 // Get all investments
 export const getAllInvestments = async () => {
   try {
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
     const {data} = await axios.post(
-        configs.ENZYME_ENDPOINT,
+        endpoint,
         {
             query: `
             {
@@ -39,8 +40,9 @@ export const getAllInvestments = async () => {
 // Get your investemnt funds
 export const getYourInvestments = async () => {
   try {
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
     const {data} = await axios.post(
-      configs.ENZYME_ENDPOINT,
+      endpoint,
       {
         query: `
         { 
@@ -74,9 +76,9 @@ export const getYourInvestments = async () => {
 // Get your investemnt funds per fund
 export const getYourInvestmentsPerFund = async () => {
   try {
-  
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
     const {data} = await axios.post(
-      configs.ENZYME_ENDPOINT,
+      endpoint,
       {
         query: `
         { 
@@ -110,8 +112,9 @@ export const getYourInvestmentsPerFund = async () => {
 // Fund Compostion
 export const getFundCompostion = async () => {
   try {
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
     const {data} = await axios.post(
-      configs.ENZYME_ENDPOINT,
+      endpoint,
       {
        query: 
        `
