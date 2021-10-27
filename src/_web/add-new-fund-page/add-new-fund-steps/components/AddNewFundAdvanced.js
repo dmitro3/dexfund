@@ -11,6 +11,7 @@ import closeIcon from "../assets/close-icon.svg";
 import caretDownIcon from "../assets/caret-down-icon.svg";
 import caretUpIcon from "../assets/caret-up-icon.svg";
 import configs from './../../../../config';
+import ADAPTERS from './../../../../data/adapters';
 
 // STYLES
 import "../styles/addNewFundSteps.css";
@@ -33,7 +34,7 @@ class AddNewFundAdvanced extends Component {
       whiteListingAssets: [],
       blackListingAdapters: [],
       whiteListingAdapters: [],
-      protocols: configs.ADAPTERS,
+      protocols: ADAPTERS,
       policyPopupWarningText: "",
       timelockWarningText: "",
       ...this.props.state
@@ -80,7 +81,15 @@ componentWillUnmount() {
       return;
     }
 
-    if (e.target.value === "" || e.target.value == 0) {
+    if (e.target.value === "") {
+      await this.setState({
+        timelockWarningText: "",
+        timeLock: e.target.value
+      })
+      return;
+    }
+
+    if (e.target.value == 0) {
       await this.setState({
         timelockWarningText: "Warning: This number should be greater than 0.",
         timeLock: e.target.value

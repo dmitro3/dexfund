@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { utils } from 'ethers';
 
 // COMPONENTS
 import Header from "../global/header/Header";
@@ -10,8 +11,16 @@ import FundStake from "./stake/FundStake";
 import FundYield from "./yield/FundYield";
 import FundReward from "./rewards/FundRewards";
 import FundSettings from "./settings/FundSettings";
+import {activateLoaderOverlay, deactivateLoaderOverlay}  from  './../../redux/actions/LoaderAction'
+import configs from './../../config';
 // ASSETS
 // ...
+
+// SUBGRAPH
+import { getFundDetails } from './../../sub-graph-integrations/get-funds/index'
+
+// REDUX
+import {connect}  from 'react-redux'
 
 // CSS
 import "./fundDetailsPage.css";
@@ -24,8 +33,43 @@ class FundDetailsPage extends Component {
 
       sidebar: false,
       settingsPopup: false,
-      fundId: this.props.match.params.address,
+      fundId: "",
+      fundName: "",
+      fundDetails: {},
+      loaded: false
     };
+
+    this.toPage = this.toPage.bind(this);
+  }
+
+  toPage(path) {
+    this.props.history.push(path);
+    window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+    })
+}
+
+  async componentDidMount() {
+    await this.props.activateLoaderOverlay();
+    var _path = window.location.pathname;
+    var vaultAddress = _path.split('/fund/')[1].toLowerCase();
+    var fundDetails = await getFundDetails(vaultAddress);
+    var isRegistered = (fundDetails.length > 0);
+    if (configs.BLACKLISTED_VAULTS.includes(vaultAddress) || !isRegistered) {
+      await this.props.deactivateLoaderOverlay();
+      this.toPage('/');
+      return;
+    }
+    fundDetails = fundDetails[0];
+    await this.setState({
+      fundId: vaultAddress,
+      fundName: fundDetails.name,
+      fundDetails: fundDetails,
+      loaded: true
+    });
+    this.props.deactivateLoaderOverlay();
   }
 
   displaySettingsPopup = () => {
@@ -92,6 +136,12 @@ class FundDetailsPage extends Component {
     );
   }
 
+  renderPreLoaded() {
+    return (
+      <div style={{height: "100vh"}} className="w-fund-overview-wrapper"></div>
+    )
+  }
+
   render() {
     var width = window.innerWidth;
 
@@ -115,7 +165,7 @@ class FundDetailsPage extends Component {
           <div className="w-fund-details-page-wrapper">
             <div className="w-fund-details-page-content">
               <div className="w-fund-details-page-title">
-                {this.props.location.state.fundName}
+                {this.state.fundName}
               </div>
               <div className="w-fund-details-page-navbar">
                 <div
@@ -204,16 +254,17 @@ class FundDetailsPage extends Component {
                   Settings
                 </div>
               </div>
-              {this.state.selectedNavbarItem === "overview" &&
+              {this.state.loaded === false && this.renderPreLoaded()}
+              {this.state.loaded === true && this.state.selectedNavbarItem === "overview" &&
                 this.renderOverview()}
-              {this.state.selectedNavbarItem === "provideLiquidity" &&
+              {this.state.loaded === true && this.state.selectedNavbarItem === "provideLiquidity" &&
                 this.renderProvideLiquidity()}
-              {this.state.selectedNavbarItem === "trade" && this.renderTrade()}
-              {this.state.selectedNavbarItem === "stake" && this.renderStake()}
-              {this.state.selectedNavbarItem === "yield" && this.renderYield()}
-              {this.state.selectedNavbarItem === "rewards" &&
+              {this.state.loaded === true && this.state.selectedNavbarItem === "trade" && this.renderTrade()}
+              {this.state.loaded === true && this.state.selectedNavbarItem === "stake" && this.renderStake()}
+              {this.state.loaded === true && this.state.selectedNavbarItem === "yield" && this.renderYield()}
+              {this.state.loaded === true && this.state.selectedNavbarItem === "rewards" &&
                 this.renderRewards()}
-              {this.state.selectedNavbarItem === "settings" &&
+              {this.state.loaded === true && this.state.selectedNavbarItem === "settings" &&
                 this.renderSettings()}
             </div>
           </div>
@@ -231,4 +282,19 @@ class FundDetailsPage extends Component {
   }
 }
 
-export default FundDetailsPage;
+const mapStateToProps = (state) => {
+  return {
+      account: state.connect,
+  };
+};
+
+
+const mapDispatchToProps = {
+  activateLoaderOverlay, 
+  deactivateLoaderOverlay
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(FundDetailsPage);
+
+// export default FundDetailsPage;
