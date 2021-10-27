@@ -17,6 +17,8 @@ const configs = {
     JSON_RPC: "http://127.0.0.1:8545/",
     gasLimit: "30000",
   },
+  MAINNET_ENDPOINT: "",
+  DEBUG_MODE: true,
   ADAPTERS: [
     {
       name: "AAVE",

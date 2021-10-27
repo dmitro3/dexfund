@@ -27,7 +27,7 @@ import { encodeArgs, convertRateToScaledPerSecondRate } from "./../utils/index";
 import { Decimal } from "decimal.js";
 import axios from "axios";
 import { VaultLib, redeemShares } from "@enzymefinance/protocol";
-
+import config from "./../../config";
 export {
   PerformanceFee,
   ManagementFee,
@@ -231,7 +231,7 @@ const getVaultProxyAddress = async (fundAddress) => {
   };
 
   let vaultProxy = await axios
-    .post(url, fundQuery)
+    .post(config.SUB_GRAPH_ENDPOINT, fundQuery)
     .then((response) => {
       console.log("newFundCreatedEvents: ", response.data);
       const fundData = response.data.data.newFundCreatedEvents;
@@ -280,7 +280,7 @@ export const getPolicies = async () => {
 
 export const getTransactions = async () => {
   const { provider, signer, address } = await connectMetamask();
-  const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
+  const url = config.ENZYME_ENDPOINT;
   // const url = config.SUB_GRAPH_ENDPOINT;
   const user = "0xdcc8d7846f4f957cc58b357994f916d12c7cca95";
 
@@ -399,7 +399,7 @@ export const getTransactions = async () => {
 
 export const getEthPrice = async () => {
   const { provider, signer, address } = await connectMetamask();
-  const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
+  const url = config.SUB_GRAPH_ENDPOINT;
   // const url = config.SUB_GRAPH_ENDPOINT;
 
   const priceQuery = {
