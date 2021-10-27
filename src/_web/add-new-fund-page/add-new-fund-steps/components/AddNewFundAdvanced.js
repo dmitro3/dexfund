@@ -35,9 +35,12 @@ class AddNewFundAdvanced extends Component {
       whiteListingAdapters: [],
       protocols: configs.ADAPTERS,
       policyPopupWarningText: "",
+      timelockWarningText: "",
       ...this.props.state
     };
+    this.checkTimelockValue = this.checkTimelockValue.bind(this);
     this.handleClickEvent = this.handleClickEvent.bind(this);
+    this.goToNextStep = this.goToNextStep.bind(this);
     this.policyPopupRef = React.createRef();
   }
 
@@ -55,7 +58,8 @@ componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickEvent);
 }
 
-  goToNextStep = () => {
+  goToNextStep = async () => {
+    await this.checkTimelockValue();
     this.props.goToNextStepEvent({
       ...this.state,
     });
@@ -67,26 +71,40 @@ componentWillUnmount() {
     });
   };
 
-  setTimeLock = (e) => {
+  setTimeLock = async (e) => {
     if (e.target.value < 0) {
       return;
     }
 
-    if (e.target.value === "") {
-      this.setState({
-        timeLock: "0",
+    if (e.target.value.length > 5) {
+      return;
+    }
+
+    if (e.target.value === "" || e.target.value == 0) {
+      await this.setState({
+        timelockWarningText: "Warning: This number should be greater than 0.",
+        timeLock: e.target.value
       });
       return;
     }
 
     const re = /^[0-9.\b]+$/;
-    if (!re.test(e.target.value)) {
+    if (!re.test(e.target.value) && e.target.value !== "") {
       return;
     }
 
     var value = e.target.value;
-    this.setState({ timeLock: value });
+    await this.setState({ timeLock: value, timelockWarningText: "" });
   };
+
+  checkTimelockValue() {
+    if (this.state.timeLock === "" || parseFloat(this.state.timeLock) <= 0) {
+      this.setState({
+        timeLock: "1",
+        timelockWarningText: ""
+      })
+    }
+  }
 
   renderPoliciesListOn() {
     return (
@@ -509,7 +527,8 @@ componentWillUnmount() {
             <div className="w-add-new-fund-advanced-info">
               Setting a minimum time between deposits and withdrawals can
               protect a vault from various forms of arbitrage. It defaults to 24
-              hours.
+              hours.<b> It is really important to have this number greater than 0,
+              so flash loan/arbitrage attacks are not possible on your fund.</b>
             </div>
             <div
               className="w-add-new-fund-step-input"
@@ -521,6 +540,7 @@ componentWillUnmount() {
                 name="entryFee"
                 value={this.state.timeLock}
                 onChange={(e) => this.setTimeLock(e)}
+                onBlur={() => this.checkTimelockValue()}
                 style={{
                   color: "#fff",
                   backgroundColor: "#070708",
@@ -551,6 +571,9 @@ componentWillUnmount() {
                   width: "80%",
                 }}
               ></input>
+            </div>
+            <div className="policy-popup-warning-text">
+              {this.state.timelockWarningText}
             </div>
             <div className="w-add-new-fund-advanced-info header">
               Risk Management Policies
