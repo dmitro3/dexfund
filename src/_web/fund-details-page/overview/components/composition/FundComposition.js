@@ -29,6 +29,15 @@ class FundComposition extends Component {
     });
   }
 
+  calcWgOfAnAsset = (value) => {
+    let sum = 0;
+    this.state.holdings.forEach((item) => {
+      sum += item.amount * item.asset.price.price;
+    });
+
+    return parseFloat((value / sum) * 100).toFixed(2);
+  };
+
   render() {
     return (
       <>
@@ -45,7 +54,9 @@ class FundComposition extends Component {
                   valueFromParent={
                     composition.amount * composition.asset.price.price
                   }
-                  weightFromParent="some"
+                  weightFromParent={this.calcWgOfAnAsset(
+                    composition.amount * composition.asset.price.price
+                  )}
                   symbolFromParent={composition.asset.symbol}
                 />
               ))}
