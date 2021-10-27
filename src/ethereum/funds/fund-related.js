@@ -5,6 +5,13 @@ import {
   managementFeeConfigArgs,
   performanceFeeConfigArgs,
   feeManagerConfigArgs,
+  adapterBlacklistArgs,
+  adapterWhitelistArgs,
+  assetBlacklistArgs,
+  assetWhitelistArgs,
+  maxConcentrationArgs,
+  minMaxInvestmentArgs,
+  policyManagerConfigArgs,
 } from "./../utils/index";
 import ManagementFee from "./../abis/ManagementFee.json";
 import PerformanceFee from "./../abis/PerformanceFee.json";
@@ -238,6 +245,40 @@ const getVaultProxyAddress = async (fundAddress) => {
     .catch((err) => {
       console.log("Error: ", err);
     });
+<<<<<<< HEAD
+  return vaultProxy;
+};
+
+export const getPolicies = async () => {
+  // policies
+  const maxConcentrationSettings = maxConcentrationArgs(utils.parseEther("1"));
+  const adapterBlacklistSettings = adapterBlacklistArgs([]);
+  const adapterWhitelistSettings = adapterWhitelistArgs([
+    "0xec5588AEd6c5a1238261D77B450951A3bb4e4dE6",
+    "0x532D0653f8E1D998671718cbccB939599A7ebeAA",
+  ]);
+  const assetBlacklistSettings = assetBlacklistArgs([
+    "0x0707de6ea02d4558fea1e0a96cad9003f8c1d384",
+  ]);
+  const policyManagerConfig = policyManagerConfigArgs({
+    policies: [
+      maxConcentrationSettings,
+      adapterBlacklistSettings,
+      adapterWhitelistSettings,
+      assetBlacklistSettings,
+    ],
+    settings: [
+      maxConcentrationSettings,
+      adapterBlacklistSettings,
+      adapterWhitelistSettings,
+      assetBlacklistSettings,
+    ],
+  });
+
+  console.log(policyManagerConfig);
+  return policyManagerConfig;
+};
+=======
     return vaultProxy;
 }
 
@@ -391,3 +432,4 @@ export const getEthPrice = async () => {
   });
   return result || [];
 }
+>>>>>>> 32d57490ae3597d9eb1183e6f840179906cb22ee

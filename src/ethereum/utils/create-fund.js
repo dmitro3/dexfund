@@ -166,3 +166,7 @@ export function minMaxInvestmentArgs({
     [minInvestmentAmount, maxInvestmentAmount]
   );
 }
+
+export function policyManagerConfigArgs({ policies, settings }) {
+  return encodeArgs(["address[]", "bytes[]"], [policies, settings]);
+}
