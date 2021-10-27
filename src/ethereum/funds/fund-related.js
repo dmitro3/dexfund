@@ -219,9 +219,8 @@ const getVaultProxyAddress = async (fundAddress) => {
     .catch((err) => {
       console.log("Error: ", err);
     });
-<<<<<<< HEAD
-  return vaultProxy;
-};
+    return vaultProxy;
+}
 
 export const getPolicies = async () => {
   // policies
@@ -252,9 +251,6 @@ export const getPolicies = async () => {
   console.log(policyManagerConfig);
   return policyManagerConfig;
 };
-=======
-    return vaultProxy;
-}
 
 
 export const getTransactions = async () => {
@@ -406,4 +402,3 @@ export const getEthPrice = async () => {
   });
   return result || [];
 }
->>>>>>> 32d57490ae3597d9eb1183e6f840179906cb22ee
