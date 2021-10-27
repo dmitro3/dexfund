@@ -22,10 +22,12 @@ class InvestmentFundsTableRow extends Component {
             depositors: this.props.depositorsFromParent,
             lifetimeGain: this.props.lifetimeGainFromParent,
         }
+
+        this.toPage = this.toPage.bind(this);
     }
 
     toPage(address, params) {
-        this.props.history.push(('/fund/' + address), params);
+        this.props.history.push('/fund/' + address);
         window.scrollTo({
             top: 0,
             left: 0,

@@ -65,10 +65,10 @@ class VaultsPage extends Component {
                 <>
                     <Header {...this.props}
                         displaySettingsPopupEvent={this.displaySettingsPopup} />
-                    <div className="w-your-funds-page-wrapper" style={{padding: '60px 0 120px 0'}}>
+                    <div className="w-your-funds-page-wrapper" style={{padding: '60px 0 120px 0', height: "100vh"}}>
                         <div className="w-your-funds-page-content">
-                            <TopInvestmentFunds {...this.props} />
-                            <InvestmentFunds investments={this.state.investments} />
+                            {/* <TopInvestmentFunds {...this.props} /> */}
+                            <InvestmentFunds investments={this.state.investments} {...this.props} />
                         </div>
                     </div>
                     <div style={this.state.settingsPopup === false ? doNotDisplay : {}}>
