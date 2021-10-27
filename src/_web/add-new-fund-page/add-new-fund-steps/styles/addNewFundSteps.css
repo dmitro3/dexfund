@@ -83,6 +83,16 @@
     background-color: #17171C;
 }
 
+.w-add-new-fund-denomination-asset-row-selected {
+    padding: 16px;
+    background-color: rgba(238,49,179,0.4);
+}
+
+.w-add-new-fund-denomination-asset-row-selected:hover {
+    cursor: pointer;
+    background-color: rgba(238,49,179,0.6);
+}
+
 .w-denomination-asset-primary-text {
     font-family: 'Bai Jamjuree', sans-serif;
     font-size: 15px;
@@ -290,4 +300,9 @@
     font-weight: 600;
     color: #fff;
     margin: 32px 0 16px 0;
+}
+
+.policy-popup-warning-text {
+    padding-top: 2%;
+    color: red !important;
 }

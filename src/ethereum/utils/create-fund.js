@@ -39,7 +39,6 @@ export function payoutSharesOutstandingForFeesArgs(fees) {
 
 // START OF MANANGEMENT FEES
 export function managementFeeConfigArgs(scaledPerSecondRate) {
-  console.log(encodeArgs(["uint256"], [scaledPerSecondRate]));
   return encodeArgs(["uint256"], [scaledPerSecondRate]);
 }
 

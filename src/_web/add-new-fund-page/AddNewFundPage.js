@@ -44,12 +44,12 @@ class AddNewFundPage extends Component {
     // show loader
     this.props.activateLoaderOverlay();
     const assets  =  await getDenominationAssets();
-    const adaptersList  =  await getAllAdapterIntegrations();
+    // const adaptersList  =  await getAllAdapterIntegrations();
     const assetList  =  await getAllAssetsIntegrations();
     this.setState({
-      assets,
-      adaptersList,
-      assetList
+      assets: assets,
+      // adaptersList,
+      assetList: assetList
     });
 
     this.props.deactivateLoaderOverlay()

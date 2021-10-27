@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { utils } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 import { activateLoaderOverlay, deactivateLoaderOverlay } from './../../../../redux/actions/LoaderAction'
 // COMPONENTS
 // ...
@@ -24,8 +24,18 @@ import {
   getEntranceRateFeeConfigArgs,
   PerformanceFee,
   ManagementFee,
-  EntranceRateDirectFee
+  EntranceRateDirectFee,
+  getMinMaxDepositPolicyArgs,
+  MinMaxInvestment,
+  getPolicyArgsData,
+  AssetBlacklist,
+  AssetWhitelist,
+  AdapterBlacklist,
+  AdapterWhitelist,
+  getAddressArrayPolicyArgs
 } from './../../../../ethereum/funds/fund-related'
+
+import { getAssetDecimals } from './../../../../ethereum/utils/index'
 
 class AddNewFundReview extends Component {
   constructor(props) {
@@ -65,10 +75,12 @@ class AddNewFundReview extends Component {
     // IF CONFIGURATIONS (FEES and FEE SETTING) are not Provided
     if (fees.length === 0) {
       /// PREPARE FEE CONFIGURATIONS DATA
-      fees = utils.hexlify('0x')
-      feeManagerSettingsData = utils.hexlify('0x')
+      // fees = utils.hexlify('0x')
+      // feeManagerSettingsData = utils.hexlify('0x')
 
-      feeArgsData = await getFeesManagerConfigArgsData(fees, feeManagerSettingsData, this.props.account.account.signer, false);
+      // feeArgsData = await getFeesManagerConfigArgsData(fees, feeManagerSettingsData, this.props.account.account.signer, false);
+
+      feeArgsData = utils.hexlify('0x');
 
     }
     else {
@@ -77,7 +89,57 @@ class AddNewFundReview extends Component {
 
     }
 
+    let policyManagerSettingsData = [];
+    let policies = [];
 
+    // Min / Max Investment Policy
+    if (this.state.displayMinDeposit || this.state.displayMaxDeposit) {
+      try {
+        // Get values from frontend. Should be 0 if they are not enabled.
+        var minDeposit = this.state.displayMinDeposit ? this.state.minDeposit : 0;
+        var maxDeposit = this.state.displayMaxDeposit ? this.state.maxDeposit : 0;
+
+        // Scale the minDeposit/maxDeposit values to the denomination asset's decimals
+        var denominationAssetDecimals = await getAssetDecimals(this.state.denominationAddress);
+        minDeposit = minDeposit === 0 ? 0 : utils.parseEther(minDeposit).div(10**(18-denominationAssetDecimals));
+        maxDeposit = maxDeposit === 0 ? 0 : utils.parseEther(maxDeposit).div(10**(18-denominationAssetDecimals));
+
+        // Push settings and actual policy
+        policies.push(MinMaxInvestment.address);
+        policyManagerSettingsData.push(getMinMaxDepositPolicyArgs(minDeposit, maxDeposit));
+      } catch(e) {
+        // TODO: CHANGE THIS ALERT WITH A GOOD FRONTEND ALERT
+        console.log(e)
+        alert("Error processing you Min/Max Deposit values");
+      }
+    }
+
+    if (this.state.blackListingAssets.length != 0) {
+      policies.push(AssetBlacklist.address);
+      policyManagerSettingsData.push(getAddressArrayPolicyArgs(this.state.blackListingAssets));
+    }
+
+    if (this.state.whiteListingAssets.length != 0) {
+      policies.push(AssetWhitelist.address);
+      policyManagerSettingsData.push(getAddressArrayPolicyArgs(this.state.whiteListingAssets));
+    }
+
+    if (this.state.blackListingAdapters.length != 0) {
+      policies.push(AdapterBlacklist.address);
+      policyManagerSettingsData.push(getAddressArrayPolicyArgs(this.state.blackListingAdapters));
+    }
+
+    if (this.state.whiteListingAdapters.length != 0) {
+      policies.push(AdapterWhitelist.address);
+      policyManagerSettingsData.push(getAddressArrayPolicyArgs(this.state.whiteListingAdapters));
+    }
+
+    let policyArgsData;
+    if(policies.length === 0) {
+      policyArgsData = utils.hexlify('0x');
+    } else {
+      policyArgsData = getPolicyArgsData(policies, policyManagerSettingsData);
+    }
 
     try {
 
@@ -88,7 +150,7 @@ class AddNewFundReview extends Component {
         this.state.denominationAddress,
         timeLockInSeconds,
         feeArgsData,
-        utils.hexlify('0x'),
+        policyArgsData,
         1000000
       );
       console.log(fund)
@@ -170,12 +232,6 @@ class AddNewFundReview extends Component {
                 </div>
               </div>
               <div className="w-fund-review-info-box-row">
-                <div className="w-fund-review-info-type">Manager</div>
-                <div className="w-fund-review-info-value">
-                  {this.state.managerName}
-                </div>
-              </div>
-              <div className="w-fund-review-info-box-row">
                 <div className="w-fund-review-info-type">
                   Denomination asset
                 </div>
@@ -222,23 +278,23 @@ class AddNewFundReview extends Component {
                 </div>
               </div>
             </div>
-            <div className="w-fund-review-header">ADVANCES</div>
+            <div className="w-fund-review-header">ADVANCED</div>
             <div className="w-fund-review-info-box">
               <div className="w-fund-review-info-box-row">
                 <div className="w-fund-review-info-type">Adapter Blacklist</div>
-                <div className="w-fund-review-info-value">*AB from parent*</div>
+                  <div className="w-fund-review-info-value">{this.state.blackListingAdapters.length} Selected</div>
               </div>
               <div className="w-fund-review-info-box-row">
                 <div className="w-fund-review-info-type">Adapter Whitelist</div>
-                <div className="w-fund-review-info-value">*AW from parent*</div>
+                <div className="w-fund-review-info-value">{this.state.whiteListingAdapters.length} Selected</div>
               </div>
               <div className="w-fund-review-info-box-row">
                 <div className="w-fund-review-info-type">Asset Blacklist</div>
-                <div className="w-fund-review-info-value">*aB from parent*</div>
+                <div className="w-fund-review-info-value">{this.state.blackListingAssets.length} Selected</div>
               </div>
               <div className="w-fund-review-info-box-row">
                 <div className="w-fund-review-info-type">Asset Whitelist</div>
-                <div className="w-fund-review-info-value">*aW from parent*</div>
+                <div className="w-fund-review-info-value">{this.state.whiteListingAssets.length} Selected</div>
               </div>
             </div>
             <div className="w-fund-review-header">TERMS AND CONDITIONS</div>
@@ -261,7 +317,7 @@ class AddNewFundReview extends Component {
                 className="w-add-new-fund-step-next-button"
                 onClick={() => this.goToNextStep()}
               >
-                SAVE
+                CREATE
               </div>
             </div>
           </div>

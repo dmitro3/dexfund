@@ -18,12 +18,26 @@ import PerformanceFee from "./../abis/PerformanceFee.json";
 import FeeManager from "./../abis/FeeManager.json";
 import ComptrollerLib from "./../abis/ComptrollerLib.json";
 import EntranceRateDirectFee from "./../abis/EntranceRateDirectFee.json";
+import MinMaxInvestment from './../abis/MinMaxInvestment.json';
+import AssetBlacklist from './../abis/AssetBlacklist.json';
+import AssetWhitelist from './../abis/AssetWhitelist.json';
+import AdapterBlacklist from './../abis/AdapterBlacklist.json';
+import AdapterWhitelist from './../abis/AdapterWhitelist.json';
 import { encodeArgs, convertRateToScaledPerSecondRate } from "./../utils/index";
 import { Decimal } from "decimal.js";
 import axios from "axios";
 import { VaultLib, redeemShares } from "@enzymefinance/protocol";
 
-export { PerformanceFee, ManagementFee, EntranceRateDirectFee };
+export {
+  PerformanceFee,
+  ManagementFee,
+  EntranceRateDirectFee,
+  MinMaxInvestment,
+  AssetBlacklist,
+  AssetWhitelist,
+  AdapterBlacklist,
+  AdapterWhitelist
+};
 
 /* CREATE NEW FUND with Configurations*/
 
@@ -57,8 +71,8 @@ export const createNewFund = async (
       denominationAsset,
       timeLockInSeconds,
       feeManagerConfig,
-      policyManagerConfigData ? utils.hexlify("0x") : policyManagerConfigData,
-      { nonce: nonce, gasLimit: gaslimit }
+      policyManagerConfigData,
+      { nonce: nonce }
     );
 
     return fund;
@@ -99,6 +113,10 @@ export function getEntranceRateFeeConfigArgs(rate) {
   // The rate must be (rate/100 * 10**18) or directly rate * 10**16;
   rate = utils.parseEther((rate / 100).toString());
   return encodeArgs(["uint256"], [rate]);
+}
+
+export const getPolicyArgsData = (policies, policySettings) => {
+  return encodeArgs(["address[]", "bytes[]"], [policies, policySettings]);
 }
 
 /**
@@ -164,6 +182,14 @@ export const getFeesManagerConfigArgsData = async (
     console.log(error);
   }
 };
+
+export const getMinMaxDepositPolicyArgs = (minDeposit, maxDeposit) => {
+  return encodeArgs(['uint256', 'uint256'], [minDeposit, maxDeposit]);
+}
+
+export const getAddressArrayPolicyArgs = (ars) => {
+  return encodeArgs(["address[]"], [ars]);
+}
 
 export const withdraw = async (fundAddress, amount, signer, provider) => {
   const ComptrollerLibInterface = new ethers.utils.Interface(

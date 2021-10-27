@@ -71,8 +71,7 @@ class AddNewFundFinish extends Component {
                             1. Add capital and start building a portfolio.
                         </div>
                         <div className="w-fund-finish-row sec">
-                            1. Add more off-chain information, such as description, 
-                            management style and social links, on the vault page.
+                            2. Interact with other DeFi protocols.
                         </div>
                         <div className="w-fund-finish-your-funds-button" onClick={() => this.toPage('/your-funds')}>
                             <div className="w-fund-finish-your-funds-button-text">
