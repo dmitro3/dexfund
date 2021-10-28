@@ -24,6 +24,7 @@ class Header extends Component {
     this.toPage = this.toPage.bind(this);
     this.state = {
       settingsPopup: false,
+      selectedPage: typeof(this.props.selectedPage) !== "undefined" ? this.props.selectedPage : ""
     };
   }
 
@@ -64,33 +65,20 @@ class Header extends Component {
                 className="radar-protocol-icon"
               />
               <div
-                className="w-header-navbar-item"
-                style={
-                  this.props.match.path === "/" ? selectedNavbarItemStyle : {}
-                }
+                className={"w-header-navbar-item" + (this.state.selectedPage === "home" ? "-selected" : "")}
                 onClick={() => this.toPage("/")}
               >
                 HOME
               </div>
               <div
-                className="w-header-navbar-item"
-                style={
-                  this.props.match.path === "/your-funds"
-                    ? selectedNavbarItemStyle
-                    : {}
-                }
+                className={"w-header-navbar-item" + (this.state.selectedPage === "vaults" ? "-selected" : "")}
                 onClick={() => this.toPage("/vaults")}
               >
                 VAULTS
               </div>
 
               <div
-                className="w-header-navbar-item"
-                style={
-                  this.props.match.path === "/your-funds"
-                    ? selectedNavbarItemStyle
-                    : {}
-                }
+                className={"w-header-navbar-item" + (this.state.selectedPage === "yourfunds" ? "-selected" : "")}
                 onClick={() => this.toPage("/your-funds")}
               >
                 YOUR FUNDS
@@ -98,11 +86,11 @@ class Header extends Component {
             </div>
             <div className="w-header-account-section">
               <div className="w-header-settings-button">
-                <img
+                {/* <img
                   src={activityIcon}
                   alt="activity-icon"
                   className="activity-icon"
-                />
+                /> */}
               </div>
               <div className="w-header-eth-button">
                 <div className="w-header-eth-button-asset-section">

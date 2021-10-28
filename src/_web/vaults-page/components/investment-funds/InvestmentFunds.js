@@ -4,6 +4,7 @@ import React from 'react';
 import InvestmentFundsTableHeader from './sub-components/InvestmentFundsTableHeader';
 import InvestmentFundsTableRow from './sub-components/InvestmentFundsTableRow';
 import SearchBar from './../../../global/your-transactions/components/SearchBar';
+import SkeletonLoader from './../../../global/skeleton-loader/SkeletonLoader';
 // ASSETS
 // ...
 
@@ -15,10 +16,17 @@ class InvestmentFunds extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchValue: ""
+            searchValue: "",
+            isLoaded: this.props.isLoaded
         }
 
         this.searchCallbackFunction = this.searchCallbackFunction.bind(this);
+    }
+
+    componentDidUpdate() {
+        if (this.props.isLoaded != this.state.isLoaded) {
+            this.setState({ isLoaded: this.props.isLoaded})
+        }
     }
 
     toPage(path) {
@@ -31,10 +39,14 @@ class InvestmentFunds extends React.Component {
     }
 
     tableRender() {
-        if (this.props.investments.length > 0) {
-            return this.renderFunds();
+        if (this.state.isLoaded) {
+            if (this.props.investments.length > 0) {
+                return this.renderFunds();
+            } else {
+                return this.renderNoFunds();
+            }
         } else {
-            return this.renderNoFunds();
+            return this.renderLoading();
         }
     }
 
@@ -57,7 +69,7 @@ class InvestmentFunds extends React.Component {
 
     renderFunds() {
         return (
-            <div style={{overflowY: "scroll", height: "80vh"}}>
+            <div style={{overflowY: "scroll", height: "60vh"}}>
                     {
                         this.props.investments.map((investment, index) => {
                             if (investment.name.toLowerCase().includes(this.state.searchValue.toLowerCase()) ||
@@ -81,6 +93,13 @@ class InvestmentFunds extends React.Component {
                     }
                     </div>
         )
+    }
+
+    renderLoading() {
+        return (<SkeletonLoader
+            rows={10}
+            rowHeight={60}
+        />)
     }
 
     render() {

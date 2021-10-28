@@ -47,6 +47,8 @@
     background-color: #070708;
     margin: 2px 0;
     padding: 16px;
+    color: white;
+    text-align: center;
 }
 
 .w-your-transactions-table-row:hover {
