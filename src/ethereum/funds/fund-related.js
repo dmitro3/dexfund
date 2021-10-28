@@ -278,11 +278,13 @@ export const getPolicies = async () => {
   return policyManagerConfig;
 };
 
-export const getTransactions = async () => {
+export const getTransactions = async (signerAddress = "") => {
   const { provider, signer, address } = await connectMetamask();
   const url = config.ENZYME_ENDPOINT;
   // const url = config.SUB_GRAPH_ENDPOINT;
-  const user = "0xdcc8d7846f4f957cc58b357994f916d12c7cca95";
+  const user = signerAddress
+    ? signerAddress
+    : "0xdcc8d7846f4f957cc58b357994f916d12c7cca95";
 
   // const transactionQuery = {
   //   query: `
