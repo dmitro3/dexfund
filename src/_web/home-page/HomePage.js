@@ -51,15 +51,16 @@ class HomePage extends Component {
           <Header
             {...this.props}
             displaySettingsPopupEvent={this.displaySettingsPopup}
+            selectedPage='home'
           />
           <div className="w-home-page-wrapper">
             <div className="w-home-page-content">
               <Portfolio walletMust={true} props={this.props} currentSharePrice="INTERNAL_API" />
-              <TopInvestmentFunds />
+              <TopInvestmentFunds {...this.props} />
               <YourInvestments />
               <YourInvestmentFunds
                 {...this.props}
-                titleFromParent="YOUR INVESTMENT FUNDS"
+                titleFromParent="FEATURED FUNDS"
                 addNewFundFromParent={false}
               />
               <YourTransactions titleFromParent="YOUR TRANSACTIONS" />
