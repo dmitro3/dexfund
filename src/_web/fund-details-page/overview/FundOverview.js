@@ -20,6 +20,7 @@ class FundOverview extends Component {
     super(props);
     this.state = {
       ...this.props.state,
+      ...this.props.props
     };
   }
 
@@ -32,7 +33,7 @@ class FundOverview extends Component {
           <div className="w-fund-overview-wrapper">
             <Sidebar />
             <div className="w-fund-overview-content">
-              <Portfolio />
+              <Portfolio walletMust={false} currentSharePrice={this.state.currentSharePrice} />
               <FundOverviewCards state={this.state} />
               <FundOverviewStatistics />
               <FundOverviewPerformance />

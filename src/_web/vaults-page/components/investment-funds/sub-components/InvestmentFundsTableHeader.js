@@ -31,10 +31,6 @@ class InvestmentFundsTableHeader extends Component {
                     </div>
                     <div className="w-your-transactions-table-header-cell"
                     style={{width:'16.6%'}}>
-                        Type
-                    </div>
-                    <div className="w-your-transactions-table-header-cell"
-                    style={{width:'16.6%'}}>
                         Denomination asset
                     </div>
                     <div className="w-your-transactions-table-header-cell"

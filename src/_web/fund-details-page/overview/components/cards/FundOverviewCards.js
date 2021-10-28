@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { getIconSource } from "../../../../../icons";
 import { queryFundOverviewDetails } from "../../../../../sub-graph-integrations/assets-and-adapters";
 
 // COMPONENTS
@@ -43,7 +44,7 @@ class FundOverviewCards extends Component {
           <div className="w-fund-overview-cards-content">
             <div className="w-fund-overview-card">
               <div className="w-fund-overview-card-value">
-                ${this.state.AUM}M
+                ${this.state.AUM}
               </div>
               <div className="w-fund-overview-card-type">AUM</div>
             </div>
@@ -62,8 +63,8 @@ class FundOverviewCards extends Component {
             <div className="w-fund-overview-card">
               <div className="w-fund-overview-card-value-section">
                 <img
-                  src={wethIcon}
-                  alt="weth-icon"
+                  src={getIconSource(this.state.denominationAssetSymbol)}
+                  alt="icon"
                   className="fund-overview-weth-icon"
                 />
                 <div className="w-fund-overview-card-value">
@@ -71,7 +72,7 @@ class FundOverviewCards extends Component {
                 </div>
               </div>
               <div className="w-fund-overview-card-type">
-                {this.state.denominationAssetName}
+                Denomination Asset
               </div>
             </div>
           </div>

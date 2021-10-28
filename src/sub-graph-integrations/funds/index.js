@@ -13,7 +13,7 @@ export const getAllInvestments = async () => {
     const { data } = await axios.post(endpoint, {
       query: `
             {
-                funds(first: 5, orderBy: lastKnowGavInEth, orderDirection: desc) {
+                funds(first: 1000, orderBy: lastKnowGavInEth, orderDirection: desc) {
                   id
                   name
                   investmentCount
@@ -24,11 +24,7 @@ export const getAllInvestments = async () => {
                   }
                 }
               }
-        `,
-    });
-
-    console.log("ALL INVESTMETMENTS:");
-    console.log(data.data);
+        `});
 
     return data.data.funds;
   } catch (error) {

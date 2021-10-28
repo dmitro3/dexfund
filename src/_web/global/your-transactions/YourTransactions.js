@@ -61,8 +61,10 @@ class InvestmentFunds extends Component {
                         {this.state.title}
                     </div>
                     <div>
-                        <SearchBar {...this.props}
-                            parentCallback={this.callbackFunction} />
+                        {/* <SearchBar {...this.props}
+                            parentCallback={this.callbackFunction}
+                            defaultValue="Search for a fund name"
+                            /> */}
                     </div>
                     <YourTransactionsTableHeader />
                     {

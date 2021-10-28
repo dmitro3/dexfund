@@ -47,7 +47,7 @@ class YourFundsPage extends Component {
                         displaySettingsPopupEvent={this.displaySettingsPopup} />
                     <div className="w-your-funds-page-wrapper">
                         <div className="w-your-funds-page-content">
-                            <Portfolio />
+                            <Portfolio walletMust={true} />
                             <YourInvestmentFunds {...this.props}
                                 titleFromParent='YOUR FUNDS'
                                 addNewFundFromParent={true} />
