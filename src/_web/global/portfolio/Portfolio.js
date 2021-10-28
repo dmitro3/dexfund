@@ -7,13 +7,18 @@ import Chart1M from './components/Chart1M';
 import Chart3M from './components/Chart3M';
 import Chart6M from './components/Chart6M';
 import Chart1Y from './components/Chart1Y';
+import WalletNotConnected from '../wallet-not-connected/WalletNotConnected';
+
 
 // ASSETS
 import greenArrowIcon from './assets/green-arrow-icon.svg';
 import separatorIcon from './assets/separator-icon.svg';
-
+import graph from './assets/graph.svg';
 // CSS
 import './styles/portfolio.css';
+
+// REDUX
+import { connect } from "react-redux";
 
 class Portfolio extends Component {
 
@@ -29,7 +34,8 @@ class Portfolio extends Component {
             percent_1M: '10.84%',
             percent_3M: '8.65%',
             percent_6M: '10.4%',
-            percent_1Y: '22.43%'
+            percent_1Y: '22.43%',
+            walletMust: this.props.walletMust
         }
     }
 
@@ -98,8 +104,45 @@ class Portfolio extends Component {
         )
     }
 
-    render() {
+    renderWalletNotConnected() {
+        return (
 
+            <>
+                <div className="w-portfolio-wallet-not-connected-wrapper">
+                    <div className="w-portfolio-header-title-section">
+                        <div className="w-portfolio-header-title">
+                            $0.00
+                        </div>
+                        <div className="w-portfolio-header-subtitle-section">
+                            <div className="w-portfolio-header-subtitle">
+                                Your portfolio
+                            </div>
+                            <img src={separatorIcon} alt='separator-icon' className="separator-icon" />
+                            <div className="w-portfolio-header-subtitle">
+                                Last day
+                            </div>
+                            <img src={greenArrowIcon} alt='green-arrow-icon' className="green-arrow-icon" />
+                            <div className="w-portfolio-header-subtitle-percent">
+                                0%
+                            </div>
+                            </div>
+                    </div>
+                    <img
+                        src={graph}
+                        alt="graph-wallet-not-connected"
+                        className="w-portfolio-wallet-not-connected-image"
+                    />
+                    <div className="w-portfolio-wallet-not-connected-section">
+                        <WalletNotConnected {...this.props}
+                            textFromParent='to view this data.'
+                        />
+                    </div>
+                </div>
+            </>
+        )
+    }
+
+    renderWalletConnected() {
         const selectedMenuItem = {
             color: '#fff'
         }
@@ -111,7 +154,7 @@ class Portfolio extends Component {
                     <div className="w-portfolio-header">
                         <div className="w-portfolio-header-title-section">
                             <div className="w-portfolio-header-title">
-                                $2,4123.23
+                                ${this.props.currentSharePrice}
                             </div>
                             <div className="w-portfolio-header-subtitle-section">
                                 <div className="w-portfolio-header-subtitle">
@@ -169,8 +212,29 @@ class Portfolio extends Component {
                 </div>
             </>
         )
+    }
 
+    render() {
+
+        return (
+            <>
+                <div className="w-portfolio-wrapper">
+                    <div className="w-portfolio-content">
+                        {((this.props.account && this.props.account.connectSuccess) || this.state.walletMust === false) && this.renderWalletConnected()}
+                        {((!this.props.account || !this.props.account.connectSuccess) && this.state.walletMust === true) && this.renderWalletNotConnected()}
+                    </div>
+                </div>
+            </>
+        )
     }
 }
 
-export default Portfolio;
+const mapStateToProps = (state) => {
+  return {
+    account: state.connect,
+  };
+};
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Portfolio);

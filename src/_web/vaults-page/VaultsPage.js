@@ -11,6 +11,9 @@ import SettingsPopup from '../global/settings-popup/SettingsPopup';
 import TopInvestmentFunds from '../home-page/top-investment-funds/TopInvestmentFunds';
 import InvestmentFunds from './components/investment-funds/InvestmentFunds';
 
+// CONFIG
+import configs from './../../config';
+
 // ASSETS
 // ... 
 
@@ -34,10 +37,14 @@ class VaultsPage extends Component {
 
     async componentDidMount() {
         this.props.activateLoaderOverlay()
-        const investments =  await getAllInvestments();
+        var investments =  await getAllInvestments();
+        investments = investments.filter((v) => {
+            return !configs.BLACKLISTED_VAULTS.includes(v.id.toLowerCase())
+        });
+        // const investments = {}
         this.setState({
             ...this.state,
-            investments:  investments
+            investments: investments
         })
         this.props.deactivateLoaderOverlay();
 
@@ -49,6 +56,10 @@ class VaultsPage extends Component {
 
     closeSettingsPopup = () => {
         this.setState({ settingsPopup: false })
+    }
+
+    searchCallbackFunction(v) {
+
     }
 
     render() {

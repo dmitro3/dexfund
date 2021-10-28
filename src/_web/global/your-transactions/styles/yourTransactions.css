@@ -9,7 +9,6 @@
     font-size: 24px;
     font-weight: 600;
     color: #fff;
-    padding: 0 0 44px 0;
 }
 
 .w-your-transactions-table-header {
@@ -37,6 +36,13 @@
 
 .w-your-transactions-table-row {
     display: flex;
+    justify-content: space-between;
+    background-color: #070708;
+    margin: 2px 0;
+    padding: 16px;
+}
+
+.w-your-transactions-table-row-no-data {
     justify-content: space-between;
     background-color: #070708;
     margin: 2px 0;

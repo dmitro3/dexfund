@@ -1,10 +1,11 @@
 import { ethers } from 'ethers'
+import configs from './../config';
 let provider;
 let signer;
 let address;
 let balance;
 
-const init = async () => {
+export const connectMetamask = async () => {
     if (window.ethereum) {
         provider = new ethers.providers.Web3Provider(window.ethereum, "any");
         try {
@@ -20,22 +21,20 @@ const init = async () => {
         // Use Mist/MetaMask's provider.
         provider = new ethers.providers.Web3Provider(window.web3.currentProvider, "any");
 
-       await provider.send("eth_requestAccounts", []);
-        await window.ethereum.enable();
-        signer = provider.getSigner()
-        address = await provider.getSigner().getAddress()
-        console.log("Injected web3 detected.");
-    }
-    // show an alert tho them
-    else {
-        alert("Please install metamask to browser");
-        
-    }
+        try{
+            await provider.send("eth_requestAccounts", []);
+            await window.ethereum.enable();
+            signer = provider.getSigner()
+            address = await provider.getSigner().getAddress()
+            console.log("Injected web3 detected.");
+        } catch {
 
+        }
+    } else {
+        provider = new ethers.providers.JsonRpcProvider(configs.FALLBACK_PROVIDER);
+    }
     balance = await provider.getBalance(address)
 
     
     return {provider, signer, address, balance: (balance/ Math.pow(10, 18)).toFixed(2)}
 }
-export {init as connectMetamask}
-export default init;

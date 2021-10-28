@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { getIconSource } from './../../../../../icons';
+
 // COMPONENTS
 // ...
 
@@ -55,11 +57,7 @@ class InvestmentFundsTableRow extends Component {
                     </div>
                     <div className="w-your-transactions-table-cell"
                         style={{ width: '16.6%' }}>
-                        {this.state.type}
-                    </div>
-                    <div className="w-your-transactions-table-cell"
-                        style={{ width: '16.6%' }}>
-                        {this.state.denominationAsset}
+                        <img style={{height: "24px", width: "24px"}} src={getIconSource(this.state.denominationAsset.toLowerCase())} /> {this.state.denominationAsset}
                     </div>
                     <div className="w-your-transactions-table-cell"
                         style={{ width: '16.6%' }}>
