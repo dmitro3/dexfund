@@ -3,7 +3,7 @@ import React from 'react';
 // COMPONENTS
 import InvestmentFundsTableHeader from './sub-components/InvestmentFundsTableHeader';
 import InvestmentFundsTableRow from './sub-components/InvestmentFundsTableRow';
-
+import SearchBar from './../../../global/your-transactions/components/SearchBar';
 // ASSETS
 // ...
 
@@ -15,8 +15,10 @@ class InvestmentFunds extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+            searchValue: ""
         }
+
+        this.searchCallbackFunction = this.searchCallbackFunction.bind(this);
     }
 
     toPage(path) {
@@ -36,13 +38,19 @@ class InvestmentFunds extends React.Component {
         }
     }
 
+    searchCallbackFunction(v) {
+        this.setState({
+            searchValue: v
+        })
+    }
+
     renderNoFunds() {
         return (
             <div
             className="w-your-transactions-table-row-no-data"
             style={{textAlign: "center", color: "white"}}
             >
-                There are no active funds yet
+                There are no active funds
             </div>
         )
     }
@@ -51,18 +59,24 @@ class InvestmentFunds extends React.Component {
         return (
             <div style={{overflowY: "scroll", height: "80vh"}}>
                     {
-                        this.props.investments.map((investment, index) =>
-                            <InvestmentFundsTableRow key={index}
-                                idFromParent={investment.id}
-                                nameFromParent={investment.name}
-                                typeFromParent='Investment'
-                                denominationAssetFromParent={investment.trackedAssets[0].symbol}
-                                // AUMFromParent={investment.lastKnowGavInEth}
-                                AUMFromParent="INTERNAL_API"
-                                depositorsFromParent={investment.investmentCount}
-                                lifetimeGainFromParent='0.00%'
-                                {...this.props}
-                            />
+                        this.props.investments.map((investment, index) => {
+                            if (investment.name.toLowerCase().includes(this.state.searchValue.toLowerCase()) ||
+                                investment.trackedAssets[0].symbol.toLowerCase().includes(this.state.searchValue.toLowerCase()) ||
+                                this.state.searchValue === "")
+                                return (
+                                    <InvestmentFundsTableRow key={index}
+                                        idFromParent={investment.id}
+                                        nameFromParent={investment.name}
+                                        typeFromParent='Investment'
+                                        denominationAssetFromParent={investment.trackedAssets[0].symbol}
+                                        // AUMFromParent={investment.lastKnowGavInEth}
+                                        AUMFromParent="INTERNAL_API"
+                                        depositorsFromParent={investment.investmentCount}
+                                        lifetimeGainFromParent='0.00%'
+                                        {...this.props}
+                                    />
+                            )
+                        }
                         )
                     }
                     </div>
@@ -77,6 +91,10 @@ class InvestmentFunds extends React.Component {
                     <div className="w-top-investment-funds-header">
                         ALL INVESTMENT FUNDS
                     </div>
+                    <SearchBar
+                        parentCallback={this.searchCallbackFunction}
+                        defaultValue="Search for a Fund Name or Denomination Asset"
+                    />
                     <InvestmentFundsTableHeader />
 
                     {this.tableRender()}

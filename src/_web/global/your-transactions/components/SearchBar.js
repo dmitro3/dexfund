@@ -14,16 +14,19 @@ class InvestmentFunds extends Component {
     super(props);
 
     this.state = {
-      value: "Search a token, a fund, anything",
+      value: this.props.defaultValue,
     };
   }
 
-  inputField = (e) => {
-    if (e.target.value === "") {
-      this.setState({ value: "Search a token, a fund, anything" });
-      this.props.parentCallback("");
-      return;
+  rewriteField() {
+    if (this.state.value === "") {
+      this.setState({
+        value: this.props.defaultValue
+      })
     }
+  }
+
+  inputField = (e) => {
 
     var value = e.target.value;
     this.setState({ value: value });
@@ -32,7 +35,10 @@ class InvestmentFunds extends Component {
   };
 
   clearInputValue = () => {
-    this.setState({ value: "" });
+    if (this.state.value === this.props.defaultValue) {
+      this.setState({ value: "" });
+      this.props.parentCallback("")
+    }
   };
 
   render() {
@@ -53,6 +59,7 @@ class InvestmentFunds extends Component {
                 value={this.state.value}
                 onChange={(e) => this.inputField(e)}
                 onFocus={() => this.clearInputValue()}
+                onBlur={() => this.rewriteField()}
                 style={{
                   marginTop: "9px",
                   width: "700px",
