@@ -36,7 +36,8 @@ class FundDetailsPage extends Component {
       fundId: "",
       fundName: "",
       fundDetails: {},
-      loaded: false
+      loaded: false,
+      currentSharePrice: "INTERNAL_API"
     };
 
     this.toPage = this.toPage.bind(this);
@@ -83,7 +84,7 @@ class FundDetailsPage extends Component {
   renderOverview() {
     return (
       <>
-        <FundOverview state={this.state} />
+        <FundOverview state={this.state} props={this.props} />
       </>
     );
   }

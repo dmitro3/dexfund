@@ -54,7 +54,7 @@ class HomePage extends Component {
           />
           <div className="w-home-page-wrapper">
             <div className="w-home-page-content">
-              <Portfolio />
+              <Portfolio walletMust={true} props={this.props} currentSharePrice="INTERNAL_API" />
               <TopInvestmentFunds />
               <YourInvestments />
               <YourInvestmentFunds
