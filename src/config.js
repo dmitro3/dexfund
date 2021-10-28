@@ -8,10 +8,12 @@ const configs = {
     JSON_RPC: "http://127.0.0.1:8545/",
     gasLimit: "30000",
   },
+  DB_URL: "mongodb://localhost:27017/radar-dapp",
   MAINNET_ENDPOINT: "",
   DEBUG_MODE: true,
   BLACKLISTED_VAULTS: [],
-  FALLBACK_PROVIDER: "https://eth-mainnet.alchemyapi.io/v2/BMl6OKMeu0A6ZnM8gj5oBrzdO63r5SXH"
+  FALLBACK_PROVIDER:
+    "https://eth-mainnet.alchemyapi.io/v2/BMl6OKMeu0A6ZnM8gj5oBrzdO63r5SXH",
 };
 
-export default configs;
+module.exports = { configs };
