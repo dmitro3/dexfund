@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import React, { Component } from "react";
-
-// COMPONENTS
-import YourInvestmentsTableHeader from "./components/YourInvestmentsTableHeader";
-import YourinvestmentsTableRow from "./components/YourInvestmentsTableRow";
-
-=======
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 
@@ -13,7 +5,6 @@ import { connect } from "react-redux";
 import YourInvestmentsTableHeader from './components/YourInvestmentsTableHeader';
 import YourinvestmentsTableRow from './components/YourInvestmentsTableRow';
 import WalletNotConnected from './../../global/wallet-not-connected/WalletNotConnected';
->>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
 // ASSETS
 // ...
 
@@ -26,56 +17,6 @@ import { getYourInvestments } from "../../../sub-graph-integrations";
 // REDUX
 
 class YourInvestments extends Component {
-  constructor(props) {
-    super(props);
-
-<<<<<<< HEAD
-    this.state = {
-      fundName: "Initial",
-      yourDeposits: "$1.000.000,00",
-      currentValue: "$1.100.000,00",
-      performance: "+10%",
-      investments: [],
-    };
-  }
-  async componentDidMount() {
-    const investments = await getYourInvestments();
-
-    console.log(investments);
-    this.setState({
-      investments: investments ? investments : [],
-    });
-  }
-  render() {
-    return (
-      <>
-        <div className="w-your-investments-wrapper">
-          <div className="w-your-investments-header">YOUR INVESTMENTS</div>
-          <div className="w-your-investments-table">
-            <YourInvestmentsTableHeader />
-            {this.state.investments.map((investment, index) => (
-              <YourinvestmentsTableRow
-                key={index}
-                fundNameFromParent={investment.fund.name}
-                yourDepositsFromParent={investment.investmentAmount}
-                currentValueFromParent={investment.investmentState.shares}
-                performanceFromParent={(
-                  ((investment.investmentAmount -
-                    investment.investmentState.shares) /
-                    investment.investmentAmount) *
-                  100
-                ).toFixed(2)}
-              />
-            ))}
-          </div>
-        </div>
-      </>
-    );
-  }
-}
-
-export default YourInvestments;
-=======
     constructor(props) {
         super(props);
 
@@ -110,12 +51,12 @@ export default YourInvestments;
         })
         if (this.isConnected()) {
             const investments = await getYourInvestments(this.props.account.account.address);
-            this.setState({
+            await this.setState({
                 investments,
                 isLoaded: true
             })
         } else {
-            this.setState({
+            await this.setState({
                 investments: [],
                 isLoaded: true
             })
@@ -200,4 +141,3 @@ const mapStateToProps = (state) => {
   };
   
   export default connect(mapStateToProps, mapDispatchToProps)(YourInvestments);
->>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b

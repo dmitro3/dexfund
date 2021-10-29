@@ -16,4 +16,4 @@ const configs = {
     "https://eth-mainnet.alchemyapi.io/v2/BMl6OKMeu0A6ZnM8gj5oBrzdO63r5SXH",
 };
 
-module.exports = { configs };
+module.exports = configs;

@@ -27,12 +27,8 @@ import { encodeArgs, convertRateToScaledPerSecondRate } from "./../utils/index";
 import { Decimal } from "decimal.js";
 import axios from "axios";
 import { VaultLib, redeemShares } from "@enzymefinance/protocol";
-<<<<<<< HEAD
-import config from "./../../config";
-=======
 import configs from "../../config";
 
->>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
 export {
   PerformanceFee,
   ManagementFee,
@@ -236,7 +232,7 @@ const getVaultProxyAddress = async (fundAddress) => {
   };
 
   let vaultProxy = await axios
-    .post(config.SUB_GRAPH_ENDPOINT, fundQuery)
+    .post(url, fundQuery)
     .then((response) => {
       console.log("newFundCreatedEvents: ", response.data);
       const fundData = response.data.data.newFundCreatedEvents;
@@ -283,20 +279,10 @@ export const getPolicies = async () => {
   return policyManagerConfig;
 };
 
-<<<<<<< HEAD
-export const getTransactions = async (signerAddress = "") => {
-  const { provider, signer, address } = await connectMetamask();
-  const url = config.ENZYME_ENDPOINT;
-  // const url = config.SUB_GRAPH_ENDPOINT;
-  const user = signerAddress
-    ? signerAddress
-    : "0xdcc8d7846f4f957cc58b357994f916d12c7cca95";
-=======
 
 export const getTransactions = async (address) => {
   const url = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
   // const url = config.SUB_GRAPH_ENDPOINT;
->>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
 
   // const transactionQuery = {
   //   query: `
@@ -319,124 +305,105 @@ export const getTransactions = async (address) => {
   //   `
   // }
 
-  const transactionQuery1 = {
-    query: `
-    {
-      transferEvents(first: 10, where: {from: "${address}"},orderBy: timestamp orderDirection: desc) {
-        fund {
-          name
-        }
-        transaction {
-          from
-          to
-          value
-          timestamp
-        }
-      }
-    }
-    `,
-  };
+  // const transactionQuery1 = {
+  //   query: `
+  //   {
+  //     transferEvents(first: 10, where: {from: "${address}"},orderBy: timestamp orderDirection: desc) {
+  //       fund {
+  //         name
+  //       }
+  //       transaction {
+  //         from
+  //         to
+  //         value
+  //         timestamp
+  //       }
+  //     }
+  //   }
+  //   `,
+  // };
 
-  const transactionQuery2 = {
-    query: `
-    {
-      transferEvents(first: 10, where: {to: "${address}"},orderBy: timestamp orderDirection: desc) {
-        fund {
-          name
-        }
-        transaction {
-          from
-          to
-          value
-          timestamp
-        }
-      }
-    }
-    `,
-  };
+  // const transactionQuery2 = {
+  //   query: `
+  //   {
+  //     transferEvents(first: 10, where: {to: "${address}"},orderBy: timestamp orderDirection: desc) {
+  //       fund {
+  //         name
+  //       }
+  //       transaction {
+  //         from
+  //         to
+  //         value
+  //         timestamp
+  //       }
+  //     }
+  //   }
+  //   `,
+  // };
 
-  let result1 = await axios
-    .post(url, transactionQuery1)
-    .then((response) => {
-      const transactions = response.data.data.transferEvents;
-      console.log("transactions", transactions);
-      return transactions || [];
-    })
-    .catch((err) => {
-      console.log("Error: ", err);
-    });
+  // let result1 = await axios
+  //   .post(url, transactionQuery1)
+  //   .then((response) => {
+  //     const transactions = response.data.data.transferEvents;
+  //     console.log("transactions", transactions);
+  //     return transactions || [];
+  //   })
+  //   .catch((err) => {
+  //     console.log("Error: ", err);
+  //   });
 
-  let transactions1 = [];
-  if (result1) {
-    result1.map((transaction) => {
-      transactions1.push({
-        fundName: transaction.fund.name,
-        to: transaction.transaction.to,
-        from: transaction.transaction.from,
-        value: transaction.transaction.value,
-<<<<<<< HEAD
-        type: transaction.transaction.to === user ? "Withdraw" : "Invest",
-        timestamp: transaction.transaction.timestamp,
-      });
-    });
-=======
-        type: transaction.transaction.to === address ? "Withdraw" : "Invest",
-        timestamp: transaction.transaction.timestamp
-      });
+  // let transactions1 = [];
+  // if (result1) {
+  //   result1.map((transaction) => {
+  //     transactions1.push({
+  //       fundName: transaction.fund.name,
+  //       to: transaction.transaction.to,
+  //       from: transaction.transaction.from,
+  //       value: transaction.transaction.value,
+  //       type: transaction.transaction.to === address ? "Withdraw" : "Invest",
+  //       timestamp: transaction.transaction.timestamp
+  //     });
 
-      return transactions1
-    })
->>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
-  }
+  //     return transactions1
+  //   })
+  // }
 
-  let result2 = await axios
-    .post(url, transactionQuery2)
-    .then((response) => {
-      const transactions = response.data.data.transferEvents;
-      console.log("transactions", transactions);
-      return transactions || [];
-    })
-    .catch((err) => {
-      console.log("Error: ", err);
-    });
+  // let result2 = await axios
+  //   .post(url, transactionQuery2)
+  //   .then((response) => {
+  //     const transactions = response.data.data.transferEvents;
+  //     console.log("transactions", transactions);
+  //     return transactions || [];
+  //   })
+  //   .catch((err) => {
+  //     console.log("Error: ", err);
+  //   });
 
-  let transactions2 = [];
-  if (result2) {
-    result2.map((transaction) => {
-      transactions2.push({
-        fundName: transaction.fund.name,
-        to: transaction.transaction.to,
-        from: transaction.transaction.from,
-        value: transaction.transaction.value,
-<<<<<<< HEAD
-        type: transaction.transaction.to === user ? "Withdraw" : "Invest",
-        timestamp: transaction.transaction.timestamp,
-      });
-    });
-=======
-        type: transaction.transaction.to === address ? "Withdraw" : "Invest",
-        timestamp: transaction.transaction.timestamp
-      });
+  // let transactions2 = [];
+  // if (result2) {
+  //   result2.map((transaction) => {
+  //     transactions2.push({
+  //       fundName: transaction.fund.name,
+  //       to: transaction.transaction.to,
+  //       from: transaction.transaction.from,
+  //       value: transaction.transaction.value,
+  //       type: transaction.transaction.to === address ? "Withdraw" : "Invest",
+  //       timestamp: transaction.transaction.timestamp
+  //     });
 
-      return transactions2;
-    })
->>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
-  }
-  let result = [].concat(transactions1).concat(transactions2);
-  result.sort((a, b) => {
-    return a.timestamp > b.timestamp;
-  });
-  return result.slice(0, 5) || [];
+  //     return transactions2;
+  //   })
+  // }
+  // let result = [].concat(transactions1).concat(transactions2);
+  // result.sort((a, b) => {
+  //   return a.timestamp > b.timestamp;
+  // });
+  // return result.slice(0, 5) || [];
+  return [];
 };
 
 export const getEthPrice = async () => {
-<<<<<<< HEAD
-  const { provider, signer, address } = await connectMetamask();
-  const url = config.SUB_GRAPH_ENDPOINT;
-  // const url = config.SUB_GRAPH_ENDPOINT;
-=======
   const url =  configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
->>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
 
   const priceQuery = {
     query: `
@@ -450,16 +417,9 @@ export const getEthPrice = async () => {
     `,
   };
 
-  let result = await axios
-    .post(url, priceQuery)
-    .then((response) => {
-      console.log("prices: ", response.data);
-      const currency = response.data.data.currency;
-      console.log("prices", currency);
-      return parseFloat(currency.price.price) || 0;
-    })
-    .catch((err) => {
-      console.log("Error: ", err);
-    });
-  return result || [];
+  let response = await axios.post(url, priceQuery);
+  console.log("prices: ", response.data);
+  const currency = response.data.data.currency;
+  console.log("prices", currency);
+  return parseFloat(currency.price.price) || 0;
 };
