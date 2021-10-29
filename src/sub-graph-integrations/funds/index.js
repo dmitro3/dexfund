@@ -77,7 +77,7 @@ export const getYourInvestmentsPerFund = async () => {
     const { data } = await axios.post(endpoint, {
       query: `
         { 
-            sharesBoughtEvents(where:  {investor_contains: "${currentInvestor}", fund_contains: "${currentFundId}"}){
+            sharesBoughtEvents(where:  {investor_contains: "${currentInvestor}"}){
                 investmentAmount
                 investmentState {
                     shares
@@ -86,6 +86,7 @@ export const getYourInvestmentsPerFund = async () => {
                     name
                 }
                 investor {
+                    id
                     firstSeen
                     investorSince
                 }
@@ -172,5 +173,161 @@ export const getLiquidityPools = async () => {
     return data.data.uniswapV2PoolAssetDetails;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const chart1d = async () => {
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.SUB_GRAPH_ENDPOINT;
+
+  console.log(url);
+
+  var now = Math.floor(new Date().getTime() / 1000);
+
+  var aday = 3600 * 25;
+
+  console.log("NOW", now);
+  console.log("A D", aday);
+  console.log(now - aday);
+
+  try {
+    const { data } = await axios.post(url, {
+      query: `{
+        fundStates(first: 1){
+          currencyPrices{
+            currency{
+              hourlyHistory(orderBy:from orderDirection:asc, where: {from_gte: "${
+                now - aday
+              }", to_lte: "${now}"}){          
+                id
+                open
+                close
+                from
+                to
+                high
+                low
+                closeRef{
+                  timestamp
+                  price
+                  currency {
+                    id
+                  }
+                }
+              }      
+            }
+      }
+        }
+      }`,
+    });
+
+    console.log("Our data ", data);
+    return data.data.fundStates;
+  } catch (error) {
+    console.log("Data");
+  }
+};
+
+export const chart1w = async () => {
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.SUB_GRAPH_ENDPOINT;
+
+  console.log(url);
+
+  var now = Math.floor(new Date().getTime() / 1000);
+
+  var aday = 3600 * 24 * 8;
+
+  console.log("NOW", now);
+  console.log("A D", aday);
+  console.log(now - aday);
+
+  try {
+    const { data } = await axios.post(url, {
+      query: `{
+        fundStates(first: 1){
+          currencyPrices{
+            currency{
+              dailyHistory(orderBy:from orderDirection:asc, where: {from_gte: "${
+                now - aday
+              }", to_lte: "${now}"}){          
+                id
+                open
+                close
+                from
+                to
+                high
+                low
+                closeRef{
+                  timestamp
+                  price
+                  currency {
+                    id
+                  }
+                }
+              }      
+            }
+      }
+        }
+      }`,
+    });
+
+    console.log("Our data ", data);
+    return data.data.fundStates;
+  } catch (error) {
+    console.log("Data");
+  }
+};
+
+export const chart1m = async () => {
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.SUB_GRAPH_ENDPOINT;
+
+  console.log(url);
+
+  var now = Math.floor(new Date().getTime() / 1000);
+
+  var aday = 3600 * 24 * 30;
+
+  console.log("NOW", now);
+  console.log("A D", aday);
+  console.log(now - aday);
+
+  try {
+    const { data } = await axios.post(url, {
+      query: `{
+        fundStates(first: 1){
+          currencyPrices{
+            currency{
+              dailyHistory( where: {from_gte: "${
+                now - aday
+              }", to_lte: "${now}"}){          
+                id
+                open
+                close
+                from
+                to
+                high
+                low
+                closeRef{
+                  timestamp
+                  price
+                  currency {
+                    id
+                  }
+                }
+              }      
+            }
+      }
+        }
+      }`,
+    });
+
+    console.log("Our data ", data);
+    return data.data.fundStates;
+  } catch (error) {
+    console.log("Data");
   }
 };
