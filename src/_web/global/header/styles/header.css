@@ -45,6 +45,20 @@
     cursor: pointer;
 }
 
+.w-header-navbar-item-selected {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 5px 0 0 32px;
+    background: linear-gradient(to right, #E926C3 10%, #FF4D86 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.w-header-navbar-item-selected:hover {
+    cursor: pointer;
+}
+
 .w-header-account-section {
     display: flex;
     justify-content: right;
@@ -97,6 +111,7 @@
     background: linear-gradient(90deg, #E926C3 0%, #FF4D86 97.5%);
     padding: 12px 20px;
     margin: 0 16px;
+    border: none;
 }
 
 .w-header-connect-wallet-button:hover {

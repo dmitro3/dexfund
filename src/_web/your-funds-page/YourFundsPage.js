@@ -44,7 +44,8 @@ class YourFundsPage extends Component {
 
                 <>
                     <Header {...this.props}
-                        displaySettingsPopupEvent={this.displaySettingsPopup} />
+                        displaySettingsPopupEvent={this.displaySettingsPopup}
+                        selectedPage="yourfunds" />
                     <div className="w-your-funds-page-wrapper">
                         <div className="w-your-funds-page-content">
                             <Portfolio walletMust={true} />

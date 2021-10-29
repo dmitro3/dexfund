@@ -57,3 +57,11 @@
     color: #fff;
     width: 25%;
 }
+
+.w-your-investments-table-row-no-data {
+    justify-content: space-between;
+    background-color: #070708;
+    padding: 16px;
+    color: white;
+    text-align: center;
+}
