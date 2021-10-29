@@ -43,13 +43,15 @@
 }
 
 .w-profitable-funds-card-see-all {
+    text-align: center;
     font-family: 'Bai Jamjuree', sans-serif;
-    font-size: 15px;
-    font-weight: 400;
     background: linear-gradient(to right, #E926C3 10%, #FF4D86 100%);
     -webkit-background-clip: text;
-    WebkitTextFillColor: transparent;
-    text-align: right;
+    -webkit-text-fill-color: transparent;
+}
+
+.w-profitable-funds-card-see-all:hover {
+    cursor: pointer;
 }
 
 .w-profitable-funds-card-row {

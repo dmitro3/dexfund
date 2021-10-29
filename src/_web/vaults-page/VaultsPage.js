@@ -10,7 +10,6 @@ import Header from '../global/header/Header';
 import SettingsPopup from '../global/settings-popup/SettingsPopup';
 import TopInvestmentFunds from '../home-page/top-investment-funds/TopInvestmentFunds';
 import InvestmentFunds from './components/investment-funds/InvestmentFunds';
-
 // CONFIG
 import configs from './../../config';
 
@@ -31,12 +30,14 @@ class VaultsPage extends Component {
         this.state = {
             sidebar: false,
             settingsPopup: false,
-            investments: []
+            investments: [],
+            isLoaded: false
         }
     }
 
     async componentDidMount() {
-        this.props.activateLoaderOverlay()
+        // this.props.activateLoaderOverlay()
+        await this.setState({ isLoaded: false });
         var investments =  await getAllInvestments();
         investments = investments.filter((v) => {
             return !configs.BLACKLISTED_VAULTS.includes(v.id.toLowerCase())
@@ -46,8 +47,8 @@ class VaultsPage extends Component {
             ...this.state,
             investments: investments
         })
-        this.props.deactivateLoaderOverlay();
-
+        // this.props.deactivateLoaderOverlay();
+        await this.setState({ isLoaded: true });
     }
 
     displaySettingsPopup = () => {
@@ -75,11 +76,12 @@ class VaultsPage extends Component {
 
                 <>
                     <Header {...this.props}
-                        displaySettingsPopupEvent={this.displaySettingsPopup} />
+                        displaySettingsPopupEvent={this.displaySettingsPopup}
+                        selectedPage="vaults" />
                     <div className="w-your-funds-page-wrapper" style={{padding: '60px 0 120px 0', height: "100vh"}}>
                         <div className="w-your-funds-page-content">
                             {/* <TopInvestmentFunds {...this.props} /> */}
-                            <InvestmentFunds investments={this.state.investments} {...this.props} />
+                            <InvestmentFunds isLoaded={this.state.isLoaded} investments={this.state.investments} {...this.props} />
                         </div>
                     </div>
                     <div style={this.state.settingsPopup === false ? doNotDisplay : {}}>

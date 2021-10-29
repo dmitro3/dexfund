@@ -17,7 +17,19 @@ class MostProfitableAllTime extends Component {
         this.state = {
 
         }
+
+        this.toPage = this.toPage.bind(this);
     }
+
+    toPage(e, path) {
+        e.preventDefault();
+        this.props.history.push(path);
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+        });
+      }
 
     render() {
 
@@ -29,7 +41,7 @@ class MostProfitableAllTime extends Component {
                         <div className="w-profitable-funds-card-title">
                             MOST PROFITABLE
                         </div>
-                        <div className="w-profitable-funds-card-see-all">
+                        <div onClick={(e) => this.toPage(e, '/vaults')} className="w-profitable-funds-card-see-all">
                             See all
                         </div>
                     </div>

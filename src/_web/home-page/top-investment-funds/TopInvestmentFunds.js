@@ -31,9 +31,9 @@ class TopInvestmentFunds extends Component {
                         TOP INVESTMENT FUNDS
                     </div>
                     <div className="w-top-investment-funds-content">
-                        <MostProfitableAllTime />
-                        <MostProfitableThisMonth />
-                        <MostProfitableToday />
+                        <MostProfitableAllTime {...this.props} />
+                        <MostProfitableThisMonth {...this.props} />
+                        <MostProfitableToday {...this.props} />
                     </div>
                 </div>
             </>
