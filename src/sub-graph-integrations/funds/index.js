@@ -2,17 +2,14 @@ import axios from 'axios'
 import configs from '../../config';
 
 
-const currentInvestor = "0x028a968aca00b3258b767edc9dbba4c2e80f7d00"
-const currentFundId = ""
-
 // Get all investments
 export const getAllInvestments = async () => {
   try {
     const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
-    const {data} = await axios.post(
-        endpoint,
-        {
-            query: `
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query: `
             {
                 funds(first: 1000, orderBy: lastKnowGavInEth, orderDirection: desc) {
                   id
@@ -35,15 +32,29 @@ export const getAllInvestments = async () => {
 
 
 // Get your investemnt funds
-export const getYourInvestments = async () => {
+export const getYourInvestments = async (address) => {
   try {
     const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
-    const {data} = await axios.post(
-      endpoint,
-      {
-        query: `
+
+    const q = address ? `
+    { 
+        sharesBoughtEvents(where:  {investor_contains: "${address}"}){
+            investmentAmount
+            investmentState {
+                shares
+            }
+            fund {
+                name
+                id
+            }
+            investor {
+                firstSeen
+                investorSince
+            }
+        } 
+    }` : `
         { 
-            sharesBoughtEvents(where:  {investor_contains: "${currentInvestor}"}){
+            sharesBoughtEvents(first: 5){
                 investmentAmount
                 investmentState {
                     shares
@@ -57,12 +68,16 @@ export const getYourInvestments = async () => {
                     investorSince
                 }
             } 
-        }
-    
-        `
+        }`
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query: q
+
+
       }
     );
-    console.log("YOUR INVESTMENTS: " , data.data)
+    console.log("YOUR INVESTMENTS: ", data.data)
 
     return data.data.sharesBoughtEvents
   } catch (error) {
@@ -71,16 +86,16 @@ export const getYourInvestments = async () => {
 }
 
 // Get your investemnt funds per fund
-export const getYourInvestmentsPerFund = async (fundId) => {
+export const getYourInvestmentsPerFund = async (fundId, address) => {
   try {
-    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
-    const {data} = await axios.post(
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
+    const { data } = await axios.post(
       endpoint,
       {
         query: `
         {
           fund(id: "${fundId}") {
-            investments(where: {investor: "0x028a968aca00b3258b767edc9dbba4c2e80f7d00"}) {
+            investments(where: {investor: "${address}"}) {
               state {
                 fundState {
                   portfolio {
@@ -103,7 +118,7 @@ export const getYourInvestmentsPerFund = async (fundId) => {
         `
       }
     );
-    console.log("YOUR INVESTMENTS in fund: " , data.data)
+    console.log("YOUR INVESTMENTS in fund: ", data.data)
 
     return data.data.fund.investments
 
@@ -116,12 +131,12 @@ export const getYourInvestmentsPerFund = async (fundId) => {
 // Fund Compostion
 export const getFundCompostion = async (fundId) => {
   try {
-    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
-    const {data} = await axios.post(
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
+    const { data } = await axios.post(
       endpoint,
       {
-       query: 
-       `
+        query:
+          `
        {
         fund(id: "${fundId}"){
          name
@@ -144,9 +159,58 @@ export const getFundCompostion = async (fundId) => {
        `
       }
     );
-    console.log("FUND HOLDINGS: " , data.data)
+    console.log("FUND HOLDINGS: ", data.data)
 
     return data.data.fund
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
+
+export const getFundAllFunds = async () => {
+  try {
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query:
+          `
+       {
+        funds(where: {lastKnowGavInEth_gte: "2"}, first:5){
+         name
+         id
+          accessor{
+            denominationAsset{
+              name
+              symbol
+            }
+          }
+         portfolio {
+          holdings(where:{amount_gte: "0.2"}, orderBy: amount, orderDirection: desc) {
+            id
+            amount
+            asset {
+              symbol
+              price {
+                price
+              }
+            }
+          }
+        }
+          lastKnowGavInEth
+        }
+      }  
+       `
+      }
+    );
+    console.log("FUND: ", data.data.funds)
+
+
+    return data.data.funds
 
   } catch (error) {
     console.log(error);

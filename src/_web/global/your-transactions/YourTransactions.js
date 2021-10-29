@@ -39,7 +39,7 @@ class InvestmentFunds extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.account != this.props.account) {
+        if(prevProps.account !== this.props.account) {
             this.getData();
         }
     }
@@ -56,7 +56,7 @@ class InvestmentFunds extends Component {
         await this.setState({ isLoaded: false })
         if (this.isConnected()) {
             let _ethPrice = await getEthPrice();
-            let trs = await getTransactions();
+            let trs = await getTransactions(this.props.account.account.address);
             // let trs = [];
             this.setState({
                 transactionHistory: trs || [],

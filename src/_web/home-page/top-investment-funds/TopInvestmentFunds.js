@@ -30,11 +30,13 @@ class TopInvestmentFunds extends Component {
                     <div className="w-top-investment-funds-header">
                         TOP INVESTMENT FUNDS
                     </div>
-                    <div className="w-top-investment-funds-content">
-                        <MostProfitableAllTime {...this.props} />
-                        <MostProfitableThisMonth {...this.props} />
-                        <MostProfitableToday {...this.props} />
-                    </div>
+                   {
+                       this.props.account.account ? ( <div className="w-top-investment-funds-content">
+                       <MostProfitableAllTime {...this.props} />
+                       <MostProfitableThisMonth {...this.props} />
+                       <MostProfitableToday {...this.props} />
+                   </div>) : <div> </div>
+                   }
                 </div>
             </>
         )

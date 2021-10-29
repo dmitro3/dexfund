@@ -11,6 +11,9 @@ import addIcon from './assets/add-icon.svg';
 import './styles/yourInvestmentFunds.css';
 import { getYourInvestments } from '../../../sub-graph-integrations';
 
+// REDUX
+import {connect}  from 'react-redux'
+
 class YourInvestmentFunds extends Component {
 
     constructor(props) {
@@ -26,7 +29,7 @@ class YourInvestmentFunds extends Component {
         }
     }
     async componentDidMount() {
-        const yourInvestments = await getYourInvestments();
+        const yourInvestments = await getYourInvestments(this.props.account.account.address);
         console.log("i", yourInvestments);
         this.setState({
             yourInvestments
@@ -66,9 +69,9 @@ class YourInvestmentFunds extends Component {
                         </div>
                     </div>
                     <div className="w-your-investments-cards-section">
-                    {  this.state.yourInvestments.map((investment) => 
+                    {  this.state.yourInvestments.map((investment, index) => 
 
-                        <YourInvestmentFundsCard {...this.props} key={investment.index}
+                        <YourInvestmentFundsCard {...this.props} key={index}
                             fundAddressFromParent={investment.fund.id}
                             fundsFromParent={investment.investmentAmount}
                             performanceFromParent={((investment.investmentAmount - investment.investmentState.shares) / investment.investmentAmount) * 100}
@@ -84,4 +87,16 @@ class YourInvestmentFunds extends Component {
     }
 }
 
-export default YourInvestmentFunds;
+
+const mapStateToProps = (state) => {
+    return {
+        account: state.connect,
+    };
+  };
+  
+  
+  const mapDispatchToProps = {
+  };
+  
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(YourInvestmentFunds);

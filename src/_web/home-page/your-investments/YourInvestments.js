@@ -52,7 +52,7 @@ class YourInvestments extends Component {
             isLoaded: false
         })
         if (this.isConnected()) {
-            const investments = await getYourInvestments();
+            const investments = await getYourInvestments(this.props.account.account.address);
             this.setState({
                 investments,
                 isLoaded: true

@@ -27,6 +27,7 @@ import { encodeArgs, convertRateToScaledPerSecondRate } from "./../utils/index";
 import { Decimal } from "decimal.js";
 import axios from "axios";
 import { VaultLib, redeemShares } from "@enzymefinance/protocol";
+import configs from "../../config";
 
 export {
   PerformanceFee,
@@ -207,7 +208,7 @@ export const withdraw = async (fundAddress, amount, signer, provider) => {
 };
 
 const getVaultProxyAddress = async (fundAddress) => {
-  const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
+  const url =  configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
   // const url = config.SUB_GRAPH_ENDPOINT;
 
     fundAddress = "0xee89c37bf01b115a79242a98ef4f90939b59a58b"; //dummy for now.
@@ -279,11 +280,9 @@ export const getPolicies = async () => {
 };
 
 
-export const getTransactions = async () => {
-  const { provider, signer, address } = await connectMetamask();
-  const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
+export const getTransactions = async (address) => {
+  const url = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
   // const url = config.SUB_GRAPH_ENDPOINT;
-  const user = "0xdcc8d7846f4f957cc58b357994f916d12c7cca95";
 
   // const transactionQuery = {
   //   query: `
@@ -309,7 +308,7 @@ export const getTransactions = async () => {
   const transactionQuery1 = {
     query: `
     {
-      transferEvents(first: 10, where: {from: "${user}"},orderBy: timestamp orderDirection: desc) {
+      transferEvents(first: 10, where: {from: "${address}"},orderBy: timestamp orderDirection: desc) {
         fund {
           name
         }
@@ -327,7 +326,7 @@ export const getTransactions = async () => {
   const transactionQuery2 = {
     query: `
     {
-      transferEvents(first: 10, where: {to: "${user}"},orderBy: timestamp orderDirection: desc) {
+      transferEvents(first: 10, where: {to: "${address}"},orderBy: timestamp orderDirection: desc) {
         fund {
           name
         }
@@ -361,9 +360,11 @@ export const getTransactions = async () => {
         to: transaction.transaction.to,
         from: transaction.transaction.from,
         value: transaction.transaction.value,
-        type: transaction.transaction.to === user ? "Withdraw" : "Invest",
+        type: transaction.transaction.to === address ? "Withdraw" : "Invest",
         timestamp: transaction.transaction.timestamp
       });
+
+      return transactions1
     })
   }
 
@@ -386,9 +387,11 @@ export const getTransactions = async () => {
         to: transaction.transaction.to,
         from: transaction.transaction.from,
         value: transaction.transaction.value,
-        type: transaction.transaction.to === user ? "Withdraw" : "Invest",
+        type: transaction.transaction.to === address ? "Withdraw" : "Invest",
         timestamp: transaction.transaction.timestamp
       });
+
+      return transactions2;
     })
   }
   let result = [].concat(transactions1).concat(transactions2);
@@ -399,9 +402,7 @@ export const getTransactions = async () => {
 }
 
 export const getEthPrice = async () => {
-  const { provider, signer, address } = await connectMetamask();
-  const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
-  // const url = config.SUB_GRAPH_ENDPOINT;
+  const url =  configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
 
   const priceQuery = {
     query: `

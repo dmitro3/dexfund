@@ -14,6 +14,8 @@ class MostProfitableAllTime extends Component {
     constructor(props) {
         super(props);
 
+        console.log(this.props)
+
         this.state = {
 
         }
@@ -45,36 +47,15 @@ class MostProfitableAllTime extends Component {
                             See all
                         </div>
                     </div>
+                    {this.props.topFunds.map((item, index) => (
                     <MostProfitableRow 
-                        fundNoFromParent='1'
-                        fundNameFromParent='Radar Swap'
-                        fundAssetFromParent='WETH'
+                        fundNoFromParent={index +1}
+                        fundNameFromParent={item.name}
+                        fundAssetFromParent={item.accessor.denominationAsset.symbol}
                         fundPerformanceFromParent='4.30%'
                     />
-                    <MostProfitableRow 
-                        fundNoFromParent='2'
-                        fundNameFromParent='Radar Swap'
-                        fundAssetFromParent='WETH'
-                        fundPerformanceFromParent='4.30%'
-                    />
-                    <MostProfitableRow 
-                        fundNoFromParent='3'
-                        fundNameFromParent='Radar Swap'
-                        fundAssetFromParent='WETH'
-                        fundPerformanceFromParent='4.30%'
-                    />
-                    <MostProfitableRow 
-                        fundNoFromParent='4'
-                        fundNameFromParent='Radar Swap'
-                        fundAssetFromParent='WETH'
-                        fundPerformanceFromParent='4.30%'
-                    />
-                    <MostProfitableRow 
-                        fundNoFromParent='5'
-                        fundNameFromParent='Radar Swap'
-                        fundAssetFromParent='WETH'
-                        fundPerformanceFromParent='4.30%'
-                    />
+
+                    ))}
                 </div>
             </>
         )

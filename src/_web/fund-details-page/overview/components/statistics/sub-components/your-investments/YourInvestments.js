@@ -11,6 +11,8 @@ import YourInvestmentsTableRow from './sub-components/YourInvestmentsTableRow';
 import './styles/yourInvestments.css';
 import { getYourInvestmentsPerFund } from '../../../../../../../sub-graph-integrations';
 import { currencyFormat } from '../../../../../../../ethereum/utils';
+// REDUX
+import {connect}  from 'react-redux'
 
 class YourInvestments extends Component {
 
@@ -28,7 +30,7 @@ class YourInvestments extends Component {
     }
 
     async componentDidMount() {
-        const investments = await getYourInvestmentsPerFund(this.props.state.fundId)
+        const investments = await getYourInvestmentsPerFund(this.props.state.fundId, this.props.account.account.address)
         console.log('1221', investments);
         const yourFundInvestments = investments.state.fundState.portfolio.holdings
         console.log(yourFundInvestments)
@@ -64,4 +66,16 @@ class YourInvestments extends Component {
     }
 }
 
-export default YourInvestments;
+
+const mapStateToProps = (state) => {
+    return {
+        account: state.connect,
+    };
+  };
+  
+  
+  const mapDispatchToProps = {
+  };
+  
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(YourInvestments);
