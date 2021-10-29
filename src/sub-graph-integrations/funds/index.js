@@ -14,6 +14,44 @@ export const getAllInvestments = async () => {
                 funds(first: 1000, orderBy: lastKnowGavInEth, orderDirection: desc) {
                   id
                   name
+                  accessor {
+                    denominationAsset {
+                      symbol
+                    }
+                  }
+                  investmentCount
+                  lastKnowGavInEth
+                  trackedAssets {
+                    name
+                    symbol
+                  }
+                }
+              }
+        `});
+
+    return data.data.funds
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// Get all investments
+export const getFiveInvestments = async () => {
+  try {
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query: `
+            {
+                funds(first: 5, orderBy: lastKnowGavInEth, orderDirection: desc) {
+                  id
+                  name
+                  accessor {
+                    denominationAsset {
+                      symbol
+                    }
+                  }
                   investmentCount
                   lastKnowGavInEth
                   trackedAssets {
@@ -54,7 +92,7 @@ export const getYourInvestments = async (address) => {
         } 
     }` : `
         { 
-            sharesBoughtEvents(first: 5){
+            sharesBoughtEvents(first: 5, orderBy: timestamp, orderDirection: desc){
                 investmentAmount
                 investmentState {
                     shares
@@ -211,6 +249,79 @@ export const getFundAllFunds = async () => {
 
 
     return data.data.funds
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+// Claim Rewards
+export const getClaimRewards = async (fundId) => {
+  try {
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query:
+          `
+          {
+            claimRewardsTrades (where: {fund: "${fundId}"}){
+              method
+              adapter  {
+                identifier
+              }
+              incomingAssetAmounts {
+                asset {
+                  symbol
+                  price {
+                    price
+                  }
+                }
+                amount
+              }
+              timestamp
+            }
+          }
+       `
+      }
+    );
+    console.log("CLAIM REWARDS TRADES: ", data.data)
+
+    return data.data.claimRewardsTrades
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
+// Get Ruleset
+export const getRuleSet = async (fundId) => {
+  try {
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query:
+          `
+          {
+            minMaxInvestmentFundSettingsSetEvents(where: {fund: "${fundId}"}){
+              fund{
+                name
+              }
+              minInvestmentAmount
+              maxInvestmentAmount
+              
+            }
+          }
+       `
+      }
+    );
+    console.log("CLAIM REWARDS TRADES: ", data.data)
+
+    return data.data.minMaxInvestmentFundSettingsSetEvents
 
   } catch (error) {
     console.log(error);

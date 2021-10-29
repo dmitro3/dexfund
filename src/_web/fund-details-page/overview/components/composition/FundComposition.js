@@ -11,6 +11,7 @@ import FundCompositionTableRow from "./sub-components/FundCompositionTableRow";
 // CSS
 import "../../styles/fundOverview.css";
 import { getFundCompostion } from "../../../../../sub-graph-integrations";
+import { getEthPrice } from "../../../../../ethereum/funds/fund-related";
 
 class FundComposition extends Component {
   constructor(props) {
@@ -24,8 +25,10 @@ class FundComposition extends Component {
     const fundComposition = await getFundCompostion(this.props.state.fundId);
     var holdings = fundComposition.portfolio.holdings;
     console.log("1", holdings);
+    let _ethPrice = await getEthPrice()
     this.setState({
       holdings,
+      ethPrice: _ethPrice
     });
   }
 
@@ -43,7 +46,7 @@ class FundComposition extends Component {
                   key={composition.id}
                   assetFromParent={composition.amount}
                   valueFromParent={
-                    composition.amount * composition.asset.price.price
+                    composition.amount * composition.asset.price.price * this.state.ethPrice
                   }
                   weightFromParent="some"
                   symbolFromParent={composition.asset.symbol}

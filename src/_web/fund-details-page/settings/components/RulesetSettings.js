@@ -5,14 +5,15 @@ import React, { Component } from 'react';
 // ... 
 
 // ASSETS
-import closeIcon from '../assets/close-icon.svg'; 
-import chevronLeftIcon from '../assets/chevron-left-icon.svg'; 
+import closeIcon from '../assets/close-icon.svg';
+import chevronLeftIcon from '../assets/chevron-left-icon.svg';
 import infoIcon from '../assets/info-icon.svg';
 import ethIcon from '../assets/eth-icon.svg';
 
 // CSS
 import '../styles/fundSettings.css';
 import '../../fund-details-popup/styles/fundDetailsPopup.css';
+import { getRuleSet } from '../../../../sub-graph-integrations';
 
 class RulesetSettings extends Component {
 
@@ -31,6 +32,12 @@ class RulesetSettings extends Component {
             maxDepositNow: '',
             maxDepositSettings: true,
         }
+    }
+
+    async componentDidMount() {
+        // const ruleset = await getRuleSet(this.props.account.account.address);
+
+
     }
 
     setMinDeposit = (e) => {
@@ -97,9 +104,9 @@ class RulesetSettings extends Component {
                     </div>
                     <div className="w-ruleset-popup-input-button"
                         onClick={() => this.setState({
-                                        minDepositSettings: false,
-                                        minDepositNow: '',
-                                    })}
+                            minDepositSettings: false,
+                            minDepositNow: '',
+                        })}
                     >
                         DISABLE
                     </div>
@@ -116,7 +123,7 @@ class RulesetSettings extends Component {
                         Minimum deposit
                     </div>
                     <div className="w-ruleset-popup-input-button enable"
-                    onClick={() => this.setState({minDepositSettings: true})}>
+                        onClick={() => this.setState({ minDepositSettings: true })}>
                         ENABLE
                     </div>
                 </div>
@@ -150,9 +157,9 @@ class RulesetSettings extends Component {
                     </div>
                     <div className="w-ruleset-popup-input-button"
                         onClick={() => this.setState({
-                                        maxDepositSettings: false,
-                                        maxDepositNow: '',
-                                    })}
+                            maxDepositSettings: false,
+                            maxDepositNow: '',
+                        })}
                     >
                         DISABLE
                     </div>
@@ -169,7 +176,7 @@ class RulesetSettings extends Component {
                         Maximum deposit
                     </div>
                     <div className="w-ruleset-popup-input-button enable"
-                    onClick={() => this.setState({maxDepositSettings: true})}>
+                        onClick={() => this.setState({ maxDepositSettings: true })}>
                         ENABLE
                     </div>
                 </div>
@@ -186,13 +193,13 @@ class RulesetSettings extends Component {
                     <img
                         src={chevronLeftIcon}
                         alt='chevron-left-icon'
-                        
+
                     />
                     <div className="w-ruleset-popup-header-title">
                         EDIT DEPOSIT LIMITS
                     </div>
                     <img
-                    onClick={() => this.setState({popup: false})}
+                        onClick={() => this.setState({ popup: false })}
                         src={closeIcon}
                         alt='close-icon'
                         className="w-ruleset-header-icon"
@@ -204,7 +211,7 @@ class RulesetSettings extends Component {
                 {this.state.maxDepositSettings === false && this.renderMaxDepOff()}
                 <div className="w-ruleset-continue-button-section">
                     <div className="w-ruleset-continue-button"
-                    onClick={() => this.setState({currentStep: '2'})}>
+                        onClick={() => this.setState({ currentStep: '2' })}>
                         CONTINUE
                     </div>
                 </div>
@@ -222,13 +229,13 @@ class RulesetSettings extends Component {
                         src={chevronLeftIcon}
                         alt='chevron-left-icon'
                         className="w-ruleset-popup-back-icon"
-                        onClick={() => this.setState({currentStep: '1'})}
+                        onClick={() => this.setState({ currentStep: '1' })}
                     />
                     <div className="w-ruleset-popup-header-title">
                         EDIT DEPOSIT LIMITS
                     </div>
                     <img
-                    onClick={() => this.setState({popup: false})}
+                        onClick={() => this.setState({ popup: false })}
                         src={closeIcon}
                         alt='close-icon'
                         className="w-ruleset-header-icon"
@@ -242,8 +249,8 @@ class RulesetSettings extends Component {
                             className="w-ruleset-info-icon"
                         />
                         <div className="w-ruleset-popup-info">
-                        Details 
-                        </div> 
+                            Details
+                        </div>
                     </div>
                     <div className="w-ruleset-popup-info">
                         New minimum deposit amount: {this.state.minDepositNow}
@@ -296,46 +303,46 @@ class RulesetSettings extends Component {
 
     render() {
 
-            return (
+        return (
 
-                <>
-                    <div className="w-fund-settings-header">
-                        RULESET
-                    </div>
-                    <div className="w-fund-settings-card">
-                        <div className="w-fund-ruleset-settings-row">
-                            <div className="w-fund-ruleset-settings-info">
-                                Deposit limits
+            <>
+                <div className="w-fund-settings-header">
+                    RULESET
+                </div>
+                <div className="w-fund-settings-card">
+                    <div className="w-fund-ruleset-settings-row">
+                        <div className="w-fund-ruleset-settings-info">
+                            Deposit limits
+                        </div>
+                        <div className="w-fund-ruleset-settings-values-section">
+                            <div>
+                                Minimum deposit: <a className="w-fund-ruleset-bullet">{this.state.minDeposit}WETH</a>
                             </div>
-                            <div className="w-fund-ruleset-settings-values-section">
-                                <div>
-                                    Minimum deposit: <a className="w-fund-ruleset-bullet">{this.state.minDeposit}WETH</a>
-                                </div>
-                                <div style={{margin:'20px 0 0 0'}}>
-                                    Maximum deposit: <a className="w-fund-ruleset-bullet">{this.state.maxDeposit}WETH</a>
-                                </div>
+                            <div style={{ margin: '20px 0 0 0' }}>
+                                Maximum deposit: <a className="w-fund-ruleset-bullet">{this.state.maxDeposit}WETH</a>
                             </div>
-                            <div className="w-fund-ruleset-settings-buttons-section">
-                                <div className="w-fund-ruleset-settings-button"
-                                style={{marginRight: '10px'}}
-                                onClick={() => this.setState({popup: true})}
-                                >
-                                    EDIT
-                                </div>
-                                <div className="w-fund-ruleset-settings-button"
+                        </div>
+                        <div className="w-fund-ruleset-settings-buttons-section">
+                            <div className="w-fund-ruleset-settings-button"
+                                style={{ marginRight: '10px' }}
+                                onClick={() => this.setState({ popup: true })}
+                            >
+                                EDIT
+                            </div>
+                            <div className="w-fund-ruleset-settings-button"
                                 onClick={() => this.setState({
-                                        minDeposit: '- ', 
-                                        maxDeposit: '- '
-                                    })}>
-                                    DISABLE
-                                </div>
+                                    minDeposit: '- ',
+                                    maxDeposit: '- '
+                                })}>
+                                DISABLE
                             </div>
                         </div>
                     </div>
-                    {this.state.popup === true && this.renderPopup()}
-                </>
+                </div>
+                {this.state.popup === true && this.renderPopup()}
+            </>
 
-            )
+        )
     }
 }
 

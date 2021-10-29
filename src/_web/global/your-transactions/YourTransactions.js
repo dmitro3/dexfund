@@ -28,12 +28,6 @@ class InvestmentFunds extends Component {
             searchedValue: '',
             ethPrice: 0,
             transactionHistory: [],
-            action1: 'Invest',
-            token1: '2.33',
-            value1: '4,123.32',
-            vault1: 'Radar Staking',
-            type1: 'Staking',
-            time1: 'about 2 hours ago',
             isLoaded: false
         }
     }
