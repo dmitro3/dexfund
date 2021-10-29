@@ -13,6 +13,8 @@ export const investToAFundActionWrapper = async (
   amountToInvest
 ) => {
   console.log(provider);
+  provider = new ethers.providers.Web3Provider(provider);
+  signer = await provider.getSigner();
 
   // FUND Action Wrapper Interface
   const FundActionsWrapperInterface = new ethers.utils.Interface(

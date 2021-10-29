@@ -27,11 +27,11 @@ class YourInvestmentFunds extends Component {
     }
 
     isConnected() {
-      return this.props.account.account && this.props.account.connectSuccess;
+      return this.props.onboard.walletConnected
     }
     async componentDidMount() {
       if (this.isConnected()) {
-        const yourInvestments = await getYourInvestments(this.props.account.account.address);
+        const yourInvestments = await getYourInvestments(this.props.onboard.address);
         console.log("i", yourInvestments);
         this.setState({
             yourInvestments: yourInvestments
@@ -42,7 +42,9 @@ class YourInvestmentFunds extends Component {
         })
       }
     }
-    toPage(path) {
+    toPage(path, e) {
+        e.preventDefault()
+        console.log("GOING TO /add-new-fund")
         this.props.history.push(path);
         window.scrollTo({
             top: 0,
@@ -67,7 +69,7 @@ class YourInvestmentFunds extends Component {
                         </div>
                         <div className="w-your-investment-add-new-fund-button"
                             style={this.state.addNewFund === false ? doNotDisplay : {}}
-                            onClick={() => this.toPage('/add-new-fund')}
+                            onClick={(e) => this.toPage('/add-new-fund', e)}
                         >
                             <img src={addIcon} alt='add-icon' className="add-new-fund-add-icon" />
                             <div className="w-your-investment-add-new-fund-button-text">
@@ -98,6 +100,7 @@ class YourInvestmentFunds extends Component {
 const mapStateToProps = (state) => {
     return {
         account: state.connect,
+        onboard: state.onboard
     };
   };
   

@@ -8,7 +8,7 @@ const ProtectedRoute = ({ component: Component, ...restOfProps }) => {
         <Route
             {...restOfProps}
             render={(props) =>
-                state.connect.account ? <Component {...props} /> : <Redirect to="/" />
+                state.onboard.walletConnected ? <Component {...props} /> : <Redirect to="/" />
             }
         />
     );

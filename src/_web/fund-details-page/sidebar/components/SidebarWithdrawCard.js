@@ -47,12 +47,11 @@ class SidebarWithdrawCard extends Component {
         const pathName = window.location.pathname;
         const pathArray = pathName.split("/");
         const fundAddress = pathArray.pop();
-        console.log(this.props.account);
         withdraw(
           "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
           "0.005",
-          this.props.account.account.signer,
-          this.props.account.account.provider
+          this.props.onboard.address,
+          this.props.onboard.provider
         );
       } catch (error) {
         console.log(error);
@@ -65,7 +64,7 @@ class SidebarWithdrawCard extends Component {
 
   render() {
     return (
-      this.props.account && (
+      this.props.onboard.walletConnected && (
         <>
           <div className="w-invest-card">
             <div className="w-invest-card-header">Amount to withdraw</div>
@@ -135,6 +134,7 @@ class SidebarWithdrawCard extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.connect,
+    onboard: state.onboard
   };
 };
 

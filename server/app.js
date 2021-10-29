@@ -23,7 +23,7 @@ const start = async () => {
   });
 
   console.log("Successfully connected to db.");
-  app.listen(4000, () => {
+  app.listen(4000, '0.0.0.0', () => {
     console.log("Server is up!");
   });
 };

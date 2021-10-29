@@ -85,7 +85,7 @@ class AddNewFundReview extends Component {
     }
     else {
       /// PREPARE FEE CONFIGURATIONS DATA
-      feeArgsData = await getFeesManagerConfigArgsData(fees, feeManagerSettingsData, this.props.account.account.signer, true);
+      feeArgsData = await getFeesManagerConfigArgsData(fees, feeManagerSettingsData, this.props.onboard.address, true);
 
     }
 
@@ -100,7 +100,7 @@ class AddNewFundReview extends Component {
         var maxDeposit = this.state.displayMaxDeposit ? this.state.maxDeposit : 0;
 
         // Scale the minDeposit/maxDeposit values to the denomination asset's decimals
-        var denominationAssetDecimals = await getAssetDecimals(this.state.denominationAddress);
+        var denominationAssetDecimals = await getAssetDecimals(this.state.denominationAddress, this.props.onboard.provider);
         minDeposit = minDeposit === 0 ? 0 : utils.parseEther(minDeposit).div(10**(18-denominationAssetDecimals));
         maxDeposit = maxDeposit === 0 ? 0 : utils.parseEther(maxDeposit).div(10**(18-denominationAssetDecimals));
 
@@ -144,14 +144,18 @@ class AddNewFundReview extends Component {
     try {
 
       const timeLockInSeconds  =  this.state.timeLock * 60 * 60;
+      var provider = this.props.onboard.provider;
+      var adr = this.props.onboard.address;
       const fund = await createNewFund(
-        this.props.account.account.address,
+        this.props.onboard.address,
         this.state.fundName,
         this.state.denominationAddress,
         timeLockInSeconds,
         feeArgsData,
         policyArgsData,
-        1000000
+        1000000,
+        provider,
+        adr
       );
       console.log(fund)
 
@@ -330,6 +334,7 @@ class AddNewFundReview extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.connect,
+    onboard: state.onboard
   };
 };
 

@@ -39,7 +39,7 @@ class InvestmentFunds extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.account !== this.props.account) {
+        if(prevProps.onboard !== this.props.onboard) {
             this.getData();
         }
     }
@@ -49,14 +49,14 @@ class InvestmentFunds extends Component {
     }
 
     isConnected() {
-        return this.props.account.account && this.props.account.connectSuccess;
+        return this.props.onboard.walletConnected;
     }
 
     async getData() {
         await this.setState({ isLoaded: false })
         if (this.isConnected()) {
             let _ethPrice = await getEthPrice();
-            let trs = await getTransactions(this.props.account.account.address);
+            let trs = await getTransactions(this.props.onboard.address);
             // let trs = [];
             this.setState({
                 transactionHistory: trs || [],
@@ -148,6 +148,7 @@ class InvestmentFunds extends Component {
 const mapStateToProps = (state) => {
     return {
       account: state.connect,
+      onboard: state.onboard
     };
   };
   

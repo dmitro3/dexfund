@@ -37,12 +37,13 @@ export const getTimeDiff = (date) => {
   return result;
 };
 
-export async function getAssetDecimals(assetAddress) {
-  const { provider, signer, address } = await connectMetamask();
+export async function getAssetDecimals(assetAddress, provider) {
   // we use VaultLib as an interface because it has the `decimals()` getter
   const assetInterface = new ethers.utils.Interface(
     JSON.parse(JSON.stringify(ValutLib.abi))
   );
+  provider = new ethers.providers.Web3Provider(provider)
+  const signer = await provider.getSigner();
   const asset = new ethers.Contract(assetAddress, assetInterface, signer);
   const decimals = await asset.decimals();
   return decimals;
