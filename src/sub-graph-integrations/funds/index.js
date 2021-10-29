@@ -71,43 +71,50 @@ export const getYourInvestments = async () => {
 }
 
 // Get your investemnt funds per fund
-export const getYourInvestmentsPerFund = async () => {
+export const getYourInvestmentsPerFund = async (fundId) => {
   try {
     const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
     const {data} = await axios.post(
       endpoint,
       {
         query: `
-        { 
-            sharesBoughtEvents(where:  {investor_contains: "${currentInvestor}", fund_contains: "${currentFundId}"}){
-                investmentAmount
-                investmentState {
-                    shares
+        {
+          fund(id: "${fundId}") {
+            investments(where: {investor: "0x028a968aca00b3258b767edc9dbba4c2e80f7d00"}) {
+              state {
+                fundState {
+                  portfolio {
+                    holdings {
+                      price {
+                        price
+                      }
+                      amount
+                      asset {
+                        symbol
+                      }
+                    }
+                  }
                 }
-                fund {
-                    name
-                }
-                investor {
-                    firstSeen
-                    investorSince
-                }
+              }
             } 
+          }
         }
     
         `
       }
     );
-    console.log("YOUR INVESTMENTS: " , data.data)
+    console.log("YOUR INVESTMENTS in fund: " , data.data)
 
-    return data.data.sharesBoughtEvents
+    return data.data.fund.investments
 
   } catch (error) {
     console.log(error);
   }
 }
 
+
 // Fund Compostion
-export const getFundCompostion = async () => {
+export const getFundCompostion = async (fundId) => {
   try {
     const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
     const {data} = await axios.post(
@@ -116,7 +123,7 @@ export const getFundCompostion = async () => {
        query: 
        `
        {
-        fund(id: "0x24f3b37934d1ab26b7bda7f86781c90949ae3a79"){
+        fund(id: "${fundId}"){
          name
          id
          portfolio {

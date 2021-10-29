@@ -20,10 +20,6 @@ class YourInvestments extends Component {
         super(props);
 
         this.state = {
-            fundName: 'Initial',
-            yourDeposits: '$1.000.000,00',
-            currentValue: '$1.100.000,00',
-            performance: '+10%',
             investments: []
         }
     }

@@ -1,13 +1,14 @@
 import axios from "axios";
 import configs from "../../config";
 
-export const queryFundOverviewDetails = async (fundId) => {
+export const  queryFundOverviewDetails = async (fundId) => {
   try {
     let query = `
     {
       fund(id: "${fundId}"){
         id
         name
+        
         accessor {
           denominationAsset {
             id
