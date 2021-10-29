@@ -27,7 +27,12 @@ import { encodeArgs, convertRateToScaledPerSecondRate } from "./../utils/index";
 import { Decimal } from "decimal.js";
 import axios from "axios";
 import { VaultLib, redeemShares } from "@enzymefinance/protocol";
+<<<<<<< HEAD
 import config from "./../../config";
+=======
+import configs from "../../config";
+
+>>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
 export {
   PerformanceFee,
   ManagementFee,
@@ -207,7 +212,7 @@ export const withdraw = async (fundAddress, amount, signer, provider) => {
 };
 
 const getVaultProxyAddress = async (fundAddress) => {
-  const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
+  const url =  configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
   // const url = config.SUB_GRAPH_ENDPOINT;
 
   fundAddress = "0xee89c37bf01b115a79242a98ef4f90939b59a58b"; //dummy for now.
@@ -278,6 +283,7 @@ export const getPolicies = async () => {
   return policyManagerConfig;
 };
 
+<<<<<<< HEAD
 export const getTransactions = async (signerAddress = "") => {
   const { provider, signer, address } = await connectMetamask();
   const url = config.ENZYME_ENDPOINT;
@@ -285,6 +291,12 @@ export const getTransactions = async (signerAddress = "") => {
   const user = signerAddress
     ? signerAddress
     : "0xdcc8d7846f4f957cc58b357994f916d12c7cca95";
+=======
+
+export const getTransactions = async (address) => {
+  const url = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
+  // const url = config.SUB_GRAPH_ENDPOINT;
+>>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
 
   // const transactionQuery = {
   //   query: `
@@ -310,7 +322,7 @@ export const getTransactions = async (signerAddress = "") => {
   const transactionQuery1 = {
     query: `
     {
-      transferEvents(first: 10, where: {from: "${user}"},orderBy: timestamp orderDirection: desc) {
+      transferEvents(first: 10, where: {from: "${address}"},orderBy: timestamp orderDirection: desc) {
         fund {
           name
         }
@@ -328,7 +340,7 @@ export const getTransactions = async (signerAddress = "") => {
   const transactionQuery2 = {
     query: `
     {
-      transferEvents(first: 10, where: {to: "${user}"},orderBy: timestamp orderDirection: desc) {
+      transferEvents(first: 10, where: {to: "${address}"},orderBy: timestamp orderDirection: desc) {
         fund {
           name
         }
@@ -362,10 +374,19 @@ export const getTransactions = async (signerAddress = "") => {
         to: transaction.transaction.to,
         from: transaction.transaction.from,
         value: transaction.transaction.value,
+<<<<<<< HEAD
         type: transaction.transaction.to === user ? "Withdraw" : "Invest",
         timestamp: transaction.transaction.timestamp,
       });
     });
+=======
+        type: transaction.transaction.to === address ? "Withdraw" : "Invest",
+        timestamp: transaction.transaction.timestamp
+      });
+
+      return transactions1
+    })
+>>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
   }
 
   let result2 = await axios
@@ -387,10 +408,19 @@ export const getTransactions = async (signerAddress = "") => {
         to: transaction.transaction.to,
         from: transaction.transaction.from,
         value: transaction.transaction.value,
+<<<<<<< HEAD
         type: transaction.transaction.to === user ? "Withdraw" : "Invest",
         timestamp: transaction.transaction.timestamp,
       });
     });
+=======
+        type: transaction.transaction.to === address ? "Withdraw" : "Invest",
+        timestamp: transaction.transaction.timestamp
+      });
+
+      return transactions2;
+    })
+>>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
   }
   let result = [].concat(transactions1).concat(transactions2);
   result.sort((a, b) => {
@@ -400,9 +430,13 @@ export const getTransactions = async (signerAddress = "") => {
 };
 
 export const getEthPrice = async () => {
+<<<<<<< HEAD
   const { provider, signer, address } = await connectMetamask();
   const url = config.SUB_GRAPH_ENDPOINT;
   // const url = config.SUB_GRAPH_ENDPOINT;
+=======
+  const url =  configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
+>>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
 
   const priceQuery = {
     query: `

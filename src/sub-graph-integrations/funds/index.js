@@ -1,17 +1,28 @@
 import axios from "axios";
 import configs from "../../config";
 
+<<<<<<< HEAD
 const currentInvestor = "0x028a968aca00b3258b767edc9dbba4c2e80f7d00";
 const currentFundId = "";
+=======
+>>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
 
 // Get all investments
 export const getAllInvestments = async () => {
   try {
+<<<<<<< HEAD
     const endpoint = configs.DEBUG_MODE
       ? configs.ENZYME_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
+=======
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query: `
+>>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
             {
                 funds(first: 1000, orderBy: lastKnowGavInEth, orderDirection: desc) {
                   id
@@ -33,15 +44,37 @@ export const getAllInvestments = async () => {
 };
 
 // Get your investemnt funds
-export const getYourInvestments = async () => {
+export const getYourInvestments = async (address) => {
   try {
+<<<<<<< HEAD
     const endpoint = configs.DEBUG_MODE
       ? configs.ENZYME_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
+=======
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+
+    const q = address ? `
+    { 
+        sharesBoughtEvents(where:  {investor_contains: "${address}"}){
+            investmentAmount
+            investmentState {
+                shares
+            }
+            fund {
+                name
+                id
+            }
+            investor {
+                firstSeen
+                investorSince
+            }
+        } 
+    }` : `
+>>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
         { 
-            sharesBoughtEvents(where:  {investor_contains: "${currentInvestor}"}){
+            sharesBoughtEvents(first: 5){
                 investmentAmount
                 investmentState {
                     shares
@@ -55,11 +88,24 @@ export const getYourInvestments = async () => {
                     investorSince
                 }
             } 
+<<<<<<< HEAD
         }
     
         `,
     });
     console.log("YOUR INVESTMENTS: ", data.data);
+=======
+        }`
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query: q
+
+
+      }
+    );
+    console.log("YOUR INVESTMENTS: ", data.data)
+>>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
 
     return data.data.sharesBoughtEvents;
   } catch (error) {
@@ -68,8 +114,9 @@ export const getYourInvestments = async () => {
 };
 
 // Get your investemnt funds per fund
-export const getYourInvestmentsPerFund = async () => {
+export const getYourInvestmentsPerFund = async (fundId, address) => {
   try {
+<<<<<<< HEAD
     const endpoint = configs.DEBUG_MODE
       ? configs.ENZYME_ENDPOINT
       : configs.MAINNET_ENDPOINT;
@@ -87,13 +134,47 @@ export const getYourInvestmentsPerFund = async () => {
                 investor {
                     firstSeen
                     investorSince
+=======
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query: `
+        {
+          fund(id: "${fundId}") {
+            investments(where: {investor: "${address}"}) {
+              state {
+                fundState {
+                  portfolio {
+                    holdings {
+                      price {
+                        price
+                      }
+                      amount
+                      asset {
+                        symbol
+                      }
+                    }
+                  }
+>>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
                 }
+              }
             } 
+          }
         }
     
+<<<<<<< HEAD
         `,
     });
     console.log("YOUR INVESTMENTS: ", data.data);
+=======
+        `
+      }
+    );
+    console.log("YOUR INVESTMENTS in fund: ", data.data)
+
+    return data.data.fund.investments
+>>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
 
     return data.data.sharesBoughtEvents;
   } catch (error) {
@@ -101,16 +182,26 @@ export const getYourInvestmentsPerFund = async () => {
   }
 };
 
+
 // Fund Compostion
-export const getFundCompostion = async () => {
+export const getFundCompostion = async (fundId) => {
   try {
+<<<<<<< HEAD
     const endpoint = configs.DEBUG_MODE
       ? configs.ENZYME_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
+=======
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query:
+          `
+>>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
        {
-        fund(id: "0x24f3b37934d1ab26b7bda7f86781c90949ae3a79"){
+        fund(id: "${fundId}"){
          name
          id
          portfolio {
@@ -128,14 +219,24 @@ export const getFundCompostion = async () => {
           lastKnowGavInEth
         }
       }   
+<<<<<<< HEAD
        `,
     });
     console.log("FUND HOLDINGS: ", data.data);
+=======
+       `
+      }
+    );
+    console.log("FUND HOLDINGS: ", data.data)
+
+    return data.data.fund
+>>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b
 
     return data.data.fund;
   } catch (error) {
     console.log(error);
   }
+<<<<<<< HEAD
 };
 
 export const ListAllTrades = async () => {
@@ -164,3 +265,55 @@ export const ListAllTrades = async () => {
     });
   } catch (error) {}
 };
+=======
+}
+
+
+
+
+export const getFundAllFunds = async () => {
+  try {
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query:
+          `
+       {
+        funds(where: {lastKnowGavInEth_gte: "2"}, first:5){
+         name
+         id
+          accessor{
+            denominationAsset{
+              name
+              symbol
+            }
+          }
+         portfolio {
+          holdings(where:{amount_gte: "0.2"}, orderBy: amount, orderDirection: desc) {
+            id
+            amount
+            asset {
+              symbol
+              price {
+                price
+              }
+            }
+          }
+        }
+          lastKnowGavInEth
+        }
+      }  
+       `
+      }
+    );
+    console.log("FUND: ", data.data.funds)
+
+
+    return data.data.funds
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+>>>>>>> 2ef1454396df607d8ba5a10c2612cfe106ccb14b

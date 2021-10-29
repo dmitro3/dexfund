@@ -26,16 +26,16 @@ class YourInvestmentsTableHeader extends Component {
             <>
                 <div className="w-your-investments-table-header">
                     <div className="w-your-investments-table-header-item name">
-                        Name
+                        Fund Name
                     </div>
                     <div className="w-your-investments-table-header-item your-deposits">
-                        Your deposits
+                        Your Total Deposits
                     </div>
                     <div className="w-your-investments-table-header-item current-value">
-                        Current value
+                        Your Current value
                     </div>
                     <div className="w-your-investments-table-header-item performance">
-                        Performance
+                        Your Performance
                     </div>
                 </div>
             </>

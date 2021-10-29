@@ -21,7 +21,7 @@ class FundComposition extends Component {
   }
 
   async componentDidMount() {
-    const fundComposition = await getFundCompostion();
+    const fundComposition = await getFundCompostion(this.props.state.fundId);
     var holdings = fundComposition.portfolio.holdings;
     console.log("1", holdings);
     this.setState({

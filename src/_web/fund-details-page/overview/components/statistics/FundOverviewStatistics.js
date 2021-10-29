@@ -17,6 +17,7 @@ class FundOverviewStatistics extends Component {
         super(props);
         this.state = {
             selectedNavbarItem: 'yourInvestments',
+            ...this.props.state,
         }
     }
 
@@ -25,7 +26,7 @@ class FundOverviewStatistics extends Component {
         return (
 
             <>
-               <YourInvestments />
+                <YourInvestments state={this.state} />
             </>
         )
     }
@@ -35,7 +36,7 @@ class FundOverviewStatistics extends Component {
         return (
 
             <>
-                <YourTransactions />
+                <YourTransactions state={this.state}/>
             </>
         )
     }

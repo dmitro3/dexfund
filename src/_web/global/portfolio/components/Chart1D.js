@@ -122,6 +122,7 @@ const Line = props => (
               valueField="chart1d"
               argumentField="time"
               seriesComponent={Line}
+              color="#F135AE"
             />
             <Animation />
           </Chart>
