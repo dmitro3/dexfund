@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 
 import './styles/walletNotConnected.css';
 
-import {
-    connectAccount,
-    disconnectAccount,
-  } from "./../../../redux/actions/AccountActions";
+import { connectAccountOnboard, disconnectAccountOnboard } from './../../../redux/actions/OnboardActions';
+
 import {activateLoaderOverlay, deactivateLoaderOverlay}  from  './../../../redux/actions/LoaderAction'
 
 // REDUX
@@ -22,9 +20,9 @@ class WalletNotConnected extends Component {
 
     async doCon(e) {
         await e.preventDefault();
-        await this.props.activateLoaderOverlay();
-        await this.props.connectAccount();
-        await this.props.deactivateLoaderOverlay();
+        // await this.props.activateLoaderOverlay();
+        await this.props.connectAccountOnboard();
+        // await this.props.deactivateLoaderOverlay();
     }
 
     render() {
@@ -45,14 +43,15 @@ class WalletNotConnected extends Component {
 const mapStateToProps = (state) => {
     return {
       account: state.connect,
+      onboard: state.onboard
     };
   };
 
 const mapDispatchToProps = {
-    connectAccount,
-    disconnectAccount,
     activateLoaderOverlay,
-    deactivateLoaderOverlay
+    deactivateLoaderOverlay,
+    connectAccountOnboard,
+    disconnectAccountOnboard
 };
 
 

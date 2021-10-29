@@ -220,8 +220,8 @@ class Portfolio extends Component {
             <>
                 <div className="w-portfolio-wrapper">
                     <div className="w-portfolio-content">
-                        {((this.props.account && this.props.account.connectSuccess) || this.state.walletMust === false) && this.renderWalletConnected()}
-                        {((!this.props.account || !this.props.account.connectSuccess) && this.state.walletMust === true) && this.renderWalletNotConnected()}
+                        {(this.props.onboard.walletConnected || this.state.walletMust === false) && this.renderWalletConnected()}
+                        {(!this.props.onboard.walletConnected && this.state.walletMust === true) && this.renderWalletNotConnected()}
                     </div>
                 </div>
             </>
@@ -232,6 +232,7 @@ class Portfolio extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.connect,
+    onboard: state.onboard
   };
 };
 

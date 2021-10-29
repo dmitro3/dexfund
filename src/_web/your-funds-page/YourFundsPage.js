@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // COMPONENTS
 import Header from '../global/header/Header';
@@ -39,6 +40,8 @@ class YourFundsPage extends Component {
             display: 'none',
         }
 
+        console.log("AM I CONNECTED FUNDS "+this.props.onboard.walletConnected)
+
         if (width > 1000) {
             return (
 
@@ -75,4 +78,17 @@ class YourFundsPage extends Component {
     }
 }
 
-export default YourFundsPage;
+const mapStateToProps = (state) => {
+    return {
+        account: state.connect,
+        onboard: state.onboard
+    };
+  };
+  
+  
+  const mapDispatchToProps = {
+    
+  };
+  
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(YourFundsPage);

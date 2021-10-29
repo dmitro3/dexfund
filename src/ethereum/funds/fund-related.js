@@ -49,9 +49,12 @@ export const createNewFund = async (
   timeLockInSeconds,
   feeManagerConfig,
   policyManagerConfigData,
-  gaslimit
+  gaslimit,
+  provider,
+  address
 ) => {
-  const { provider, signer, address } = await connectMetamask();
+  provider = new ethers.providers.Web3Provider(provider);
+  const signer = await provider.getSigner();
   const nonce = await provider.getTransactionCount(address, "pending");
 
   // GET FundDeployer Interface Data
@@ -142,46 +145,45 @@ export const getFeesManagerConfigArgsData = async (
   // remove in mainnet
   const feeManager = new ethers.Contract(
     FeeManager.address,
-    FeeManagerInterface,
-    signer
+    FeeManagerInterface
   );
   let fees_unregister = [];
   // end
 
-  try {
-    if (allow) {
-      const registeredFees = await feeManager.getRegisteredFees();
+  // try {
+  //   if (allow) {
+  //     const registeredFees = await feeManager.getRegisteredFees();
 
-      if (registeredFees.length === 0) {
-        fees_unregister = [ManagementFee.address, PerformanceFee.address];
-        await feeManager.registerFees(fees_unregister, { gasLimit: 300000 });
-      } else {
-        if (!registeredFees.includes(ManagementFee.address)) {
-          fees_unregister.push(ManagementFee.address);
-        }
+  //     if (registeredFees.length === 0) {
+  //       fees_unregister = [ManagementFee.address, PerformanceFee.address];
+  //       await feeManager.registerFees(fees_unregister, { gasLimit: 300000 });
+  //     } else {
+  //       if (!registeredFees.includes(ManagementFee.address)) {
+  //         fees_unregister.push(ManagementFee.address);
+  //       }
 
-        if (!registeredFees.includes(PerformanceFee.address)) {
-          fees_unregister.push(PerformanceFee.address);
-        }
+  //       if (!registeredFees.includes(PerformanceFee.address)) {
+  //         fees_unregister.push(PerformanceFee.address);
+  //       }
 
-        if (!registeredFees.includes(EntranceRateDirectFee.address)) {
-          fees_unregister.push(EntranceRateDirectFee.address);
-        }
-      }
-      // Register this fees for app use
-      if (fees_unregister.length > 0) {
-        await feeManager.registerFees(fees_unregister, { gasLimit: 300000 });
-      }
-    }
+  //       if (!registeredFees.includes(EntranceRateDirectFee.address)) {
+  //         fees_unregister.push(EntranceRateDirectFee.address);
+  //       }
+  //     }
+  //     // Register this fees for app use
+  //     if (fees_unregister.length > 0) {
+  //       await feeManager.registerFees(fees_unregister, { gasLimit: 300000 });
+  //     }
+  //   }
 
     // Convert Fees
     return feeManagerConfigArgs({
       fees: fees,
       settings: feeManagerSettingsData,
     });
-  } catch (error) {
-    console.log(error);
-  }
+  // } catch (error) {
+  //   console.log(error);
+  // }
 };
 
 export const getMinMaxDepositPolicyArgs = (minDeposit, maxDeposit) => {
@@ -193,6 +195,8 @@ export const getAddressArrayPolicyArgs = (ars) => {
 };
 
 export const withdraw = async (fundAddress, amount, signer, provider) => {
+  provider = new ethers.providers.Web3Provider(provider)
+  signer = await provider.getSigner();
   const ComptrollerLibInterface = new ethers.utils.Interface(
     JSON.parse(JSON.stringify(ComptrollerLib.abi))
   );

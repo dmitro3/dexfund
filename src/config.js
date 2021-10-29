@@ -14,6 +14,9 @@ const configs = {
   BLACKLISTED_VAULTS: [],
   FALLBACK_PROVIDER:
     "https://eth-mainnet.alchemyapi.io/v2/BMl6OKMeu0A6ZnM8gj5oBrzdO63r5SXH",
+  networkId: 1,
+  networkId_DEBUG: 42,
+  FALLBACK_PROVIDER_DEBUG: "https://eth-kovan.alchemyapi.io/v2/X44WO7iHzVgNQD6unUphe9NoRanDzOiR"
 };
 
 module.exports = configs;

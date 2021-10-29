@@ -46,7 +46,6 @@ class SidebarInvestCard extends Component {
   // invest  any amount toa fund
   investAmountToFund = async () => {
     this.props.activateLoaderOverlay();
-    console.log(this.props.account.account.provider);
 
     if (
       this.state.amountToInvest !== "0.00" &&
@@ -56,9 +55,9 @@ class SidebarInvestCard extends Component {
         const deposit = await investToAFundActionWrapper(
           "0xcbea44a986a317a551f3fcb0c29b1e0155d07209", // _comptroller_proxyAddress
           "0xd0a1e359811322d97991e03f863a0c30c2cf029c", // denomination assets
-          this.props.account.account.address, // currentUser address
-          this.props.account.account.signer, // JsonSigner
-          this.props.account.account.provider, // web3Provider
+          this.props.onboard.address, // currentUser address
+          this.props.onboard.address, // JsonSigner
+          this.props.onboard.provider, // web3Provider
           "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
           "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D", // exchangeTargetAsset
           this.state.amountToInvest
@@ -78,7 +77,7 @@ class SidebarInvestCard extends Component {
 
   render() {
     return (
-      this.props.account && (
+      this.props.onboard.walletConnected && (
         <>
           <div className="w-invest-card">
             <div className="w-invest-card-header">Amount to invest</div>
@@ -148,6 +147,7 @@ class SidebarInvestCard extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.connect,
+    onboard: state.onboard
   };
 };
 
