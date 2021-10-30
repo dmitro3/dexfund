@@ -43,7 +43,7 @@ class MostProfitableThisMonth extends Component {
                             See all
                         </div>
                     </div>
-                    {this.props.topFunds.map((item, index) => (
+                    {this.props.investments.map((item, index) => (
                     <MostProfitableRow 
                         fundNoFromParent={index +1}
                         fundNameFromParent={item.name}
