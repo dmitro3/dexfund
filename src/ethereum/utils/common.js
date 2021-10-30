@@ -1,7 +1,7 @@
 import { formatDistanceToNowStrict } from "date-fns";
 import { connectMetamask } from "./../web3";
 import ValutLib from "./../abis/VaultLib.json";
-import { utils, ethers } from "ethers";
+import { ethers } from "ethers";
 
 import {
   ChainId,
@@ -37,16 +37,43 @@ export const getTimeDiff = (date) => {
   return result;
 };
 
-export async function getAssetDecimals(assetAddress, provider) {
-  // we use VaultLib as an interface because it has the `decimals()` getter
-  const assetInterface = new ethers.utils.Interface(
-    JSON.parse(JSON.stringify(ValutLib.abi))
-  );
-  provider = new ethers.providers.Web3Provider(provider)
-  const signer = await provider.getSigner();
-  const asset = new ethers.Contract(assetAddress, assetInterface, signer);
-  const decimals = await asset.decimals();
-  return decimals;
+export async function getAssetDecimals(assetAddress) {
+  try {
+    const { signer } = await connectMetamask();
+
+    // we use VaultLib as an interface because it has the `decimals()` getter
+    const assetInterface = new ethers.utils.Interface(
+      JSON.parse(JSON.stringify(ValutLib.abi))
+    );
+    const asset = new ethers.Contract(assetAddress, assetInterface, signer);
+    const decimals = await asset.decimals();
+    return decimals;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getTokenBalance(assetAddress) {
+  try {
+    const { signer, address } = await connectMetamask();
+
+    console.log("Token to get balance ", assetAddress);
+    console.log("Wallet ", address);
+
+    // we use VaultLib as an interface because it has the `decimals()` getter
+    const assetInterface = new ethers.utils.Interface(
+      JSON.parse(JSON.stringify(ValutLib.abi))
+    );
+    const asset = new ethers.Contract(assetAddress, assetInterface, signer);
+
+    const tokenBalance = await asset.balanceOf(address);
+
+    console.log("token balance ", parseInt(tokenBalance._hex, 16));
+
+    return parseInt(tokenBalance._hex, 16);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 /**

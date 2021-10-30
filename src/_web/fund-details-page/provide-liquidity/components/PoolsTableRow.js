@@ -27,6 +27,8 @@ class PoolsTableRow extends Component {
       totalAPY: this.props.totalAPYFromParent,
       yourAssets: this.props.yourAssetsFromParent,
       yourAssetsToken: this.props.yourAssetsTokenFromParent,
+      yourAssets1: this.props.yourAssetsFromParent1,
+      yourAssetsToken1: this.props.yourAssetsTokenFromParent1,
     };
   }
 
@@ -94,7 +96,7 @@ class PoolsTableRow extends Component {
               {this.state.yourAssets} {this.state.yourAssetsToken}
             </div>
             <div>
-              {this.state.yourAssets} {this.state.yourAssetsToken}
+              {this.state.yourAssets1} - {this.state.yourAssetsToken1}
             </div>
           </div>
           <div className="w-pools-table-row-cell deposit">

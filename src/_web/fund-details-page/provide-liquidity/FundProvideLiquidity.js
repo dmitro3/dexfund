@@ -5,6 +5,7 @@ import SearchBar from "./components/SearchBar";
 import PoolsTableHeader from "./components/PoolsTableHeader";
 import PoolsTableRow from "./components/PoolsTableRow";
 import FundDetailsPopup from "../fund-details-popup/FundDetailsPopup";
+import { getTokenBalance } from "./../../../ethereum/utils/common";
 
 // ASSETS
 // ...
@@ -25,6 +26,16 @@ class FundProvideLiquidity extends Component {
 
   async componentDidMount() {
     const liquidityPools = await getLiquidityPools();
+
+    liquidityPools.forEach(async (pool) => {
+      const assetA = pool.token0.id;
+      const assetB = pool.token1.id;
+
+      console.log("Assets ", assetA, assetB);
+
+      liquidityPools["asset0Balance"] = await getTokenBalance(assetA);
+      liquidityPools["asset1Balance"] = await getTokenBalance(assetB);
+    });
 
     this.setState({
       liquidityPools,
@@ -105,10 +116,12 @@ class FundProvideLiquidity extends Component {
                 token2FromParent={pool.token1.symbol}
                 token3FromParent=""
                 exchangeFromParent="Uniswapv2"
-                poolSizeFromParent={this.state.poolSize}
+                poolSizeFromParent=""
                 totalAPYFromParent={this.state.totalAPY}
-                yourAssetsFromParent={this.state.yourAssets}
-                yourAssetsTokenFromParent={this.state.yourAssetsToken}
+                yourAssetsFromParent={pool.token0.symbol}
+                yourAssetsTokenFromParent={pool.asset0Balance}
+                yourAssetsFromParent1={pool.token1.symbol}
+                yourAssetsTokenFromParent1={pool.asset1Balance}
               />
             ))}
           </div>
