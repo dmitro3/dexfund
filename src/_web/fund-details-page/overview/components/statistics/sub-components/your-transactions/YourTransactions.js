@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getEthPrice, getTransactions } from '../../../../../../../ethereum/funds/fund-related';
 import {getTimeDiff} from '../../../../../../../ethereum/utils'
+import { connect } from 'react-redux';
 
 // COMPONENTS
 import YourTransactionsTableHeader from './sub-components/YourTransactionsTableHeader';
@@ -22,7 +23,7 @@ class YourTransactions extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.account !== this.props.account) {
+        if(prevProps.onboard.address !== this.props.onboard.address) {
             this.getData();
         }
     }
@@ -32,14 +33,14 @@ class YourTransactions extends Component {
     }
 
     isConnected() {
-        return this.props.account.account && this.props.account.connectSuccess;
+        return this.props.onboard.walletConnected;
     }
 
     async getData() {
         await this.setState({ isLoaded: false })
         if (this.isConnected()) {
             let _ethPrice = await getEthPrice();
-            let trs = await getTransactions(this.props.account.account.address);
+            let trs = await getTransactions(this.props.onboard.address);
             // let trs = [];
             this.setState({
                 transactionHistory: trs || [],
@@ -83,4 +84,15 @@ class YourTransactions extends Component {
     }
 }
 
-export default YourTransactions;
+const mapStateToProps = (state) => {
+    return {
+        account: state.connect,
+        onboard: state.onboard
+    };
+  };
+  
+  
+const mapDispatchToProps = {
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(YourTransactions);

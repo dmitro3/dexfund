@@ -30,13 +30,20 @@ class YourInvestments extends Component {
     }
 
     async componentDidMount() {
-        const investments = await getYourInvestmentsPerFund(this.props.state.fundId, this.props.onboard.address)
-        console.log('1221', investments);
-        const yourFundInvestments = investments.state.fundState.portfolio.holdings
-        console.log(yourFundInvestments)
-        this.setState({
-            yourFundInvestments
-        })
+        try {
+            const investments = await getYourInvestmentsPerFund(this.props.state.fundId, this.props.onboard.address)
+            // console.log('1221', investments);
+            const yourFundInvestments = investments.state.fundState.portfolio.holdings
+            // console.log("ur inv: "+yourFundInvestments)
+            this.setState({
+                yourFundInvestments: investments
+            })
+        } catch (e) {
+            console.log("ERROR: "+e)
+            this.setState({
+                yourFundInvestments: []
+            })
+        }
     }
 
     render() {
