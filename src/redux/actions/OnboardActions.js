@@ -6,6 +6,7 @@ export const ONBOARD_UPDATED = "ONBOARD_UPDATED";
 export const ACCOUNT_DISCONNECT = "ONBOARD_DESTORYED";
 export const ONBOARD_ADDRESS_CHANGE = "ONBOARD_ADDRESS_UPDATE";
 export const ONBOARD_BALANCE_UPDATE = "ONBOARD_BALANCE_UPDATE";
+export const ONBOARD_NETWORK_CHANGE = "ONBOARD_NETWORK_CHANGE";
 
 export const walletChange = (newWallet) => {
     return async (dispatch) => {
@@ -41,7 +42,12 @@ export const onboardUpdated = (onboard) => {
             var statee = await onboard.getState();
             dispatch({
                 type: ONBOARD_UPDATED,
-                payload: {onboard, provider: statee.wallet.provider, address: statee.address, balance: statee.balance}
+                payload: {onboard,
+                    provider: statee.wallet.provider,
+                    address: statee.address,
+                    balance: statee.balance,
+                    networkId: statee.network
+                }
             });
         } else {
             disconnectAccountOnboard();
@@ -61,7 +67,12 @@ export const connectAccountOnboard = () => {
                 var statee = await onboard.getState();
                 dispatch({
                     type: ONBOARD_CREATED,
-                    payload: {onboard, provider: statee.wallet.provider, address: statee.address, balance: statee.balance}
+                    payload: {onboard,
+                        provider: statee.wallet.provider,
+                        address: statee.address,
+                        balance: statee.balance,
+                        networkId: statee.network
+                    }
                 });
             }
         } catch(e) {

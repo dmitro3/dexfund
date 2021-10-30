@@ -2,7 +2,7 @@ import configs from './../config';
 import Onboard from 'bnc-onboard'
 
 import store from './../redux/store';
-import { ACCOUNT_CHANGE, ACCOUNT_DISCONNECT, ONBOARD_CREATED, ONBOARD_UPDATED, ONBOARD_ADDRESS_CHANGE, ONBOARD_BALANCE_UPDATE } from './../redux/actions/OnboardActions';
+import { ACCOUNT_CHANGE, ACCOUNT_DISCONNECT, ONBOARD_CREATED, ONBOARD_UPDATED, ONBOARD_ADDRESS_CHANGE, ONBOARD_BALANCE_UPDATE, ONBOARD_NETWORK_CHANGE } from './../redux/actions/OnboardActions';
 
 const netId = () => {
     return configs.DEBUG_MODE ? configs.networkId_DEBUG : configs.networkId;
@@ -40,6 +40,15 @@ const onboardUpdateBalance = (balance) => {
     })
 }
 
+const onboardUpdateNetwork = (network) => {
+  var state = store.getState();
+  if (state.onboard.walletConnected)
+    store.dispatch({
+      type: ONBOARD_NETWORK_CHANGE,
+      payload: network
+    });
+}
+
 export function initOnboard() {
     const onboard = Onboard;
     
@@ -53,7 +62,8 @@ export function initOnboard() {
       subscriptions: {
           wallet: onboardUpdateWallet,
           address: onboardUpdateAddress,
-          balance: onboardUpdateBalance
+          balance: onboardUpdateBalance,
+          network: onboardUpdateNetwork
       },
       walletSelect: {
         wallets: [

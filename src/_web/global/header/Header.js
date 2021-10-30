@@ -4,8 +4,9 @@ import { connect } from "react-redux";
 // ...
 
 // ASSETS
-import radarIcon from "./assets/radar-icon.svg";
+import radarIcon from "./assets/radar-icon.png";
 import ethIcon from "./assets/eth-icon.svg";
+import warningIcon from './assets/warning-icon.svg';
 import chevronDownIcon from "./assets/chevron-down-icon.svg";
 import activityIcon from "./assets/activity-icon.svg";
 // CSS
@@ -14,6 +15,7 @@ import "./styles/header.css";
 import { connectAccountOnboard, disconnectAccountOnboard } from './../../../redux/actions/OnboardActions';
 
 import { ethers } from 'ethers';
+import configs, { networkId_DEBUG } from './../../../config';
 
 import {activateLoaderOverlay, deactivateLoaderOverlay}  from  './../../../redux/actions/LoaderAction'
 
@@ -53,6 +55,8 @@ class Header extends Component {
       "WebkitBackgroundClip": "text",
       "WebkiTtextFillColor": "transparent",
     };
+
+    const expectedNetworkId = configs.DEBUG_MODE ? configs.networkId_DEBUG : configs.networkId;
 
     return (
       <>
@@ -94,14 +98,14 @@ class Header extends Component {
               </div>
               <div className="w-header-eth-button">
                 <div className="w-header-eth-button-asset-section">
-                  <img src={ethIcon} alt="eth-icon" className="eth-icon" />
-                  <div className="w-header-eth-button-asset-text">Ethereum</div>
+                  <img src={this.props.onboard.networkId === expectedNetworkId ? ethIcon : warningIcon} alt="eth-icon" className="eth-icon" />
+                  <div className="w-header-eth-button-asset-text">{this.props.onboard.networkId === expectedNetworkId ? "Ethereum" : "Unsupported Network"}</div>
                 </div>
-                <img
+                {/* <img
                   src={chevronDownIcon}
                   alt="arrow-down-icon"
                   className="chevron-down-icon"
-                />
+                /> */}
               </div>
 
               {this.props.onboard.walletConnected ? (
