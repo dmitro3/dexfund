@@ -1,4 +1,4 @@
-import { initOnboard } from './../../ethereum/onboard';
+import { onboard } from './../../ethereum/onboard';
 
 export const ACCOUNT_CHANGE = "WALLET_CHANGE_SUBSCRIPTION";
 export const ONBOARD_CREATED = "ONBOARD_CREATED";
@@ -35,8 +35,9 @@ export const addressChange = (newAddress) => {
     }
 }
 
-export const onboardUpdated = (onboard) => {
+export const onboardUpdated = () => {
     return async(dispatch) => {
+        console.log("Updating onboard")
         const check = await onboard.checkWallet();
         if (check) {
             var statee = await onboard.getState();
@@ -58,7 +59,8 @@ export const onboardUpdated = (onboard) => {
 export const connectAccountOnboard = () => {
     return async(dispatch) => {
         try {
-            const onboard = initOnboard();
+            // const onboard = initOnboard();
+            await onboard.walletReset();
             const hasConnected = await onboard.walletSelect();
             if (hasConnected) {
                 var check = await onboard.walletCheck()
@@ -83,8 +85,27 @@ export const connectAccountOnboard = () => {
 
 export const disconnectAccountOnboard = () => {
     return async(dispatch) => {
+        await onboard.walletReset();
         dispatch({
             type: ACCOUNT_DISCONNECT
         })
+    }
+}
+
+export const checkWallet = () => {
+    return async(dispatch) => {
+        const check = await onboard.walletCheck();
+        if (check) {
+            var statee = await onboard.getState();
+            dispatch({
+                type: ONBOARD_UPDATED,
+                payload: {onboard,
+                    provider: statee.wallet.provider,
+                    address: statee.address,
+                    balance: statee.balance,
+                    networkId: statee.network
+                }
+            });
+        }
     }
 }
