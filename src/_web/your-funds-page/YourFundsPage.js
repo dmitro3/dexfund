@@ -53,7 +53,7 @@ class YourFundsPage extends Component {
                         <div className="w-your-funds-page-content">
                             <Portfolio walletMust={true} />
                             <YourInvestmentFunds {...this.props}
-                                titleFromParent='YOUR FUNDS'
+                                titleFromParent='YOUR VAULTS'
                                 addNewFundFromParent={true} />
                             <YourTransactions
                                 titleFromParent='TRANSACTIONS'

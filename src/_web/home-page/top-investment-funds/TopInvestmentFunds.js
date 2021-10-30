@@ -44,7 +44,7 @@ class TopInvestmentFunds extends Component {
             <>
                 <div className="w-top-investment-funds-wrapper">
                     <div className="w-top-investment-funds-header">
-                        TOP INVESTMENT FUNDS
+                        TOP INVESTMENT VAULTS
                     </div>
                    {
                        this.props.onboard.walletConnected ? ( <div className="w-top-investment-funds-content">

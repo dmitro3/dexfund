@@ -108,11 +108,11 @@ class InvestmentFunds extends React.Component {
             <>
                 <div className="w-top-investment-funds-wrapper" >
                     <div className="w-top-investment-funds-header">
-                        ALL INVESTMENT FUNDS
+                        ALL INVESTMENT VAULTS
                     </div>
                     <SearchBar
                         parentCallback={this.searchCallbackFunction}
-                        defaultValue="Search for a Fund Name or Denomination Asset"
+                        defaultValue="Search for a Vault Name or Denomination Asset"
                     />
                     <InvestmentFundsTableHeader />
 

@@ -75,7 +75,7 @@ class AddNewFundFinish extends Component {
                         </div>
                         <div className="w-fund-finish-your-funds-button" onClick={() => this.toPage('/your-funds')}>
                             <div className="w-fund-finish-your-funds-button-text">
-                                VIEW YOUR FUNDS
+                                VIEW YOUR VAULTS
                             </div>
                         </div>
                     </div>
