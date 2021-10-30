@@ -15,14 +15,14 @@ class InvestmentFunds extends Component {
         super(props);
 
         this.state = {
-            value: 'Search a token, a fund, anything',
+            value: 'Search a token, a vault, anything',
         }
     }
 
     inputField = (e) => {
 
         if (e.target.value == '') {
-            this.setState({ value: 'Search a token, a fund, anything' });
+            this.setState({ value: 'Search a token, a vault, anything' });
             this.props.parentCallback('');
             return;
         }

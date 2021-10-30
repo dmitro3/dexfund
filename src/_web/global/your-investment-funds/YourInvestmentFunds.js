@@ -73,7 +73,7 @@ class YourInvestmentFunds extends Component {
                         >
                             <img src={addIcon} alt='add-icon' className="add-new-fund-add-icon" />
                             <div className="w-your-investment-add-new-fund-button-text">
-                                ADD NEW FUND
+                                ADD NEW VAULT
                             </div>
                         </div>
                     </div>

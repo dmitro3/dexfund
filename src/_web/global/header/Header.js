@@ -81,7 +81,7 @@ class Header extends Component {
                 className={"w-header-navbar-item" + (this.state.selectedPage === "yourfunds" ? "-selected" : "")}
                 onClick={() => this.toPage("/your-funds")}
               >
-                YOUR FUNDS
+                YOUR VAULTS
               </div>
             </div>
             <div className="w-header-account-section">
