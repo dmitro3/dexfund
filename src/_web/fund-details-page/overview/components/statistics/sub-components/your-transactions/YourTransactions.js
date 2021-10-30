@@ -1,98 +1,98 @@
-import React, { Component } from 'react';
-import { getEthPrice, getTransactions } from '../../../../../../../ethereum/funds/fund-related';
-import {getTimeDiff} from '../../../../../../../ethereum/utils'
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { getTimeDiff } from "../../../../../../../ethereum/utils";
+import {
+  getEthPrice,
+  getTransactions,
+} from "../../../../../../../ethereum/funds/fund-related";
+import { connect } from "react-redux";
 
 // COMPONENTS
-import YourTransactionsTableHeader from './sub-components/YourTransactionsTableHeader';
-import YourTransactionsTableRow from './sub-components/YourTransactionsTableRow';
+import YourTransactionsTableHeader from "./sub-components/YourTransactionsTableHeader";
+import YourTransactionsTableRow from "./sub-components/YourTransactionsTableRow";
 
 // ASSETS
 // ...
 
 // CSS
-import '../your-transactions/styles/yourTransactions.css';
+import "../your-transactions/styles/yourTransactions.css";
 
 class YourTransactions extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      transactionHistory: [],
+    };
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            transactionHistory: []
-        }
+  componentDidUpdate(prevProps) {
+    if (prevProps.account !== this.props.account) {
+      this.getData();
     }
+  }
 
-    componentDidUpdate(prevProps) {
-        if(prevProps.onboard.address !== this.props.onboard.address) {
-            this.getData();
-        }
+  callbackFunction = (childData) => {
+    this.setState({ searchedValue: childData });
+  };
+
+  isConnected() {
+    return this.props.onboard.walletConnected && this.props.onboard.provider;
+  }
+
+  async getData() {
+    await this.setState({ isLoaded: false });
+    if (this.isConnected()) {
+      let _ethPrice = await getEthPrice();
+      let trs = await getTransactions(this.props.onboard.address);
+      // let trs = [];
+      this.setState({
+        transactionHistory: trs || [],
+        ethPrice: _ethPrice,
+        isLoaded: true,
+      });
+    } else {
+      this.setState({
+        transactionHistory: [],
+        isLoaded: true,
+      });
     }
+  }
 
-    callbackFunction = (childData) => {
-        this.setState({ searchedValue: childData })
-    }
+  async componentDidMount() {
+    await this.getData();
+  }
 
-    isConnected() {
-        return this.props.onboard.walletConnected;
-    }
-
-    async getData() {
-        await this.setState({ isLoaded: false })
-        if (this.isConnected()) {
-            let _ethPrice = await getEthPrice();
-            let trs = await getTransactions(this.props.onboard.address);
-            // let trs = [];
-            this.setState({
-                transactionHistory: trs || [],
-                ethPrice: _ethPrice,
-                isLoaded: true
-            });
-        } else {
-            this.setState({
-                transactionHistory: [],
-                isLoaded: true
-            })
-        }
-    }
-
-    async componentDidMount() {
-        await this.getData();
-    }
-
-    render() {
-
-        return(
-            
-            <>
-                <div className="w-fund-statistics-your-transactions-wrapper">
-                    <YourTransactionsTableHeader />
-                    {
-                        this.state.transactionHistory.map(transaction => (
-                            <YourTransactionsTableRow
-                                actionFromParent={transaction.type}
-                                tokenFromParent={parseFloat(transaction.value).toFixed(2)}
-                                valueFromParent={(parseFloat(transaction.value) * this.state.ethPrice).toFixed(2)}
-                                vaultFromParent={transaction.fundName}
-                                typeFromParent={transaction.type}
-                                timeFromParent={getTimeDiff(parseInt(transaction.timestamp) * 1000)}
-                            />
-                        ))
-                        }
-                </div>
-            </>
-        )
-    }
+  render() {
+    return (
+      <>
+        <div className="w-fund-statistics-your-transactions-wrapper">
+          <YourTransactionsTableHeader />
+          {this.state.transactionHistory.map((transaction) => (
+            <YourTransactionsTableRow
+              actionFromParent={transaction.type}
+              tokenFromParent={parseFloat(transaction.value).toFixed(2)}
+              valueFromParent={(
+                parseFloat(transaction.value) * this.state.ethPrice
+              ).toFixed(2)}
+              vaultFromParent={transaction.fundName}
+              typeFromParent={transaction.type}
+              timeFromParent={getTimeDiff(
+                parseInt(transaction.timestamp) * 1000
+              )}
+            />
+          ))}
+        </div>
+      </>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {
-    return {
-        account: state.connect,
-        onboard: state.onboard
-    };
+  return {
+    account: state.connect,
+    onboard: state.onboard,
   };
-  
-  
-const mapDispatchToProps = {
 };
+
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(YourTransactions);

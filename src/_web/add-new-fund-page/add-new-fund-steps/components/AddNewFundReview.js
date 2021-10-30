@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { BigNumber, utils } from 'ethers'
-import { activateLoaderOverlay, deactivateLoaderOverlay } from './../../../../redux/actions/LoaderAction'
+import { BigNumber, utils } from "ethers";
+import {
+  activateLoaderOverlay,
+  deactivateLoaderOverlay,
+} from "./../../../../redux/actions/LoaderAction";
 // COMPONENTS
 // ...
 
-
 // ASSETS
 import pinkOutlineButtonIcon from "../assets/pink-outline-button-icon.svg";
-import pinkFillButtonIcon from "../assets/pink-fill-button-icon.svg"
-
+import pinkFillButtonIcon from "../assets/pink-fill-button-icon.svg";
 
 // STYLES
 import "../styles/addNewFundSteps.css";
 
-
-// CREATE FUND 
+// CREATE FUND
 import {
   createNewFund,
   getFeesManagerConfigArgsData,
@@ -32,44 +32,45 @@ import {
   AssetWhitelist,
   AdapterBlacklist,
   AdapterWhitelist,
-  getAddressArrayPolicyArgs
-} from './../../../../ethereum/funds/fund-related'
+  getAddressArrayPolicyArgs,
+} from "./../../../../ethereum/funds/fund-related";
 
-import { getAssetDecimals } from './../../../../ethereum/utils/index'
+import { getAssetDecimals } from "./../../../../ethereum/utils/index";
 
 class AddNewFundReview extends Component {
   constructor(props) {
     super(props);
-    this.state = { ...this.props.state, hash: '' };
+    this.state = { ...this.props.state, hash: "" };
   }
 
   goToNextStep = async () => {
-    console.log("Create Fund")
-    
+    console.log("Create Fund");
+
     this.props.activateLoaderOverlay();
 
     let feeManagerSettingsData = []; // value configurations
-    let fees = [] // list of address
+    let fees = []; // list of address
 
-
-    // make sure option feilds are formated 
+    // make sure option feilds are formated
     if (this.state.displayManagementFee && this.state.managementFee) {
-      fees.push(ManagementFee.address)
-      feeManagerSettingsData.push(getManagementFees(this.state.managementFee))
-    }
-    
-    if (this.state.displayEntryFee && this.state.entryFee) {
-      fees.push(EntranceRateDirectFee.address)
-      feeManagerSettingsData.push(getEntranceRateFeeConfigArgs(this.state.entryFee));
+      fees.push(ManagementFee.address);
+      feeManagerSettingsData.push(getManagementFees(this.state.managementFee));
     }
 
+    if (this.state.displayEntryFee && this.state.entryFee) {
+      fees.push(EntranceRateDirectFee.address);
+      feeManagerSettingsData.push(
+        getEntranceRateFeeConfigArgs(this.state.entryFee)
+      );
+    }
 
     if (this.state.displayPerformanceFee && this.state.performanceFee) {
       fees.push(PerformanceFee.address);
-      feeManagerSettingsData.push(getPerformanceFees(this.state.performanceFee, 6))
+      feeManagerSettingsData.push(
+        getPerformanceFees(this.state.performanceFee, 6)
+      );
     }
 
-    
     let feeArgsData;
 
     // IF CONFIGURATIONS (FEES and FEE SETTING) are not Provided
@@ -80,13 +81,15 @@ class AddNewFundReview extends Component {
 
       // feeArgsData = await getFeesManagerConfigArgsData(fees, feeManagerSettingsData, this.props.account.account.signer, false);
 
-      feeArgsData = utils.hexlify('0x');
-
-    }
-    else {
+      feeArgsData = utils.hexlify("0x");
+    } else {
       /// PREPARE FEE CONFIGURATIONS DATA
-      feeArgsData = await getFeesManagerConfigArgsData(fees, feeManagerSettingsData, this.props.onboard.address, true);
-
+      feeArgsData = await getFeesManagerConfigArgsData(
+        fees,
+        feeManagerSettingsData,
+        this.props.onboard.address,
+        true
+      );
     }
 
     let policyManagerSettingsData = [];
@@ -96,54 +99,82 @@ class AddNewFundReview extends Component {
     if (this.state.displayMinDeposit || this.state.displayMaxDeposit) {
       try {
         // Get values from frontend. Should be 0 if they are not enabled.
-        var minDeposit = this.state.displayMinDeposit ? this.state.minDeposit : 0;
-        var maxDeposit = this.state.displayMaxDeposit ? this.state.maxDeposit : 0;
+        var minDeposit = this.state.displayMinDeposit
+          ? this.state.minDeposit
+          : 0;
+        var maxDeposit = this.state.displayMaxDeposit
+          ? this.state.maxDeposit
+          : 0;
 
         // Scale the minDeposit/maxDeposit values to the denomination asset's decimals
-        var denominationAssetDecimals = await getAssetDecimals(this.state.denominationAddress, this.props.onboard.provider);
-        minDeposit = minDeposit === 0 ? 0 : utils.parseEther(minDeposit).div(10**(18-denominationAssetDecimals));
-        maxDeposit = maxDeposit === 0 ? 0 : utils.parseEther(maxDeposit).div(10**(18-denominationAssetDecimals));
+        var denominationAssetDecimals = await getAssetDecimals(
+          this.state.denominationAddress,
+          this.props.onboard.provider
+        );
+        minDeposit =
+          minDeposit === 0
+            ? 0
+            : utils
+                .parseEther(minDeposit)
+                .div(10 ** (18 - denominationAssetDecimals));
+        maxDeposit =
+          maxDeposit === 0
+            ? 0
+            : utils
+                .parseEther(maxDeposit)
+                .div(10 ** (18 - denominationAssetDecimals));
 
         // Push settings and actual policy
         policies.push(MinMaxInvestment.address);
-        policyManagerSettingsData.push(getMinMaxDepositPolicyArgs(minDeposit, maxDeposit));
-      } catch(e) {
+        policyManagerSettingsData.push(
+          getMinMaxDepositPolicyArgs(minDeposit, maxDeposit)
+        );
+      } catch (e) {
         // TODO: CHANGE THIS ALERT WITH A GOOD FRONTEND ALERT
-        console.log(e)
+        console.log(e);
         alert("Error processing you Min/Max Deposit values");
       }
     }
 
     if (this.state.blackListingAssets.length != 0) {
       policies.push(AssetBlacklist.address);
-      policyManagerSettingsData.push(getAddressArrayPolicyArgs(this.state.blackListingAssets));
+      policyManagerSettingsData.push(
+        getAddressArrayPolicyArgs(this.state.blackListingAssets)
+      );
     }
 
     if (this.state.whiteListingAssets.length != 0) {
       policies.push(AssetWhitelist.address);
-      policyManagerSettingsData.push(getAddressArrayPolicyArgs(this.state.whiteListingAssets));
+      policyManagerSettingsData.push(
+        getAddressArrayPolicyArgs(this.state.whiteListingAssets)
+      );
     }
 
     if (this.state.blackListingAdapters.length != 0) {
       policies.push(AdapterBlacklist.address);
-      policyManagerSettingsData.push(getAddressArrayPolicyArgs(this.state.blackListingAdapters));
+      policyManagerSettingsData.push(
+        getAddressArrayPolicyArgs(this.state.blackListingAdapters)
+      );
     }
 
     if (this.state.whiteListingAdapters.length != 0) {
       policies.push(AdapterWhitelist.address);
-      policyManagerSettingsData.push(getAddressArrayPolicyArgs(this.state.whiteListingAdapters));
+      policyManagerSettingsData.push(
+        getAddressArrayPolicyArgs(this.state.whiteListingAdapters)
+      );
     }
 
     let policyArgsData;
-    if(policies.length === 0) {
-      policyArgsData = utils.hexlify('0x');
+    if (policies.length === 0) {
+      policyArgsData = utils.hexlify("0x");
     } else {
       policyArgsData = getPolicyArgsData(policies, policyManagerSettingsData);
     }
 
     try {
+      console.log(this.props.onboard.provider);
 
-      const timeLockInSeconds  =  this.state.timeLock * 60 * 60;
+      const timeLockInSeconds = this.state.timeLock * 60 * 60;
       var provider = this.props.onboard.provider;
       var adr = this.props.onboard.address;
       const fund = await createNewFund(
@@ -157,17 +188,16 @@ class AddNewFundReview extends Component {
         provider,
         adr
       );
-      console.log(fund)
+      console.log(fund);
 
-      this.setState({ ...this.state, hash: fund.hash })
+      this.setState({ ...this.state, hash: "" });
 
       this.props.deactivateLoaderOverlay();
       this.props.goToNextStepEvent({
         ...this.state,
       });
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
       this.props.deactivateLoaderOverlay();
     }
   };
@@ -286,19 +316,27 @@ class AddNewFundReview extends Component {
             <div className="w-fund-review-info-box">
               <div className="w-fund-review-info-box-row">
                 <div className="w-fund-review-info-type">Adapter Blacklist</div>
-                  <div className="w-fund-review-info-value">{this.state.blackListingAdapters.length} Selected</div>
+                <div className="w-fund-review-info-value">
+                  {this.state.blackListingAdapters.length} Selected
+                </div>
               </div>
               <div className="w-fund-review-info-box-row">
                 <div className="w-fund-review-info-type">Adapter Whitelist</div>
-                <div className="w-fund-review-info-value">{this.state.whiteListingAdapters.length} Selected</div>
+                <div className="w-fund-review-info-value">
+                  {this.state.whiteListingAdapters.length} Selected
+                </div>
               </div>
               <div className="w-fund-review-info-box-row">
                 <div className="w-fund-review-info-type">Asset Blacklist</div>
-                <div className="w-fund-review-info-value">{this.state.blackListingAssets.length} Selected</div>
+                <div className="w-fund-review-info-value">
+                  {this.state.blackListingAssets.length} Selected
+                </div>
               </div>
               <div className="w-fund-review-info-box-row">
                 <div className="w-fund-review-info-type">Asset Whitelist</div>
-                <div className="w-fund-review-info-value">{this.state.whiteListingAssets.length} Selected</div>
+                <div className="w-fund-review-info-value">
+                  {this.state.whiteListingAssets.length} Selected
+                </div>
               </div>
             </div>
             <div className="w-fund-review-header">TERMS AND CONDITIONS</div>
@@ -334,17 +372,13 @@ class AddNewFundReview extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.connect,
-    onboard: state.onboard
+    onboard: state.onboard,
   };
 };
 
-
 const mapDispatchToProps = {
   deactivateLoaderOverlay,
-  activateLoaderOverlay
+  activateLoaderOverlay,
 };
 
-
 export default connect(mapStateToProps, mapDispatchToProps)(AddNewFundReview);
-
-
