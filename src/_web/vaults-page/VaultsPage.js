@@ -78,7 +78,7 @@ class VaultsPage extends Component {
                     <Header {...this.props}
                         displaySettingsPopupEvent={this.displaySettingsPopup}
                         selectedPage="vaults" />
-                    <div className="w-your-funds-page-wrapper" style={{padding: '60px 0 120px 0', height: "100vh"}}>
+                    <div className="w-your-funds-page-wrapper" style={{padding: '60px 0 120px 0', height: "100%"}}>
                         <div className="w-your-funds-page-content">
                             {/* <TopInvestmentFunds {...this.props} /> */}
                             <InvestmentFunds isLoaded={this.state.isLoaded} investments={this.state.investments} {...this.props} />
