@@ -95,7 +95,7 @@ export function initOnboard() {
         //     walletName: 'portis',
         //     apiKey: 'b2b7586f-2b1e-4c30-a7fb-c2d1533b153b'
         //   },
-          { walletName: 'fortmatic', apiKey: 'pk_test_886ADCAB855632AA' },
+          { walletName: 'fortmatic', apiKey: 'pk_live_FAF338DA9462AB2F' },
         //   { walletName: 'torus' },
         //   { walletName: 'trust', rpcUrl },
         //   { walletName: 'opera' },
