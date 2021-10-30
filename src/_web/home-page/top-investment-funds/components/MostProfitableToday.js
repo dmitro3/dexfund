@@ -34,7 +34,7 @@ class MostProfitableToday extends Component {
         <div className="w-profitable-funds-card">
           <div className="w-profitable-funds-card-header">
             <div className="w-profitable-funds-card-title">
-              MOST PROFITABLE THIS MONTH
+              MOST PROFITABLE THIS TODAY
             </div>
             <div
               onClick={(e) => this.toPage(e, "/vaults")}
@@ -45,6 +45,8 @@ class MostProfitableToday extends Component {
           </div>
           {this.props.investments.map((item, index) => (
             <MostProfitableRow
+              {...this.props}
+              id={item.id}
               fundNoFromParent={index + 1}
               fundNameFromParent={item.name}
               fundAssetFromParent={item.accessor.denominationAsset.symbol}

@@ -43,6 +43,8 @@ class MostProfitableThisMonth extends Component {
           </div>
           {this.props.investments.map((item, index) => (
             <MostProfitableRow
+              {...this.props}
+              id={item.id}
               fundNoFromParent={index + 1}
               fundNameFromParent={item.name}
               fundAssetFromParent={item.accessor.denominationAsset.symbol}

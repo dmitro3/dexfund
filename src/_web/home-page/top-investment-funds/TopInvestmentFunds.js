@@ -18,6 +18,7 @@ import MostProfitableToday from "./components/MostProfitableToday";
 
 // CSS
 import "./styles/topInvestmentFunds.css";
+import WalletNotConnected from "../../global/wallet-not-connected/WalletNotConnected";
 
 class TopInvestmentFunds extends Component {
   constructor(props) {
@@ -37,7 +38,7 @@ class TopInvestmentFunds extends Component {
   }
 
   render() {
-    return (
+    return this.props.onboard.walletConnected ? (
       <>
         <div className="w-top-investment-funds-wrapper">
           <div className="w-top-investment-funds-header">
@@ -63,6 +64,8 @@ class TopInvestmentFunds extends Component {
           )}
         </div>
       </>
+    ) : (
+      <WalletNotConnected />
     );
   }
 }

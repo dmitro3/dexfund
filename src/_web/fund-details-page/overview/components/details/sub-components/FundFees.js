@@ -13,9 +13,9 @@ class FundFees extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      managementFee: "1",
-      performanceFee: "1",
-      entranceFee: "1",
+      managementFee: "na",
+      performanceFee: "na",
+      entranceFee: "na",
     };
   }
 
