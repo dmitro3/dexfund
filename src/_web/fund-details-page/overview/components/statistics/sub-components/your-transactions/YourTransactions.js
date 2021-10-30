@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { getEthPrice, getTransactions } from '../../../../../../../ethereum/funds/fund-related';
+import {getTimeDiff} from '../../../../../../../ethereum/utils'
+import { connect } from 'react-redux';
 
 // COMPONENTS
 import YourTransactionsTableHeader from './sub-components/YourTransactionsTableHeader';
@@ -15,26 +18,45 @@ class YourTransactions extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            action1: 'Invest',
-            token1: '23.312',
-            value1: '4,123,123.3',
-            time1: 'about 2 hours ago',
-
-            action2: 'Withdraw',
-            token2: '23.312',
-            value2: '4,123,123.3',
-            time2: 'about 12 hours ago',
-
-            action3: 'Invest',
-            token3: '23.312',
-            value3: '4,123,123.3',
-            time3: 'about 1 day ago',
-
-            action4: 'Invest',
-            token4: '23.312',
-            value4: '4,123,123.3',
-            time4: 'about 1 week ago',
+            transactionHistory: []
         }
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.onboard.address !== this.props.onboard.address) {
+            this.getData();
+        }
+    }
+
+    callbackFunction = (childData) => {
+        this.setState({ searchedValue: childData })
+    }
+
+    isConnected() {
+        return this.props.onboard.walletConnected;
+    }
+
+    async getData() {
+        await this.setState({ isLoaded: false })
+        if (this.isConnected()) {
+            let _ethPrice = await getEthPrice();
+            let trs = await getTransactions(this.props.onboard.address);
+            // let trs = [];
+            this.setState({
+                transactionHistory: trs || [],
+                ethPrice: _ethPrice,
+                isLoaded: true
+            });
+        } else {
+            this.setState({
+                transactionHistory: [],
+                isLoaded: true
+            })
+        }
+    }
+
+    async componentDidMount() {
+        await this.getData();
     }
 
     render() {
@@ -44,34 +66,33 @@ class YourTransactions extends Component {
             <>
                 <div className="w-fund-statistics-your-transactions-wrapper">
                     <YourTransactionsTableHeader />
-                    <YourTransactionsTableRow 
-                        actionFromParent={this.state.action1}
-                        tokenFromParent={this.state.token1}
-                        valueFromParent={this.state.value1}
-                        timeFromParent={this.state.time1}
-                    />
-                    <YourTransactionsTableRow 
-                        actionFromParent={this.state.action2}
-                        tokenFromParent={this.state.token2}
-                        valueFromParent={this.state.value2}
-                        timeFromParent={this.state.time2}
-                    />
-                    <YourTransactionsTableRow 
-                        actionFromParent={this.state.action3}
-                        tokenFromParent={this.state.token3}
-                        valueFromParent={this.state.value3}
-                        timeFromParent={this.state.time3}
-                    />
-                    <YourTransactionsTableRow 
-                        actionFromParent={this.state.action4}
-                        tokenFromParent={this.state.token4}
-                        valueFromParent={this.state.value4}
-                        timeFromParent={this.state.time4}
-                    />
+                    {
+                        this.state.transactionHistory.map(transaction => (
+                            <YourTransactionsTableRow
+                                actionFromParent={transaction.type}
+                                tokenFromParent={parseFloat(transaction.value).toFixed(2)}
+                                valueFromParent={(parseFloat(transaction.value) * this.state.ethPrice).toFixed(2)}
+                                vaultFromParent={transaction.fundName}
+                                typeFromParent={transaction.type}
+                                timeFromParent={getTimeDiff(parseInt(transaction.timestamp) * 1000)}
+                            />
+                        ))
+                        }
                 </div>
             </>
         )
     }
 }
 
-export default YourTransactions;
+const mapStateToProps = (state) => {
+    return {
+        account: state.connect,
+        onboard: state.onboard
+    };
+  };
+  
+  
+const mapDispatchToProps = {
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(YourTransactions);

@@ -9,13 +9,15 @@ import SwapsTableRow from './sub-components/SwapsTableRow';
 
 // CSS
 import './styles/swapsTable.css';
+import { getFundSwapTrades } from '../../../../../sub-graph-integrations/trades';
+import { currencyFormat } from '../../../../../ethereum/utils';
 
 class SwapsTable extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            exchange1: 'Paraswap',
+            exchange: 'Paraswap',
             price1: '$2,000.00',
             amount1: '2,000.00 WETH',
             vsReference1: '+10%',
@@ -26,7 +28,18 @@ class SwapsTable extends Component {
             amount2: '2,000.00 WETH',
             vsReference2: '+10%',
             vsBestPrice2: '-21.31%',
+
+            swapTrades: []
         }
+    }
+
+    async componentDidMount() {
+        const swapTrades = await getFundSwapTrades()
+        console.log('Trades: ', swapTrades);
+
+        this.setState({
+            swapTrades
+        })
     }
 
     render() {
@@ -36,62 +49,19 @@ class SwapsTable extends Component {
             <>
                 <div className="w-swaps-table">
                     <SwapsTableHeader />
-                    <SwapsTableRow 
-                        exchangeFromParent={this.state.exchange1}
-                        priceFromParent={this.state.price1}
-                        amountFromParent={this.state.amount1}
-                        vsReferenceFromParent={this.state.vsReference1}
-                        vsBestPriceFromParent={this.state.vsBestPrice1}
-                    />
-                     <SwapsTableRow 
-                        exchangeFromParent={this.state.exchange2}
-                        priceFromParent={this.state.price2}
-                        amountFromParent={this.state.amount2}
-                        vsReferenceFromParent={this.state.vsReference2}
-                        vsBestPriceFromParent={this.state.vsBestPrice2}
-                    />
-                    <SwapsTableRow 
-                        exchangeFromParent={this.state.exchange2}
-                        priceFromParent={this.state.price2}
-                        amountFromParent={this.state.amount2}
-                        vsReferenceFromParent={this.state.vsReference2}
-                        vsBestPriceFromParent={this.state.vsBestPrice2}
-                    />
-                    <SwapsTableRow 
-                        exchangeFromParent={this.state.exchange2}
-                        priceFromParent={this.state.price2}
-                        amountFromParent={this.state.amount2}
-                        vsReferenceFromParent={this.state.vsReference2}
-                        vsBestPriceFromParent={this.state.vsBestPrice2}
-                    />
-                    <SwapsTableRow 
-                        exchangeFromParent={this.state.exchange2}
-                        priceFromParent={this.state.price2}
-                        amountFromParent={this.state.amount2}
-                        vsReferenceFromParent={this.state.vsReference2}
-                        vsBestPriceFromParent={this.state.vsBestPrice2}
-                    />
-                    <SwapsTableRow 
-                        exchangeFromParent={this.state.exchange2}
-                        priceFromParent={this.state.price2}
-                        amountFromParent={this.state.amount2}
-                        vsReferenceFromParent={this.state.vsReference2}
-                        vsBestPriceFromParent={this.state.vsBestPrice2}
-                    />
-                    <SwapsTableRow 
-                        exchangeFromParent={this.state.exchange2}
-                        priceFromParent={this.state.price2}
-                        amountFromParent={this.state.amount2}
-                        vsReferenceFromParent={this.state.vsReference2}
-                        vsBestPriceFromParent={this.state.vsBestPrice2}
-                    />
-                    <SwapsTableRow 
-                        exchangeFromParent={this.state.exchange2}
-                        priceFromParent={this.state.price2}
-                        amountFromParent={this.state.amount2}
-                        vsReferenceFromParent={this.state.vsReference2}
-                        vsBestPriceFromParent={this.state.vsBestPrice2}
-                    />
+                    {
+                        this.state.swapTrades.map((trade, i) => (
+
+                            <SwapsTableRow 
+                                exchangeFromParent={trade.adapter.identifier}
+                                priceFromParent={trade.incomingAssetAmount.price.price}
+                                amountFromParent={currencyFormat(trade.incomingAssetAmount.amount)}
+                                symbolFromParent = {trade.incomingAssetAmount.asset.symbol}
+                                vsReferenceFromParent="vsRef"
+                                vsBestPriceFromParent="vsBestPrice"
+                            />
+                        ))
+                    }
                 </div>
             </>
         )

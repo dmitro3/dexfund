@@ -28,18 +28,12 @@ class InvestmentFunds extends Component {
             searchedValue: '',
             ethPrice: 0,
             transactionHistory: [],
-            action1: 'Invest',
-            token1: '2.33',
-            value1: '4,123.32',
-            vault1: 'Radar Staking',
-            type1: 'Staking',
-            time1: 'about 2 hours ago',
             isLoaded: false
         }
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.account != this.props.account) {
+        if(prevProps.onboard !== this.props.onboard) {
             this.getData();
         }
     }
@@ -49,14 +43,14 @@ class InvestmentFunds extends Component {
     }
 
     isConnected() {
-        return this.props.account.account && this.props.account.connectSuccess;
+        return this.props.onboard.walletConnected;
     }
 
     async getData() {
         await this.setState({ isLoaded: false })
         if (this.isConnected()) {
             let _ethPrice = await getEthPrice();
-            let trs = await getTransactions();
+            let trs = await getTransactions(this.props.onboard.address);
             // let trs = [];
             this.setState({
                 transactionHistory: trs || [],
@@ -148,6 +142,7 @@ class InvestmentFunds extends Component {
 const mapStateToProps = (state) => {
     return {
       account: state.connect,
+      onboard: state.onboard
     };
   };
   

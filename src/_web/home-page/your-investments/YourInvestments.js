@@ -11,24 +11,17 @@ import WalletNotConnected from './../../global/wallet-not-connected/WalletNotCon
 import SkeletonLoader from './../../global/skeleton-loader/SkeletonLoader';
 
 // CSS
-import './styles/yourInvestments.css';
-import { getYourInvestments } from '../../../sub-graph-integrations';
+import "./styles/yourInvestments.css";
+import { getYourInvestments } from "../../../sub-graph-integrations";
 
 // REDUX
 
-
 class YourInvestments extends Component {
-
     constructor(props) {
         super(props);
 
         this.state = {
-            fundName: 'Initial',
-            yourDeposits: '$1.000.000,00',
-            currentValue: '$1.100.000,00',
-            performance: '+10%',
-            investments: [],
-            isLoaded: false
+            investments: []
         }
 
         this.getInvestments = this.getInvestments.bind(this);
@@ -36,13 +29,13 @@ class YourInvestments extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.account != this.props.account) {
+        if(prevProps.onboard != this.props.onboard) {
             this.getInvestments();
         }
     }
 
     isConnected() {
-        return this.props.account.account && this.props.account.connectSuccess;
+        return this.props.onboard.walletConnected;
     }
 
      loader = () => {
@@ -57,13 +50,13 @@ class YourInvestments extends Component {
             isLoaded: false
         })
         if (this.isConnected()) {
-            const investments = await getYourInvestments();
-            this.setState({
+            const investments = await getYourInvestments(this.props.onboard.address);
+            await this.setState({
                 investments,
                 isLoaded: true
             })
         } else {
-            this.setState({
+            await this.setState({
                 investments: [],
                 isLoaded: true
             })
@@ -140,6 +133,7 @@ class YourInvestments extends Component {
 const mapStateToProps = (state) => {
     return {
       account: state.connect,
+      onboard: state.onboard
     };
   };
   

@@ -1,13 +1,14 @@
 import axios from "axios";
 import configs from "../../config";
 
-export const queryFundOverviewDetails = async (fundId) => {
+export const  queryFundOverviewDetails = async (fundId) => {
   try {
     let query = `
     {
       fund(id: "${fundId}"){
         id
         name
+        
         accessor {
           denominationAsset {
             id
@@ -137,7 +138,7 @@ export const getAllAdapterIntegrations = async () => {
 // denomination Assets
 export const getDenominationAssets = async () => {
   try {
-    const endpoint = configs.DEBUG_MODE ? configs.SUB_GRAPH_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
       {

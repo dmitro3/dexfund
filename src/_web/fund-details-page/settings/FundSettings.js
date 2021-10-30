@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // COMPONENTS
 import RulesetSettings from './components/RulesetSettings';
 import FeesSettings from './components/FeesSettings';
+import { connect } from 'react-redux';
 
 // ASSETS
 // ... 
@@ -15,7 +16,8 @@ class FundSettings extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+            ...this.props.props,
+            ...this.props.state
         }
     }
 
@@ -28,7 +30,7 @@ class FundSettings extends Component {
 
                 <>
                     <div className="w-fund-settings-wrapper">
-                        <RulesetSettings />
+                        <RulesetSettings state={this.state}/>
                         <FeesSettings />
                     </div>
                 </>
@@ -45,4 +47,15 @@ class FundSettings extends Component {
     }
 }
 
-export default FundSettings;
+const mapStateToProps = (state) => {
+    return {
+      account: state.connect,
+    };
+  };
+  
+  const mapDispatchToProps = {
+    
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(FundSettings);
+

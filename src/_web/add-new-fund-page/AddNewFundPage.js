@@ -184,40 +184,54 @@ class AddNewFundPage extends Component {
     this.setState({ settingsPopup: false });
   };
 
-  render() {
-    var width = window.innerWidth;
+  renderConnected() {
 
     const doNotDisplay = {
       display: "none",
     };
+    return (
+      <>
+        <Header
+          {...this.props}
+          displaySettingsPopupEvent={this.displaySettingsPopup}
+        />
+        <div className="w-add-new-fund-page-wrapper">
+          <div className="w-add-new-fund-page-content">
+            <div className="w-add-new-fund-page-title">ADD NEW FUND</div>
+            {this.state.currentStep === "General" && this.renderGeneral()}
+            {this.state.currentStep === "Fees" && this.renderFees()}
+            {this.state.currentStep === "Deposits" && this.renderDeposits()}
+            {this.state.currentStep === "Advanced" && this.renderAdvanced()}
+            {this.state.currentStep === "Review" && this.renderReview()}
+            {this.state.currentStep === "FundCreated" &&
+              this.renderFundCreated()}
+          </div>
+          <div style={this.state.settingsPopup === false ? doNotDisplay : {}}>
+            <SettingsPopup
+              {...this.props}
+              closeSettingsPopupEvent={this.closeSettingsPopup}
+            />
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  renderNotConnected() {
+    this.props.history.push('/')
+  }
+
+  render() {
+
+    var width = window.innerWidth;
 
     if (width > 1000) {
-      return this.props.account  ? (
+      return (
         <>
-          <Header
-            {...this.props}
-            displaySettingsPopupEvent={this.displaySettingsPopup}
-          />
-          <div className="w-add-new-fund-page-wrapper">
-            <div className="w-add-new-fund-page-content">
-              <div className="w-add-new-fund-page-title">ADD NEW FUND</div>
-              {this.state.currentStep === "General" && this.renderGeneral()}
-              {this.state.currentStep === "Fees" && this.renderFees()}
-              {this.state.currentStep === "Deposits" && this.renderDeposits()}
-              {this.state.currentStep === "Advanced" && this.renderAdvanced()}
-              {this.state.currentStep === "Review" && this.renderReview()}
-              {this.state.currentStep === "FundCreated" &&
-                this.renderFundCreated()}
-            </div>
-            <div style={this.state.settingsPopup === false ? doNotDisplay : {}}>
-              <SettingsPopup
-                {...this.props}
-                closeSettingsPopupEvent={this.closeSettingsPopup}
-              />
-            </div>
-          </div>
+        {this.props.onboard.walletConnected === true && this.renderConnected()}
+        {this.props.onboard.walletConnected === false && this.renderNotConnected()}
         </>
-      ) : this.props.history.push({name: '/'})
+      );
     } 
   }
 }
@@ -225,6 +239,7 @@ class AddNewFundPage extends Component {
 const mapStateToProps = (state) => {
   return {
       account: state.connect,
+      onboard: state.onboard
   };
 };
 

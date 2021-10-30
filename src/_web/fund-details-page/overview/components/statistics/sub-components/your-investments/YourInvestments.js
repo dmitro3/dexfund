@@ -9,6 +9,10 @@ import YourInvestmentsTableRow from './sub-components/YourInvestmentsTableRow';
 
 // CSS
 import './styles/yourInvestments.css';
+import { getYourInvestmentsPerFund } from '../../../../../../../sub-graph-integrations';
+import { currencyFormat } from '../../../../../../../ethereum/utils';
+// REDUX
+import {connect}  from 'react-redux'
 
 class YourInvestments extends Component {
 
@@ -19,6 +23,26 @@ class YourInvestments extends Component {
             price1: '2000',
             value1: '20000',
             performance1: '20',
+
+            yourFundInvestments: [],
+            ...this.props.state
+        }
+    }
+
+    async componentDidMount() {
+        try {
+            const investments = await getYourInvestmentsPerFund(this.props.state.fundId, this.props.onboard.address)
+            // console.log('1221', investments);
+            const yourFundInvestments = investments.state.fundState.portfolio.holdings
+            // console.log("ur inv: "+yourFundInvestments)
+            this.setState({
+                yourFundInvestments: investments
+            })
+        } catch (e) {
+            console.log("ERROR: "+e)
+            this.setState({
+                yourFundInvestments: []
+            })
         }
     }
 
@@ -29,28 +53,37 @@ class YourInvestments extends Component {
             <>
                 <div className="w-fund-statistics-your-investments-wrapper">
                     <YourInvestmentsTableHeader />
-                    <YourInvestmentsTableRow 
-                        assetFromParent={this.state.asset1}
-                        priceFromParent={this.state.price1}
-                        valueFromParent={this.state.value1}
-                        performanceFromParent={this.state.performance1}
-                    />
-                    <YourInvestmentsTableRow 
-                        assetFromParent={this.state.asset1}
-                        priceFromParent={this.state.price1}
-                        valueFromParent={this.state.value1}
-                        performanceFromParent={this.state.performance1}
-                    />
-                    <YourInvestmentsTableRow 
-                        assetFromParent={this.state.asset1}
-                        priceFromParent={this.state.price1}
-                        valueFromParent={this.state.value1}
-                        performanceFromParent={this.state.performance1}
-                    />
+                    {
+                        this.state.yourFundInvestments.map((investment) => (
+                            <YourInvestmentsTableRow 
+                                assetFromParent={investment.asset.symbol}
+                                amountFromParent={currencyFormat(investment.amount)}
+                                priceFromParent={currencyFormat(investment.price.price)}
+                                valueFromParent={currencyFormat((investment.price.price) * investment.amount)}
+                                performanceFromParent='some '
+                            />
+
+                        ))
+                    }
+
+                   
                 </div>
             </>
         )
     }
 }
 
-export default YourInvestments;
+
+const mapStateToProps = (state) => {
+    return {
+        account: state.connect,
+        onboard: state.onboard
+    };
+  };
+  
+  
+  const mapDispatchToProps = {
+  };
+  
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(YourInvestments);

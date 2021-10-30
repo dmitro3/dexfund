@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+
+import { activateLoaderOverlay, deactivateLoaderOverlay } from '../../../redux/actions/LoaderAction';
+import configs from '../../../config';
+import { getFiveInvestments } from '../../../sub-graph-integrations';
 
 // COMPONENTS
 import MostProfitableAllTime from './components/MostProfitableAllTime';
@@ -17,9 +23,19 @@ class TopInvestmentFunds extends Component {
         super(props);
 
         this.state = {
-
+            investments: []
         }
     }
+
+    async componentDidMount() {
+        var investments =  await getFiveInvestments();
+        console.log("123123",investments)
+        this.setState({
+            ...this.state,
+            investments: investments
+        })
+    }
+
 
     render() {
 
@@ -30,15 +46,31 @@ class TopInvestmentFunds extends Component {
                     <div className="w-top-investment-funds-header">
                         TOP INVESTMENT FUNDS
                     </div>
-                    <div className="w-top-investment-funds-content">
-                        <MostProfitableAllTime {...this.props} />
-                        <MostProfitableThisMonth {...this.props} />
-                        <MostProfitableToday {...this.props} />
-                    </div>
+                   {
+                       this.props.onboard.walletConnected ? ( <div className="w-top-investment-funds-content">
+                       <MostProfitableAllTime investments={this.state.investments} {...this.props} />
+                       <MostProfitableThisMonth investments={this.state.investments} {...this.props} />
+                       <MostProfitableToday investments={this.state.investments} {...this.props} />
+                   </div>) : <div> </div>
+                   }
                 </div>
             </>
         )
     }
 }
 
-export default TopInvestmentFunds;
+const mapStateToProps = (state) => {
+    return {
+        account: state.connect,
+    };
+};
+
+
+const mapDispatchToProps = {
+    activateLoaderOverlay, 
+    deactivateLoaderOverlay
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(TopInvestmentFunds);
+

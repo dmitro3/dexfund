@@ -19,6 +19,8 @@ class YourInvestmentsTableRow extends Component {
             price: this.props.priceFromParent,
             value: this.props.valueFromParent,
             performance: this.props.performanceFromParent,
+            ...this.props.state,
+            ...this.props.props
         }
     }
 
@@ -30,17 +32,17 @@ class YourInvestmentsTableRow extends Component {
                 <div className="w-fund-your-investments-table-row">
                     <div className="w-fund-your-investments-table-row-cell asset">
                         <div className="w-fund-your-investments-asset-bullet">
-                            <img src={wethIcon} alt='weth-icon' className="fund-your-investments-weth-icon" />
+                            {/* <img src={wethIcon} alt='weth-icon' className="fund-your-investments-weth-icon" /> */}
                             <div className="w-fund-your-investments-asset-bullet-text">
-                                {this.state.asset} WETH
+                                {this.state.asset}
                             </div>
                         </div>
                     </div>
                     <div className="w-fund-your-investments-table-row-cell price">
-                        ${this.state.price}
+                        {this.state.price} WETH
                     </div>
                     <div className="w-fund-your-investments-table-row-cell value">
-                        ${this.state.value}
+                        {this.state.value} WETH
                     </div>
                     <div className="w-fund-your-investments-table-row-cell performance">
                         {this.state.performance}%

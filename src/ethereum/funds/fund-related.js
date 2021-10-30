@@ -18,15 +18,16 @@ import PerformanceFee from "./../abis/PerformanceFee.json";
 import FeeManager from "./../abis/FeeManager.json";
 import ComptrollerLib from "./../abis/ComptrollerLib.json";
 import EntranceRateDirectFee from "./../abis/EntranceRateDirectFee.json";
-import MinMaxInvestment from './../abis/MinMaxInvestment.json';
-import AssetBlacklist from './../abis/AssetBlacklist.json';
-import AssetWhitelist from './../abis/AssetWhitelist.json';
-import AdapterBlacklist from './../abis/AdapterBlacklist.json';
-import AdapterWhitelist from './../abis/AdapterWhitelist.json';
+import MinMaxInvestment from "./../abis/MinMaxInvestment.json";
+import AssetBlacklist from "./../abis/AssetBlacklist.json";
+import AssetWhitelist from "./../abis/AssetWhitelist.json";
+import AdapterBlacklist from "./../abis/AdapterBlacklist.json";
+import AdapterWhitelist from "./../abis/AdapterWhitelist.json";
 import { encodeArgs, convertRateToScaledPerSecondRate } from "./../utils/index";
 import { Decimal } from "decimal.js";
 import axios from "axios";
 import { VaultLib, redeemShares } from "@enzymefinance/protocol";
+import configs from "../../config";
 
 export {
   PerformanceFee,
@@ -36,7 +37,7 @@ export {
   AssetBlacklist,
   AssetWhitelist,
   AdapterBlacklist,
-  AdapterWhitelist
+  AdapterWhitelist,
 };
 
 /* CREATE NEW FUND with Configurations*/
@@ -48,9 +49,12 @@ export const createNewFund = async (
   timeLockInSeconds,
   feeManagerConfig,
   policyManagerConfigData,
-  gaslimit
+  gaslimit,
+  provider,
+  address
 ) => {
-  const { provider, signer, address } = await connectMetamask();
+  provider = new ethers.providers.Web3Provider(provider);
+  const signer = await provider.getSigner();
   const nonce = await provider.getTransactionCount(address, "pending");
 
   // GET FundDeployer Interface Data
@@ -117,7 +121,7 @@ export function getEntranceRateFeeConfigArgs(rate) {
 
 export const getPolicyArgsData = (policies, policySettings) => {
   return encodeArgs(["address[]", "bytes[]"], [policies, policySettings]);
-}
+};
 
 /**
  *
@@ -141,57 +145,58 @@ export const getFeesManagerConfigArgsData = async (
   // remove in mainnet
   const feeManager = new ethers.Contract(
     FeeManager.address,
-    FeeManagerInterface,
-    signer
+    FeeManagerInterface
   );
   let fees_unregister = [];
   // end
 
-  try {
-    if (allow) {
-      const registeredFees = await feeManager.getRegisteredFees();
+  // try {
+  //   if (allow) {
+  //     const registeredFees = await feeManager.getRegisteredFees();
 
-      if (registeredFees.length === 0) {
-        fees_unregister = [ManagementFee.address, PerformanceFee.address];
-        await feeManager.registerFees(fees_unregister, { gasLimit: 300000 });
-      } else {
-        if (!registeredFees.includes(ManagementFee.address)) {
-          fees_unregister.push(ManagementFee.address);
-        }
+  //     if (registeredFees.length === 0) {
+  //       fees_unregister = [ManagementFee.address, PerformanceFee.address];
+  //       await feeManager.registerFees(fees_unregister, { gasLimit: 300000 });
+  //     } else {
+  //       if (!registeredFees.includes(ManagementFee.address)) {
+  //         fees_unregister.push(ManagementFee.address);
+  //       }
 
-        if (!registeredFees.includes(PerformanceFee.address)) {
-          fees_unregister.push(PerformanceFee.address);
-        }
+  //       if (!registeredFees.includes(PerformanceFee.address)) {
+  //         fees_unregister.push(PerformanceFee.address);
+  //       }
 
-        if (!registeredFees.includes(EntranceRateDirectFee.address)) {
-          fees_unregister.push(EntranceRateDirectFee.address);
-        }
-      }
-      // Register this fees for app use
-      if (fees_unregister.length > 0) {
-        await feeManager.registerFees(fees_unregister, { gasLimit: 300000 });
-      }
-    }
+  //       if (!registeredFees.includes(EntranceRateDirectFee.address)) {
+  //         fees_unregister.push(EntranceRateDirectFee.address);
+  //       }
+  //     }
+  //     // Register this fees for app use
+  //     if (fees_unregister.length > 0) {
+  //       await feeManager.registerFees(fees_unregister, { gasLimit: 300000 });
+  //     }
+  //   }
 
     // Convert Fees
     return feeManagerConfigArgs({
       fees: fees,
       settings: feeManagerSettingsData,
     });
-  } catch (error) {
-    console.log(error);
-  }
+  // } catch (error) {
+  //   console.log(error);
+  // }
 };
 
 export const getMinMaxDepositPolicyArgs = (minDeposit, maxDeposit) => {
-  return encodeArgs(['uint256', 'uint256'], [minDeposit, maxDeposit]);
-}
+  return encodeArgs(["uint256", "uint256"], [minDeposit, maxDeposit]);
+};
 
 export const getAddressArrayPolicyArgs = (ars) => {
   return encodeArgs(["address[]"], [ars]);
-}
+};
 
 export const withdraw = async (fundAddress, amount, signer, provider) => {
+  provider = new ethers.providers.Web3Provider(provider)
+  signer = await provider.getSigner();
   const ComptrollerLibInterface = new ethers.utils.Interface(
     JSON.parse(JSON.stringify(ComptrollerLib.abi))
   );
@@ -207,12 +212,12 @@ export const withdraw = async (fundAddress, amount, signer, provider) => {
 };
 
 const getVaultProxyAddress = async (fundAddress) => {
-  const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
+  const url =  configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
   // const url = config.SUB_GRAPH_ENDPOINT;
 
-    fundAddress = "0xee89c37bf01b115a79242a98ef4f90939b59a58b"; //dummy for now.
-    const fundQuery = {
-        query: `
+  fundAddress = "0xee89c37bf01b115a79242a98ef4f90939b59a58b"; //dummy for now.
+  const fundQuery = {
+    query: `
         { 
             newFundCreatedEvents(first: 5, where: {fund: "${fundAddress}"}) {
                 id
@@ -245,8 +250,8 @@ const getVaultProxyAddress = async (fundAddress) => {
     .catch((err) => {
       console.log("Error: ", err);
     });
-    return vaultProxy;
-}
+  return vaultProxy;
+};
 
 export const getPolicies = async () => {
   // policies
@@ -279,37 +284,35 @@ export const getPolicies = async () => {
 };
 
 
-export const getTransactions = async () => {
-  const { provider, signer, address } = await connectMetamask();
-  const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
+export const getTransactions = async (address) => {
+  const url = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
   // const url = config.SUB_GRAPH_ENDPOINT;
-  const user = "0xdcc8d7846f4f957cc58b357994f916d12c7cca95";
 
-  // const transactionQuery = {
-  //   query: `
-  //   { 
-  //     fundEventInterfaces(first: 10, orderBy: timestamp orderDirection: desc) {
-  //       fund{
-  //         name
-  //       }
-  //       __typename
-  //       transaction {
-  //         from
-  //         to
-  //         timestamp
-  //         input
-  //         value
-          
-  //       }
-  //     }
-  //   }
-  //   `
-  // }
+  const transactionQuery = {
+    query: `
+    {
+      fundEventInterfaces(first: 10, orderBy: timestamp orderDirection: desc) {
+        fund{
+          name
+        }
+        __typename
+        transaction {
+          from
+          to
+          timestamp
+          input
+          value
+
+        }
+      }
+    }
+    `
+  }
 
   const transactionQuery1 = {
     query: `
     {
-      transferEvents(first: 10, where: {from: "${user}"},orderBy: timestamp orderDirection: desc) {
+      transferEvents(first: 10, where: {from: "${address}"},orderBy: timestamp orderDirection: desc) {
         fund {
           name
         }
@@ -321,13 +324,13 @@ export const getTransactions = async () => {
         }
       }
     }
-    `
-  }
+    `,
+  };
 
   const transactionQuery2 = {
     query: `
     {
-      transferEvents(first: 10, where: {to: "${user}"},orderBy: timestamp orderDirection: desc) {
+      transferEvents(first: 10, where: {to: "${address}"},orderBy: timestamp orderDirection: desc) {
         fund {
           name
         }
@@ -339,69 +342,72 @@ export const getTransactions = async () => {
         }
       }
     }
-    `
-  }
+    `,
+  };
 
-  let result1 = await axios.post(
-    url,
-    transactionQuery1
-  ).then((response) => {
-      const transactions = response.data.data.transferEvents
-      console.log('transactions', transactions);
+  let result1 = await axios
+    .post(url, transactionQuery1)
+    .then((response) => {
+      const transactions = response.data.data.transferEvents;
+      console.log("transactions", transactions);
       return transactions || [];
-  }).catch((err) => {
+    })
+    .catch((err) => {
       console.log("Error: ", err);
-  });
+    });
 
   let transactions1 = [];
   if (result1) {
-    result1.map(transaction => {
+    result1.map((transaction) => {
       transactions1.push({
         fundName: transaction.fund.name,
         to: transaction.transaction.to,
         from: transaction.transaction.from,
         value: transaction.transaction.value,
-        type: transaction.transaction.to === user ? "Withdraw" : "Invest",
+        type: transaction.transaction.to === address ? "Withdraw" : "Invest",
         timestamp: transaction.transaction.timestamp
       });
+
+      return transactions1
     })
   }
 
-  let result2 = await axios.post(
-    url,
-    transactionQuery2
-  ).then((response) => {
-      const transactions = response.data.data.transferEvents
-      console.log('transactions', transactions);
+  let result2 = await axios
+    .post(url, transactionQuery2)
+    .then((response) => {
+      const transactions = response.data.data.transferEvents;
+      console.log("transactions", transactions);
       return transactions || [];
-  }).catch((err) => {
+    })
+    .catch((err) => {
       console.log("Error: ", err);
-  });
+    });
 
   let transactions2 = [];
   if (result2) {
-    result2.map(transaction => {
+    result2.map((transaction) => {
       transactions2.push({
         fundName: transaction.fund.name,
         to: transaction.transaction.to,
         from: transaction.transaction.from,
         value: transaction.transaction.value,
-        type: transaction.transaction.to === user ? "Withdraw" : "Invest",
+        type: transaction.transaction.to === address ? "Withdraw" : "Invest",
         timestamp: transaction.transaction.timestamp
       });
+
+      return transactions2;
     })
   }
   let result = [].concat(transactions1).concat(transactions2);
   result.sort((a, b) => {
-    return a.timestamp > b.timestamp
+    return a.timestamp > b.timestamp;
   });
   return result.slice(0, 5) || [];
-}
+  // return [];
+};
 
 export const getEthPrice = async () => {
-  const { provider, signer, address } = await connectMetamask();
-  const url = "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme";
-  // const url = config.SUB_GRAPH_ENDPOINT;
+  const url =  configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
 
   const priceQuery = {
     query: `
@@ -412,19 +418,12 @@ export const getEthPrice = async () => {
         }
       }
     }
-    `
-  }
+    `,
+  };
 
-  let result = await axios.post(
-    url,
-    priceQuery
-  ).then((response) => {
-      console.log('prices: ', response.data);
-      const currency = response.data.data.currency
-      console.log('prices', currency);
-      return parseFloat(currency.price.price) || 0;
-  }).catch((err) => {
-      console.log("Error: ", err);
-  });
-  return result || [];
-}
+  let response = await axios.post(url, priceQuery);
+  console.log("prices: ", response.data);
+  const currency = response.data.data.currency;
+  console.log("prices", currency);
+  return parseFloat(currency.price.price) || 0;
+};

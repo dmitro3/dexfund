@@ -10,10 +10,10 @@ import chevronDownIcon from "./assets/chevron-down-icon.svg";
 import activityIcon from "./assets/activity-icon.svg";
 // CSS
 import "./styles/header.css";
-import {
-  connectAccount,
-  disconnectAccount,
-} from "./../../../redux/actions/AccountActions";
+
+import { connectAccountOnboard, disconnectAccountOnboard } from './../../../redux/actions/OnboardActions';
+
+import { ethers } from 'ethers';
 
 import {activateLoaderOverlay, deactivateLoaderOverlay}  from  './../../../redux/actions/LoaderAction'
 
@@ -24,7 +24,7 @@ class Header extends Component {
     this.toPage = this.toPage.bind(this);
     this.state = {
       settingsPopup: false,
-      selectedPage: typeof(this.props.selectedPage) !== "undefined" ? this.props.selectedPage : ""
+      selectedPage: typeof(this.props.selectedPage) !== "undefined" ? this.props.selectedPage : "",
     };
   }
 
@@ -104,7 +104,7 @@ class Header extends Component {
                 />
               </div>
 
-              {this.props.account.account ? (
+              {this.props.onboard.walletConnected ? (
                   <>
                 <div
                   className="w-header-address-button"
@@ -112,11 +112,11 @@ class Header extends Component {
                 >
                   <div className="w-header-address-button-amount-button">
                     <div className="w-header-address-button-amount-button-text">
-                      {this.props.account.account.balance} ETH
+                      {parseFloat(this.props.onboard.balance == null ? 0 : this.props.onboard.balance/10**18).toFixed(4)} ETH
                     </div>
                   </div>
                   <div className="w-header-address-button-text">
-                    {this.displayAddress(this.props.account.account.address ? this.props.account.account.address : "")}
+                    {this.displayAddress(this.props.onboard.address ? this.props.onboard.address : "")}
                   </div>
                   <img
                     src={chevronDownIcon}
@@ -126,7 +126,7 @@ class Header extends Component {
                 </div>
                 <button
                   className="w-header-connect-wallet-button"
-                  onClick={() => this.props.disconnectAccount()}
+                  onClick={() => this.props.disconnectAccountOnboard()}
                 >
                   <div className="w-header-connect-wallet-button-text">
                     DISCONNECT
@@ -137,9 +137,9 @@ class Header extends Component {
                 <button
                   className="w-header-connect-wallet-button"
                   onClick={() => {
-                     this.props.activateLoaderOverlay();
-                     this.props.connectAccount();
-                     this.props.deactivateLoaderOverlay();
+                    //  this.props.activateLoaderOverlay();
+                     this.props.connectAccountOnboard();
+                    //  this.props.deactivateLoaderOverlay();
                     }}
                 >
                   <div className="w-header-connect-wallet-button-text">
@@ -158,15 +158,16 @@ class Header extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.connect,
+    onboard: state.onboard
   };
 };
 
 
 const mapDispatchToProps = {
-  connectAccount,
-  disconnectAccount,
   deactivateLoaderOverlay,
-  activateLoaderOverlay
+  activateLoaderOverlay,
+  connectAccountOnboard,
+  disconnectAccountOnboard
 };
 
 

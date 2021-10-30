@@ -46,8 +46,7 @@ class Sidebar extends Component {
     };
 
     return (
-      this.props.account &&
-      (this.props.account.connectSuccess ? (
+      (this.props.onboard.walletConnected ? (
         <>
           <div className="w-sidebar-wrapper">
             <div className="w-sidebar-content">
@@ -103,6 +102,7 @@ class Sidebar extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.connect,
+    onboard: state.onboard
   };
 };
 

@@ -22,11 +22,15 @@ import {
   deactivateLoaderOverlay,
 } from "./../../redux/actions/LoaderAction";
 
+import {getFundAllFunds}  from  './../../sub-graph-integrations/funds/index'
+
 class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       settingsPopup: false,
+      topFunds: [],
+      ...this.props
     };
   }
 
@@ -37,6 +41,16 @@ class HomePage extends Component {
   closeSettingsPopup = () => {
     this.setState({ settingsPopup: false });
   };
+
+  async componentDidMount() {
+    const topFundsList  =  await getFundAllFunds();
+    this.setState({
+      ...this.state,
+      topFunds : topFundsList ? topFundsList : []
+    })
+
+    console.log("Top", this.state.topFunds)
+  }
 
   render() {
     var width = window.innerWidth;
@@ -56,7 +70,9 @@ class HomePage extends Component {
           <div className="w-home-page-wrapper">
             <div className="w-home-page-content">
               <Portfolio walletMust={true} props={this.props} currentSharePrice="INTERNAL_API" />
-              <TopInvestmentFunds {...this.props} />
+
+
+              <TopInvestmentFunds {...this.props}  topFunds= {this.state.topFunds} />
               <YourInvestments />
               <YourInvestmentFunds
                 {...this.props}
@@ -83,6 +99,7 @@ class HomePage extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.connect,
+    onboard: state.onboard
   };
 };
 
