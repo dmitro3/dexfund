@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import { getTimeDiff } from "../../../../../../../ethereum/utils";
 import {
   getEthPrice,
   getTransactions,
 } from "../../../../../../../ethereum/funds/fund-related";
-import { getTimeDiff } from "../../../../../../../ethereum/utils";
+import { connect } from "react-redux";
 
 // COMPONENTS
 import YourTransactionsTableHeader from "./sub-components/YourTransactionsTableHeader";
@@ -85,4 +86,13 @@ class YourTransactions extends Component {
   }
 }
 
-export default YourTransactions;
+const mapStateToProps = (state) => {
+  return {
+    account: state.connect,
+    onboard: state.onboard,
+  };
+};
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(YourTransactions);
