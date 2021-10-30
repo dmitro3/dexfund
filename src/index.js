@@ -16,6 +16,8 @@ import { Web3ReactProvider } from "@web3-react/core";
 import ProtectedRoute from "./_web/ProtectedRoute/ProtectedRoute";
 import LoaderOverlary from "./_web/LoaderOverlay/LoaderOverlay";
 
+import "./onboardStyling.css";
+
 function getLibrary(provider) {
   return new Web3(provider);
 }

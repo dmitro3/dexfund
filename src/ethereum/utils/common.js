@@ -1,7 +1,19 @@
 import { formatDistanceToNowStrict } from "date-fns";
 import { connectMetamask } from "./../web3";
-import ValutLib from './../abis/VaultLib.json';
+import ValutLib from "./../abis/VaultLib.json";
 import { utils, ethers } from "ethers";
+
+import {
+  ChainId,
+  Token,
+  WETH,
+  Fetcher,
+  Trade,
+  Route,
+  TokenAmount,
+  TradeType,
+} from "@uniswap/sdk";
+import { BigNumber } from "bignumber.js";
 
 /**
  *
@@ -25,13 +37,43 @@ export const getTimeDiff = (date) => {
   return result;
 };
 
-export async function getAssetDecimals(assetAddress) {
-    const { provider, signer, address } = await connectMetamask();
-    // we use VaultLib as an interface because it has the `decimals()` getter
-    const assetInterface = new ethers.utils.Interface(
-        JSON.parse(JSON.stringify(ValutLib.abi))
-    );
-    const asset = new ethers.Contract(assetAddress, assetInterface, signer);
-    const decimals = await asset.decimals();
-    return decimals;
+export async function getAssetDecimals(assetAddress, provider) {
+  // we use VaultLib as an interface because it has the `decimals()` getter
+  const assetInterface = new ethers.utils.Interface(
+    JSON.parse(JSON.stringify(ValutLib.abi))
+  );
+  provider = new ethers.providers.Web3Provider(provider)
+  const signer = await provider.getSigner();
+  const asset = new ethers.Contract(assetAddress, assetInterface, signer);
+  const decimals = await asset.decimals();
+  return decimals;
 }
+
+/**
+ *
+ * @returns Get current eth price
+ */
+export const wrappedEthPrice = async () => {
+  const token = new Token(
+    ChainId.MAINNET,
+    "0x97deC872013f6B5fB443861090ad931542878126",
+    18
+  );
+
+  const pair = await Fetcher.fetchPairData(token, WETH[token.chainId]);
+
+  const route = new Route([pair], WETH[token.chainId]);
+
+  let trade = new Trade(
+    route,
+    new TokenAmount(
+      WETH[token.chainId],
+      new BigNumber(1).shiftedBy(18).toString()
+    ),
+    TradeType.EXACT_INPUT
+  );
+  const amount =
+    parseFloat(trade.executionPrice.toSignificant(6)) * parseFloat(1);
+
+  return amount;
+};

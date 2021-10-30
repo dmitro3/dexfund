@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 // COMPONENTS
 import Chart1D from './components/Chart1D';
@@ -15,7 +15,7 @@ import greenArrowIcon from './assets/green-arrow-icon.svg';
 import separatorIcon from './assets/separator-icon.svg';
 import graph from './assets/graph.svg';
 // CSS
-import './styles/portfolio.css';
+import "./styles/portfolio.css";
 
 // REDUX
 import { connect } from "react-redux";
@@ -220,8 +220,8 @@ class Portfolio extends Component {
             <>
                 <div className="w-portfolio-wrapper">
                     <div className="w-portfolio-content">
-                        {((this.props.account && this.props.account.connectSuccess) || this.state.walletMust === false) && this.renderWalletConnected()}
-                        {((!this.props.account || !this.props.account.connectSuccess) && this.state.walletMust === true) && this.renderWalletNotConnected()}
+                        {(this.props.onboard.walletConnected || this.state.walletMust === false) && this.renderWalletConnected()}
+                        {(!this.props.onboard.walletConnected && this.state.walletMust === true) && this.renderWalletNotConnected()}
                     </div>
                 </div>
             </>
@@ -232,6 +232,7 @@ class Portfolio extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.connect,
+    onboard: state.onboard
   };
 };
 

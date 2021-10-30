@@ -30,7 +30,7 @@ class YourInvestments extends Component {
     }
 
     async componentDidMount() {
-        const investments = await getYourInvestmentsPerFund(this.props.state.fundId, this.props.account.account.address)
+        const investments = await getYourInvestmentsPerFund(this.props.state.fundId, this.props.onboard.address)
         console.log('1221', investments);
         const yourFundInvestments = investments.state.fundState.portfolio.holdings
         console.log(yourFundInvestments)
@@ -70,6 +70,7 @@ class YourInvestments extends Component {
 const mapStateToProps = (state) => {
     return {
         account: state.connect,
+        onboard: state.onboard
     };
   };
   

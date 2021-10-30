@@ -47,7 +47,7 @@ class TopInvestmentFunds extends Component {
                         TOP INVESTMENT FUNDS
                     </div>
                    {
-                       this.props.account.account ? ( <div className="w-top-investment-funds-content">
+                       this.props.onboard.walletConnected ? ( <div className="w-top-investment-funds-content">
                        <MostProfitableAllTime investments={this.state.investments} {...this.props} />
                        <MostProfitableThisMonth investments={this.state.investments} {...this.props} />
                        <MostProfitableToday investments={this.state.investments} {...this.props} />

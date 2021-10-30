@@ -286,6 +286,7 @@ class FundDetailsPage extends Component {
 const mapStateToProps = (state) => {
   return {
       account: state.connect,
+      onboard: state.onboard
   };
 };
 
