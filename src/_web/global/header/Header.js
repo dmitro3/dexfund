@@ -97,7 +97,7 @@ class Header extends Component {
                 }
                 onClick={() => this.toPage("/your-funds")}
               >
-                YOUR FUNDS
+                YOUR VAULTS
               </div>
             </div>
             <div className="w-header-account-section">

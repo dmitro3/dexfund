@@ -76,7 +76,7 @@ class HomePage extends Component {
               <YourInvestments />
               <YourInvestmentFunds
                 {...this.props}
-                titleFromParent="FEATURED FUNDS"
+                titleFromParent="FEATURED VAULTS"
                 addNewFundFromParent={false}
               />
               <YourTransactions titleFromParent="YOUR TRANSACTIONS" />

@@ -197,7 +197,7 @@ class AddNewFundPage extends Component {
         />
         <div className="w-add-new-fund-page-wrapper">
           <div className="w-add-new-fund-page-content">
-            <div className="w-add-new-fund-page-title">ADD NEW FUND</div>
+            <div className="w-add-new-fund-page-title">ADD NEW VAULT</div>
             {this.state.currentStep === "General" && this.renderGeneral()}
             {this.state.currentStep === "Fees" && this.renderFees()}
             {this.state.currentStep === "Deposits" && this.renderDeposits()}

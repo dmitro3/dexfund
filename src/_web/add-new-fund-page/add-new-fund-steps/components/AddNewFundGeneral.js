@@ -190,7 +190,7 @@ class AddNewFundGeneral extends Component {
                 type="text"
                 id="new-fund-name"
                 name="fundName"
-                placeholder="Fund name"
+                placeholder="Vault name"
                 value={this.state.fundName}
                 onChange={(e) => this.setFundName(e)}
                 style={{

@@ -26,7 +26,7 @@ class YourInvestmentsTableHeader extends Component {
             <>
                 <div className="w-your-investments-table-header">
                     <div className="w-your-investments-table-header-item name">
-                        Fund Name
+                        Vault Name
                     </div>
                     <div className="w-your-investments-table-header-item your-deposits">
                         Your Total Deposits
