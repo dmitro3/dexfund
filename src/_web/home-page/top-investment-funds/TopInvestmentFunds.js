@@ -30,11 +30,17 @@ class TopInvestmentFunds extends Component {
   }
 
   async componentDidMount() {
-    var investments = await getFiveInvestments();
-    this.setState({
-      ...this.state,
-      investments: investments,
-    });
+    try {
+      var investments = await getFiveInvestments();
+      this.setState({
+        ...this.state,
+        investments: investments,
+      });
+    } catch {
+      this.setState({
+        investments: []
+      })
+    }
   }
 
   render() {

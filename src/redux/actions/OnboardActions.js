@@ -1,4 +1,4 @@
-import { initOnboard } from './../../ethereum/onboard';
+import { onboard } from './../../ethereum/onboard';
 
 export const ACCOUNT_CHANGE = "WALLET_CHANGE_SUBSCRIPTION";
 export const ONBOARD_CREATED = "ONBOARD_CREATED";
@@ -6,6 +6,7 @@ export const ONBOARD_UPDATED = "ONBOARD_UPDATED";
 export const ACCOUNT_DISCONNECT = "ONBOARD_DESTORYED";
 export const ONBOARD_ADDRESS_CHANGE = "ONBOARD_ADDRESS_UPDATE";
 export const ONBOARD_BALANCE_UPDATE = "ONBOARD_BALANCE_UPDATE";
+export const ONBOARD_NETWORK_CHANGE = "ONBOARD_NETWORK_CHANGE";
 
 export const walletChange = (newWallet) => {
     return async (dispatch) => {
@@ -34,14 +35,20 @@ export const addressChange = (newAddress) => {
     }
 }
 
-export const onboardUpdated = (onboard) => {
+export const onboardUpdated = () => {
     return async(dispatch) => {
+        console.log("Updating onboard")
         const check = await onboard.checkWallet();
         if (check) {
             var statee = await onboard.getState();
             dispatch({
                 type: ONBOARD_UPDATED,
-                payload: {onboard, provider: statee.wallet.provider, address: statee.address, balance: statee.balance}
+                payload: {onboard,
+                    provider: statee.wallet.provider,
+                    address: statee.address,
+                    balance: statee.balance,
+                    networkId: statee.network
+                }
             });
         } else {
             disconnectAccountOnboard();
@@ -52,7 +59,8 @@ export const onboardUpdated = (onboard) => {
 export const connectAccountOnboard = () => {
     return async(dispatch) => {
         try {
-            const onboard = initOnboard();
+            // const onboard = initOnboard();
+            await onboard.walletReset();
             const hasConnected = await onboard.walletSelect();
             if (hasConnected) {
                 var check = await onboard.walletCheck()
@@ -61,7 +69,12 @@ export const connectAccountOnboard = () => {
                 var statee = await onboard.getState();
                 dispatch({
                     type: ONBOARD_CREATED,
-                    payload: {onboard, provider: statee.wallet.provider, address: statee.address, balance: statee.balance}
+                    payload: {onboard,
+                        provider: statee.wallet.provider,
+                        address: statee.address,
+                        balance: statee.balance,
+                        networkId: statee.network
+                    }
                 });
             }
         } catch(e) {
@@ -72,8 +85,27 @@ export const connectAccountOnboard = () => {
 
 export const disconnectAccountOnboard = () => {
     return async(dispatch) => {
+        await onboard.walletReset();
         dispatch({
             type: ACCOUNT_DISCONNECT
         })
+    }
+}
+
+export const checkWallet = () => {
+    return async(dispatch) => {
+        const check = await onboard.walletCheck();
+        if (check) {
+            var statee = await onboard.getState();
+            dispatch({
+                type: ONBOARD_UPDATED,
+                payload: {onboard,
+                    provider: statee.wallet.provider,
+                    address: statee.address,
+                    balance: statee.balance,
+                    networkId: statee.network
+                }
+            });
+        }
     }
 }

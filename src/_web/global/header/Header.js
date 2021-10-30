@@ -4,16 +4,19 @@ import { connect } from "react-redux";
 // ...
 
 // ASSETS
-import radarIcon from "./assets/radar-icon.svg";
+import radarIcon from "./assets/radar-icon.png";
 import ethIcon from "./assets/eth-icon.svg";
+import warningIcon from './assets/warning-icon.svg';
 import chevronDownIcon from "./assets/chevron-down-icon.svg";
 import activityIcon from "./assets/activity-icon.svg";
 // CSS
 import "./styles/header.css";
 
+import configs from './../../../config';
 import {
   connectAccountOnboard,
   disconnectAccountOnboard,
+  checkWallet
 } from "./../../../redux/actions/OnboardActions";
 
 import { ethers } from "ethers";
@@ -33,6 +36,7 @@ class Header extends Component {
         typeof this.props.selectedPage !== "undefined"
           ? this.props.selectedPage
           : "",
+      expectedNetworkId: configs.DEBUG_MODE ? configs.networkId_DEBUG : configs.networkId
     };
   }
 
@@ -53,6 +57,14 @@ class Header extends Component {
   displayAddress = (address) => {
     return `${address.substring(0, 4)} ... ${address.substring(39)}`;
   };
+
+  doCheckWallet(e) {
+    e.preventDefault();
+    if (this.props.onboard.networkId !== this.state.expectedNetworkId) {
+      console.log("Clicked unsupported network")
+      this.props.checkWallet();
+    }
+  }
 
   render() {
     const selectedNavbarItemStyle = {
@@ -108,16 +120,16 @@ class Header extends Component {
                   className="activity-icon"
                 /> */}
               </div>
-              <div className="w-header-eth-button">
+              <div onClick={(e) => this.doCheckWallet(e)} className="w-header-eth-button">
                 <div className="w-header-eth-button-asset-section">
-                  <img src={ethIcon} alt="eth-icon" className="eth-icon" />
-                  <div className="w-header-eth-button-asset-text">Ethereum</div>
+                  <img src={this.props.onboard.networkId === this.state.expectedNetworkId ? ethIcon : warningIcon} alt="eth-icon" className="eth-icon" />
+                  <div className="w-header-eth-button-asset-text">{this.props.onboard.networkId === this.state.expectedNetworkId ? "Ethereum" : "Unsupported Network"}</div>
                 </div>
-                <img
+                {/* <img
                   src={chevronDownIcon}
                   alt="arrow-down-icon"
                   className="chevron-down-icon"
-                />
+                /> */}
               </div>
 
               {this.props.onboard.walletConnected ? (
@@ -190,6 +202,7 @@ const mapDispatchToProps = {
   activateLoaderOverlay,
   connectAccountOnboard,
   disconnectAccountOnboard,
+  checkWallet
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

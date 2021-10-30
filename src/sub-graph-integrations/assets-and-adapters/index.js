@@ -112,7 +112,7 @@ export const queryFundFinancials = async (fundId) => {
 
 export const getAllAdapterIntegrations = async () => {
   try {
-    const endpoint = configs.DEBUG_MODE ? configs.SUB_GRAPH_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
             {
@@ -209,7 +209,7 @@ export const getDenominationAssets = async () => {
 
 export const getAllAssetsIntegrations = async () => {
   try {
-    const endpoint = configs.DEBUG_MODE ? configs.SUB_GRAPH_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
       {

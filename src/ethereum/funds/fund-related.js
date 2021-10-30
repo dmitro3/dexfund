@@ -212,8 +212,8 @@ export const withdraw = async (fundAddress, amount, signer, provider) => {
 };
 
 const getVaultProxyAddress = async (fundAddress) => {
-  const url =  configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
-  // const url = config.SUB_GRAPH_ENDPOINT;
+  const url =  configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+  // const url = config.MAINNET_ENDPOINT;
 
   fundAddress = "0xee89c37bf01b115a79242a98ef4f90939b59a58b"; //dummy for now.
   const fundQuery = {
@@ -285,8 +285,8 @@ export const getPolicies = async () => {
 
 
 export const getTransactions = async (address) => {
-  const url = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
-  // const url = config.SUB_GRAPH_ENDPOINT;
+  const url = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+  // const url = config.MAINNET_ENDPOINT;
 
   const transactionQuery = {
     query: `
@@ -407,7 +407,7 @@ export const getTransactions = async (address) => {
 };
 
 export const getEthPrice = async () => {
-  const url =  configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.SUB_GRAPH_ENDPOINT;
+  const url =  configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
 
   const priceQuery = {
     query: `
