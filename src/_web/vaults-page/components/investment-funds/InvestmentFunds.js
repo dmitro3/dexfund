@@ -1,126 +1,125 @@
-import React from 'react';
+import React from "react";
 
 // COMPONENTS
-import InvestmentFundsTableHeader from './sub-components/InvestmentFundsTableHeader';
-import InvestmentFundsTableRow from './sub-components/InvestmentFundsTableRow';
-import SearchBar from './../../../global/your-transactions/components/SearchBar';
-import SkeletonLoader from './../../../global/skeleton-loader/SkeletonLoader';
+import InvestmentFundsTableHeader from "./sub-components/InvestmentFundsTableHeader";
+import InvestmentFundsTableRow from "./sub-components/InvestmentFundsTableRow";
+import SearchBar from "./../../../global/your-transactions/components/SearchBar";
+import SkeletonLoader from "./../../../global/skeleton-loader/SkeletonLoader";
 // ASSETS
 // ...
 
 // CSS
-import '../../vaultsPage.css';
+import "../../vaultsPage.css";
 
 class InvestmentFunds extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchValue: "",
+      isLoaded: this.props.isLoaded,
+    };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            searchValue: "",
-            isLoaded: this.props.isLoaded
-        }
+    this.searchCallbackFunction = this.searchCallbackFunction.bind(this);
+  }
 
-        this.searchCallbackFunction = this.searchCallbackFunction.bind(this);
+  componentDidUpdate() {
+    if (this.props.isLoaded != this.state.isLoaded) {
+      this.setState({ isLoaded: this.props.isLoaded });
     }
+  }
 
-    componentDidUpdate() {
-        if (this.props.isLoaded != this.state.isLoaded) {
-            this.setState({ isLoaded: this.props.isLoaded})
-        }
+  toPage(path) {
+    this.props.history.push(path);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }
+
+  tableRender() {
+    if (this.state.isLoaded) {
+      if (this.props.investments.length > 0) {
+        return this.renderFunds();
+      } else {
+        return this.renderNoFunds();
+      }
+    } else {
+      return this.renderLoading();
     }
+  }
 
-    toPage(path) {
-        this.props.history.push(path);
-        window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'smooth'
-        })
-    }
+  searchCallbackFunction(v) {
+    this.setState({
+      searchValue: v,
+    });
+  }
 
-    tableRender() {
-        if (this.state.isLoaded) {
-            if (this.props.investments.length > 0) {
-                return this.renderFunds();
-            } else {
-                return this.renderNoFunds();
-            }
-        } else {
-            return this.renderLoading();
-        }
-    }
+  renderNoFunds() {
+    return (
+      <div
+        className="w-your-transactions-table-row-no-data"
+        style={{ textAlign: "center", color: "white" }}
+      >
+        There are no active funds
+      </div>
+    );
+  }
 
-    searchCallbackFunction(v) {
-        this.setState({
-            searchValue: v
-        })
-    }
+  renderFunds() {
+    return (
+      <div style={{ overflowY: "scroll", height: "60vh" }}>
+        {this.props.investments.map((investment, index) => {
+          if (
+            investment.name
+              .toLowerCase()
+              .includes(this.state.searchValue.toLowerCase()) ||
+            investment.trackedAssets[0].symbol
+              .toLowerCase()
+              .includes(this.state.searchValue.toLowerCase()) ||
+            this.state.searchValue === ""
+          )
+            return (
+              <InvestmentFundsTableRow
+                key={index}
+                idFromParent={investment.id}
+                nameFromParent={investment.name}
+                typeFromParent="Investment"
+                denominationAssetFromParent={investment.trackedAssets[0].symbol}
+                // AUMFromParent={investment.lastKnowGavInEth}
+                AUMFromParent="INTERNAL_API"
+                depositorsFromParent={investment.investmentCount}
+                lifetimeGainFromParent="na%"
+                {...this.props}
+              />
+            );
+        })}
+      </div>
+    );
+  }
 
-    renderNoFunds() {
-        return (
-            <div
-            className="w-your-transactions-table-row-no-data"
-            style={{textAlign: "center", color: "white"}}
-            >
-                There are no active funds
-            </div>
-        )
-    }
+  renderLoading() {
+    return <SkeletonLoader rows={10} rowHeight={60} />;
+  }
 
-    renderFunds() {
-        return (
-            <div style={{overflowY: "scroll", height: "60vh"}}>
-                    {
-                        this.props.investments.map((investment, index) => {
-                            if (investment.name.toLowerCase().includes(this.state.searchValue.toLowerCase()) ||
-                                investment.trackedAssets[0].symbol.toLowerCase().includes(this.state.searchValue.toLowerCase()) ||
-                                this.state.searchValue === "")
-                                return (
-                                    <InvestmentFundsTableRow key={index}
-                                        idFromParent={investment.id}
-                                        nameFromParent={investment.name}
-                                        typeFromParent='Investment'
-                                        denominationAssetFromParent={investment.trackedAssets[0].symbol}
-                                        // AUMFromParent={investment.lastKnowGavInEth}
-                                        AUMFromParent="INTERNAL_API"
-                                        depositorsFromParent={investment.investmentCount}
-                                        lifetimeGainFromParent='0.00%'
-                                        {...this.props}
-                                    />
-                            )
-                        }
-                        )
-                    }
-                    </div>
-        )
-    }
+  render() {
+    return (
+      <>
+        <div className="w-top-investment-funds-wrapper">
+          <div className="w-top-investment-funds-header">
+            ALL INVESTMENT FUNDS
+          </div>
+          <SearchBar
+            parentCallback={this.searchCallbackFunction}
+            defaultValue="Search for a Fund Name or Denomination Asset"
+          />
+          <InvestmentFundsTableHeader />
 
-    renderLoading() {
-        return (<SkeletonLoader
-            rows={10}
-            rowHeight={60}
-        />)
-    }
-
-    render() {
-        return (
-
-            <>
-                <div className="w-top-investment-funds-wrapper" >
-                    <div className="w-top-investment-funds-header">
-                        ALL INVESTMENT VAULTS
-                    </div>
-                    <SearchBar
-                        parentCallback={this.searchCallbackFunction}
-                        defaultValue="Search for a Vault Name or Denomination Asset"
-                    />
-                    <InvestmentFundsTableHeader />
-
-                    {this.tableRender()}
-                </div>
-            </>
-        )
-    }
+          {this.tableRender()}
+        </div>
+      </>
+    );
+  }
 }
 
 export default InvestmentFunds;

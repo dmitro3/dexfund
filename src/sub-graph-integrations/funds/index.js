@@ -1,7 +1,6 @@
 import axios from "axios";
 import configs from "./../../config";
 
-
 // Get all investments
 export const getAllInvestments = async () => {
   try {
@@ -27,22 +26,23 @@ export const getAllInvestments = async () => {
                   }
                 }
               }
-        `});
+        `,
+    });
 
-    return data.data.funds
+    return data.data.funds;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
 // Get all investments
 export const getFiveInvestments = async () => {
   try {
-    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
-    const { data } = await axios.post(
-      endpoint,
-      {
-        query: `
+    const endpoint = configs.DEBUG_MODE
+      ? configs.ENZYME_ENDPOINT
+      : configs.MAINNET_ENDPOINT;
+    const { data } = await axios.post(endpoint, {
+      query: `
             {
                 funds(first: 5, orderBy: lastKnowGavInEth, orderDirection: desc) {
                   id
@@ -60,7 +60,8 @@ export const getFiveInvestments = async () => {
                   }
                 }
               }
-        `});
+        `,
+    });
 
     return data.data.funds || [];
   } catch (error) {
@@ -72,9 +73,12 @@ export const getFiveInvestments = async () => {
 // Get your investemnt funds
 export const getYourInvestments = async (address) => {
   try {
-    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const endpoint = configs.DEBUG_MODE
+      ? configs.ENZYME_ENDPOINT
+      : configs.MAINNET_ENDPOINT;
 
-    const q = address ? `
+    const q = address
+      ? `
     { 
         sharesBoughtEvents(where:  {investor_contains: "${address}"}){
             investmentAmount
@@ -90,7 +94,8 @@ export const getYourInvestments = async (address) => {
                 investorSince
             }
         } 
-    }` : `
+    }`
+      : `
         { 
             sharesBoughtEvents(first: 5, orderBy: timestamp, orderDirection: desc){
                 investmentAmount
@@ -106,14 +111,11 @@ export const getYourInvestments = async (address) => {
                     investorSince
                 }
             } 
-        }`
-    const { data } = await axios.post(
-      endpoint,
-      {
-        query: q
-      }
-    );
-    console.log("YOUR INVESTMENTS: ", data.data)
+        }`;
+    const { data } = await axios.post(endpoint, {
+      query: q,
+    });
+    console.log("YOUR INVESTMENTS: ", data.data);
 
     return data.data.sharesBoughtEvents;
   } catch (error) {
@@ -151,19 +153,15 @@ export const getYourInvestmentsPerFund = async (fundId, address) => {
           }
         }
     
-        `
-      }
-    );
-    console.log("YOUR INVESTMENTS in fund: ", data.data)
+        `,
+    });
+    console.log("YOUR INVESTMENTS in fund: ", data.data);
 
-    return data.data.fund.investments
-
-    return data.data.sharesBoughtEvents;
+    return data.data.fund.investments;
   } catch (error) {
     console.log(error);
   }
 };
-
 
 // Fund Compostion
 export const getFundCompostion = async (fundId) => {
@@ -228,11 +226,10 @@ export const ListAllTrades = async () => {
       }
       `,
     });
+
+    return data.data;
   } catch (error) {}
 };
-
-
-
 
 export const getFundAllFunds = async () => {
   try {
@@ -267,18 +264,15 @@ export const getFundAllFunds = async () => {
           lastKnowGavInEth
         }
       }  
-       `
-      }
-    );
-    console.log("FUND: ", data.data.funds)
+       `,
+    });
+    console.log("FUND: ", data.data.funds);
 
-
-    return data.data.funds
-
+    return data.data.funds;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 // Claim Rewards
 export const getClaimRewards = async (fundId) => {
@@ -307,19 +301,15 @@ export const getClaimRewards = async (fundId) => {
               timestamp
             }
           }
-       `
-      }
-    );
-    console.log("CLAIM REWARDS TRADES: ", data.data)
+       `,
+    });
+    console.log("CLAIM REWARDS TRADES: ", data.data);
 
-    return data.data.claimRewardsTrades
-
+    return data.data.claimRewardsTrades;
   } catch (error) {
     console.log(error);
   }
-}
-
-
+};
 
 // Get Ruleset
 export const getRuleSet = async (fundId) => {
@@ -340,14 +330,49 @@ export const getRuleSet = async (fundId) => {
               
             }
           }
-       `
-      }
-    );
-    console.log("CLAIM REWARDS TRADES: ", data.data)
+       `,
+    });
+    console.log("CLAIM REWARDS TRADES: ", data.data);
 
-    return data.data.minMaxInvestmentFundSettingsSetEvents
-
+    return data.data.minMaxInvestmentFundSettingsSetEvents;
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+export const getLiquidityPools = async () => {
+  try {
+    const endpoint = configs.DEBUG_MODE
+      ? configs.ENZYME_ENDPOINT
+      : configs.MAINNET_ENDPOINT;
+    const { data } = await axios.post(endpoint, {
+      query: `
+       {
+        uniswapV2PoolAssetDetails{
+          token0{
+            id
+            symbol
+            name
+            price{
+              price
+            }
+          }
+          token1{
+            id
+            name
+            symbol
+            price{
+              price
+            }
+          }
+        }
+      } 
+       `,
+    });
+    console.log("LIQUIDITY POOLS: ", data.data);
+
+    return data.data.uniswapV2PoolAssetDetails;
+  } catch (error) {
+    console.log(error);
+  }
+};

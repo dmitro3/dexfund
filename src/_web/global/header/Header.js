@@ -12,13 +12,19 @@ import activityIcon from "./assets/activity-icon.svg";
 // CSS
 import "./styles/header.css";
 
-import { connectAccountOnboard, disconnectAccountOnboard, checkWallet } from './../../../redux/actions/OnboardActions';
+import configs from './../../../config';
+import {
+  connectAccountOnboard,
+  disconnectAccountOnboard,
+  checkWallet
+} from "./../../../redux/actions/OnboardActions";
 
-import { ethers } from 'ethers';
-import configs, { networkId_DEBUG } from './../../../config';
+import { ethers } from "ethers";
 
-import {activateLoaderOverlay, deactivateLoaderOverlay}  from  './../../../redux/actions/LoaderAction'
-
+import {
+  activateLoaderOverlay,
+  deactivateLoaderOverlay,
+} from "./../../../redux/actions/LoaderAction";
 
 class Header extends Component {
   constructor(props) {
@@ -26,7 +32,10 @@ class Header extends Component {
     this.toPage = this.toPage.bind(this);
     this.state = {
       settingsPopup: false,
-      selectedPage: typeof(this.props.selectedPage) !== "undefined" ? this.props.selectedPage : "",
+      selectedPage:
+        typeof this.props.selectedPage !== "undefined"
+          ? this.props.selectedPage
+          : "",
       expectedNetworkId: configs.DEBUG_MODE ? configs.networkId_DEBUG : configs.networkId
     };
   }
@@ -40,15 +49,14 @@ class Header extends Component {
     });
   }
 
-
   displaySettingsPopup = () => {
     this.setState({ settingsPopup: true });
     this.props.displaySettingsPopupEvent();
   };
 
   displayAddress = (address) => {
-      return `${address.substring(0,4)} ... ${address.substring(39)}`
-  }
+    return `${address.substring(0, 4)} ... ${address.substring(39)}`;
+  };
 
   doCheckWallet(e) {
     e.preventDefault();
@@ -61,8 +69,8 @@ class Header extends Component {
   render() {
     const selectedNavbarItemStyle = {
       background: "linear-gradient(to right, #E926C3 10%, #FF4D86 100%)",
-      "WebkitBackgroundClip": "text",
-      "WebkiTtextFillColor": "transparent",
+      WebkitBackgroundClip: "text",
+      WebkiTtextFillColor: "transparent",
     };
 
     return (
@@ -76,20 +84,29 @@ class Header extends Component {
                 className="radar-protocol-icon"
               />
               <div
-                className={"w-header-navbar-item" + (this.state.selectedPage === "home" ? "-selected" : "")}
+                className={
+                  "w-header-navbar-item" +
+                  (this.state.selectedPage === "home" ? "-selected" : "")
+                }
                 onClick={() => this.toPage("/")}
               >
                 HOME
               </div>
               <div
-                className={"w-header-navbar-item" + (this.state.selectedPage === "vaults" ? "-selected" : "")}
+                className={
+                  "w-header-navbar-item" +
+                  (this.state.selectedPage === "vaults" ? "-selected" : "")
+                }
                 onClick={() => this.toPage("/vaults")}
               >
                 VAULTS
               </div>
 
               <div
-                className={"w-header-navbar-item" + (this.state.selectedPage === "yourfunds" ? "-selected" : "")}
+                className={
+                  "w-header-navbar-item" +
+                  (this.state.selectedPage === "yourfunds" ? "-selected" : "")
+                }
                 onClick={() => this.toPage("/your-funds")}
               >
                 YOUR VAULTS
@@ -116,42 +133,49 @@ class Header extends Component {
               </div>
 
               {this.props.onboard.walletConnected ? (
-                  <>
-                <div
-                  className="w-header-address-button"
-                  onClick={() => this.displaySettingsPopup()}
-                >
-                  <div className="w-header-address-button-amount-button">
-                    <div className="w-header-address-button-amount-button-text">
-                      {parseFloat(this.props.onboard.balance == null ? 0 : this.props.onboard.balance/10**18).toFixed(4)} ETH
+                <>
+                  <div
+                    className="w-header-address-button"
+                    onClick={() => this.displaySettingsPopup()}
+                  >
+                    <div className="w-header-address-button-amount-button">
+                      <div className="w-header-address-button-amount-button-text">
+                        {parseFloat(
+                          this.props.onboard.balance == null
+                            ? 0
+                            : this.props.onboard.balance / 10 ** 18
+                        ).toFixed(4)}{" "}
+                        ETH
+                      </div>
                     </div>
+                    <div className="w-header-address-button-text">
+                      {this.displayAddress(
+                        this.props.onboard.address
+                          ? this.props.onboard.address
+                          : ""
+                      )}
+                    </div>
+                    <img
+                      src={chevronDownIcon}
+                      alt="arrow-down-icon"
+                      className="chevron-down-icon address"
+                    />
                   </div>
-                  <div className="w-header-address-button-text">
-                    {this.displayAddress(this.props.onboard.address ? this.props.onboard.address : "")}
-                  </div>
-                  <img
-                    src={chevronDownIcon}
-                    alt="arrow-down-icon"
-                    className="chevron-down-icon address"
-                  />
-                </div>
-                <button
-                  className="w-header-connect-wallet-button"
-                  onClick={() => this.props.disconnectAccountOnboard()}
-                >
-                  <div className="w-header-connect-wallet-button-text">
-                    DISCONNECT
-                  </div>
-                </button>
+                  <button
+                    className="w-header-connect-wallet-button"
+                    onClick={() => this.props.disconnectAccountOnboard()}
+                  >
+                    <div className="w-header-connect-wallet-button-text">
+                      DISCONNECT
+                    </div>
+                  </button>
                 </>
               ) : (
                 <button
                   className="w-header-connect-wallet-button"
                   onClick={() => {
-                    //  this.props.activateLoaderOverlay();
-                     this.props.connectAccountOnboard();
-                    //  this.props.deactivateLoaderOverlay();
-                    }}
+                    this.props.connectAccountOnboard();
+                  }}
                 >
                   <div className="w-header-connect-wallet-button-text">
                     CONNECT WALLET
@@ -169,10 +193,9 @@ class Header extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.connect,
-    onboard: state.onboard
+    onboard: state.onboard,
   };
 };
-
 
 const mapDispatchToProps = {
   deactivateLoaderOverlay,
@@ -181,6 +204,5 @@ const mapDispatchToProps = {
   disconnectAccountOnboard,
   checkWallet
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
