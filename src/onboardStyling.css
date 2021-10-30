@@ -6,3 +6,7 @@
 .bn-onboard-custom .bn-onboard-icon-button:hover {
     background-color: rgba(244,60,163,0.2) !important;
 }
+
+.bn-onboard-custom {
+    z-index: 20 !important;
+}
