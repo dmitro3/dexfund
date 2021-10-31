@@ -46,7 +46,7 @@ class FundComposition extends Component {
       <>
         <div className="w-fund-composition-wrapper">
           <div className="w-fund-composition-content">
-            <div className="w-fund-composition-title">FUND COMPOSITION</div>
+            <div className="w-fund-composition-title">VAULT COMPOSITION</div>
             <div className="w-fund-composition-table">
               <FundCompositionTableHeader />
               {this.state.holdings.map((composition) => (

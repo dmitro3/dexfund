@@ -63,9 +63,10 @@ export const getFiveInvestments = async () => {
         `,
     });
 
-    return data.data.funds;
+    return data.data.funds || [];
   } catch (error) {
     console.log(error);
+    return [];
   }
 };
 
@@ -125,11 +126,11 @@ export const getYourInvestments = async (address) => {
 // Get your investemnt funds per fund
 export const getYourInvestmentsPerFund = async (fundId, address) => {
   try {
-    const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
-      : configs.SUB_GRAPH_ENDPOINT;
-    const { data } = await axios.post(endpoint, {
-      query: `
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query: `
         {
           fund(id: "${fundId}") {
             investments(where: {investor: "${address}"}) {
@@ -165,11 +166,12 @@ export const getYourInvestmentsPerFund = async (fundId, address) => {
 // Fund Compostion
 export const getFundCompostion = async (fundId) => {
   try {
-    const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
-      : configs.SUB_GRAPH_ENDPOINT;
-    const { data } = await axios.post(endpoint, {
-      query: `
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query:
+          `
        {
         fund(id: "${fundId}"){
          name
@@ -201,9 +203,7 @@ export const getFundCompostion = async (fundId) => {
 
 export const ListAllTrades = async () => {
   try {
-    const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
-      : configs.SUB_GRAPH_ENDPOINT;
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
     const { data } = await axios.get(endpoint, {
       query: `
       {
@@ -233,11 +233,12 @@ export const ListAllTrades = async () => {
 
 export const getFundAllFunds = async () => {
   try {
-    const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
-      : configs.SUB_GRAPH_ENDPOINT;
-    const { data } = await axios.post(endpoint, {
-      query: `
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query:
+          `
        {
         funds(where: {lastKnowGavInEth_gte: "2"}, first:5){
          name
@@ -276,11 +277,12 @@ export const getFundAllFunds = async () => {
 // Claim Rewards
 export const getClaimRewards = async (fundId) => {
   try {
-    const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
-      : configs.SUB_GRAPH_ENDPOINT;
-    const { data } = await axios.post(endpoint, {
-      query: `
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query:
+          `
           {
             claimRewardsTrades (where: {fund: "${fundId}"}){
               method
@@ -312,11 +314,12 @@ export const getClaimRewards = async (fundId) => {
 // Get Ruleset
 export const getRuleSet = async (fundId) => {
   try {
-    const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
-      : configs.SUB_GRAPH_ENDPOINT;
-    const { data } = await axios.post(endpoint, {
-      query: `
+    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+    const { data } = await axios.post(
+      endpoint,
+      {
+        query:
+          `
           {
             minMaxInvestmentFundSettingsSetEvents(where: {fund: "${fundId}"}){
               fund{

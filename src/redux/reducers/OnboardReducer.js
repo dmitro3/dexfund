@@ -1,12 +1,15 @@
-import { ACCOUNT_CHANGE, ACCOUNT_DISCONNECT, ONBOARD_CREATED, ONBOARD_UPDATED, ONBOARD_ADDRESS_CHANGE, ONBOARD_BALANCE_UPDATE } from './../actions/OnboardActions';
+import { ACCOUNT_CHANGE, ACCOUNT_DISCONNECT, ONBOARD_CREATED, ONBOARD_UPDATED, ONBOARD_ADDRESS_CHANGE, ONBOARD_BALANCE_UPDATE, ONBOARD_NETWORK_CHANGE } from './../actions/OnboardActions';
 import { ethers } from 'ethers';
+
+import configs from './../../config';
 
 const initialState = {
     provider: null,
     walletConnected: false,
     onboard: null,
     address: null,
-    balance: 0
+    balance: 0,
+    networkId: configs.DEBUG_MODE ? configs.networkId_DEBUG : configs.networkId
 }
 
 export default function connectToOnboardReducer(state=initialState, action) {
@@ -24,7 +27,8 @@ export default function connectToOnboardReducer(state=initialState, action) {
                 walletConnected: true,
                 provider: action.payload.provider,
                 address: action.payload.address,
-                balance: action.payload.balance
+                balance: action.payload.balance,
+                networkId: action.payload.networkId
             }
         case ONBOARD_UPDATED:
                 return {
@@ -33,7 +37,8 @@ export default function connectToOnboardReducer(state=initialState, action) {
                     walletConnected: true,
                     provider: action.payload.provider,
                     address: action.payload.address,
-                    balance: action.payload.balance
+                    balance: action.payload.balance,
+                    networkId: action.payload.networkId
                 }
         case ONBOARD_ADDRESS_CHANGE:
                 return{
@@ -48,6 +53,11 @@ export default function connectToOnboardReducer(state=initialState, action) {
                     ...state,
                     balance: action.payload
                 }
+        case ONBOARD_NETWORK_CHANGE:
+            return {
+                ...state,
+                networkId: action.payload
+            }
         default:
             return state;
     }
