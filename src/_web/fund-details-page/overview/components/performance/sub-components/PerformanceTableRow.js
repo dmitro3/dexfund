@@ -19,9 +19,9 @@ class PerformanceTableRow extends Component {
       data3: "-", // march
       data4: "-", // april
       data5: "-", // may
-      data6: "na%", // june
-      data7: "na%", // july
-      data8: "na%", // august
+      data6: "-", // june
+      data7: "-", // july
+      data8: "-", // august
       data9: "-", // september
       data10: "-", // october
       data11: "-", // november

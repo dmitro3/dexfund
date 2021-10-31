@@ -195,7 +195,10 @@ class FundDetailsPage extends Component {
                   id="trade-id"
                   onMouseOver={() => {
                     document.getElementById("trade-id").innerHTML =
-                      "Coming Soon";
+                      this.state.fundDetails.creator.id ===
+                      this.props.onboard.address
+                        ? "Coming Soon"
+                        : "Available for Vault Manager Only";
                   }}
                   onMouseOut={() => {
                     document.getElementById("trade-id").innerHTML = "Trade";
@@ -215,7 +218,10 @@ class FundDetailsPage extends Component {
                   id="provide-liquidity"
                   onMouseOver={() => {
                     document.getElementById("provide-liquidity").innerHTML =
-                      "Coming Soon";
+                      this.state.fundDetails.creator.id ===
+                      this.props.onboard.address
+                        ? "Coming Soon"
+                        : "Available for Vault Manager Only";
                   }}
                   onMouseOut={() => {
                     document.getElementById("provide-liquidity").innerHTML =
@@ -238,7 +244,10 @@ class FundDetailsPage extends Component {
                   id="stake-id"
                   onMouseOver={() => {
                     document.getElementById("stake-id").innerHTML =
-                      "Coming Soon";
+                      this.state.fundDetails.creator.id ===
+                      this.props.onboard.address
+                        ? "Coming Soon"
+                        : "Available for Vault Manager Only";
                   }}
                   onMouseOut={() => {
                     document.getElementById("stake-id").innerHTML = "Stake";
@@ -258,7 +267,10 @@ class FundDetailsPage extends Component {
                   id="yeild-id"
                   onMouseOver={() => {
                     document.getElementById("yeild-id").innerHTML =
-                      "Coming Soon";
+                      this.state.fundDetails.creator.id ===
+                      this.props.onboard.address
+                        ? "Coming Soon"
+                        : "Available for Vault Manager Only";
                   }}
                   onMouseOut={() => {
                     document.getElementById("yeild-id").innerHTML = "Yeild";
@@ -278,7 +290,10 @@ class FundDetailsPage extends Component {
                   id="stake-id"
                   onMouseOver={() => {
                     document.getElementById("stake-id").innerHTML =
-                      "Coming Soon";
+                      this.state.fundDetails.creator.id ===
+                      this.props.onboard.address
+                        ? "Coming Soon"
+                        : "Available for Vault Manager Only";
                   }}
                   onMouseOut={() => {
                     document.getElementById("stake-id").innerHTML = "Stake";
@@ -300,7 +315,10 @@ class FundDetailsPage extends Component {
                   id="Setting-id"
                   onMouseOver={() => {
                     document.getElementById("Setting-id").innerHTML =
-                      "Coming Soon";
+                      this.state.fundDetails.creator.id ===
+                      this.props.onboard.address
+                        ? "Coming Soon"
+                        : "Available for Vault Manager Only";
                   }}
                   onMouseOut={() => {
                     document.getElementById("Setting-id").innerHTML = "Setting";

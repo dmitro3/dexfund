@@ -25,14 +25,14 @@ class Portfolio extends Component {
     this.state = {
       selectedChart: "1D",
       portfolioTimeframe: "Last day",
-      portfolioPercent: "na%", // for 1D
+      portfolioPercent: "0.00%", // for 1D
 
-      percent_1D: "na%",
-      percent_1W: "na%",
-      percent_1M: "na%",
-      percent_3M: "na%",
-      percent_6M: "na%",
-      percent_1Y: "na%",
+      percent_1D: "0.00%",
+      percent_1W: "0.00%",
+      percent_1M: "0.00%",
+      percent_3M: "0.00%",
+      percent_6M: "0.00%",
+      percent_1Y: "0.00%",
       walletMust: this.props.walletMust,
     };
   }
@@ -112,7 +112,7 @@ class Portfolio extends Component {
                 alt="green-arrow-icon"
                 className="green-arrow-icon"
               />
-              <div className="w-portfolio-header-subtitle-percent">na%</div>
+              <div className="w-portfolio-header-subtitle-percent">0.00%</div>
             </div>
           </div>
           <img

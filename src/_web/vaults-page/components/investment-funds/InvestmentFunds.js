@@ -89,7 +89,7 @@ class InvestmentFunds extends React.Component {
                 // AUMFromParent={investment.lastKnowGavInEth}
                 AUMFromParent="INTERNAL_API"
                 depositorsFromParent={investment.investmentCount}
-                lifetimeGainFromParent="na%"
+                lifetimeGainFromParent="0.00%"
                 {...this.props}
               />
             );

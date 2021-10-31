@@ -50,7 +50,7 @@ class MostProfitableToday extends Component {
               fundNoFromParent={index + 1}
               fundNameFromParent={item.name}
               fundAssetFromParent={item.accessor.denominationAsset.symbol}
-              fundPerformanceFromParent="na%"
+              fundPerformanceFromParent="0.00%"
             />
           ))}
         </div>

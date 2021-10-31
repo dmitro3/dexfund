@@ -68,7 +68,7 @@ class YourInvestments extends Component {
                 valueFromParent={currencyFormat(
                   investment.price.price * investment.amount
                 )}
-                performanceFromParent="na%"
+                performanceFromParent="0.00%"
               />
             ))
           )}
