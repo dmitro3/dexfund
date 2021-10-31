@@ -20,6 +20,7 @@ class PerformanceTableRow extends Component {
       asset: this.props.assetFromParent,
       value: this.props.valueFromParent,
       weight: this.props.weightFromParent,
+      amount: this.props.amountFromParent,
       symbol: this.props.symbolFromParent,
       count: this.props.count ? this.props.count : 0,
     };
@@ -31,9 +32,15 @@ class PerformanceTableRow extends Component {
         <div className="w-fund-composition-table-row">
           <div className="w-fund-composition-table-row-cell asset">
             <div className="w-fund-composition-asset-bullet">
+              <div
+                className="w-fund-composition-asset-bullet-text"
+                style={{ marginRight: "10px" }}
+              >
+                {this.state.symbol}
+              </div>
               <img
                 style={{ height: "24px", width: "24px" }}
-                alt="weth-icon"
+                alt=""
                 className="fund-composition-weth-icon"
                 src={
                   this.state.symbol
@@ -41,10 +48,10 @@ class PerformanceTableRow extends Component {
                     : wethIcon
                 }
               />{" "}
-              <div className="w-fund-composition-asset-bullet-text">
-                {currencyFormat(this.state.asset, this.state.symbol)}
-              </div>
             </div>
+          </div>
+          <div className="w-fund-composition-table-row-cell value">
+            {currencyFormat(this.state.amount, "")}
           </div>
           <div className="w-fund-composition-table-row-cell value">
             {currencyFormat(this.state.value, "$")}

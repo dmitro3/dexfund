@@ -54,6 +54,7 @@ class FundComposition extends Component {
                   {...this.props}
                   key={composition.id}
                   assetFromParent={composition.amount}
+                  amountFromParent={composition.amount}
                   valueFromParent={
                     composition.amount *
                     composition.asset.price.price *
