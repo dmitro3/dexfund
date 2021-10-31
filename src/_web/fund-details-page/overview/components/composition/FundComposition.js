@@ -61,9 +61,9 @@ class FundComposition extends Component {
                     this.state.ethPrice
                   }
                   weightFromParent={"0.00"}
-                  // weightFromParent={this.calcWgOfAnAsset(
-                  //   composition.amount * composition.asset.price.price
-                  // )}
+                  weightFromParent={this.calcWgOfAnAsset(
+                    composition.amount * composition.asset.price.price
+                  )}
                   symbolFromParent={composition.asset.symbol}
                 />
               ))}

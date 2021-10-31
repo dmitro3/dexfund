@@ -57,7 +57,7 @@ class PerformanceTableRow extends Component {
             {currencyFormat(this.state.value, "$")}
           </div>
           <div className="w-fund-composition-table-row-cell weight">
-            {this.state.weight} %
+            {this.state.weight !== "NaN" ? this.state.weight : "0.00"} %
           </div>
         </div>
       </>
