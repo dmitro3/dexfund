@@ -287,16 +287,16 @@ class FundDetailsPage extends Component {
                 <div
                   className="w-fund-details-page-navbar-item"
                   title="Comming Soon ..."
-                  id="stake-id"
+                  id="rewards-id"
                   onMouseOver={() => {
-                    document.getElementById("stake-id").innerHTML =
+                    document.getElementById("rewards-id").innerHTML =
                       this.state.fundDetails.creator.id ===
                       this.props.onboard.address
                         ? "Coming Soon"
                         : "Available for Vault Manager Only";
                   }}
                   onMouseOut={() => {
-                    document.getElementById("stake-id").innerHTML = "Stake";
+                    document.getElementById("rewards-id").innerHTML = "Rewards";
                   }}
                   style={
                     this.state.selectedNavbarItem === "rewards"
