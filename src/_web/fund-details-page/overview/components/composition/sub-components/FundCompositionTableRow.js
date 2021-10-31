@@ -8,6 +8,8 @@ import { currencyFormat } from "../../../../../../ethereum/utils";
 // ASSETS
 import wethIcon from "../assets/weth-icon.svg";
 
+import { getIconSource } from "../../../../../../icons";
+
 // CSS
 import "../../../styles/fundOverview.css";
 
@@ -29,7 +31,16 @@ class PerformanceTableRow extends Component {
         <div className="w-fund-composition-table-row">
           <div className="w-fund-composition-table-row-cell asset">
             <div className="w-fund-composition-asset-bullet">
-              {/* <img src={wethIcon} alt='weth-icon' className="fund-composition-weth-icon" /> */}
+              <img
+                style={{ height: "24px", width: "24px" }}
+                alt="weth-icon"
+                className="fund-composition-weth-icon"
+                src={
+                  this.state.symbol
+                    ? getIconSource(this.state.symbol.toLowerCase())
+                    : wethIcon
+                }
+              />{" "}
               <div className="w-fund-composition-asset-bullet-text">
                 {currencyFormat(this.state.asset, this.state.symbol)}
               </div>

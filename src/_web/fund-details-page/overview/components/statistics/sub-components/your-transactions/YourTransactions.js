@@ -15,6 +15,7 @@ import YourTransactionsTableRow from "./sub-components/YourTransactionsTableRow"
 
 // CSS
 import "../your-transactions/styles/yourTransactions.css";
+import WalletNotConnected from "../../../../../../global/wallet-not-connected/WalletNotConnected";
 
 class YourTransactions extends Component {
   constructor(props) {
@@ -62,26 +63,34 @@ class YourTransactions extends Component {
   }
 
   render() {
-    return (
+    return this.props.onboard.walletConnected ? (
       <>
         <div className="w-fund-statistics-your-transactions-wrapper">
           <YourTransactionsTableHeader />
-          {this.state.transactionHistory.map((transaction) => (
-            <YourTransactionsTableRow
-              actionFromParent={transaction.type}
-              tokenFromParent={parseFloat(transaction.value).toFixed(2)}
-              valueFromParent={(
-                parseFloat(transaction.value) * this.state.ethPrice
-              ).toFixed(2)}
-              vaultFromParent={transaction.fundName}
-              typeFromParent={transaction.type}
-              timeFromParent={getTimeDiff(
-                parseInt(transaction.timestamp) * 1000
-              )}
-            />
-          ))}
+          {this.state.transactionHistory.length === 0 ? (
+            <div className="w-your-investments-table-row-no-data">
+              You have no transactions
+            </div>
+          ) : (
+            this.state.transactionHistory.map((transaction) => (
+              <YourTransactionsTableRow
+                actionFromParent={transaction.type}
+                tokenFromParent={parseFloat(transaction.value).toFixed(2)}
+                valueFromParent={(
+                  parseFloat(transaction.value) * this.state.ethPrice
+                ).toFixed(2)}
+                vaultFromParent={transaction.fundName}
+                typeFromParent={transaction.type}
+                timeFromParent={getTimeDiff(
+                  parseInt(transaction.timestamp) * 1000
+                )}
+              />
+            ))
+          )}
         </div>
       </>
+    ) : (
+      <WalletNotConnected />
     );
   }
 }

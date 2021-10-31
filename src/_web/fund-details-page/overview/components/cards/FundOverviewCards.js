@@ -19,7 +19,7 @@ class FundOverviewCards extends Component {
     this.state = {
       AUM: 10,
       depositors: 0,
-      lifetimeReturn: 10,
+      lifetimeReturn: "na",
       denominationAssetSymbol: "",
       denominationAssetName: "",
       ...this.props.state,

@@ -71,7 +71,7 @@ class VaultsPage extends Component {
     };
 
     if (width > 1000) {
-      return this.props.onboard.walletConnected ? (
+      return (
         <>
           <Header
             {...this.props}
@@ -89,35 +89,6 @@ class VaultsPage extends Component {
                 investments={this.state.investments}
                 {...this.props}
               />
-            </div>
-          </div>
-          <div style={this.state.settingsPopup === false ? doNotDisplay : {}}>
-            <SettingsPopup
-              {...this.props}
-              closeSettingsPopupEvent={this.closeSettingsPopup}
-            />
-          </div>
-        </>
-      ) : (
-        <>
-          <Header
-            {...this.props}
-            displaySettingsPopupEvent={this.displaySettingsPopup}
-            selectedPage="vaults"
-          />
-          <div
-            className="w-your-funds-page-wrapper"
-            style={{ padding: "60px 0 120px 0", height: "100vh" }}
-          >
-            <div
-              className="w-your-funds-page-content"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                height: "100vh",
-              }}
-            >
-              <WalletNotConnected textFromParent="to view Vault Page" />
             </div>
           </div>
           <div style={this.state.settingsPopup === false ? doNotDisplay : {}}>

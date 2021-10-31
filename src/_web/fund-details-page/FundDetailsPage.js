@@ -192,6 +192,14 @@ class FundDetailsPage extends Component {
                 <div
                   className="w-fund-details-page-navbar-item"
                   title="Comming Soon ..."
+                  id="trade-id"
+                  onMouseOver={() => {
+                    document.getElementById("trade-id").innerHTML =
+                      "Coming Soon";
+                  }}
+                  onMouseOut={() => {
+                    document.getElementById("trade-id").innerHTML = "Trade";
+                  }}
                   style={
                     this.state.selectedNavbarItem === "trade"
                       ? selectedNavbarItemStyle
@@ -204,6 +212,15 @@ class FundDetailsPage extends Component {
                 <div
                   className="w-fund-details-page-navbar-item"
                   title="Comming Soon ..."
+                  id="provide-liquidity"
+                  onMouseOver={() => {
+                    document.getElementById("provide-liquidity").innerHTML =
+                      "Coming Soon";
+                  }}
+                  onMouseOut={() => {
+                    document.getElementById("provide-liquidity").innerHTML =
+                      "Provide Liquidity";
+                  }}
                   style={
                     this.state.selectedNavbarItem === "provideLiquidity"
                       ? selectedNavbarItemStyle
@@ -218,6 +235,14 @@ class FundDetailsPage extends Component {
                 <div
                   className="w-fund-details-page-navbar-item"
                   title="Comming Soon ..."
+                  id="stake-id"
+                  onMouseOver={() => {
+                    document.getElementById("stake-id").innerHTML =
+                      "Coming Soon";
+                  }}
+                  onMouseOut={() => {
+                    document.getElementById("stake-id").innerHTML = "Stake";
+                  }}
                   style={
                     this.state.selectedNavbarItem === "stake"
                       ? selectedNavbarItemStyle
@@ -230,6 +255,14 @@ class FundDetailsPage extends Component {
                 <div
                   className="w-fund-details-page-navbar-item"
                   title="Comming Soon ..."
+                  id="yeild-id"
+                  onMouseOver={() => {
+                    document.getElementById("yeild-id").innerHTML =
+                      "Coming Soon";
+                  }}
+                  onMouseOut={() => {
+                    document.getElementById("yeild-id").innerHTML = "Yeild";
+                  }}
                   style={
                     this.state.selectedNavbarItem === "yield"
                       ? selectedNavbarItemStyle
@@ -242,6 +275,14 @@ class FundDetailsPage extends Component {
                 <div
                   className="w-fund-details-page-navbar-item"
                   title="Comming Soon ..."
+                  id="stake-id"
+                  onMouseOver={() => {
+                    document.getElementById("stake-id").innerHTML =
+                      "Coming Soon";
+                  }}
+                  onMouseOut={() => {
+                    document.getElementById("stake-id").innerHTML = "Stake";
+                  }}
                   style={
                     this.state.selectedNavbarItem === "rewards"
                       ? selectedNavbarItemStyle
@@ -256,6 +297,14 @@ class FundDetailsPage extends Component {
                 <div
                   className="w-fund-details-page-navbar-item"
                   title="Comming Soon ..."
+                  id="Setting-id"
+                  onMouseOver={() => {
+                    document.getElementById("Setting-id").innerHTML =
+                      "Coming Soon";
+                  }}
+                  onMouseOut={() => {
+                    document.getElementById("Setting-id").innerHTML = "Setting";
+                  }}
                   style={
                     this.state.selectedNavbarItem === "settings"
                       ? selectedNavbarItemStyle

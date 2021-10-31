@@ -8,6 +8,7 @@ import MostProfitableRow from "./sub-components/MostProfitableRow";
 
 // CSS
 import "../styles/topInvestmentFunds.css";
+import { getIconSource } from "../../../../icons";
 
 class MostProfitableAllTime extends Component {
   constructor(props) {

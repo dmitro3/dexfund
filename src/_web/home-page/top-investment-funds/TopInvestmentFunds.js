@@ -31,6 +31,7 @@ class TopInvestmentFunds extends Component {
 
   async componentDidMount() {
     var investments = await getFiveInvestments();
+    console.log(investments);
     this.setState({
       ...this.state,
       investments: investments,

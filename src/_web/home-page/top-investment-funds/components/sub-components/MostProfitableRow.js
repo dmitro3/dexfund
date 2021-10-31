@@ -4,7 +4,8 @@ import React, { Component } from "react";
 // ...
 
 // ASSETS
-import wethIcon from "../../assets/weth-icon.svg";
+import { getIconSource } from "../../../../../icons";
+import wethicon from "./../../assets/weth-icon.svg";
 
 // CSS
 import "../../styles/topInvestmentFunds.css";
@@ -49,10 +50,15 @@ class MostProfitableRow extends Component {
             </div>
             <div className="w-profitable-funds-card-asset-bullet">
               <img
-                src={wethIcon}
+                style={{ height: "24px", width: "24px" }}
                 alt="weth-icon"
                 className="profitable-funds-card-weth-icon"
-              />
+                src={
+                  this.state.fundAsset
+                    ? getIconSource(this.state.fundAsset.toLowerCase())
+                    : wethicon
+                }
+              />{" "}
               <div className="w-profitable-funds-card-asset-bullet-text">
                 {this.state.fundAsset}
               </div>

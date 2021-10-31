@@ -112,7 +112,7 @@ class Portfolio extends Component {
                 alt="green-arrow-icon"
                 className="green-arrow-icon"
               />
-              <div className="w-portfolio-header-subtitle-percent">0%</div>
+              <div className="w-portfolio-header-subtitle-percent">na%</div>
             </div>
           </div>
           <img

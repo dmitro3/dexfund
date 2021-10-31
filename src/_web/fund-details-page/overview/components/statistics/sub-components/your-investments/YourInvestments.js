@@ -13,6 +13,7 @@ import { getYourInvestmentsPerFund } from "../../../../../../../sub-graph-integr
 import { currencyFormat } from "../../../../../../../ethereum/utils";
 // REDUX
 import { connect } from "react-redux";
+import WalletNotConnected from "../../../../../../global/wallet-not-connected/WalletNotConnected";
 
 class YourInvestments extends Component {
   constructor(props) {
@@ -50,23 +51,31 @@ class YourInvestments extends Component {
   }
 
   render() {
-    return (
+    return this.props.onboard.walletConnected ? (
       <>
         <div className="w-fund-statistics-your-investments-wrapper">
           <YourInvestmentsTableHeader />
-          {this.state.yourFundInvestments.map((investment) => (
-            <YourInvestmentsTableRow
-              assetFromParent={investment.asset.symbol}
-              amountFromParent={currencyFormat(investment.amount)}
-              priceFromParent={currencyFormat(investment.price.price)}
-              valueFromParent={currencyFormat(
-                investment.price.price * investment.amount
-              )}
-              performanceFromParent="na%"
-            />
-          ))}
+          {this.state.yourFundInvestments.length === 0 ? (
+            <div className="w-your-investments-table-row-no-data">
+              You have no investments
+            </div>
+          ) : (
+            this.state.yourFundInvestments.map((investment) => (
+              <YourInvestmentsTableRow
+                assetFromParent={investment.asset.symbol}
+                amountFromParent={currencyFormat(investment.amount)}
+                priceFromParent={currencyFormat(investment.price.price)}
+                valueFromParent={currencyFormat(
+                  investment.price.price * investment.amount
+                )}
+                performanceFromParent="na%"
+              />
+            ))
+          )}
         </div>
       </>
+    ) : (
+      <WalletNotConnected />
     );
   }
 }
