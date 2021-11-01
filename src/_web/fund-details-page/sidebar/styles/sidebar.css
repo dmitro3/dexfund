@@ -68,11 +68,21 @@
     margin: 8px 0;
 }
 
-.w-invest-table-asset-cell {
+.w-invest-table-asset-selection {
+    display: flex;
+    justify-content: space-between;
     width: 136px;
     height: 56px;
     border: 1px solid #17171C;
     padding: 16px;
+}
+
+.w-invest-table-asset-selection:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.w-invest-table-asset-cell {
     display: flex;
     justify-content: left;
 }

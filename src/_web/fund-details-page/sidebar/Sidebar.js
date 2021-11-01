@@ -19,13 +19,14 @@ class Sidebar extends Component {
 
     this.state = {
       selectedSidebarItem: "invest",
+      fundAddress: this.props.state.fundId
     };
   }
 
   renderInvestCard() {
     return (
       <>
-        <SidebarInvestCard />
+        <SidebarInvestCard fundAddress={this.state.fundAddress} />
       </>
     );
   }
