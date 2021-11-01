@@ -1,23 +1,22 @@
 import React, { Component } from "react";
 import {
   getEthPrice,
-  getTransactions,
   getFundTransactions,
-} from "../../../ethereum/funds/fund-related";
-import { getTimeDiff } from "../../../ethereum/utils";
+} from "./../../../../ethereum/funds/fund-related";
+import { getTimeDiff } from "./../../../../ethereum/utils";
 import { connect } from "react-redux";
 
 // COMPONENTS
-import SearchBar from "./components/SearchBar";
-import YourTransactionsTableHeader from "./components/YourTransactionsTableHeader";
-import YourTransactionsTableRow from "./components/YourTransactionsTableRow";
-import WalletNotConnected from "./../wallet-not-connected/WalletNotConnected";
-import SkeletonLoader from "./../skeleton-loader/SkeletonLoader";
+import SearchBar from "./../components/SearchBar";
+import YourTransactionsTableHeader from "./../components/YourTransactionsTableHeader";
+import YourTransactionsTableRow from "./../components/YourTransactionsTableRow";
+import WalletNotConnected from "./../../wallet-not-connected/WalletNotConnected";
+import SkeletonLoader from "./../../skeleton-loader/SkeletonLoader";
 // ASSETS
 // ...
 
 // CSS
-import "./styles/yourTransactions.css";
+import "./../styles/yourTransactions.css";
 
 class InvestmentFunds extends Component {
   constructor(props) {
@@ -48,13 +47,14 @@ class InvestmentFunds extends Component {
   }
 
   async getData() {
-    console.log(
-      await getFundTransactions("0x86fb84e92c1eedc245987d28a42e123202bd6701")
-    );
     await this.setState({ isLoaded: false });
     if (this.isConnected()) {
       let _ethPrice = await getEthPrice();
-      let trs = await getTransactions(this.props.onboard.address);
+      // testing Address: "0x86fb84e92c1eedc245987d28a42e123202bd6701"
+
+      let trs = await getFundTransactions(this.props.fundId);
+
+      console.log("FUND ID", this.props);
 
       // let trs = [];
       console.log(trs);

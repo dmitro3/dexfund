@@ -13,6 +13,7 @@ import SkeletonLoader from "./../../global/skeleton-loader/SkeletonLoader";
 // CSS
 import "./styles/yourInvestments.css";
 import { getYourInvestments } from "../../../sub-graph-integrations";
+import { getEthPrice } from "../../../ethereum/funds/fund-related";
 
 // REDUX
 
@@ -22,6 +23,7 @@ class YourInvestments extends Component {
 
     this.state = {
       investments: [],
+      ethPrice: 1,
     };
 
     this.getInvestments = this.getInvestments.bind(this);
@@ -46,16 +48,22 @@ class YourInvestments extends Component {
     await this.setState({
       isLoaded: false,
     });
+
+    let _ethPrice = await getEthPrice();
     if (this.isConnected()) {
       const investments = await getYourInvestments(this.props.onboard.address);
+
+      console.log("App", investments);
       await this.setState({
         investments: investments ? investments : [],
         isLoaded: true,
+        ethPrice: _ethPrice,
       });
     } else {
       await this.setState({
         investments: [],
         isLoaded: true,
+        ethPrice: _ethPrice,
       });
     }
   }
@@ -70,7 +78,11 @@ class YourInvestments extends Component {
         key={index}
         fundNameFromParent={investment.fund.name}
         yourDepositsFromParent={investment.investmentAmount}
-        currentValueFromParent={investment.investmentState.shares}
+        currentValueFromParent={
+          investment.investmentAmount *
+          this.state.ethPrice *
+          investment.fund.accessor.denominationAsset.price.price
+        }
         performanceFromParent={(
           ((investment.investmentAmount - investment.investmentState.shares) /
             investment.investmentAmount) *

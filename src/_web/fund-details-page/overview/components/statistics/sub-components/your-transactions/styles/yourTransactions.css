@@ -1,82 +1,86 @@
-@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap");
 
+/* .w-fund-statistics-your-transactions-wrapper {
 
-.w-fund-statistics-your-transactions-wrapper {
-
-}
+} */
 
 .w-fund-transactions-table-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 28px 16px;
+  display: flex;
+  justify-content: space-between;
+  padding: 28px 16px;
 }
 
 .w-fund-transactions-table-header-item {
-    font-family: 'Bai Jamjuree', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: #999;
+  font-family: "Bai Jamjuree", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #999;
 }
 
-.action, .value, .time {
-    width: 20%
+.action,
+.value,
+.time {
+  width: 20%;
 }
 
 .token {
-    width: 40%;
+  width: 40%;
 }
 
-.action, .value, .token {
-    text-align: left;
+.action,
+.value,
+.token {
+  text-align: left;
 }
 
 .time {
-    text-align: right;
+  text-align: right;
 }
 
 .w-funds-your-transactions-table-row {
-    display: flex;
-    justify-content: space-between;
-    background-color: #070708;
-    margin: 2px 0;
-    padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  background-color: #070708;
+  margin: 2px 0;
+  padding: 16px;
 }
 
 .w-funds-your-transactions-table-row:hover {
-    cursor: pointer;
-    background-color: #17171C;
+  cursor: pointer;
+  background-color: #17171c;
 }
 
 .w-funds-your-transactions-table-cell {
-    font-family: 'Bai Jamjuree', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    color: #fff;
+  font-family: "Bai Jamjuree", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
 }
 
 .w-funds-your-transactions-action-cell {
-    display: flex;
-    justify-content: left;
+  display: flex;
+  justify-content: left;
 }
 
 .w-your-transactions-action-text {
-    margin: 0 0 0 10px;
+  margin: 0 0 0 10px;
 }
 
 .w-fund-your-transactions-asset-bullet {
-    width: 140px;
-    background-color: #17171C;
-    border-radius: 10px;
-    padding: 4px 6px;
-    display: flex;
-    justify-content: center;
-    margin-top: -4px;
+  width: 140px;
+  background-color: #17171c;
+  border-radius: 10px;
+  padding: 4px 6px;
+  display: flex;
+  justify-content: center;
+  margin-top: -4px;
 }
 
-.w-funds-your-transactions-table-row:hover .w-fund-your-transactions-asset-bullet {
-    background-color: #070708;
+.w-funds-your-transactions-table-row:hover
+  .w-fund-your-transactions-asset-bullet {
+  background-color: #070708;
 }
 
 .w-fund-your-transactions-asset-bullet-text {
-    margin: 0 0 0 6px;
+  margin: 0 0 0 6px;
 }

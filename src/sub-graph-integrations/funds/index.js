@@ -99,6 +99,14 @@ export const getYourInvestments = async (address) => {
             fund {
                 name
                 id
+                accessor{
+                  denominationAsset{
+                    name
+                    price{
+                      price
+                    }
+                  }
+                }  
             }
             investor {
                 firstSeen
@@ -116,6 +124,14 @@ export const getYourInvestments = async (address) => {
                 fund {
                     name
                     id
+                    accessor{
+                      denominationAsset{
+                        name
+                        price{
+                          price
+                        }
+                      }
+                    } 
                 }
                 investor {
                     firstSeen
