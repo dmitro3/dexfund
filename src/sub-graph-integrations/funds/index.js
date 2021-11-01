@@ -18,6 +18,17 @@ export const getAllInvestments = async () => {
                       symbol
                     }
                   }
+                  portfolio {
+                    holdings {
+                      amount
+                      asset {
+                        symbol
+                        price {
+                          price
+                        }
+                      }
+                    }
+                  }
                   investmentCount
                   lastKnowGavInEth
                   trackedAssets {
@@ -177,6 +188,9 @@ export const getFundCompostion = async (fundId) => {
         fund(id: "${fundId}"){
          name
          id
+         shares {
+           totalSupply
+         }
          portfolio {
           holdings {
             id
@@ -189,6 +203,7 @@ export const getFundCompostion = async (fundId) => {
             }
           }
         }
+        
           lastKnowGavInEth
         }
       }   
@@ -231,7 +246,7 @@ export const ListAllTrades = async () => {
     });
 
     return data.data;
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getFundAllFunds = async () => {
@@ -376,3 +391,61 @@ export const getLiquidityPools = async () => {
     console.log(error);
   }
 };
+
+
+export const getAUM = async (fundId) => {
+  try {
+    const endpoint = configs.DEBUG_MODE
+      ? configs.ENZYME_ENDPOINT
+      : configs.MAINNET_ENDPOINT;
+
+    let results
+    await axios.post(endpoint, {
+      query: `
+      {
+        fund(id: "${fundId}") {
+          investmentCount
+          name
+          portfolio {
+            holdings {
+              amount
+              asset {
+                symbol
+                price {
+                  price
+                }
+              }
+            }
+          }
+          shares {
+            totalSupply
+          }
+        }
+      }
+      
+      
+                `
+
+    }).then((res) => {
+      results = res.data.data.fund
+    })
+
+    const holdings = results.portfolio.holdings
+
+    let AUM = 0
+    holdings.forEach(holding => {
+      const amount = parseFloat(holding.amount) *  parseFloat(holding.asset.price.price)
+      AUM += amount
+
+    });
+    console.log(`Assets Under Management = ${AUM} ETH`);
+    return AUM
+
+
+
+  } catch (error) {
+    console.log(error);
+  }
+
+
+}

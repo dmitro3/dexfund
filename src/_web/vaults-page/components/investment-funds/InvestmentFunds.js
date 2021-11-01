@@ -10,6 +10,10 @@ import SkeletonLoader from "./../../../global/skeleton-loader/SkeletonLoader";
 
 // CSS
 import "../../vaultsPage.css";
+import { getAUM } from "../../../../sub-graph-integrations";
+import { getEthPrice } from "../../../../ethereum/funds/fund-related";
+import { currencyFormat } from "../../../../ethereum/utils";
+
 
 class InvestmentFunds extends React.Component {
   constructor(props) {
@@ -17,6 +21,7 @@ class InvestmentFunds extends React.Component {
     this.state = {
       searchValue: "",
       isLoaded: this.props.isLoaded,
+      ethPrice: 1
     };
 
     this.searchCallbackFunction = this.searchCallbackFunction.bind(this);
@@ -66,6 +71,23 @@ class InvestmentFunds extends React.Component {
     );
   }
 
+  async componentDidMount() {
+    this.setState({
+      ...this.state,
+      ethPrice: await getEthPrice()
+    })
+  }
+
+   calculateAUM(fund) {
+    let AUM = 0
+    fund.portfolio.holdings.forEach(holding => {
+      const amount = parseFloat(holding.amount) *  parseFloat(holding.asset.price.price)
+      AUM += amount
+    });
+
+    return currencyFormat(AUM * this.state.ethPrice, "")
+  }
+
   renderFunds() {
     return (
       <div style={{ overflowY: "scroll", height: "60vh" }}>
@@ -87,7 +109,7 @@ class InvestmentFunds extends React.Component {
                 typeFromParent="Investment"
                 denominationAssetFromParent={investment.trackedAssets[0].symbol}
                 // AUMFromParent={investment.lastKnowGavInEth}
-                AUMFromParent="INTERNAL_API"
+                AUMFromParent={this.calculateAUM(investment)}
                 depositorsFromParent={investment.investmentCount}
                 lifetimeGainFromParent="0.00%"
                 {...this.props}

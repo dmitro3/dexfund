@@ -27,6 +27,9 @@ import { connect } from "react-redux";
 
 // CSS
 import "./fundDetailsPage.css";
+import { getEthPrice } from "../../ethereum/funds/fund-related";
+import { getAUM, getFundCompostion } from "../../sub-graph-integrations";
+import { currencyFormat } from "../../ethereum/utils";
 
 class FundDetailsPage extends Component {
   constructor(props) {
@@ -40,7 +43,9 @@ class FundDetailsPage extends Component {
       fundName: "",
       fundDetails: {},
       loaded: false,
+      aum: 0,
       currentSharePrice: "INTERNAL_API",
+      ethPrice: 1
     };
 
     this.toPage = this.toPage.bind(this);
@@ -60,6 +65,14 @@ class FundDetailsPage extends Component {
     var _path = window.location.pathname;
     var vaultAddress = _path.split("/fund/")[1].toLowerCase();
     var fundDetails = await getFundDetails(vaultAddress);
+
+    const fundComposition = await getFundCompostion(vaultAddress);
+    var totalSupply = fundComposition.shares.totalSupply;
+
+    let _ethPrice = await getEthPrice();
+    let aum = await getAUM(vaultAddress);
+    let currentSharePrice = (aum * _ethPrice)/parseFloat(totalSupply)
+
     var isRegistered = fundDetails.length > 0;
     if (configs.BLACKLISTED_VAULTS.includes(vaultAddress) || !isRegistered) {
       await this.props.deactivateLoaderOverlay();
@@ -67,11 +80,15 @@ class FundDetailsPage extends Component {
       return;
     }
     fundDetails = fundDetails[0];
+    console.log(fundDetails);
     await this.setState({
       fundId: vaultAddress,
       fundName: fundDetails.name,
       fundDetails: fundDetails,
+      ethPrice: _ethPrice,
+      currentSharePrice: currencyFormat(currentSharePrice),
       loaded: true,
+      AUM: currencyFormat(aum * _ethPrice)
     });
     this.props.deactivateLoaderOverlay();
   }
@@ -183,9 +200,9 @@ class FundDetailsPage extends Component {
                       ? selectedNavbarItemStyle
                       : {}
                   }
-                  // onClick={() =>
-                  //   this.setState({ selectedNavbarItem: "overview" })
-                  // }
+                // onClick={() =>
+                //   this.setState({ selectedNavbarItem: "overview" })
+                // }
                 >
                   Overview
                 </div>
@@ -196,7 +213,7 @@ class FundDetailsPage extends Component {
                   onMouseOver={() => {
                     document.getElementById("trade-id").innerHTML =
                       this.state.fundDetails.creator.id ===
-                      this.props.onboard.address
+                        this.props.onboard.address
                         ? "Coming Soon"
                         : "Available for Vault Manager Only";
                   }}
@@ -208,7 +225,7 @@ class FundDetailsPage extends Component {
                       ? selectedNavbarItemStyle
                       : {}
                   }
-                  // onClick={() => this.setState({ selectedNavbarItem: "trade" })}
+                // onClick={() => this.setState({ selectedNavbarItem: "trade" })}
                 >
                   Trade
                 </div>
@@ -219,7 +236,7 @@ class FundDetailsPage extends Component {
                   onMouseOver={() => {
                     document.getElementById("provide-liquidity").innerHTML =
                       this.state.fundDetails.creator.id ===
-                      this.props.onboard.address
+                        this.props.onboard.address
                         ? "Coming Soon"
                         : "Available for Vault Manager Only";
                   }}
@@ -232,9 +249,9 @@ class FundDetailsPage extends Component {
                       ? selectedNavbarItemStyle
                       : {}
                   }
-                  // onClick={() =>
-                  //   this.setState({ selectedNavbarItem: "provideLiquidity" })
-                  // }
+                // onClick={() =>
+                //   this.setState({ selectedNavbarItem: "provideLiquidity" })
+                // }
                 >
                   Provide liquidity
                 </div>
@@ -245,7 +262,7 @@ class FundDetailsPage extends Component {
                   onMouseOver={() => {
                     document.getElementById("stake-id").innerHTML =
                       this.state.fundDetails.creator.id ===
-                      this.props.onboard.address
+                        this.props.onboard.address
                         ? "Coming Soon"
                         : "Available for Vault Manager Only";
                   }}
@@ -257,7 +274,7 @@ class FundDetailsPage extends Component {
                       ? selectedNavbarItemStyle
                       : {}
                   }
-                  // onClick={() => this.setState({ selectedNavbarItem: "stake" })}
+                // onClick={() => this.setState({ selectedNavbarItem: "stake" })}
                 >
                   Stake
                 </div>
@@ -268,7 +285,7 @@ class FundDetailsPage extends Component {
                   onMouseOver={() => {
                     document.getElementById("yeild-id").innerHTML =
                       this.state.fundDetails.creator.id ===
-                      this.props.onboard.address
+                        this.props.onboard.address
                         ? "Coming Soon"
                         : "Available for Vault Manager Only";
                   }}
@@ -280,7 +297,7 @@ class FundDetailsPage extends Component {
                       ? selectedNavbarItemStyle
                       : {}
                   }
-                  // onClick={() => this.setState({ selectedNavbarItem: "yield" })}
+                // onClick={() => this.setState({ selectedNavbarItem: "yield" })}
                 >
                   Yield
                 </div>
@@ -291,7 +308,7 @@ class FundDetailsPage extends Component {
                   onMouseOver={() => {
                     document.getElementById("rewards-id").innerHTML =
                       this.state.fundDetails.creator.id ===
-                      this.props.onboard.address
+                        this.props.onboard.address
                         ? "Coming Soon"
                         : "Available for Vault Manager Only";
                   }}
@@ -303,9 +320,9 @@ class FundDetailsPage extends Component {
                       ? selectedNavbarItemStyle
                       : {}
                   }
-                  // onClick={() =>
-                  //   this.setState({ selectedNavbarItem: "rewards" })
-                  // }
+                // onClick={() =>
+                //   this.setState({ selectedNavbarItem: "rewards" })
+                // }
                 >
                   Rewards
                 </div>
@@ -316,7 +333,7 @@ class FundDetailsPage extends Component {
                   onMouseOver={() => {
                     document.getElementById("Setting-id").innerHTML =
                       this.state.fundDetails.creator.id ===
-                      this.props.onboard.address
+                        this.props.onboard.address
                         ? "Coming Soon"
                         : "Available for Vault Manager Only";
                   }}
@@ -328,9 +345,9 @@ class FundDetailsPage extends Component {
                       ? selectedNavbarItemStyle
                       : {}
                   }
-                  // onClick={() =>
-                  //   this.setState({ selectedNavbarItem: "settings" })
-                  // }
+                // onClick={() =>
+                //   this.setState({ selectedNavbarItem: "settings" })
+                // }
                 >
                   Settings
                 </div>
