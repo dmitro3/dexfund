@@ -24,7 +24,7 @@ class PerformanceTableHeader extends Component {
             Asset
           </div>
           <div className="w-fund-composition-table-header-item value">
-            Amount (WETH)
+            Amount
           </div>
 
           <div className="w-fund-composition-table-header-item value">

@@ -32,9 +32,7 @@ class YourInvestmentFunds extends Component {
   }
   async componentDidMount() {
     if (this.isConnected()) {
-      const yourInvestments = await getYourInvestments(
-        this.props.onboard.address
-      );
+      const yourInvestments = await getYourInvestments("");
       console.log("i", yourInvestments);
       this.setState({
         yourInvestments: yourInvestments,
@@ -45,6 +43,7 @@ class YourInvestmentFunds extends Component {
       });
     }
   }
+
   toPage(path, e) {
     e.preventDefault();
     console.log("GOING TO /add-new-fund");

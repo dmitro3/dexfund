@@ -63,7 +63,10 @@ class YourInvestmentsCard extends Component {
                   className="performance-green-arrow-icon"
                 />
                 <div className="w-your-investments-value green">
-                  {currencyFormat(this.state.performance, "")} %
+                  {this.state.performance > 0
+                    ? currencyFormat(this.state.performance, "")
+                    : "0.00"}
+                  %
                 </div>
               </div>
             </div>

@@ -11,6 +11,7 @@ import FundRuleset from "./sub-components/FundRuleset";
 
 // CSS
 import "./styles/fundDetails.css";
+import SwapsTable from "../../../trade/components/swaps-table/SwapsTable";
 
 class FundDetails extends Component {
   constructor(props) {
@@ -46,6 +47,22 @@ class FundDetails extends Component {
   }
 
   renderRuleset() {
+    return (
+      <>
+        <FundRuleset />
+      </>
+    );
+  }
+
+  renderTrades() {
+    return (
+      <>
+        <SwapsTable {...this.props} />
+      </>
+    );
+  }
+
+  renderTransactions() {
     return (
       <>
         <FundRuleset />
@@ -147,6 +164,9 @@ class FundDetails extends Component {
                 this.renderFinancials()}
               {this.state.selectedNavbarItem === "ruleset" &&
                 this.renderRuleset()}
+
+              {this.state.selectedNavbarItem === "trades" &&
+                this.renderTrades()}
             </div>
           </div>
         </div>

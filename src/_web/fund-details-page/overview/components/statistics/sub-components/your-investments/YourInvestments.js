@@ -60,17 +60,19 @@ class YourInvestments extends Component {
               You have no investments
             </div>
           ) : (
-            this.state.yourFundInvestments.map((investment) => (
-              <YourInvestmentsTableRow
-                assetFromParent={investment.asset.symbol}
-                amountFromParent={currencyFormat(investment.amount)}
-                priceFromParent={currencyFormat(investment.price.price)}
-                valueFromParent={currencyFormat(
-                  investment.price.price * investment.amount
-                )}
-                performanceFromParent="0.00%"
-              />
-            ))
+            <div style={{ overflowY: "scroll", height: "60vh" }}>
+              {this.state.yourFundInvestments.map((investment) => (
+                <YourInvestmentsTableRow
+                  assetFromParent={investment.asset.symbol}
+                  amountFromParent={currencyFormat(investment.amount)}
+                  priceFromParent={currencyFormat(investment.price.price)}
+                  valueFromParent={currencyFormat(
+                    investment.price.price * investment.amount
+                  )}
+                  performanceFromParent="0.00%"
+                />
+              ))}
+            </div>
           )}
         </div>
       </>

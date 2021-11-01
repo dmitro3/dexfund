@@ -296,7 +296,7 @@ class FundDetailsPage extends Component {
                         : "Available for Vault Manager Only";
                   }}
                   onMouseOut={() => {
-                    document.getElementById("rewards-id").innerHTML = "Rewards";
+                    document.getElementById("rewards-id").innerHTML = "rewards";
                   }}
                   style={
                     this.state.selectedNavbarItem === "rewards"

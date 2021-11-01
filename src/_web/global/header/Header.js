@@ -6,17 +6,17 @@ import { connect } from "react-redux";
 // ASSETS
 import radarIcon from "./assets/radar-icon.png";
 import ethIcon from "./assets/eth-icon.svg";
-import warningIcon from './assets/warning-icon.svg';
+import warningIcon from "./assets/warning-icon.svg";
 import chevronDownIcon from "./assets/chevron-down-icon.svg";
 import activityIcon from "./assets/activity-icon.svg";
 // CSS
 import "./styles/header.css";
 
-import configs from './../../../config';
+import configs from "./../../../config";
 import {
   connectAccountOnboard,
   disconnectAccountOnboard,
-  checkWallet
+  checkWallet,
 } from "./../../../redux/actions/OnboardActions";
 
 import { ethers } from "ethers";
@@ -36,7 +36,9 @@ class Header extends Component {
         typeof this.props.selectedPage !== "undefined"
           ? this.props.selectedPage
           : "",
-      expectedNetworkId: configs.DEBUG_MODE ? configs.networkId_DEBUG : configs.networkId
+      expectedNetworkId: configs.DEBUG_MODE
+        ? configs.networkId_DEBUG
+        : configs.networkId,
     };
   }
 
@@ -61,7 +63,7 @@ class Header extends Component {
   doCheckWallet(e) {
     e.preventDefault();
     if (this.props.onboard.networkId !== this.state.expectedNetworkId) {
-      console.log("Clicked unsupported network")
+      console.log("Clicked unsupported network");
       this.props.checkWallet();
     }
   }
@@ -88,7 +90,7 @@ class Header extends Component {
                   "w-header-navbar-item" +
                   (this.state.selectedPage === "home" ? "-selected" : "")
                 }
-                onClick={() => this.toPage("/")}
+                onClick={() => this.toPage("/", { name: "home-page" })}
               >
                 HOME
               </div>
@@ -120,10 +122,27 @@ class Header extends Component {
                   className="activity-icon"
                 /> */}
               </div>
-              <div onClick={(e) => this.doCheckWallet(e)} className="w-header-eth-button">
+              <div
+                onClick={(e) => this.doCheckWallet(e)}
+                className="w-header-eth-button"
+              >
                 <div className="w-header-eth-button-asset-section">
-                  <img src={this.props.onboard.networkId === this.state.expectedNetworkId ? ethIcon : warningIcon} alt="eth-icon" className="eth-icon" />
-                  <div className="w-header-eth-button-asset-text">{this.props.onboard.networkId === this.state.expectedNetworkId ? "Ethereum" : "Unsupported Network"}</div>
+                  <img
+                    src={
+                      this.props.onboard.networkId ===
+                      this.state.expectedNetworkId
+                        ? ethIcon
+                        : warningIcon
+                    }
+                    alt="eth-icon"
+                    className="eth-icon"
+                  />
+                  <div className="w-header-eth-button-asset-text">
+                    {this.props.onboard.networkId ===
+                    this.state.expectedNetworkId
+                      ? "Ethereum"
+                      : "Unsupported Network"}
+                  </div>
                 </div>
                 {/* <img
                   src={chevronDownIcon}
@@ -202,7 +221,7 @@ const mapDispatchToProps = {
   activateLoaderOverlay,
   connectAccountOnboard,
   disconnectAccountOnboard,
-  checkWallet
+  checkWallet,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

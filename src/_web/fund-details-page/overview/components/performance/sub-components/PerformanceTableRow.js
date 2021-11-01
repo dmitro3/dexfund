@@ -49,22 +49,13 @@ class PerformanceTableRow extends Component {
           <div className="w-fund-performance-table-row-cell month">
             {this.state.data5}
           </div>
-          <div
-            className="w-fund-performance-table-row-cell month"
-            style={{ color: "#FD0000" }}
-          >
+          <div className="w-fund-performance-table-row-cell month">
             {this.state.data6}
           </div>
-          <div
-            className="w-fund-performance-table-row-cell month"
-            style={{ color: "#00AF00" }}
-          >
+          <div className="w-fund-performance-table-row-cell month">
             {this.state.data7}
           </div>
-          <div
-            className="w-fund-performance-table-row-cell month"
-            style={{ color: "#00AF00" }}
-          >
+          <div className="w-fund-performance-table-row-cell month">
             {this.state.data8}
           </div>
           <div className="w-fund-performance-table-row-cell month">
