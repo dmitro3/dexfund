@@ -176,11 +176,11 @@ export const getFeesManagerConfigArgsData = async (
   //     }
   //   }
 
-    // Convert Fees
-    return feeManagerConfigArgs({
-      fees: fees,
-      settings: feeManagerSettingsData,
-    });
+  // Convert Fees
+  return feeManagerConfigArgs({
+    fees: fees,
+    settings: feeManagerSettingsData,
+  });
   // } catch (error) {
   //   console.log(error);
   // }
@@ -195,7 +195,7 @@ export const getAddressArrayPolicyArgs = (ars) => {
 };
 
 export const withdraw = async (fundAddress, amount, signer, provider) => {
-  provider = new ethers.providers.Web3Provider(provider)
+  provider = new ethers.providers.Web3Provider(provider);
   signer = await provider.getSigner();
   const ComptrollerLibInterface = new ethers.utils.Interface(
     JSON.parse(JSON.stringify(ComptrollerLib.abi))
@@ -212,7 +212,9 @@ export const withdraw = async (fundAddress, amount, signer, provider) => {
 };
 
 const getVaultProxyAddress = async (fundAddress) => {
-  const url =  configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.MAINNET_ENDPOINT;
   // const url = config.MAINNET_ENDPOINT;
 
   fundAddress = "0xee89c37bf01b115a79242a98ef4f90939b59a58b"; //dummy for now.
@@ -283,131 +285,121 @@ export const getPolicies = async () => {
   return policyManagerConfig;
 };
 
-
 export const getTransactions = async (address) => {
-  const url = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.MAINNET_ENDPOINT;
+  const query = `{
+    transferEvents{
+      id    
+      fund {
+            name
+            id
+            investmentSharesChanges{
+              timestamp
+              id
+              investor{
+                id
+              }
+              shares
+              transaction{
+                id
+                from
+                to
+              }
+            }
+          }
+          
+  }
+  }`;
+
+  const { data } = await axios.post(url, { query });
+
+  let transactions = [];
+
+  data.data.transferEvents[0].fund.investmentSharesChanges.forEach((trans) => {
+    console.log(trans);
+    if (
+      trans.investor.id === address ||
+      trans.transaction.from === address ||
+      trans.transaction.from === address
+    ) {
+      transactions.push({
+        fundName: data.data.transferEvents[0].fund.name,
+        fundId: data.data.transferEvents[0].fund.id,
+        id: trans.id,
+        investor: trans.investor.id,
+        type: trans.transaction.to === address ? "Withdraw" : "Invest",
+        value: trans.shares,
+        timestamp: trans.timestamp,
+        to: trans.transaction.to,
+        from: trans.transaction.from,
+        trans_id: trans.transaction.id,
+      });
+    }
+  });
+
+  console.log("DATA", transactions);
+
+  return transactions;
+};
+
+export const getFundTransactions = async (address) => {
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.MAINNET_ENDPOINT;
   // const url = config.MAINNET_ENDPOINT;
 
-  const transactionQuery = {
-    query: `
-    {
-      fundEventInterfaces(first: 10, orderBy: timestamp orderDirection: desc) {
-        fund{
-          name
-        }
-        __typename
-        transaction {
-          from
-          to
-          timestamp
-          input
-          value
-
-        }
-      }
-    }
-    `
+  const query = `{
+    transferEvents(where:{fund: "0x86fb84e92c1eedc245987d28a42e123202bd6701"}) {
+      id    
+      fund {
+            name
+            id
+            investmentSharesChanges{
+              timestamp
+              id
+              investor{
+                id
+              }
+              shares
+              transaction{
+                id
+                from
+                to
+              }
+            }
+          }
+          
   }
+  }`;
 
-  const transactionQuery1 = {
-    query: `
-    {
-      transferEvents(first: 10, where: {from: "${address}"},orderBy: timestamp orderDirection: desc) {
-        fund {
-          name
-        }
-        transaction {
-          from
-          to
-          value
-          timestamp
-        }
-      }
-    }
-    `,
-  };
+  const { data } = await axios.post(url, { query });
 
-  const transactionQuery2 = {
-    query: `
-    {
-      transferEvents(first: 10, where: {to: "${address}"},orderBy: timestamp orderDirection: desc) {
-        fund {
-          name
-        }
-        transaction {
-          from
-          to
-          value
-          timestamp
-        }
-      }
-    }
-    `,
-  };
+  let transactions = [];
 
-  let result1 = await axios
-    .post(url, transactionQuery1)
-    .then((response) => {
-      const transactions = response.data.data.transferEvents;
-      console.log("transactions", transactions);
-      return transactions || [];
-    })
-    .catch((err) => {
-      console.log("Error: ", err);
+  data.data.transferEvents[0].fund.investmentSharesChanges.forEach((trans) => {
+    transactions.push({
+      fundName: data.data.transferEvents[0].fund.name,
+      fundId: data.data.transferEvents[0].fund.id,
+      id: trans.id,
+      investor: trans.investor.id,
+      value: trans.shares,
+      timestamp: trans.timestamp,
+      type: trans.transaction.to === address ? "Invest" : "Withdrawal",
+      to: trans.transaction.to,
+      from: trans.transaction.from,
+      trans_id: trans.transaction.id,
     });
-
-  let transactions1 = [];
-  if (result1) {
-    result1.map((transaction) => {
-      transactions1.push({
-        fundName: transaction.fund.name,
-        to: transaction.transaction.to,
-        from: transaction.transaction.from,
-        value: transaction.transaction.value,
-        type: transaction.transaction.to === address ? "Withdraw" : "Invest",
-        timestamp: transaction.transaction.timestamp
-      });
-
-      return transactions1
-    })
-  }
-
-  let result2 = await axios
-    .post(url, transactionQuery2)
-    .then((response) => {
-      const transactions = response.data.data.transferEvents;
-      console.log("transactions", transactions);
-      return transactions || [];
-    })
-    .catch((err) => {
-      console.log("Error: ", err);
-    });
-
-  let transactions2 = [];
-  if (result2) {
-    result2.map((transaction) => {
-      transactions2.push({
-        fundName: transaction.fund.name,
-        to: transaction.transaction.to,
-        from: transaction.transaction.from,
-        value: transaction.transaction.value,
-        type: transaction.transaction.to === address ? "Withdraw" : "Invest",
-        timestamp: transaction.transaction.timestamp
-      });
-
-      return transactions2;
-    })
-  }
-  let result = [].concat(transactions1).concat(transactions2);
-  result.sort((a, b) => {
-    return a.timestamp > b.timestamp;
   });
-  return result.slice(0, 5) || [];
-  // return [];
+
+  return transactions;
 };
 
 export const getEthPrice = async () => {
-  const url =  configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.MAINNET_ENDPOINT;
 
   const priceQuery = {
     query: `

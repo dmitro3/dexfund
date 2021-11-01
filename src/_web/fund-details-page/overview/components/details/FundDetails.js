@@ -12,6 +12,7 @@ import FundRuleset from "./sub-components/FundRuleset";
 // CSS
 import "./styles/fundDetails.css";
 import SwapsTable from "../../../trade/components/swaps-table/SwapsTable";
+import FundTransaction from "../../../../global/your-transactions/components/FundTransaction";
 
 class FundDetails extends Component {
   constructor(props) {
@@ -65,7 +66,7 @@ class FundDetails extends Component {
   renderTransactions() {
     return (
       <>
-        <FundRuleset />
+        <FundTransaction fundId={this.props.fundId} />
       </>
     );
   }
@@ -165,6 +166,8 @@ class FundDetails extends Component {
               {this.state.selectedNavbarItem === "ruleset" &&
                 this.renderRuleset()}
 
+              {this.state.selectedNavbarItem === "transactions" &&
+                this.renderTransactions()}
               {this.state.selectedNavbarItem === "trades" &&
                 this.renderTrades()}
             </div>
