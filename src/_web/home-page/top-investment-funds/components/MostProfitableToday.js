@@ -45,6 +45,7 @@ class MostProfitableToday extends Component {
           </div>
           {this.props.investments.map((item, index) => (
             <MostProfitableRow
+              key={index}
               {...this.props}
               id={item.id}
               fundNoFromParent={index + 1}
