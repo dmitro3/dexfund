@@ -39,13 +39,13 @@ class TopInvestmentFunds extends Component {
   }
 
   render() {
-    return this.props.onboard.walletConnected ? (
+    return (
       <>
         <div className="w-top-investment-funds-wrapper">
           <div className="w-top-investment-funds-header">
             TOP INVESTMENT VAULTS
           </div>
-          {this.props.onboard.walletConnected ? (
+          {
             <div className="w-top-investment-funds-content">
               <MostProfitableAllTime
                 investments={this.state.investments}
@@ -60,13 +60,9 @@ class TopInvestmentFunds extends Component {
                 {...this.props}
               />
             </div>
-          ) : (
-            <div> </div>
-          )}
+          }
         </div>
       </>
-    ) : (
-      <WalletNotConnected />
     );
   }
 }

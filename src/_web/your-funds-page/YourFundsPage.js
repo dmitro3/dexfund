@@ -13,6 +13,7 @@ import YourTransactions from "../global/your-transactions/YourTransactions";
 
 // CSS
 import "./yourFundsPage.css";
+import { getYourInvestments } from "../../sub-graph-integrations";
 
 class YourFundsPage extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class YourFundsPage extends Component {
     this.state = {
       sidebar: false,
       settingsPopup: false,
+      yourInvestments: [],
     };
   }
 
@@ -30,6 +32,15 @@ class YourFundsPage extends Component {
   closeSettingsPopup = () => {
     this.setState({ settingsPopup: false });
   };
+
+  async componentDidMount() {
+    const yourInvestments = await getYourInvestments(
+      this.props.onboard.address
+    );
+    this.setState({
+      yourInvestments: yourInvestments,
+    });
+  }
 
   render() {
     var width = window.innerWidth;
@@ -53,6 +64,7 @@ class YourFundsPage extends Component {
               <Portfolio walletMust={true} />
               <YourInvestmentFunds
                 {...this.props}
+                yourInvestments={this.state.yourInvestments}
                 titleFromParent="YOUR VAULTS"
                 addNewFundFromParent={true}
               />

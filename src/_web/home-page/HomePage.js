@@ -22,15 +22,19 @@ import {
   deactivateLoaderOverlay,
 } from "./../../redux/actions/LoaderAction";
 
-import {getFundAllFunds}  from  './../../sub-graph-integrations/funds/index'
+import {
+  getFundAllFunds,
+  getYourInvestments,
+} from "./../../sub-graph-integrations/funds/index";
 
 class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      ...this.props,
       settingsPopup: false,
       topFunds: [],
-      ...this.props
+      yourInvestments: [],
     };
   }
 
@@ -43,13 +47,16 @@ class HomePage extends Component {
   };
 
   async componentDidMount() {
-    const topFundsList  =  await getFundAllFunds();
-    this.setState({
-      ...this.state,
-      topFunds : topFundsList ? topFundsList : []
-    })
+    const topFundsList = await getFundAllFunds();
+    const featuredInvestments = await getYourInvestments("");
 
-    console.log("Top", this.state.topFunds)
+    console.log("Investments 1", featuredInvestments);
+    this.setState({
+      topFunds: topFundsList ? topFundsList : [],
+      yourInvestments: featuredInvestments,
+    });
+
+    console.log("STATE", this.state);
   }
 
   render() {
@@ -65,16 +72,23 @@ class HomePage extends Component {
           <Header
             {...this.props}
             displaySettingsPopupEvent={this.displaySettingsPopup}
-            selectedPage='home'
+            selectedPage="home"
           />
           <div className="w-home-page-wrapper">
             <div className="w-home-page-content">
-              <Portfolio walletMust={true} props={this.props} currentSharePrice="INTERNAL_API" />
+              <Portfolio
+                walletMust={true}
+                props={this.props}
+                currentSharePrice="INTERNAL_API"
+              />
 
-
-              <TopInvestmentFunds {...this.props}  topFunds= {this.state.topFunds} />
+              <TopInvestmentFunds
+                {...this.props}
+                topFunds={this.state.topFunds}
+              />
               <YourInvestments />
               <YourInvestmentFunds
+                yourInvestments={this.state.yourInvestments}
                 {...this.props}
                 titleFromParent="FEATURED VAULTS"
                 addNewFundFromParent={false}
@@ -99,7 +113,7 @@ class HomePage extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.connect,
-    onboard: state.onboard
+    onboard: state.onboard,
   };
 };
 

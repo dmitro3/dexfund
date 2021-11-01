@@ -63,7 +63,7 @@ class YourTransactions extends Component {
   }
 
   render() {
-    return this.props.onboard.walletConnected ? (
+    return (
       <>
         <div className="w-fund-statistics-your-transactions-wrapper">
           <YourTransactionsTableHeader />
@@ -89,8 +89,6 @@ class YourTransactions extends Component {
           )}
         </div>
       </>
-    ) : (
-      <WalletNotConnected />
     );
   }
 }

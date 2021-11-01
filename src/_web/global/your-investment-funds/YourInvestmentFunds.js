@@ -19,29 +19,13 @@ class YourInvestmentFunds extends Component {
   constructor(props) {
     super(props);
 
+    console.log("PROP---", this.props);
+
     this.state = {
       title: this.props.titleFromParent,
       addNewFund: this.props.addNewFundFromParent,
-      // DATA
-      yourInvestments: [],
+      ...this.props,
     };
-  }
-
-  isConnected() {
-    return this.props.onboard.walletConnected;
-  }
-  async componentDidMount() {
-    if (this.isConnected()) {
-      const yourInvestments = await getYourInvestments("");
-      console.log("i", yourInvestments);
-      this.setState({
-        yourInvestments: yourInvestments,
-      });
-    } else {
-      this.setState({
-        yourInvestments: [],
-      });
-    }
   }
 
   toPage(path, e) {
@@ -83,7 +67,7 @@ class YourInvestmentFunds extends Component {
             </div>
           </div>
           <div className="w-your-investments-cards-section">
-            {this.state.yourInvestments.map((investment, index) => (
+            {this.props.yourInvestments.map((investment, index) => (
               <YourInvestmentFundsCard
                 {...this.props}
                 key={index}

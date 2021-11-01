@@ -51,7 +51,7 @@ class YourInvestments extends Component {
   }
 
   render() {
-    return this.props.onboard.walletConnected ? (
+    return (
       <>
         <div className="w-fund-statistics-your-investments-wrapper">
           <YourInvestmentsTableHeader />
@@ -76,8 +76,6 @@ class YourInvestments extends Component {
           )}
         </div>
       </>
-    ) : (
-      <WalletNotConnected />
     );
   }
 }
