@@ -50,9 +50,11 @@ class InvestmentFunds extends Component {
     await this.setState({ isLoaded: false });
     if (this.isConnected()) {
       let _ethPrice = await getEthPrice();
-      let trs = await getFundTransactions(
-        "0x86fb84e92c1eedc245987d28a42e123202bd6701"
-      );
+      // testing Address: "0x86fb84e92c1eedc245987d28a42e123202bd6701"
+
+      let trs = await getFundTransactions(this.props.fundId);
+
+      console.log("FUND ID", this.props);
 
       // let trs = [];
       console.log(trs);

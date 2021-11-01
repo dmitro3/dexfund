@@ -66,7 +66,7 @@ class FundDetails extends Component {
   renderTransactions() {
     return (
       <>
-        <FundTransaction fundId={this.props.fundId} />
+        <FundTransaction fundId={this.props.state.fundId} />
       </>
     );
   }
