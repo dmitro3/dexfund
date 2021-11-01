@@ -14,6 +14,7 @@ class FundFinancials extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      ...this.props.state,
       shareSupply: "0",
       sharePrice: "0",
       denominationAsset: "",
@@ -42,7 +43,7 @@ class FundFinancials extends Component {
           <div className="w-fund-info-table-row">
             <div className="w-fund-info-row-cell type">Share price</div>
             <div className="w-fund-info-row-cell value">
-              {this.state.sharePrice} {this.state.denominationAsset}
+              {this.state.currentSharePrice} {this.state.denominationAsset}
             </div>
           </div>
         </div>
