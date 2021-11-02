@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { queryFundOverviewDetails } from "../../../sub-graph-integrations/assets-and-adapters"
 
 // COMPONENTS
 import Sidebar from "../sidebar/Sidebar";
@@ -20,18 +21,33 @@ class FundOverview extends Component {
     super(props);
     this.state = {
       ...this.props.state,
-      ...this.props.props
+      ...this.props.props,
+
+      depositors: "",
+      denominationAssetSymbol: "",
+      denominationAssetName: "",
     };
   }
 
+  async componentDidMount() {
+    let overview = await queryFundOverviewDetails(this.state.fundId);
+    this.setState({
+      depositors: overview.investmentCount,
+      denominationAssetSymbol: overview.accessor.denominationAsset.symbol,
+      denominationAssetName: overview.accessor.denominationAsset.name,
+      denominationAssetDecimals: overview.accessor.denominationAsset.decimals
+    });
+  }
+
   render() {
+
     var width = window.innerWidth;
 
     if (width > 1000) {
       return (
         <>
           <div className="w-fund-overview-wrapper">
-            <Sidebar />
+            <Sidebar state={this.state} />
             <div className="w-fund-overview-content">
               <Portfolio walletMust={false} currentSharePrice={this.state.currentSharePrice} />
               <FundOverviewCards state={this.state} />
