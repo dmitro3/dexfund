@@ -7,10 +7,13 @@ export const getFundSwapTrades = async (id) => {
     const endpoint = configs.DEBUG_MODE
       ? configs.ENZYME_ENDPOINT
       : configs.MAINNET_ENDPOINT;
-    const { data } = await axios.post(endpoint, {
+    const trades = await axios.post(endpoint, {
       query: `
           {
-            tokenSwapTrades(where: {fund: "${id}"}){
+            tokenSwapTrades(where: {fund: "${id}"}, orderBy:  timestamp, orderDirection:desc){
+              id
+              timestamp
+              method
               adapter {
                 identifier
               }
@@ -33,13 +36,74 @@ export const getFundSwapTrades = async (id) => {
                 }
               }
             }
+
+
+            redeemTrades(where: {fund: "${id}"}, orderBy:  timestamp, orderDirection:desc){
+              id
+              timestamp
+              method
+              adapter {
+                identifier
+              }
+              incomingAssetAmount {
+                amount
+                asset {
+                  symbol
+                }
+                price {
+                  price
+                }
+              }
+              outgoingAssetAmount {
+                amount
+                 asset {
+                  symbol
+                }
+                price {
+                  price
+                }
+              }
+            }
+
+            lendTrades(where: {fund: "${id}"}, orderBy:  timestamp, orderDirection:desc){
+              id
+              timestamp
+              method
+              adapter {
+                identifier
+              }
+              incomingAssetAmount {
+                amount
+                asset {
+                  symbol
+                }
+                price {
+                  price
+                }
+              }
+              outgoingAssetAmount {
+                amount
+                 asset {
+                  symbol
+                }
+                price {
+                  price
+                }
+              }
+            }
+
           }
       
           `,
     });
-    console.log("Your trades: ", data.data);
 
-    return data.data.tokenSwapTrades;
+    return [
+      ...trades.data.data.tokenSwapTrades,
+      ...trades.data.data.redeemTrades,
+      ...trades.data.data.lendTrades,
+    ];
+
+    return [];
   } catch (error) {
     console.log(error);
   }

@@ -78,6 +78,8 @@ class SwapsTable extends Component {
               ? this.state.swapTrades.map((trade, i) => (
                   <SwapsTableRow
                     key={i}
+                    trade={trade}
+                    method={trade.method}
                     exchangeFromParent={trade.adapter.identifier}
                     priceFromParent={trade.incomingAssetAmount.price.price}
                     amountFromParent={currencyFormat(

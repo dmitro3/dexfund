@@ -29,8 +29,11 @@ class FundComposition extends Component {
       isLoading: true,
     });
     const fundComposition = await getFundCompostion(this.props.state.fundId);
-    var holdings = fundComposition.portfolio.holdings;
-    console.log("1", holdings);
+    let holdings;
+    if (fundComposition.portfolio) {
+      holdings = fundComposition.portfolio.holdings;
+      console.log("1", holdings);
+    }
     let _ethPrice = await getEthPrice();
     this.setState({
       holdings,
