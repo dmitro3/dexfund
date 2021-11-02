@@ -12,7 +12,7 @@ import "../../styles/fundOverview.css";
 // REDUX
 import { connect } from "react-redux";
 import { currentUserAllTransactions } from "../../../../../sub-graph-integrations";
-import YourInvestments from "../../../../home-page/your-investments/YourInvestments";
+import YourInvestments from "../../../../home-page/your-investments/StatInvesment";
 import YourTransactions from "../../../../global/your-transactions/YourTransactions";
 
 class FundOverviewStatistics extends Component {
@@ -28,8 +28,9 @@ class FundOverviewStatistics extends Component {
   }
 
   async componentDidMount() {
+    //0xaed39f9013fe44deb694203d9d12ea4029edac49
     const currentUserHistory = await currentUserAllTransactions(
-      "0xaed39f9013fe44deb694203d9d12ea4029edac49"
+      this.props.onboard.address ? this.props.onboard.address : ""
     );
     console.log("STATS", currentUserHistory);
     this.setState({

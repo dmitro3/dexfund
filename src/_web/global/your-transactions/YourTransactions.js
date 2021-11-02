@@ -48,27 +48,12 @@ class InvestmentFunds extends Component {
   }
 
   async getData() {
-    console.log(
-      await getFundTransactions("0x86fb84e92c1eedc245987d28a42e123202bd6701")
-    );
     await this.setState({ isLoaded: false });
-    if (this.isConnected()) {
-      let _ethPrice = await getEthPrice();
-      let trs = await getTransactions(this.props.onboard.address);
-
-      // let trs = [];
-      console.log(trs);
-      this.setState({
-        transactionHistory: trs || [],
-        ethPrice: _ethPrice,
-        isLoaded: true,
-      });
-    } else {
-      this.setState({
-        transactionHistory: [],
-        isLoaded: true,
-      });
-    }
+    let _ethPrice = await getEthPrice();
+    this.setState({
+      ethPrice: _ethPrice,
+      isLoaded: true,
+    });
   }
 
   async componentDidMount() {
@@ -76,18 +61,24 @@ class InvestmentFunds extends Component {
   }
 
   renderConnected() {
-    return this.props.transactions.map((transaction, index) => (
-      <YourTransactionsTableRow
-        key={index}
-        transactions={this.props.transactions}
-        actionFromParent={transaction.type}
-        tokenFromParent={parseFloat(transaction.amount)}
-        valueFromParent={parseFloat(transaction.amount) * this.state.ethPrice}
-        vaultFromParent={transaction.fundName}
-        typeFromParent={transaction.type}
-        timeFromParent={getTimeDiff(parseInt(transaction.timestamp) * 1000)}
-      />
-    ));
+    return (
+      <div style={{ overflowY: "scroll", height: "30vh" }}>
+        {this.props.transactions.map((transaction, index) => (
+          <YourTransactionsTableRow
+            key={index}
+            transaction={transaction}
+            actionFromParent={transaction.type}
+            tokenFromParent={parseFloat(transaction.amount)}
+            valueFromParent={
+              parseFloat(transaction.amount) * this.state.ethPrice
+            }
+            vaultFromParent={transaction.fundName}
+            typeFromParent={transaction.type}
+            timeFromParent={getTimeDiff(parseInt(transaction.timestamp) * 1000)}
+          />
+        ))}
+      </div>
+    );
   }
 
   renderNoTransactions() {
