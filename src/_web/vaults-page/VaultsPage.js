@@ -7,6 +7,9 @@ import {
   deactivateLoaderOverlay,
 } from "./../../redux/actions/LoaderAction";
 
+import { getAUM } from "../../sub-graph-integrations";
+import { getEthPrice } from "../../ethereum/funds/fund-related";
+
 // COMPONENTS
 import Header from "../global/header/Header";
 import SettingsPopup from "../global/settings-popup/SettingsPopup";
@@ -37,12 +40,46 @@ class VaultsPage extends Component {
     };
   }
 
+  calculateAUM(fund) {
+    let AUM = 0
+    fund.portfolio.holdings.forEach(holding => {
+      const amount = parseFloat(holding.amount) *  parseFloat(holding.asset.price.price)
+      AUM += amount
+    });
+
+    return AUM
+  }
+
+  calculateCurrentSharePrice(investment, aum) {
+    const shareSupply = parseFloat(investment.shares.totalSupply);
+    const sharePrice = parseFloat(aum) * this.state.ethPrice / shareSupply;
+
+    return !Number.isNaN(sharePrice) ? sharePrice : 0;
+  }
+
+  calculateLifetimeReturn(investment, aum) {
+    const csp = this.calculateCurrentSharePrice(investment, aum);
+    if (csp == 0)
+      return 0;
+    return csp
+  }
+
   async componentDidMount() {
     // this.props.activateLoaderOverlay()
-    await this.setState({ isLoaded: false });
+    await this.setState({
+      isLoaded: false,
+      ethPrice: await getEthPrice()
+    });
     var investments = await getAllInvestments();
     investments = investments.filter((v) => {
       return !configs.BLACKLISTED_VAULTS.includes(v.id.toLowerCase());
+    });
+    for(var i = 0; i < investments.length; i++) {
+      investments[i].currentAUM = this.calculateAUM(investments[i]);
+      investments[i].ltr = this.calculateLifetimeReturn(investments[i], investments[i].currentAUM);
+    }
+    investments = investments.sort((a, b) => {
+      return a.currentAUM > b.currentAUM
     });
     // const investments = {}
     this.setState({
@@ -88,6 +125,7 @@ class VaultsPage extends Component {
                 isLoaded={this.state.isLoaded}
                 investments={this.state.investments}
                 {...this.props}
+                ethPrice={this.state.ethPrice}
               />
             </div>
           </div>

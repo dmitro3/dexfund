@@ -10,8 +10,6 @@ import SkeletonLoader from "./../../../global/skeleton-loader/SkeletonLoader";
 
 // CSS
 import "../../vaultsPage.css";
-import { getAUM } from "../../../../sub-graph-integrations";
-import { getEthPrice } from "../../../../ethereum/funds/fund-related";
 import { currencyFormat } from "../../../../ethereum/utils";
 
 
@@ -30,6 +28,12 @@ class InvestmentFunds extends React.Component {
   componentDidUpdate() {
     if (this.props.isLoaded != this.state.isLoaded) {
       this.setState({ isLoaded: this.props.isLoaded });
+    }
+
+    if (this.props.ethPrice != this.state.ethPrice) {
+      this.setState({
+        ethPrice: this.props.ethPrice
+      })
     }
   }
 
@@ -74,18 +78,8 @@ class InvestmentFunds extends React.Component {
   async componentDidMount() {
     this.setState({
       ...this.state,
-      ethPrice: await getEthPrice()
+      ethPrice: this.props.ethPRice
     })
-  }
-
-   calculateAUM(fund) {
-    let AUM = 0
-    fund.portfolio.holdings.forEach(holding => {
-      const amount = parseFloat(holding.amount) *  parseFloat(holding.asset.price.price)
-      AUM += amount
-    });
-
-    return currencyFormat(AUM * this.state.ethPrice, "")
   }
 
   renderFunds() {
@@ -100,21 +94,24 @@ class InvestmentFunds extends React.Component {
               .toLowerCase()
               .includes(this.state.searchValue.toLowerCase()) ||
             this.state.searchValue === ""
-          )
+          ) {
+            const aum = investment.currentAUM;
+            const ltr = investment.ltr;
             return (
               <InvestmentFundsTableRow
                 key={index}
                 idFromParent={investment.id}
                 nameFromParent={investment.name}
                 typeFromParent="Investment"
-                denominationAssetFromParent={investment.trackedAssets[0].symbol}
+                denominationAssetFromParent={investment.accessor.denominationAsset.symbol}
                 // AUMFromParent={investment.lastKnowGavInEth}
-                AUMFromParent={this.calculateAUM(investment)}
+                AUMFromParent={currencyFormat(aum * this.state.ethPrice, "")}
                 depositorsFromParent={investment.investmentCount}
-                lifetimeGainFromParent="0.00%"
+                lifetimeGainFromParent={ltr.toFixed(2) + "CHANGE ME"}
                 {...this.props}
               />
             );
+          }
         })}
       </div>
     );
