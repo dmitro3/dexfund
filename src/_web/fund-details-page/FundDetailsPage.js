@@ -84,7 +84,6 @@ class FundDetailsPage extends Component {
       return;
     }
     fundDetails = fundDetails[0];
-    console.log(fundDetails);
     await this.setState({
       fundId: vaultAddress,
       fundName: fundDetails.name,
@@ -94,6 +93,7 @@ class FundDetailsPage extends Component {
       loaded: true,
       AUM: currencyFormat(aum * _ethPrice),
     });
+    console.log("REACHED");
     this.props.deactivateLoaderOverlay();
   }
 

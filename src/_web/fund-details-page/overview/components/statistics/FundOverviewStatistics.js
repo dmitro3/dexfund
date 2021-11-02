@@ -2,8 +2,6 @@
 import React, { Component } from "react";
 
 // COMPONENTS
-import YourInvestments from "./sub-components/your-investments/YourInvestments";
-import YourTransactions from "./sub-components/your-transactions/YourTransactions";
 
 // ASSETS
 // ...
@@ -13,20 +11,41 @@ import "../../styles/fundOverview.css";
 
 // REDUX
 import { connect } from "react-redux";
+import { currentUserAllTransactions } from "../../../../../sub-graph-integrations";
+import YourInvestments from "../../../../home-page/your-investments/YourInvestments";
+import YourTransactions from "../../../../global/your-transactions/YourTransactions";
 
 class FundOverviewStatistics extends Component {
   constructor(props) {
     super(props);
+    console.log("STATS", this.props);
     this.state = {
       selectedNavbarItem: "yourInvestments",
       ...this.props.state,
+      investments: [],
+      transactions: [],
     };
+  }
+
+  async componentDidMount() {
+    const currentUserHistory = await currentUserAllTransactions(
+      "0xaed39f9013fe44deb694203d9d12ea4029edac49"
+    );
+    console.log("STATS", currentUserHistory);
+    this.setState({
+      ...this.state,
+      investments: currentUserHistory.investments,
+      transactions: currentUserHistory.transactions,
+    });
   }
 
   renderYourInvestments() {
     return (
       <>
-        <YourInvestments state={this.state} />
+        <YourInvestments
+          state={this.state}
+          investments={this.state.investments}
+        />
       </>
     );
   }
@@ -34,7 +53,10 @@ class FundOverviewStatistics extends Component {
   renderYourTransactions() {
     return (
       <>
-        <YourTransactions state={this.state} />
+        <YourTransactions
+          state={this.state}
+          transactions={this.state.transactions}
+        />
       </>
     );
   }
