@@ -14,6 +14,7 @@ export const queryFundOverviewDetails = async (fundId) => {
             id
             name
             symbol
+            decimals
           }
         }
         investmentCount

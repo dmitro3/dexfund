@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { getIconSource } from "../../../../../icons";
-import { queryFundOverviewDetails } from "../../../../../sub-graph-integrations/assets-and-adapters";
+// import { queryFundOverviewDetails } from "../../../../../sub-graph-integrations/assets-and-adapters";
 
 // COMPONENTS
 // ...
@@ -20,20 +20,18 @@ class FundOverviewCards extends Component {
       AUM: 10,
       depositors: 0,
       lifetimeReturn: "0.00",
-      denominationAssetSymbol: "",
-      denominationAssetName: "",
       ...this.props.state,
     };
   }
 
-  async componentDidMount() {
-    let overview = await queryFundOverviewDetails(this.state.fundId);
-    this.setState({
-      depositors: overview.investmentCount,
-      denominationAssetSymbol: overview.accessor.denominationAsset.symbol,
-      denominationAssetName: overview.accessor.denominationAsset.name,
-    });
-  }
+  // async componentDidMount() {
+  //   let overview = await queryFundOverviewDetails(this.state.fundId);
+  //   this.setState({
+  //     depositors: overview.investmentCount,
+  //     denominationAssetSymbol: overview.accessor.denominationAsset.symbol,
+  //     denominationAssetName: overview.accessor.denominationAsset.name,
+  //   });
+  // }
 
   render() {
     // var width = window.innerWidth;
@@ -50,7 +48,7 @@ class FundOverviewCards extends Component {
             </div>
             <div className="w-fund-overview-card">
               <div className="w-fund-overview-card-value">
-                {this.state.depositors}
+                {this.props.state.depositors}
               </div>
               <div className="w-fund-overview-card-type">Depositors</div>
             </div>
@@ -63,12 +61,12 @@ class FundOverviewCards extends Component {
             <div className="w-fund-overview-card">
               <div className="w-fund-overview-card-value-section">
                 <img
-                  src={getIconSource(this.state.denominationAssetSymbol)}
+                  src={getIconSource(this.props.state.denominationAssetSymbol)}
                   alt="icon"
                   className="fund-overview-weth-icon"
                 />
                 <div className="w-fund-overview-card-value">
-                  {this.state.denominationAssetSymbol}
+                  {this.props.state.denominationAssetSymbol}
                 </div>
               </div>
               <div className="w-fund-overview-card-type">
