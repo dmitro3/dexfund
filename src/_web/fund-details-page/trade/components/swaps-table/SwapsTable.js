@@ -81,11 +81,21 @@ class SwapsTable extends Component {
                     trade={trade}
                     method={trade.method}
                     exchangeFromParent={trade.adapter.identifier}
-                    priceFromParent={trade.incomingAssetAmount.price.price}
+                    priceFromParent={
+                      trade.incomingAssetAmount
+                        ? trade.incomingAssetAmount.price.price
+                        : ""
+                    }
                     amountFromParent={currencyFormat(
-                      trade.incomingAssetAmount.amount
+                      trade.incomingAssetAmount
+                        ? trade.incomingAssetAmount.amount
+                        : ""
                     )}
-                    symbolFromParent={trade.incomingAssetAmount.asset.symbol}
+                    symbolFromParent={
+                      trade.incomingAssetAmount
+                        ? trade.incomingAssetAmount.asset.symbol
+                        : ""
+                    }
                     vsReferenceFromParent="0.00%"
                     vsBestPriceFromParent="0.00%"
                   />
