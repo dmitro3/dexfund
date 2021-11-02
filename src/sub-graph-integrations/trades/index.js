@@ -9,99 +9,175 @@ export const getFundSwapTrades = async (id) => {
       : configs.MAINNET_ENDPOINT;
     const trades = await axios.post(endpoint, {
       query: `
-          {
-            tokenSwapTrades(where: {fund: "${id}"}, orderBy:  timestamp, orderDirection:desc){
-              id
-              timestamp
-              method
-              adapter {
-                identifier
-              }
-              incomingAssetAmount {
-                amount
-                asset {
-                  symbol
-                }
-                price {
-                  price
-                }
-              }
-              outgoingAssetAmount {
-                amount
-                 asset {
-                  symbol
-                }
-                price {
-                  price
-                }
-              }
-            }
-
-
-            redeemTrades(where: {fund: "${id}"}, orderBy:  timestamp, orderDirection:desc){
-              id
-              timestamp
-              method
-              adapter {
-                identifier
-              }
-              incomingAssetAmount {
-                amount
-                asset {
-                  symbol
-                }
-                price {
-                  price
-                }
-              }
-              outgoingAssetAmount {
-                amount
-                 asset {
-                  symbol
-                }
-                price {
-                  price
-                }
-              }
-            }
-
-            lendTrades(where: {fund: "${id}"}, orderBy:  timestamp, orderDirection:desc){
-              id
-              timestamp
-              method
-              adapter {
-                identifier
-              }
-              incomingAssetAmount {
-                amount
-                asset {
-                  symbol
-                }
-                price {
-                  price
-                }
-              }
-              outgoingAssetAmount {
-                amount
-                 asset {
-                  symbol
-                }
-                price {
-                  price
-                }
-              }
-            }
-
+      {
+        trades(where:{fund: "${id}"}, orderBy: timestamp, orderDirection: desc){
+          fund{
+            id
           }
-      
-          `,
+          timestamp
+        adapter {
+                    identifier
+                  }
+                  method
+                  ...on TokenSwapTrade{
+                    incomingAssetAmount {
+                    amount
+                    asset {
+                      symbol
+                    }
+                    price {
+                      price
+                    }
+                  }
+                    outgoingAssetAmount {
+                    amount
+                     asset {
+                      symbol
+                    }
+                    price {
+                      price
+                    }
+                  }
+                  }
+                  ...on RedeemTrade{
+                    incomingAssetAmount {
+                    amount
+                    asset {
+                      symbol
+                    }
+                    price {
+                      price
+                    }
+                  }
+                    outgoingAssetAmount {
+                    amount
+                     asset {
+                      symbol
+                    }
+                    price {
+                      price
+                    }
+                  }
+                  }
+        
+        ...on LendTrade{
+                    incomingAssetAmount {
+                    amount
+                    asset {
+                      symbol
+                    }
+                    price {
+                      price
+                    }
+                  }
+                    outgoingAssetAmount {
+                    amount
+                     asset {
+                      symbol
+                    }
+                    price {
+                      price
+                    }
+                  }
+                  }
+          
+          ...on LendAndStakeTrade{
+                    incomingAssetAmount {
+                    amount
+                    asset {
+                      symbol
+                    }
+                    price {
+                      price
+                    }
+                  }
+                    outgoingAssetAmounts {
+                    amount
+                     asset {
+                      symbol
+                    }
+                    price {
+                      price
+                    }
+                  }
+                  }
+          
+          ...on UnstakeTrade{
+                    incomingAssetAmount {
+                    amount
+                    asset {
+                      symbol
+                    }
+                    price {
+                      price
+                    }
+                  }
+                    outgoingAssetAmount {
+                    amount
+                     asset {
+                      symbol
+                    }
+                    price {
+                      price
+                    }
+                  }
+                  }
+          
+          ...on UnstakeAndRedeemTrade{
+                    incomingAssetAmounts {
+                    amount
+                    asset {
+                      symbol
+                    }
+                    price {
+                      price
+                    }
+                  }
+                   
+                  }
+          ...on ClaimRewardsAndReinvestTrade{
+                    incomingAssetAmount {
+                    amount
+                    asset {
+                      symbol
+                    }
+                    price {
+                      price
+                    }
+                  }
+                  }
+          
+          ...on ClaimRewardsAndSwapTrade{
+                    incomingAssetAmount {
+                    amount
+                    asset {
+                      symbol
+                    }
+                    price {
+                      price
+                    }
+                  }
+                  }
+          
+          ...on ClaimRewardsTrade{
+                    incomingAssetAmounts {
+                    amount
+                    asset {
+                      symbol
+                    }
+                    price {
+                      price
+                    }
+                  }
+                  }
+                  
+      }
+              }
+    
+    `,
     });
 
-    return [
-      ...trades.data.data.tokenSwapTrades,
-      ...trades.data.data.redeemTrades,
-      ...trades.data.data.lendTrades,
-    ];
+    return [...trades.data.data.trades];
 
     return [];
   } catch (error) {
