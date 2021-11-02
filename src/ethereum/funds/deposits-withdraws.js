@@ -86,14 +86,15 @@ export const investFundDenomination = async (
 ) => {
     provider = getProvider(provider)
     const signer = await provider.getSigner();
-
     const { comptrollerContract } = await getContracts(fundAddress, provider);
 
+    console.log("buying shares")
     const receipt = await comptrollerContract.buyShares(
         [investor],
         [amount],
         [1]
     );
+    console.log("waiting for confirmation")
     await receipt.wait();
 }
 
@@ -110,6 +111,19 @@ export const getDenominationBalance = async (
     const balance = await assetContract.balanceOf(investor);
 
     return balance;
+}
+
+export const redeemAllShares = async (
+    fundAddress,
+    provider
+) => {
+    provider = getProvider(provider);
+    const signer = await provider.getSigner();
+
+    const { comptrollerContract } = await getContracts(fundAddress, provider);
+
+    const receipt = await comptrollerContract.redeemShares();
+    await receipt.wait();
 }
 
 // export const investFundEth = async (
