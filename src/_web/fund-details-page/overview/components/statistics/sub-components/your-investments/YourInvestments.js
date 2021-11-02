@@ -33,7 +33,7 @@ class YourInvestments extends Component {
     try {
       const investments = await getYourInvestmentsPerFund(
         this.props.state.fundId,
-        this.props.onboard.address
+        "0xea09bdeb7d0ce27c39e73251fccdb0a081fece05"
       );
       // console.log('1221', investments);
       const yourFundInvestments =

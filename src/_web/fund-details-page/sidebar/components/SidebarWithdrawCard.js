@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { withdraw } from "../../../../ethereum/funds/fund-related";
 
+import { redeemAllShares } from "./../../../../ethereum/funds/deposits-withdraws";
+
 // COMPONENTS
 // ...
 
@@ -22,7 +24,10 @@ class SidebarWithdrawCard extends Component {
     this.state = {
       withdrawAmount: "0.00",
       maxAmountToWithdrawal: "5.00",
+      fundAddress: this.props.state.fundAddress
     };
+
+    console.log("fund address: "+this.state.fundAddress)
   }
 
   inputField = (e) => {
@@ -40,94 +45,115 @@ class SidebarWithdrawCard extends Component {
     this.setState({ withdrawAmount: value });
   };
 
-  onWithdraw = () => {
-    this.props.activateLoaderOverlay();
-    if (this.state.withdrawAmount !== "0.00") {
-      try {
-        const pathName = window.location.pathname;
-        const pathArray = pathName.split("/");
-        const fundAddress = pathArray.pop();
-        withdraw(
-          "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
-          "0.005",
-          this.props.onboard.address,
-          this.props.onboard.provider
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      console.log("Show Toast Error");
+  async componentDidUpdate(prevProps) {
+    if (prevProps.state != this.props.state) {
+      this.setState({
+        ...this.props.state
+      })
     }
-    this.props.deactivateLoaderOverlay();
-  };
+  }
 
-  render() {
+  withdrawAllShares = async (e) => {
+    e.preventDefault();
+    this.props.activateLoaderOverlay();
+
+    try {
+      await redeemAllShares(this.state.fundAddress, this.props.onboard.provider)
+    } catch(er) {
+      console.log(er)
+    }
+
+    this.props.deactivateLoaderOverlay();
+  }
+
+  renderJustRedeemAllShares() {
     return (
       this.props.onboard.walletConnected && (
         <>
           <div className="w-invest-card">
-            <div className="w-invest-card-header">Amount to withdraw</div>
-            <div className="w-invest-table">
-              <div className="w-invest-table-asset-cell">
-                <img
-                  src={ethIcon}
-                  alt="eth-icon"
-                  className="sidebar-eth-icon"
-                />
-                <div className="w-invest-table-asset">ETH</div>
-              </div>
-              <div className="w-invest-table-amount-cell">
-                <div className="w-invest-table-amount-input">
-                  <input
-                    type="text"
-                    id="amount-to-invest"
-                    name="withdrawAmount"
-                    value={this.state.withdrawAmount}
-                    onChange={(e) => this.inputField(e)}
-                    style={{
-                      color: "#fff",
-                      backgroundColor: "#070708",
-                      fontFamily: "Bai Jamjuree, sans-serif",
-                      borderColor: "#070708",
-                      borderWidth: "2px 0px",
-                      fontSize: "15px",
-                      fontWeight: "400",
-                      outline: "none",
-                      textAlign: "left",
-                      width: "120px",
-                      marginTop: "-4px",
-                    }}
-                  ></input>
-                </div>
-                <div
-                  className="w-invest-table-amount-max-button"
-                  onClick={() =>
-                    this.setState({
-                      withdrawAmount: this.state.maxAmountToWithdrawal,
-                    })
-                  }
-                >
-                  <div className="w-invest-table-amount-max-button-text">
-                    Max: {this.state.maxAmountToWithdrawal}
-                  </div>
-                </div>
-              </div>
-            </div>
             <div
               className="w-invest-card-button"
-              onClick={() => {
-                this.onWithdraw();
+              onClick={(e) => {
+                this.withdrawAllShares(e);
               }}
             >
               <div className="w-invest-card-button-text">
-                WITHDRAW {this.state.withdrawAmount} ETH
+                WITHDRAW ALL SHARES
               </div>
             </div>
           </div>
         </>
       )
     );
+  }
+
+  render() {
+    return this.renderJustRedeemAllShares();
+    // return (
+    //   this.props.onboard.walletConnected && (
+    //     <>
+    //       <div className="w-invest-card">
+    //         <div className="w-invest-card-header">Amount to withdraw</div>
+    //         <div className="w-invest-table">
+    //           <div className="w-invest-table-asset-cell">
+    //             <img
+    //               src={ethIcon}
+    //               alt="eth-icon"
+    //               className="sidebar-eth-icon"
+    //             />
+    //             <div className="w-invest-table-asset">ETH</div>
+    //           </div>
+    //           <div className="w-invest-table-amount-cell">
+    //             <div className="w-invest-table-amount-input">
+    //               <input
+    //                 type="text"
+    //                 id="amount-to-invest"
+    //                 name="withdrawAmount"
+    //                 value={this.state.withdrawAmount}
+    //                 onChange={(e) => this.inputField(e)}
+    //                 style={{
+    //                   color: "#fff",
+    //                   backgroundColor: "#070708",
+    //                   fontFamily: "Bai Jamjuree, sans-serif",
+    //                   borderColor: "#070708",
+    //                   borderWidth: "2px 0px",
+    //                   fontSize: "15px",
+    //                   fontWeight: "400",
+    //                   outline: "none",
+    //                   textAlign: "left",
+    //                   width: "120px",
+    //                   marginTop: "-4px",
+    //                 }}
+    //               ></input>
+    //             </div>
+    //             <div
+    //               className="w-invest-table-amount-max-button"
+    //               onClick={() =>
+    //                 this.setState({
+    //                   withdrawAmount: this.state.maxAmountToWithdrawal,
+    //                 })
+    //               }
+    //             >
+    //               <div className="w-invest-table-amount-max-button-text">
+    //                 Max: {this.state.maxAmountToWithdrawal}
+    //               </div>
+    //             </div>
+    //           </div>
+    //         </div>
+    //         <div
+    //           className="w-invest-card-button"
+    //           onClick={() => {
+    //             this.onWithdraw();
+    //           }}
+    //         >
+    //           <div className="w-invest-card-button-text">
+    //             WITHDRAW {this.state.withdrawAmount} ETH
+    //           </div>
+    //         </div>
+    //       </div>
+    //     </>
+    //   )
+    // );
   }
 }
 

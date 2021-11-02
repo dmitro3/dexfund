@@ -19,13 +19,26 @@ class Sidebar extends Component {
 
     this.state = {
       selectedSidebarItem: "invest",
+      fundAddress: this.props.state.fundId,
+
+      ...this.props.state
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.state != this.props.state) {
+      this.setState({
+        ...this.props.state
+      })
+    }
   }
 
   renderInvestCard() {
     return (
       <>
-        <SidebarInvestCard />
+        <SidebarInvestCard 
+          state={this.state}
+        />
       </>
     );
   }
@@ -33,12 +46,15 @@ class Sidebar extends Component {
   renderWithdrawCard() {
     return (
       <>
-        <SidebarWithdrawCard />
+        <SidebarWithdrawCard 
+          state={this.state}
+        />
       </>
     );
   }
 
   render() {
+
     const selectedSidebarItemStyle = {
       background: "linear-gradient(to right, #E926C3 10%, #FF4D86 100%)",
       "-webkit-background-clip": "text",
