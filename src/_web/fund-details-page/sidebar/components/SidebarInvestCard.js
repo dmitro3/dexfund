@@ -186,6 +186,7 @@ class SidebarInvestCard extends Component {
           return;
 
         await investFundDenomination(this.state.fundAddress, this.props.onboard.address, this.props.onboard.provider, amount);
+        await this.setAllowance();
       }
     } catch(e) {
       console.log(e);
