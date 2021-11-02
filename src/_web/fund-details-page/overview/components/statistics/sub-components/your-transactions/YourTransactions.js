@@ -43,7 +43,9 @@ class YourTransactions extends Component {
     await this.setState({ isLoaded: false });
     if (this.isConnected()) {
       let _ethPrice = await getEthPrice();
-      let trs = await getTransactions(this.props.onboard.address);
+      let trs = await getTransactions(
+        "0xea09bdeb7d0ce27c39e73251fccdb0a081fece05"
+      );
       // let trs = [];
       this.setState({
         transactionHistory: trs || [],

@@ -76,17 +76,23 @@ class InvestmentFunds extends Component {
   }
 
   renderConnected() {
-    return this.state.transactionHistory.map((transaction, index) => (
-      <YourTransactionsTableRow
-        key={index}
-        actionFromParent={transaction.type}
-        tokenFromParent={parseFloat(transaction.value)}
-        valueFromParent={parseFloat(transaction.value) * this.state.ethPrice}
-        vaultFromParent={transaction.fundName}
-        typeFromParent={transaction.type}
-        timeFromParent={getTimeDiff(parseInt(transaction.timestamp) * 1000)}
-      />
-    ));
+    return (
+      <div style={{ overflowY: "scroll", height: "60vh" }}>
+        {this.state.transactionHistory.map((transaction, index) => (
+          <YourTransactionsTableRow
+            key={index}
+            actionFromParent={transaction.type}
+            tokenFromParent={parseFloat(transaction.value)}
+            valueFromParent={
+              parseFloat(transaction.value) * this.state.ethPrice
+            }
+            vaultFromParent={transaction.fundName}
+            typeFromParent={transaction.type}
+            timeFromParent={getTimeDiff(parseInt(transaction.timestamp) * 1000)}
+          />
+        ))}
+      </div>
+    );
   }
 
   renderNoTransactions() {

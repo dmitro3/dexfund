@@ -49,8 +49,6 @@ class YourFundsPage extends Component {
       display: "none",
     };
 
-    console.log("AM I CONNECTED FUNDS " + this.props.onboard.walletConnected);
-
     if (width > 1000) {
       return (
         <>

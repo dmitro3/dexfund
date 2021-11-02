@@ -317,12 +317,14 @@ export const getTransactions = async (address) => {
 
   let transactions = [];
 
+  const item = data.data.transferEvents[data.data.transferEvents.length - 1];
+  console.log(item);
   data.data.transferEvents[0].fund.investmentSharesChanges.forEach((trans) => {
-    console.log(trans);
+    console.log(trans.investor.id, address);
     if (
       trans.investor.id === address ||
       trans.transaction.from === address ||
-      trans.transaction.from === address
+      trans.transaction.to === address
     ) {
       transactions.push({
         fundName: data.data.transferEvents[0].fund.name,
@@ -377,11 +379,13 @@ export const getFundTransactions = async (address) => {
   const { data } = await axios.post(url, { query });
 
   let transactions = [];
+  const item = data.data.transferEvents[data.data.transferEvents.length - 1];
+  console.log("XDX item", item);
 
-  data.data.transferEvents[0].fund.investmentSharesChanges.forEach((trans) => {
+  item.fund.investmentSharesChanges.forEach((trans) => {
     transactions.push({
-      fundName: data.data.transferEvents[0].fund.name,
-      fundId: data.data.transferEvents[0].fund.id,
+      fundName: item.fund.name,
+      fundId: item.fund.id,
       id: trans.id,
       investor: trans.investor.id,
       value: trans.shares,
