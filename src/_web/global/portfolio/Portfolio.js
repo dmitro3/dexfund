@@ -142,7 +142,7 @@ class Portfolio extends Component {
           <div className="w-portfolio-header">
             <div className="w-portfolio-header-title-section">
               <div className="w-portfolio-header-title">
-                {this.props.currentSharePrice} {this.props.state.denominationAssetSymbol}
+                $ {this.props.currentSharePrice} 
               </div>
               <div className="w-portfolio-header-subtitle-section">
                 <div className="w-portfolio-header-subtitle">
