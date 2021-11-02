@@ -13,7 +13,10 @@ import YourTransactions from "../global/your-transactions/YourTransactions";
 
 // CSS
 import "./yourFundsPage.css";
-import { getYourInvestments } from "../../sub-graph-integrations";
+import {
+  currentUserAllTransactions,
+  getYourInvestments,
+} from "../../sub-graph-integrations";
 
 class YourFundsPage extends Component {
   constructor(props) {
@@ -22,6 +25,7 @@ class YourFundsPage extends Component {
       sidebar: false,
       settingsPopup: false,
       yourInvestments: [],
+      userTransactions: [],
     };
   }
 
@@ -37,8 +41,12 @@ class YourFundsPage extends Component {
     const yourInvestments = await getYourInvestments(
       this.props.onboard.address
     );
+    const currentUserInvestments = await currentUserAllTransactions(
+      "0xaed39f9013fe44deb694203d9d12ea4029edac49"
+    );
     this.setState({
       yourInvestments: yourInvestments,
+      userTransactions: currentUserInvestments.transactions,
     });
   }
 
@@ -68,6 +76,7 @@ class YourFundsPage extends Component {
               />
               <YourTransactions
                 titleFromParent="TRANSACTIONS"
+                transactions={this.state.userTransactions}
                 displaySearchBarFromParent={true}
               />
             </div>

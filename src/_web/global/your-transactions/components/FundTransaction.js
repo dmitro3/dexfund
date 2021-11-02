@@ -17,6 +17,15 @@ import SkeletonLoader from "./../../skeleton-loader/SkeletonLoader";
 
 // CSS
 import "./../styles/yourTransactions.css";
+import { allFundTransactions } from "../../../../sub-graph-integrations";
+import FundTransactionsTableHeader from "./FundTransactionsTableHeader";
+
+import addIcon from "../assets/add-icon.svg";
+import minusIcon from "../assets/minus-icon.svg";
+import wethIcon from "../assets/weth-icon.svg";
+import { getIconSource } from "../../../../icons";
+
+import { currencyFormat } from "../../../../ethereum/utils";
 
 class InvestmentFunds extends Component {
   constructor(props) {
@@ -48,50 +57,88 @@ class InvestmentFunds extends Component {
 
   async getData() {
     await this.setState({ isLoaded: false });
-    if (this.isConnected()) {
-      let _ethPrice = await getEthPrice();
-      // testing Address: "0x86fb84e92c1eedc245987d28a42e123202bd6701"
+    let _ethPrice = await getEthPrice();
 
-      let trs = await getFundTransactions(this.props.fundId);
+    const allFundTx = await allFundTransactions(this.props.fundId);
 
-      console.log("FUND ID", this.props);
-
-      // let trs = [];
-      console.log(trs);
-      this.setState({
-        transactionHistory: trs || [],
-        ethPrice: _ethPrice,
-        isLoaded: true,
-      });
-    } else {
-      this.setState({
-        transactionHistory: [],
-        isLoaded: true,
-      });
-    }
+    console.log("FUND Tx", allFundTx);
+    this.setState({
+      transactionHistory: allFundTx || [],
+      ethPrice: _ethPrice,
+      isLoaded: true,
+    });
   }
 
   async componentDidMount() {
     await this.getData();
   }
 
-  renderConnected() {
+  renderTransactions() {
     return (
-      <div style={{ overflowY: "scroll", height: "60vh" }}>
-        {this.state.transactionHistory.map((transaction, index) => (
-          <YourTransactionsTableRow
-            key={index}
-            actionFromParent={transaction.type}
-            tokenFromParent={parseFloat(transaction.value)}
-            valueFromParent={
-              parseFloat(transaction.value) * this.state.ethPrice
-            }
-            vaultFromParent={transaction.fundName}
-            typeFromParent={transaction.type}
-            timeFromParent={getTimeDiff(parseInt(transaction.timestamp) * 1000)}
-          />
-        ))}
-      </div>
+      <>
+        <div style={{ overflowY: "scroll", height: "60vh" }}>
+          {this.state.transactionHistory.map((transaction, index) => (
+            <>
+              <div className="w-your-transactions-table-row" key={index}>
+                <div className="w-your-transactions-table-cell newItem">
+                  <div className="w-your-transactions-action-section">
+                    <img
+                      src={transaction.type === "INVEST" ? addIcon : minusIcon}
+                    />
+                    <div className="w-your-transactions-action-text">
+                      {transaction.type}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="w-your-transactions-table-cell token">
+                  {transaction.investor}
+                </div>
+
+                <div className="w-your-transactions-table-cell vault">
+                  {currencyFormat(transaction.shares)}
+                </div>
+
+                <div className="w-your-transactions-table-cell value">
+                  <div
+                    className="w-investment-funds-token-bullet"
+                    style={{ textAlign: "left" }}
+                  >
+                    <img
+                      style={{ height: "24px", width: "24px" }}
+                      alt=""
+                      className="fund-composition-weth-icon"
+                      src={
+                        transaction.symbol
+                          ? getIconSource(transaction.symbol.toLowerCase())
+                          : wethIcon
+                      }
+                    />{" "}
+                    <div className="w-investment-funds-token-bullet-text">
+                      {currencyFormat(parseInt(transaction.amount), "$")}
+                    </div>
+                  </div>
+
+                  <div className="w-investment-funds-token-bullet">
+                    <div>$</div>
+                    <div className="w-investment-funds-token-bullet-text">
+                      {currencyFormat(
+                        parseInt(transaction.amount) *
+                          parseFloat(transaction.price) *
+                          this.state.ethPrice,
+                        "$"
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="w-your-transactions-table-cell time">
+                  {getTimeDiff(transaction.timestamp)}
+                </div>
+              </div>
+            </>
+          ))}
+        </div>
+      </>
     );
   }
 
@@ -133,16 +180,11 @@ class InvestmentFunds extends Component {
           </div>
           <YourTransactionsTableHeader />
           {this.state.isLoaded === true &&
-            this.isConnected() &&
             this.state.transactionHistory.length > 0 &&
-            this.renderConnected()}
+            this.renderTransactions()}
           {this.state.isLoaded === true &&
-            this.isConnected() &&
             this.state.transactionHistory.length === 0 &&
             this.renderNoTransactions()}
-          {this.state.isLoaded === true &&
-            !this.isConnected() &&
-            this.renderNotConnected()}
           {this.state.isLoaded === false && this.renderLoading()}
         </div>
       </>

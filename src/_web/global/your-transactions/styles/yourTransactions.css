@@ -1,110 +1,115 @@
-@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap");
 
 .w-your-transactions-wrapper {
-    padding: 16px 0 444px 0; 
+  padding: 16px 0 444px 0;
 }
 
 .w-your-transactions-header {
-    font-family: 'Bai Jamjuree', sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    color: #fff;
+  font-family: "Bai Jamjuree", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
 }
 
 .w-your-transactions-table-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 28px 16px 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  padding: 28px 16px 12px 16px;
 }
 
 .w-your-transactions-table-header-cell {
-    font-family: 'Bai Jamjuree', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: #999;
+  font-family: "Bai Jamjuree", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #999;
 }
 
-.action, .token, .value, .vault, .type {
-    width: 16%;
-    text-align: left;
+.action,
+.token,
+.value,
+.vault,
+.type,
+.newItem {
+  width: 16%;
+  text-align: left;
 }
 
 .time {
-    width: 20%;
-    text-align: right;
+  width: 20%;
+  text-align: right;
 }
 
 .w-your-transactions-table-row {
-    display: flex;
-    justify-content: space-between;
-    background-color: #070708;
-    margin: 2px 0;
-    padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  background-color: #070708;
+  margin: 2px 0;
+  padding: 16px;
 }
 
 .w-your-transactions-table-row-no-data {
-    justify-content: space-between;
-    background-color: #070708;
-    margin: 2px 0;
-    padding: 16px;
-    color: white;
-    text-align: center;
+  justify-content: space-between;
+  background-color: #070708;
+  margin: 2px 0;
+  padding: 16px;
+  color: white;
+  text-align: center;
 }
 
 .w-your-transactions-table-row:hover {
-    cursor: pointer;
-    background-color: #17171C;
+  cursor: pointer;
+  background-color: #17171c;
 }
 
 .w-your-transactions-table-row:hover .w-investment-funds-token-bullet {
-    background-color: #070708;
+  background-color: #070708;
 }
 
 .w-your-transactions-table-cell {
-    font-family: 'Bai Jamjuree', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    color: #fff;
+  font-family: "Bai Jamjuree", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
 }
 
 .w-your-transactions-action-section {
-    display: flex;
-    justify-content: left;
+  display: flex;
+  justify-content: left;
 }
 
 .w-your-transactions-action-text {
-    margin: 0 0 0 10px;
+  margin: 0 0 0 10px;
 }
 
 .w-investment-funds-token-bullet {
-    width: 120px;
-    background-color: #17171C;
-    border-radius: 10px;
-    padding: 4px 6px;
-    display: flex;
-    justify-content: center;
-    margin-top: -4px;
+  width: 120px;
+  background-color: #17171c;
+  border-radius: 10px;
+  padding: 4px 6px;
+  display: flex;
+  justify-content: center;
+  margin-top: -4px;
 }
 
 .w-investment-funds-token-bullet-text {
-    margin: 0 0 0 8px;
+  margin: 0 0 0 8px;
 }
 
 .w-search-bar-wrapper {
-    border-bottom: 1px solid #171717;
-    padding: 24px 0;
+  border-bottom: 1px solid #171717;
+  padding: 24px 0;
 }
 
 .w-search-bar {
-    display: flex;
-    justify-content: left;
+  display: flex;
+  justify-content: left;
 }
 
 .w-search-bar-input {
-    padding: 0 0 0 16px;
+  padding: 0 0 0 16px;
 }
 
 .investment-funds-search-ico {
-    width: 24px;
-    height: 24px;
+  width: 24px;
+  height: 24px;
 }

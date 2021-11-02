@@ -262,7 +262,7 @@ export const ListAllTrades = async () => {
     });
 
     return data.data;
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getFundAllFunds = async () => {
@@ -408,16 +408,16 @@ export const getLiquidityPools = async () => {
   }
 };
 
-
 export const getAUM = async (fundId) => {
   try {
     const endpoint = configs.DEBUG_MODE
       ? configs.ENZYME_ENDPOINT
       : configs.MAINNET_ENDPOINT;
 
-    let results
-    await axios.post(endpoint, {
-      query: `
+    let results;
+    await axios
+      .post(endpoint, {
+        query: `
       {
         fund(id: "${fundId}") {
           investmentCount
@@ -440,28 +440,322 @@ export const getAUM = async (fundId) => {
       }
       
       
-                `
+                `,
+      })
+      .then((res) => {
+        results = res.data.data.fund;
+      });
 
-    }).then((res) => {
-      results = res.data.data.fund
-    })
+    const holdings = results.portfolio.holdings;
 
-    const holdings = results.portfolio.holdings
-
-    let AUM = 0
-    holdings.forEach(holding => {
-      const amount = parseFloat(holding.amount) *  parseFloat(holding.asset.price.price)
-      AUM += amount
-
+    let AUM = 0;
+    holdings.forEach((holding) => {
+      const amount =
+        parseFloat(holding.amount) * parseFloat(holding.asset.price.price);
+      AUM += amount;
     });
     console.log(`Assets Under Management = ${AUM} ETH`);
-    return AUM
-
-
-
+    return AUM;
   } catch (error) {
     console.log(error);
   }
+};
 
+/**
+ * Fund Transactions
+ */
 
-}
+export const allFundTransactions = async (fundId) => {
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.MAINNET_ENDPOINT;
+  const { data } = await axios.post(url, {
+    query: `{
+    fund(id: "${fundId}") {
+     id 
+     name
+      sharesChanges(orderBy: timestamp, orderDirection: desc) {
+        shares
+        timestamp
+        fundState{
+          id 
+          portfolio{
+            id
+            holdings{
+              id
+              asset{
+                id
+                symbol
+                name
+              }
+              price{
+                price
+              }
+            }
+          }  
+        }
+        ... on SharesBoughtEvent{
+          id 
+          investmentAmount
+          asset{
+            id
+            name
+            symbol
+          }
+          investor{
+            id 
+          }
+          transaction{
+            id
+            from
+            to 
+          }
+        }
+        
+        ...on SharesRedeemedEvent{
+          id 
+          investor{
+            id
+          }
+          fund {
+            id
+            name
+            accessor{
+              id
+              denominationAsset{
+                id 
+                name
+                symbol
+              }
+            }
+          }
+          
+          payoutAssetAmounts{
+            asset{
+              id
+              name
+              symbol
+            }
+            amount
+            price{
+              price
+            }
+          }
+          transaction{
+            id 
+            from 
+            to
+          }
+        }
+      }
+    } 
+  }`,
+  });
+
+  const transaction = data.data.fund.sharesChanges
+    .map((item) => {
+      if (item.fund) {
+        // withdraw
+        return {
+          shares: item.shares,
+          timestamp: parseInt(item.timestamp),
+          transaction_id: item.transaction.id,
+          to: item.transaction.to,
+          type: "WITHDRAW",
+          from: item.transaction.from,
+          amount: item.payoutAssetAmounts
+            ? item.payoutAssetAmounts[0].amount
+            : 0,
+          symbol: item.payoutAssetAmounts
+            ? item.payoutAssetAmounts[0].asset.symbol
+            : "",
+          investor: item.investor.id,
+          fundName: item.fund.name,
+          fundId: item.fund.id,
+        };
+      } else if (item.asset && item.transaction) {
+        return {
+          shares: item.shares,
+          timestamp: parseInt(item.timestamp),
+          transaction_id: item.transaction.id,
+          to: item.transaction.to,
+          type: "INVEST",
+          from: item.transaction.from,
+          amount: item.investmentAmount,
+          symbol: item.asset.symbol,
+          investor: item.investor.id,
+          fundName: data.data.fund.name,
+          fundId: data.data.fund.id,
+        };
+      }
+      return;
+    })
+    .filter((item) => item);
+
+  return transaction;
+};
+
+export const currentUserAllTransactions = async (walletAddress) => {
+  //0xaed39f9013fe44deb694203d9d12ea4029edac49
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.MAINNET_ENDPOINT;
+  const { data } = await axios.post(url, {
+    query: `{
+    investments(where: {investor: "${walletAddress}"}){
+    fund{
+     id 
+     name
+      sharesChanges(orderBy: timestamp, orderDirection: desc) {
+        shares
+        timestamp
+        investmentState{
+          shares
+        }
+        fundState{
+          id 
+          portfolio{
+            id
+            holdings{
+              id
+              asset{
+                id
+                symbol
+                name
+              }
+              amount
+              price{
+                price
+              }
+            }
+          }  
+        }
+        ... on SharesBoughtEvent{
+          id 
+          investmentAmount
+          asset{
+            id
+            name
+            symbol
+            price{
+              price
+            }
+          }
+          investor{
+            id 
+          }
+          transaction{
+            id
+            from
+            to 
+          }
+        }
+        
+        ...on SharesRedeemedEvent{
+          id 
+          investor{
+            id
+          }
+          fund {
+            id
+            name
+            accessor{
+              id
+              denominationAsset{
+                id 
+                name
+                symbol
+              }
+            }
+          }
+          
+          payoutAssetAmounts{
+            asset{
+              id
+              name
+              symbol
+              price{
+                price
+              }
+            }
+            amount
+            price{
+              price
+            }
+          }
+          transaction{
+            id 
+            from 
+            to
+          }
+        }
+      }
+    } 
+  }
+  }`,
+  });
+
+  let investments = [];
+  let transactions = [];
+  const funds = data.data.investments.map((fItem) => fItem.fund);
+
+  console.log("INVST", funds);
+
+  funds.forEach((fund) => {
+    fund.sharesChanges
+      .map((item) => {
+        if (item.fund) {
+          // withdraw
+          const withdraw = {
+            shares: item.shares,
+            timestamp: parseInt(item.timestamp),
+            transaction_id: item.transaction.id,
+            to: item.transaction.to,
+            type: "WITHDRAW",
+            from: item.transaction.from,
+            amount: item.payoutAssetAmounts
+              ? item.payoutAssetAmounts[0].amount
+              : 0,
+            symbol: item.payoutAssetAmounts
+              ? item.payoutAssetAmounts[0].asset.symbol
+              : "",
+            price: item.payoutAssetAmounts
+              ? item.payoutAssetAmounts[0].asset.price.price
+              : "",
+            investor: item.investor.id,
+            fundName: item.fund.name,
+            fundId: item.fund.id,
+          };
+
+          transactions.push(withdraw);
+
+          return withdraw;
+        } else if (item.asset && item.transaction) {
+          const invest = {
+            shares: item.shares,
+            timestamp: parseInt(item.timestamp),
+            transaction_id: item.transaction.id,
+            to: item.transaction.to,
+            type: "INVEST",
+            investmentShares: item.investmentState.shares,
+            from: item.transaction.from,
+            amount: item.investmentAmount,
+            symbol: item.asset.symbol,
+            price: item.asset.price.price,
+            investor: item.investor.id,
+            fundName: fund.name,
+            fundId: fund.id,
+          };
+
+          investments.push(invest);
+          transactions.push(invest);
+        }
+        return;
+      })
+      .filter((item) => item);
+  });
+
+  console.log("INVST", { transactions, investments });
+
+  return { transactions, investments };
+};

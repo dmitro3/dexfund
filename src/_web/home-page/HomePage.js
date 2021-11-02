@@ -25,6 +25,7 @@ import {
 import {
   getFundAllFunds,
   getYourInvestments,
+  currentUserAllTransactions,
 } from "./../../sub-graph-integrations/funds/index";
 
 class HomePage extends Component {
@@ -35,6 +36,8 @@ class HomePage extends Component {
       settingsPopup: false,
       topFunds: [],
       yourInvestments: [],
+      userInvestments: [],
+      userTransactions: [],
     };
   }
 
@@ -49,11 +52,17 @@ class HomePage extends Component {
   async componentDidMount() {
     const topFundsList = await getFundAllFunds();
     const featuredInvestments = await getYourInvestments("");
+    const currentUserInvestments = await currentUserAllTransactions(
+      this.props.onboard.address
+    );
 
-    console.log("Investments 1", featuredInvestments);
+    console.log("Investments 1", currentUserInvestments.investments);
+
     this.setState({
       topFunds: topFundsList ? topFundsList : [],
       yourInvestments: featuredInvestments,
+      userInvestments: currentUserInvestments.investments,
+      userTransactions: currentUserInvestments.transactions,
     });
 
     console.log("STATE", this.state);
@@ -86,14 +95,17 @@ class HomePage extends Component {
                 {...this.props}
                 topFunds={this.state.topFunds}
               />
-              <YourInvestments />
+              <YourInvestments investments={this.state.userInvestments} />
               <YourInvestmentFunds
                 yourInvestments={this.state.yourInvestments}
                 {...this.props}
                 titleFromParent="FEATURED VAULTS"
                 addNewFundFromParent={false}
               />
-              <YourTransactions titleFromParent="YOUR TRANSACTIONS" />
+              <YourTransactions
+                transactions={this.state.userTransactions}
+                titleFromParent="YOUR TRANSACTIONS"
+              />
             </div>
           </div>
           <div style={this.state.settingsPopup === false ? doNotDisplay : {}}>

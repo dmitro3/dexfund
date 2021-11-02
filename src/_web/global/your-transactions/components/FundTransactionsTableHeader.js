@@ -9,7 +9,7 @@ import React, { Component } from "react";
 // CSS
 import "../styles/yourTransactions.css";
 
-class YourTransactionsTableHeader extends Component {
+class FundTransactionsTableHeader extends Component {
   constructor(props) {
     super(props);
 
@@ -20,14 +20,13 @@ class YourTransactionsTableHeader extends Component {
     return (
       <>
         <div className="w-your-transactions-table-header">
-          <div className="w-your-transactions-table-header-cell newItem">
+          <div className="w-your-transactions-table-header-cell action">
             Action
           </div>
           <div className="w-your-transactions-table-header-cell token">
             From/ To
           </div>
-
-          <div className="w-your-transactions-table-header-cell vault">
+          <div className="w-your-transactions-table-header-cell time">
             Shares
           </div>
           <div className="w-your-transactions-table-header-cell value">
@@ -40,4 +39,4 @@ class YourTransactionsTableHeader extends Component {
   }
 }
 
-export default YourTransactionsTableHeader;
+export default FundTransactionsTableHeader;

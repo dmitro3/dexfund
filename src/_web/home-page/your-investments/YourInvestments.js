@@ -20,7 +20,7 @@ import { getEthPrice } from "../../../ethereum/funds/fund-related";
 class YourInvestments extends Component {
   constructor(props) {
     super(props);
-
+    console.log("KK", this.props);
     this.state = {
       investments: [],
       ethPrice: 1,
@@ -73,19 +73,16 @@ class YourInvestments extends Component {
   }
 
   renderInvestments() {
-    return this.state.investments.map((investment, index) => (
+    return this.props.investments.map((investment, index) => (
       <YourinvestmentsTableRow
         key={index}
-        fundNameFromParent={investment.fund.name}
-        yourDepositsFromParent={investment.investmentAmount}
+        fundNameFromParent={investment.fundName}
+        yourDepositsFromParent={investment.amount}
         currentValueFromParent={
-          investment.investmentAmount *
-          this.state.ethPrice *
-          investment.fund.accessor.denominationAsset.price.price
+          investment.price * investment.amount * this.state.ethPrice
         }
         performanceFromParent={(
-          ((investment.investmentAmount - investment.investmentState.shares) /
-            investment.investmentAmount) *
+          (investment.shares / investment.investmentShares) *
           100
         ).toFixed(2)}
       />
@@ -121,11 +118,11 @@ class YourInvestments extends Component {
             <YourInvestmentsTableHeader />
             {this.state.isLoaded === true &&
               this.isConnected() &&
-              this.state.investments.length > 0 &&
+              this.props.investments.length > 0 &&
               this.renderInvestments()}
             {this.state.isLoaded === true &&
               this.isConnected() &&
-              this.state.investments.length == 0 &&
+              this.props.investments.length == 0 &&
               this.renderNoInvestments()}
             {this.state.isLoaded === true &&
               !this.isConnected() &&

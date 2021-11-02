@@ -181,7 +181,7 @@ class SwapsTableRow extends Component {
           <div className="w-swaps-table-row-cell exchange">
             <div className="w-swaps-exchange-cell-section">
               <div className="w-swaps-exchange-cell-text">
-                {getTimeDiff(parseInt(this.state.trade.timestamp) * 1000)}
+                {getTimeDiff(parseInt(this.state.trade.timestamp))}
               </div>
             </div>
           </div>

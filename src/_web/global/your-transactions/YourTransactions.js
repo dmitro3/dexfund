@@ -22,7 +22,7 @@ import "./styles/yourTransactions.css";
 class InvestmentFunds extends Component {
   constructor(props) {
     super(props);
-
+    console.log("TX", this.props.transactions);
     this.state = {
       title: this.props.titleFromParent,
 
@@ -76,12 +76,13 @@ class InvestmentFunds extends Component {
   }
 
   renderConnected() {
-    return this.state.transactionHistory.map((transaction, index) => (
+    return this.props.transactions.map((transaction, index) => (
       <YourTransactionsTableRow
         key={index}
+        transactions={this.props.transactions}
         actionFromParent={transaction.type}
-        tokenFromParent={parseFloat(transaction.value)}
-        valueFromParent={parseFloat(transaction.value) * this.state.ethPrice}
+        tokenFromParent={parseFloat(transaction.amount)}
+        valueFromParent={parseFloat(transaction.amount) * this.state.ethPrice}
         vaultFromParent={transaction.fundName}
         typeFromParent={transaction.type}
         timeFromParent={getTimeDiff(parseInt(transaction.timestamp) * 1000)}
@@ -128,11 +129,11 @@ class InvestmentFunds extends Component {
           <YourTransactionsTableHeader />
           {this.state.isLoaded === true &&
             this.isConnected() &&
-            this.state.transactionHistory.length > 0 &&
+            this.props.transactions.length > 0 &&
             this.renderConnected()}
           {this.state.isLoaded === true &&
             this.isConnected() &&
-            this.state.transactionHistory.length === 0 &&
+            this.props.transactions.length === 0 &&
             this.renderNoTransactions()}
           {this.state.isLoaded === true &&
             !this.isConnected() &&
