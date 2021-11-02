@@ -49,7 +49,7 @@ class FundOverview extends Component {
           <div className="w-fund-overview-wrapper">
             <Sidebar state={this.state} />
             <div className="w-fund-overview-content">
-              <Portfolio walletMust={false} currentSharePrice={this.state.currentSharePrice} />
+              <Portfolio walletMust={false} currentSharePrice={this.state.currentSharePrice} state={this.state}/>
               <FundOverviewCards state={this.state} />
               <FundOverviewStatistics state={this.state} />
               <FundOverviewPerformance />
