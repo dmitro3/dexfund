@@ -67,32 +67,42 @@ class SwapsTableRow extends Component {
           />{" "}
         </>
       );
-    } else if (trade.outgoingAssetAmounts) {
+    } else if (
+      trade.outgoingAssetAmounts &&
+      trade.outgoingAssetAmounts.length > 0
+    ) {
       return (
         <>
           <div
             className="w-fund-composition-asset-bullet-text"
             style={{ marginRight: "10px" }}
           >
-            {trade.outgoingAssetAmounts.asset.symbol}
+            {trade.outgoingAssetAmounts[0].asset
+              ? trade.outgoingAssetAmounts[0].asset.symbol
+              : ""}
           </div>
-          <div> {currencyFormat(trade.outgoingAssetAmounts.amount, "")} </div>
+          <div>
+            {" "}
+            {currencyFormat(trade.outgoingAssetAmounts[0].amount, "")}{" "}
+          </div>
           <img
             style={{ height: "24px", width: "24px" }}
             alt=""
             className="fund-composition-weth-icon"
             src={
-              trade.outgoingAssetAmounts.asset.symbol
-                ? getIconSource(
-                    trade.outgoingAssetAmounts.asset.symbol.toLowerCase()
-                  )
-                : paraswapIcon
+              trade.outgoingAssetAmounts[0].asset
+                ? trade.outgoingAssetAmounts[0].asset.symbol
+                  ? getIconSource(
+                      trade.outgoingAssetAmounts[0].asset.symbol.toLowerCase()
+                    )
+                  : paraswapIcon
+                : ""
             }
           />{" "}
         </>
       );
     }
-    return <> -- </>;
+    return <div style={{ textAlign: "center" }}> -- </div>;
   }
 
   renderInComingAmount(trade) {
@@ -120,32 +130,42 @@ class SwapsTableRow extends Component {
           />{" "}
         </>
       );
-    } else if (trade.incomingAssetAmounts) {
+    } else if (
+      trade.incomingAssetAmounts &&
+      trade.incomingAssetAmounts.length > 0
+    ) {
       return (
         <>
           <div
             className="w-fund-composition-asset-bullet-text"
             style={{ marginRight: "10px" }}
           >
-            {trade.incomingAssetAmounts.asset.symbol}
+            {trade.incomingAssetAmounts[0].asset
+              ? trade.incomingAssetAmounts[0].asset.symbol
+              : ""}
           </div>
-          <div> {currencyFormat(trade.incomingAssetAmounts.amount, "")} </div>
+          <div>
+            {" "}
+            {currencyFormat(trade.incomingAssetAmounts[0].amount, "")}{" "}
+          </div>
           <img
             style={{ height: "24px", width: "24px" }}
             alt=""
             className="fund-composition-weth-icon"
             src={
-              trade.incomingAssetAmounts.asset.symbol
-                ? getIconSource(
-                    trade.incomingAssetAmounts.asset.symbol.toLowerCase()
-                  )
-                : paraswapIcon
+              trade.incomingAssetAmounts[0].asset
+                ? trade.incomingAssetAmounts[0].asset.symbol
+                  ? getIconSource(
+                      trade.incomingAssetAmounts[0].asset.symbol.toLowerCase()
+                    )
+                  : paraswapIcon
+                : ""
             }
           />{" "}
         </>
       );
     }
-    return <> -- </>;
+    return <div style={{ textAlign: "center" }}> -- </div>;
   }
 
   render() {
