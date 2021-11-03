@@ -15,6 +15,7 @@ import YourTransactions from "../global/your-transactions/YourTransactions";
 import "./yourFundsPage.css";
 import {
   currentUserAllTransactions,
+  currentUserVaults,
   getYourInvestments,
 } from "../../sub-graph-integrations";
 
@@ -26,6 +27,7 @@ class YourFundsPage extends Component {
       settingsPopup: false,
       yourInvestments: [],
       userTransactions: [],
+      userFunds: [],
     };
   }
 
@@ -42,11 +44,15 @@ class YourFundsPage extends Component {
       this.props.onboard.address
     );
     const currentUserInvestments = await currentUserAllTransactions(
-      "0xaed39f9013fe44deb694203d9d12ea4029edac49"
+      this.props.onboard.address
     );
+
+    const funds = await currentUserVaults(this.props.onboard.address);
+    console.log("FUNDS", funds);
     this.setState({
       yourInvestments: yourInvestments,
       userTransactions: currentUserInvestments.transactions,
+      userFunds: funds,
     });
   }
 
@@ -70,10 +76,11 @@ class YourFundsPage extends Component {
               <Portfolio walletMust={true} />
               <YourInvestmentFunds
                 {...this.props}
-                yourInvestments={this.state.yourInvestments}
+                yourInvestments={this.state.userFunds}
                 titleFromParent="YOUR VAULTS"
                 addNewFundFromParent={true}
               />
+
               <YourTransactions
                 titleFromParent="TRANSACTIONS"
                 transactions={this.state.userTransactions}

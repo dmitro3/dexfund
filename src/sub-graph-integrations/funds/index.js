@@ -768,3 +768,40 @@ export const userFundList = async (address) => {
     query: `{  }`,
   });
 };
+
+export const currentUserVaults = async (accessor) => {
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.MAINNET_ENDPOINT;
+
+  const query = `
+  {
+    funds(first: 5, where: {accessor: "${accessor}"}){
+         id 
+         name 
+         accessor{
+           id
+           denominationAsset{
+             symbol
+             name 
+             price{
+               price
+             }
+           }
+         }
+         state{
+           shares{
+             totalSupply
+           }
+         }
+       }
+   }`;
+
+  const { data } = await axios.post(url, {
+    query,
+  });
+
+  console.log(data.data.funds);
+
+  return data.data.funds;
+};

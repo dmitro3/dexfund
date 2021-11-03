@@ -14,6 +14,8 @@ import { getYourInvestments } from "../../../sub-graph-integrations";
 // REDUX
 import { connect } from "react-redux";
 import WalletNotConnected from "../wallet-not-connected/WalletNotConnected";
+import { getEthPrice } from "../../../ethereum/funds/fund-related";
+import SkeletonLoader from "../skeleton-loader/SkeletonLoader";
 
 class YourInvestmentFunds extends Component {
   constructor(props) {
@@ -25,7 +27,16 @@ class YourInvestmentFunds extends Component {
       title: this.props.titleFromParent,
       addNewFund: this.props.addNewFundFromParent,
       ...this.props,
+      ethPrice: 1,
+      isLoading: true,
     };
+  }
+
+  async componentDidMount() {
+    setTimeout(() => this.setState({ isLoading: false }), 50);
+    this.setState({
+      ethPrice: await getEthPrice(),
+    });
   }
 
   toPage(path, e) {
@@ -37,6 +48,26 @@ class YourInvestmentFunds extends Component {
       left: 0,
       behavior: "smooth",
     });
+  }
+
+  renderNoTransactions() {
+    return (
+      <div className="w-your-transactions-table-row-no-data">
+        You have no transactions
+      </div>
+    );
+  }
+
+  renderNotConnected() {
+    return (
+      <div className="w-your-transactions-table-row">
+        <WalletNotConnected textFromParent="to view your transactions" />
+      </div>
+    );
+  }
+
+  renderLoading() {
+    return <SkeletonLoader rows={2} rowHeight={40} />;
   }
 
   render() {
@@ -66,24 +97,33 @@ class YourInvestmentFunds extends Component {
               </div>
             </div>
           </div>
-          <div className="w-your-investments-cards-section">
-            {this.props.yourInvestments.map((investment, index) => (
-              <YourInvestmentFundsCard
-                {...this.props}
-                key={index}
-                fundAddressFromParent={investment.fund.id}
-                fundsFromParent={investment.investmentAmount}
-                performanceFromParent={
-                  ((investment.investmentAmount -
-                    investment.investmentState.shares) /
-                    investment.investmentAmount) *
-                  100
-                }
-                fundNameFromParent={investment.fund.name}
-                sharePriceDataFromParent={investment.investmentState.shares}
-              />
-            ))}
-          </div>
+          {this.props.onboard.walletConnected ? (
+            this.props.yourInvestments.length > 0 ? (
+              <div className="w-your-investments-cards-section">
+                {this.props.yourInvestments.map((fund) => (
+                  <YourInvestmentFundsCard
+                    {...this.props}
+                    key={fund.id}
+                    fundAddressFromParent={fund.id}
+                    fundsFromParent={
+                      parseFloat(fund.state.shares.totalSupply) *
+                      parseFloat(fund.accessor.denominationAsset.price.price) *
+                      this.state.ethPrice
+                    }
+                    performanceFromParent={(1 / 2) * 100}
+                    fundNameFromParent={fund.name}
+                    sharePriceDataFromParent={fund.state}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="w-your-transactions-table-row-no-data">
+                You have no vaults
+              </div>
+            )
+          ) : (
+            <WalletNotConnected textFromParent="to view your vaults" />
+          )}
         </div>
       </>
     );
