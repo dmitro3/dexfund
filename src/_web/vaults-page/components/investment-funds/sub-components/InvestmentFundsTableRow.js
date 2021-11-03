@@ -78,9 +78,9 @@ class InvestmentFundsTableRow extends Component {
           </div>
           <div
             className="w-your-transactions-table-cell"
-            style={{ width: "16.6%", textAlign: "right", color: "#00AF00" }}
+            style={{ width: "16.6%", textAlign: "right", color: this.state.lifetimeGain >= 0 ? "#00AF00" : "red" }}
           >
-            {this.state.lifetimeGain}
+            {this.state.lifetimeGain}%
           </div>
         </div>
       </>

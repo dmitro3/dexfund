@@ -7,6 +7,10 @@ import {
   deactivateLoaderOverlay,
 } from "./../../redux/actions/LoaderAction";
 
+import { getAUM } from "../../sub-graph-integrations";
+import { getEthPrice } from "../../ethereum/funds/fund-related";
+import { getAllCreationSharePrices } from './../../api/vaults';
+
 // COMPONENTS
 import Header from "../global/header/Header";
 import SettingsPopup from "../global/settings-popup/SettingsPopup";
@@ -37,12 +41,59 @@ class VaultsPage extends Component {
     };
   }
 
+  calculateAUM(fund) {
+    let AUM = 0
+    fund.portfolio.holdings.forEach(holding => {
+      const amount = parseFloat(holding.amount) *  parseFloat(holding.asset.price.price)
+      AUM += amount
+    });
+
+    return AUM
+  }
+
+  calculateCurrentSharePrice(investment, aum) {
+    const shareSupply = parseFloat(investment.shares.totalSupply);
+    const sharePrice = parseFloat(aum) * this.state.ethPrice / shareSupply;
+
+    return !Number.isNaN(sharePrice) ? sharePrice : 0;
+  }
+
+  calculateLifetimeReturn(investment, aum, ccsp) {
+    if (!Object.keys(ccsp).includes(investment.id.toLowerCase()))
+      return 0;
+    const csp = this.calculateCurrentSharePrice(investment, aum);
+    if (csp == 0)
+      return 0;
+
+    const creationSP = ccsp[investment.id.toLowerCase()];
+    var ltr;
+    var profit = csp - creationSP;
+    ltr = (profit / creationSP) * 100;
+    return ltr;
+  }
+
   async componentDidMount() {
     // this.props.activateLoaderOverlay()
-    await this.setState({ isLoaded: false });
+    await this.setState({
+      isLoaded: false,
+      ethPrice: await getEthPrice()
+    });
     var investments = await getAllInvestments();
+    var creationSharePrices = await getAllCreationSharePrices();
     investments = investments.filter((v) => {
       return !configs.BLACKLISTED_VAULTS.includes(v.id.toLowerCase());
+    });
+    for(var i = 0; i < investments.length; i++) {
+      investments[i].currentAUM = this.calculateAUM(investments[i]);
+      investments[i].ltr = this.calculateLifetimeReturn(investments[i], investments[i].currentAUM, creationSharePrices);
+    }
+    investments.sort((a, b) => {
+      if (a.currentAUM < b.currentAUM)
+        return 1;
+      else if(a.currentAUM > b.currentAUM)
+        return -1;
+      else
+        return 0;
     });
     // const investments = {}
     this.setState({
@@ -88,6 +139,7 @@ class VaultsPage extends Component {
                 isLoaded={this.state.isLoaded}
                 investments={this.state.investments}
                 {...this.props}
+                ethPrice={this.state.ethPrice}
               />
             </div>
           </div>

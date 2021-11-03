@@ -18,6 +18,7 @@ const configs = {
   networkId_DEBUG: 42,
   FALLBACK_PROVIDER_DEBUG:
     "https://eth-kovan.alchemyapi.io/v2/X44WO7iHzVgNQD6unUphe9NoRanDzOiR",
+  API_ENDPOINT: "http://localhost:3001",
 };
 
 module.exports = configs;
