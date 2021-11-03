@@ -13,6 +13,9 @@ export const getAllInvestments = async () => {
                 funds(first: 1000, orderBy: lastKnowGavInEth, orderDirection: desc) {
                   id
                   name
+                  shares {
+                    totalSupply
+                  }
                   accessor {
                     denominationAsset {
                       symbol
