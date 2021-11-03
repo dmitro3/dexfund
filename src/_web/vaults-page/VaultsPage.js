@@ -9,6 +9,7 @@ import {
 
 import { getAUM } from "../../sub-graph-integrations";
 import { getEthPrice } from "../../ethereum/funds/fund-related";
+import { getAllCreationSharePrices } from './../../api/vaults';
 
 // COMPONENTS
 import Header from "../global/header/Header";
@@ -57,11 +58,18 @@ class VaultsPage extends Component {
     return !Number.isNaN(sharePrice) ? sharePrice : 0;
   }
 
-  calculateLifetimeReturn(investment, aum) {
+  calculateLifetimeReturn(investment, aum, ccsp) {
+    if (!Object.keys(ccsp).includes(investment.id.toLowerCase()))
+      return 0;
     const csp = this.calculateCurrentSharePrice(investment, aum);
     if (csp == 0)
       return 0;
-    return csp
+
+    const creationSP = ccsp[investment.id.toLowerCase()];
+    var ltr;
+    var profit = csp - creationSP;
+    ltr = (profit / creationSP) * 100;
+    return ltr;
   }
 
   async componentDidMount() {
@@ -71,15 +79,21 @@ class VaultsPage extends Component {
       ethPrice: await getEthPrice()
     });
     var investments = await getAllInvestments();
+    var creationSharePrices = await getAllCreationSharePrices();
     investments = investments.filter((v) => {
       return !configs.BLACKLISTED_VAULTS.includes(v.id.toLowerCase());
     });
     for(var i = 0; i < investments.length; i++) {
       investments[i].currentAUM = this.calculateAUM(investments[i]);
-      investments[i].ltr = this.calculateLifetimeReturn(investments[i], investments[i].currentAUM);
+      investments[i].ltr = this.calculateLifetimeReturn(investments[i], investments[i].currentAUM, creationSharePrices);
     }
-    investments = investments.sort((a, b) => {
-      return a.currentAUM > b.currentAUM
+    investments.sort((a, b) => {
+      if (a.currentAUM < b.currentAUM)
+        return 1;
+      else if(a.currentAUM > b.currentAUM)
+        return -1;
+      else
+        return 0;
     });
     // const investments = {}
     this.setState({

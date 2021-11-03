@@ -107,7 +107,7 @@ class InvestmentFunds extends React.Component {
                 // AUMFromParent={investment.lastKnowGavInEth}
                 AUMFromParent={currencyFormat(aum * this.state.ethPrice, "")}
                 depositorsFromParent={investment.investmentCount}
-                lifetimeGainFromParent={ltr.toFixed(2) + "CHANGE ME"}
+                lifetimeGainFromParent={ltr.toFixed(2)}
                 {...this.props}
               />
             );
