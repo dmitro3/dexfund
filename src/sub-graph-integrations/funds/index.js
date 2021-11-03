@@ -779,9 +779,10 @@ export const currentUserVaults = async (accessor) => {
 
   const query = `
   {
-    funds(first: 5, where: {accessor: "${accessor}"}){
+    funds(first: 5, where: {manager: "${accessor}"}){
          id 
-         name 
+         name
+         manager 
          accessor{
            id
            denominationAsset{
