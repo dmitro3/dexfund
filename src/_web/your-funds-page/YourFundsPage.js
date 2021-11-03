@@ -6,6 +6,7 @@ import Header from "../global/header/Header";
 import SettingsPopup from "../global/settings-popup/SettingsPopup";
 import Portfolio from "../global/portfolio/Portfolio";
 import YourInvestmentFunds from "../global/your-investment-funds/YourInvestmentFunds";
+import YourVaults from "../global/your-investment-funds/YourVault";
 import YourTransactions from "../global/your-transactions/YourTransactions";
 
 // ASSETS
@@ -74,7 +75,7 @@ class YourFundsPage extends Component {
           <div className="w-your-funds-page-wrapper">
             <div className="w-your-funds-page-content">
               <Portfolio walletMust={true} />
-              <YourInvestmentFunds
+              <YourVaults
                 {...this.props}
                 yourInvestments={this.state.userFunds}
                 titleFromParent="YOUR VAULTS"
