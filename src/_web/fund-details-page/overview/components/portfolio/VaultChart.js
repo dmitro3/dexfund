@@ -55,11 +55,19 @@ class VaultChart extends Component {
     return (((last-first)/first)*100).toFixed(2)
   }
 
+  roundMinutes(date) {
+
+    date.setHours(date.getHours() + Math.round(date.getMinutes()/60));
+    date.setMinutes(0, 0, 0); // Resets also seconds and milliseconds
+
+    return date;
+  }
+
   async getChartData() {
     // await this.setState({ loading: true });
 
     const { selectedChart } = this.state;
-    const now = Math.floor(new Date().getTime() / 1000);
+    const now = Math.floor(this.roundMinutes(new Date()).getTime() / 1000);
     var from;
     var interval;
     var noData = false;
@@ -69,7 +77,7 @@ class VaultChart extends Component {
         interval = 3600;
         break;
       case "1W":
-        from = now-(60*60*24*7);
+        from = now-(60*60*24*8);
         interval = 60*60*6;
         break;
       case "1M":
