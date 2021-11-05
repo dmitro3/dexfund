@@ -74,7 +74,7 @@ class YourFundsPage extends Component {
           />
           <div className="w-your-funds-page-wrapper">
             <div className="w-your-funds-page-content">
-              <Portfolio walletMust={true} />
+              {/* <Portfolio walletMust={true} /> */}
               <YourVaults
                 {...this.props}
                 yourInvestments={this.state.userFunds}

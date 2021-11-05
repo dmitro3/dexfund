@@ -6,7 +6,7 @@ import Portfolio from "../global/portfolio/Portfolio";
 import SettingsPopup from "../global/settings-popup/SettingsPopup";
 import YourInvestments from "./your-investments/YourInvestments";
 import TopInvestmentFunds from "./top-investment-funds/TopInvestmentFunds";
-import YourInvestmentFunds from "../global/your-investment-funds/YourInvestmentFunds";
+import FeaturedFunds from "./featured-funds/FeaturedFunds";
 import YourTransactions from "../global/your-transactions/YourTransactions";
 
 // ASSETS
@@ -51,7 +51,6 @@ class HomePage extends Component {
 
   async componentDidMount() {
     const topFundsList = await getFundAllFunds();
-    const featuredInvestments = await getYourInvestments("");
     const currentUserInvestments = await currentUserAllTransactions(
       this.props.onboard.address
     );
@@ -60,7 +59,6 @@ class HomePage extends Component {
 
     this.setState({
       topFunds: topFundsList ? topFundsList : [],
-      yourInvestments: featuredInvestments,
       userInvestments: currentUserInvestments.investments,
       userTransactions: currentUserInvestments.transactions,
     });
@@ -85,22 +83,19 @@ class HomePage extends Component {
           />
           <div className="w-home-page-wrapper">
             <div className="w-home-page-content">
-              <Portfolio
+              {/* <Portfolio
                 walletMust={true}
                 props={this.props}
                 currentSharePrice="INTERNAL_API"
-              />
+              /> */}
 
               <TopInvestmentFunds
                 {...this.props}
                 topFunds={this.state.topFunds}
               />
               <YourInvestments investments={this.state.userInvestments} />
-              <YourInvestmentFunds
-                yourInvestments={this.state.yourInvestments}
+              <FeaturedFunds
                 {...this.props}
-                titleFromParent="FEATURED VAULTS"
-                addNewFundFromParent={false}
               />
               <YourTransactions
                 transactions={this.state.userTransactions}

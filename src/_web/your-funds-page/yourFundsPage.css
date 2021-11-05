@@ -2,6 +2,7 @@
 
 .w-your-funds-page-wrapper {
     width: 100vw;
+    height: 100vh;
     background-color: #020202;
     padding-top: 80px;
 }

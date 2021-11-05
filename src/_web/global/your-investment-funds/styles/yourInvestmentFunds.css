@@ -58,8 +58,10 @@
 }
 
 .w-your-investments-performance-section {
+    font-family: 'Bai Jamjuree', sans-serif;
     display: flex;
     justify-content: right;
+    color: #fff;
 }
 
 .performance-green-arrow-icon {

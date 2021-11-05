@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
+
+.w-your-investment-funds-wrapper {
+    padding: 80px 0;
+}
+
+.w-your-investment-funds-header {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    padding: 0 0 20px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.w-your-investments-cards-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+.w-your-investments-card {
+    background-color: #070708;
+    width: 24%;
+    padding: 16px;
+}
+
+.w-your-investments-card:hover {
+    cursor: pointer;
+    background-color: #17171C;
+}
+
+.w-your-investments-card-line {
+    display: flex;
+    justify-content: space-between;
+}
+
+.w-your-investments-card-line.first {
+    padding: 0 0 32px 0;
+}
+
+.w-your-investments-type {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #999;
+}
+
+.w-your-investments-type.right {
+    text-align: right;
+}
+
+.w-your-investments-value {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.w-your-investments-performance-section {
+    display: flex;
+    justify-content: right;
+}
+
+.performance-green-arrow-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.w-your-investments-value.green {
+    color: #00AF00;
+}
+
+.w-your-investments-card-line.second {
+    padding: 0;
+}
+
+.w-your-investments-value.fund-name {
+    margin-top: 10px;
+}
+
+.chart-icon {
+    width: 115px;
+    height: 30px;
+}
+
+.w-your-investment-add-new-fund-button {
+    background: linear-gradient(90deg, #E926C3 0%, #FF4D86 97.5%);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.w-your-investment-add-new-fund-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.w-your-investment-add-new-fund-button-text {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #020202;
+    text-align: center;
+    line-height: 24px;
+    margin-left: 8px;
+}
+
+.add-new-fund-add-icon {
+    width: 24px;
+    height: 24px;
+}
