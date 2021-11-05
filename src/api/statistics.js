@@ -20,3 +20,17 @@ export const getChartData = async (fund, from, to=0, interval) => {
         return [];
     }
 }
+
+export const getCreationSharePrices = async (funds) => {
+    try {
+        const endpoint = `${configs.API_ENDPOINT}/funds/creationSharePrices`;
+        console.log("CREATION ENDPOINT: "+endpoint)
+        const { data } = await axios.post(endpoint, {funds: funds});
+        console.log("CREATION SHARE DATA: "+JSON.stringify(data));
+
+        return data;
+    }catch(e) {
+        console.log(e)
+        return {};
+    }
+}
