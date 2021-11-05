@@ -7,6 +7,7 @@ import WalletNotConnected from "../../../../global/wallet-not-connected/WalletNo
 import ContentLoader from "react-content-loader";
 
 import { getChartData } from './../../../../../api/statistics';
+import { currencyFormat } from "./../../../../../ethereum/utils";
 // ASSETS
 import greenArrowIcon from "./assets/green-arrow-icon.svg";
 import redArrowIcon from './assets/red-arrow-icon.svg';
@@ -193,7 +194,7 @@ class VaultChart extends Component {
           <div className="w-portfolio-header">
             <div className="w-portfolio-header-title-section">
               <div className="w-portfolio-header-title">
-                $ {this.props.currentSharePrice} 
+                $ {currencyFormat(this.props.currentSharePrice)} 
               </div>
               <div className="w-portfolio-header-subtitle-section">
                 <div className="w-portfolio-header-subtitle">

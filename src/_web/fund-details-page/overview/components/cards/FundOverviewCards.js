@@ -11,6 +11,7 @@ import wethIcon from "../../assets/weth-icon.svg";
 // CSS
 import "../../styles/fundOverview.css";
 
+import { currencyFormat } from "./../../../../../ethereum/utils";
 class FundOverviewCards extends Component {
   constructor(props) {
     super(props);
@@ -42,7 +43,7 @@ class FundOverviewCards extends Component {
           <div className="w-fund-overview-cards-content">
             <div className="w-fund-overview-card">
               <div className="w-fund-overview-card-value">
-                ${this.state.AUM}
+                ${currencyFormat(this.state.AUM)}
               </div>
               <div className="w-fund-overview-card-type">AUM</div>
             </div>
@@ -53,8 +54,8 @@ class FundOverviewCards extends Component {
               <div className="w-fund-overview-card-type">Depositors</div>
             </div>
             <div className="w-fund-overview-card">
-              <div className="w-fund-overview-card-value">
-                {this.state.lifetimeReturn}%
+              <div style={{color: this.state.lifetimeReturn >= 0 ? "#00AF00" : "red"}} className="w-fund-overview-card-value">
+                {this.state.lifetimeReturn.toFixed(2)}%
               </div>
               <div className="w-fund-overview-card-type">Lifetime return</div>
             </div>
