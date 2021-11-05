@@ -80,9 +80,7 @@ export const createNewFund = async (
     );
 
     return fund;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 /**
@@ -182,7 +180,7 @@ export const getFeesManagerConfigArgsData = async (
     settings: feeManagerSettingsData,
   });
   // } catch (error) {
-  //   console.log(error);
+  //
   // }
 };
 
@@ -240,18 +238,15 @@ const getVaultProxyAddress = async (fundAddress) => {
   let vaultProxy = await axios
     .post(url, fundQuery)
     .then((response) => {
-      console.log("newFundCreatedEvents: ", response.data);
       const fundData = response.data.data.newFundCreatedEvents;
-      console.log("fundData", fundData);
+
       if (fundData) {
         return fundData[0].vaultProxy.id;
       } else {
         return undefined;
       }
     })
-    .catch((err) => {
-      console.log("Error: ", err);
-    });
+    .catch((err) => {});
   return vaultProxy;
 };
 
@@ -281,7 +276,6 @@ export const getPolicies = async () => {
     ],
   });
 
-  console.log(policyManagerConfig);
   return policyManagerConfig;
 };
 
@@ -318,9 +312,8 @@ export const getTransactions = async (address) => {
   let transactions = [];
 
   const item = data.data.transferEvents[data.data.transferEvents.length - 1];
-  console.log(item);
+
   data.data.transferEvents[0].fund.investmentSharesChanges.forEach((trans) => {
-    console.log(trans.investor.id, address);
     if (
       trans.investor.id === address ||
       trans.transaction.from === address ||
@@ -340,8 +333,6 @@ export const getTransactions = async (address) => {
       });
     }
   });
-
-  console.log("DATA", transactions);
 
   return transactions;
 };
@@ -380,7 +371,6 @@ export const getFundTransactions = async (address) => {
 
   let transactions = [];
   const item = data.data.transferEvents[data.data.transferEvents.length - 1];
-  console.log("XDX item", item);
 
   item.fund.investmentSharesChanges.forEach((trans) => {
     transactions.push({
@@ -418,8 +408,8 @@ export const getEthPrice = async () => {
   };
 
   let response = await axios.post(url, priceQuery);
-  console.log("prices: ", response.data);
+
   const currency = response.data.data.currency;
-  console.log("prices", currency);
+
   return parseFloat(currency.price.price) || 0;
 };

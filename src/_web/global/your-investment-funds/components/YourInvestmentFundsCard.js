@@ -14,7 +14,7 @@ import { currencyFormat } from "../../../../ethereum/utils";
 class YourInvestmentsCard extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
+
     this.state = {
       fundAddress: this.props.fundAddressFromParent,
       funds: this.props.fundsFromParent,

@@ -14,8 +14,6 @@ class MostProfitableToday extends Component {
     super(props);
 
     this.state = {};
-
-    console.log(props);
   }
 
   toPage(e, path) {

@@ -10,9 +10,9 @@ export const connectAccount = () => {
     try {
       // connect here and the continue here
       const accountInfo = await connectMetamask();
-      console.log(`Account: ${accountInfo}`);
+
       // saveAccountInfoToLocalStorage(accountInfo);
-      dispatch({ type: ACCOUNT_CONNECT_SUCCESS, payload:   accountInfo });
+      dispatch({ type: ACCOUNT_CONNECT_SUCCESS, payload: accountInfo });
       // save records
     } catch (error) {
       dispatch({ type: ACCOUNT_CONNECT_FAILURE, payload: error.message });

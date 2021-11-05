@@ -93,7 +93,7 @@ class FundDetailsPage extends Component {
       loaded: true,
       AUM: currencyFormat(aum * _ethPrice),
     });
-    console.log("REACHED");
+
     this.props.deactivateLoaderOverlay();
   }
 

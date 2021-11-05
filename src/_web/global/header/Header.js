@@ -63,7 +63,6 @@ class Header extends Component {
   doCheckWallet(e) {
     e.preventDefault();
     if (this.props.onboard.networkId !== this.state.expectedNetworkId) {
-      console.log("Clicked unsupported network");
       this.props.checkWallet();
     }
   }

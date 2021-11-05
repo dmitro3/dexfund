@@ -12,7 +12,6 @@ export const investToAFundActionWrapper = async (
   exchangeApproveTargetAddress,
   amountToInvest
 ) => {
-  console.log(provider);
   provider = new ethers.providers.Web3Provider(provider);
   signer = await provider.getSigner();
 
@@ -61,8 +60,6 @@ export const investToAFundActionWrapper = async (
     0, // _minInvestmentAmount
     { nonce, gasLimit: 600000, value: utils.parseEther(amountToInvest) }
   );
-
-  console.log(deposit);
 
   return deposit;
 };

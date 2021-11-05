@@ -96,13 +96,12 @@ export const investFundDenomination = async (
   const signer = await provider.getSigner();
   const { comptrollerContract } = await getContracts(fundAddress, provider);
 
-  console.log("buying shares");
   const receipt = await comptrollerContract.buyShares(
     [investor],
     [amount],
     [1]
   );
-  console.log("waiting for confirmation");
+
   await receipt.wait();
 };
 

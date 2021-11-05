@@ -14,7 +14,7 @@ import "../styles/swapsTable.css";
 class SwapsTableRow extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.trade);
+
     this.state = {
       exchange: this.props.exchangeFromParent,
       trade: this.props.trade,

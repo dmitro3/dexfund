@@ -61,7 +61,6 @@ class InvestmentFunds extends Component {
 
     const allFundTx = await allFundTransactions(this.props.fundId);
 
-    console.log("FUND Tx", allFundTx);
     this.setState({
       transactionHistory: allFundTx || [],
       ethPrice: _ethPrice,

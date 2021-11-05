@@ -44,8 +44,6 @@ class AddNewFundReview extends Component {
   }
 
   goToNextStep = async () => {
-    console.log("Create Fund");
-
     this.props.activateLoaderOverlay();
 
     let feeManagerSettingsData = []; // value configurations
@@ -131,7 +129,7 @@ class AddNewFundReview extends Component {
         );
       } catch (e) {
         // TODO: CHANGE THIS ALERT WITH A GOOD FRONTEND ALERT
-        console.log(e);
+
         alert("Error processing you Min/Max Deposit values");
       }
     }
@@ -172,8 +170,6 @@ class AddNewFundReview extends Component {
     }
 
     try {
-      console.log(this.props.onboard.provider);
-
       const timeLockInSeconds = this.state.timeLock * 60 * 60;
       var provider = this.props.onboard.provider;
       var adr = this.props.onboard.address;
@@ -188,7 +184,6 @@ class AddNewFundReview extends Component {
         provider,
         adr
       );
-      console.log(fund);
 
       this.setState({ ...this.state, hash: "" });
 
@@ -197,7 +192,6 @@ class AddNewFundReview extends Component {
         ...this.state,
       });
     } catch (error) {
-      console.log(error);
       this.props.deactivateLoaderOverlay();
     }
   };

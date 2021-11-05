@@ -22,7 +22,7 @@ import "./styles/yourTransactions.css";
 class InvestmentFunds extends Component {
   constructor(props) {
     super(props);
-    console.log("TX", this.props.transactions);
+
     this.state = {
       title: this.props.titleFromParent,
 

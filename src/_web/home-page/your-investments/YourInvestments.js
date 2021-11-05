@@ -20,7 +20,7 @@ import { getEthPrice } from "../../../ethereum/funds/fund-related";
 class YourInvestments extends Component {
   constructor(props) {
     super(props);
-    console.log("KK", this.props);
+
     this.state = {
       investments: [],
       ethPrice: 1,
@@ -53,7 +53,6 @@ class YourInvestments extends Component {
     if (this.isConnected()) {
       const investments = await getYourInvestments(this.props.onboard.address);
 
-      console.log("App", investments);
       await this.setState({
         investments: investments ? investments : [],
         isLoaded: true,

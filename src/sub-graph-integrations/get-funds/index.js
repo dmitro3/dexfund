@@ -2,11 +2,11 @@ import axios from "axios";
 import configs from "../../config";
 
 export const getFundDetails = async (fundAddress) => {
-    const endpoint = configs.DEBUG_MODE ? configs.ENZYME_ENDPOINT : configs.MAINNET_ENDPOINT;
-    const { data } = await axios.post(
-        endpoint,
-        {
-            query: `
+  const endpoint = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.MAINNET_ENDPOINT;
+  const { data } = await axios.post(endpoint, {
+    query: `
             {
             funds(where: {id: "${fundAddress}"}) {
                 id
@@ -43,9 +43,8 @@ export const getFundDetails = async (fundAddress) => {
                 }
             }
         }
-            `
-        }
-    );
-    console.log("DATA FROM THEGRAPH: "+JSON.stringify(data));
-    return data.data.funds
-}
+            `,
+  });
+
+  return data.data.funds;
+};

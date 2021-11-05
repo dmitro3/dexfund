@@ -49,17 +49,12 @@ export async function getAssetDecimals(assetAddress) {
     const asset = new ethers.Contract(assetAddress, assetInterface, signer);
     const decimals = await asset.decimals();
     return decimals;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }
 
 export async function getTokenBalance(assetAddress) {
   try {
     const { signer, address } = await connectMetamask();
-
-    console.log("Token to get balance ", assetAddress);
-    console.log("Wallet ", address);
 
     // we use VaultLib as an interface because it has the `decimals()` getter
     const assetInterface = new ethers.utils.Interface(
@@ -69,12 +64,8 @@ export async function getTokenBalance(assetAddress) {
 
     const tokenBalance = await asset.balanceOf(address);
 
-    console.log("token balance ", parseInt(tokenBalance._hex, 16));
-
     return parseInt(tokenBalance._hex, 16);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }
 
 /**

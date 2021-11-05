@@ -22,7 +22,6 @@ class FundFinancials extends Component {
   }
 
   async componentDidMount() {
-    console.log(this.props.state);
     let fund = await queryFundFinancials(this.props.state.fundId);
     this.setState({
       shareSupply: fund.shares.totalSupply,

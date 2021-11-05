@@ -24,10 +24,8 @@ class SidebarWithdrawCard extends Component {
     this.state = {
       withdrawAmount: "0.00",
       maxAmountToWithdrawal: "5.00",
-      fundAddress: this.props.state.fundAddress
+      fundAddress: this.props.state.fundAddress,
     };
-
-    console.log("fund address: "+this.state.fundAddress)
   }
 
   inputField = (e) => {
@@ -48,8 +46,8 @@ class SidebarWithdrawCard extends Component {
   async componentDidUpdate(prevProps) {
     if (prevProps.state != this.props.state) {
       this.setState({
-        ...this.props.state
-      })
+        ...this.props.state,
+      });
     }
   }
 
@@ -58,13 +56,14 @@ class SidebarWithdrawCard extends Component {
     this.props.activateLoaderOverlay();
 
     try {
-      await redeemAllShares(this.state.fundAddress, this.props.onboard.provider)
-    } catch(er) {
-      console.log(er)
-    }
+      await redeemAllShares(
+        this.state.fundAddress,
+        this.props.onboard.provider
+      );
+    } catch (er) {}
 
     this.props.deactivateLoaderOverlay();
-  }
+  };
 
   renderJustRedeemAllShares() {
     return (
@@ -160,7 +159,7 @@ class SidebarWithdrawCard extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.connect,
-    onboard: state.onboard
+    onboard: state.onboard,
   };
 };
 
