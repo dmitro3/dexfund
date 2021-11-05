@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
+
+.w-portfolio-wrapper {
+    padding: 20px 0;
+}
+
+.w-portfolio-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.w-portfolio-charts-menu {
+    display: flex;
+    justify-content: right;
+    margin-top: 50px;
+}
+
+.w-portfolio-charts-menu-item {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #999999;
+    text-align: right;
+    padding: 0 14px;
+}
+
+.w-portfolio-charts-menu-item:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.green-arrow-icon {
+    width: 16px;
+    height: 16px;
+    margin: 2px 3px 0 8px;
+}
+
+.w-portfolio-header-subtitle-section {
+    display: flex;
+    justify-content: left;
+}
+
+.w-portfolio-header-title {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 42px;
+    font-weight: 600;
+    color: #fff;
+    text-align: left;
+}
+
+.w-portfolio-header-subtitle {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #999;
+    text-align: left;
+}
+
+.w-portfolio-header-subtitle-percent {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-align: left;
+}
+
+.separator-icon {
+    margin: 0 8px;
+}
+
+.MuiPaper-root.MuiPaper-elevation1.MuiPaper-rounded {
+    background-color: #020202;
+}
+
+.Component-root-5 {
+    stroke: #020202 !important;
+}
+
+.Component-root-6 {
+    font-family: 'Bai Jamjuree', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    fill: #999 !important;
+    text-align: center !important;
+}
+
+.w-portfolio-wallet-not-connected-wrapper {
+    margin-bottom: 120px;
+}
+
+.w-portfolio-wallet-not-connected-image {
+    width: 100%;
+    margin: auto;
+}
+
+.w-portfolio-wallet-not-connected-section {
+    margin-top: -120px;
+    z-index: 10;
+}
+
+.w-no-data-chart-wrapper {
+
+}
+
+.w-no-data-chart-content {
+    padding: 120px 0;
+}
+
+.w-no-data-chart-img {
+    width: 100%;
+    margin: auto;
+}
+
+.w-no-data-chart-info {
+    margin-top: -120px;
+    z-index: 10;
+    text-align: center;
+    text-align: center;
+    font-family: 'Bai Jamjuree', sans-serif;
+    background: linear-gradient(to right, #E926C3 10%, #FF4D86 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.w-loading-chart-img {
+    width: 8%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}

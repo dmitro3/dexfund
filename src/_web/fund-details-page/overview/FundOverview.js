@@ -3,7 +3,7 @@ import { queryFundOverviewDetails } from "../../../sub-graph-integrations/assets
 
 // COMPONENTS
 import Sidebar from "../sidebar/Sidebar";
-import Portfolio from "../../global/portfolio/Portfolio";
+import VaultChart from './components/portfolio/VaultChart';
 import FundOverviewCards from "./components/cards/FundOverviewCards";
 import FundOverviewStatistics from "./components/statistics/FundOverviewStatistics";
 import FundOverviewPerformance from "./components/performance/FundOverviewPerformance";
@@ -49,7 +49,7 @@ class FundOverview extends Component {
           <div className="w-fund-overview-wrapper">
             <Sidebar state={this.state} />
             <div className="w-fund-overview-content">
-              <Portfolio walletMust={false} currentSharePrice={this.state.currentSharePrice} state={this.state}/>
+              <VaultChart fundAddress={this.state.fundId} walletMust={false} currentSharePrice={this.state.currentSharePrice} state={this.state}/>
               <FundOverviewCards state={this.state} />
               <FundOverviewStatistics state={this.state} />
               <FundOverviewPerformance />
