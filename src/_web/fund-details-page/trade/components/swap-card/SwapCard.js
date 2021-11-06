@@ -25,15 +25,17 @@ class SwapCard extends Component {
 
             fromDropdown: false,
             toDropdown: false,
+            selectedFrom: {},
+            selectedTo: {},
+
+            fromTokens: [],
+            toTokens: [],
+
+            loading: true
         }
     }
 
     inputField = (e) => {
-
-        if (e.target.value === '') {
-            this.setState({ amountToSwap: '0.00' });
-            return;
-        }
 
         const re = /^[0-9.\b]+$/;
         if (!re.test(e.target.value)) {
