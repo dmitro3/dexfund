@@ -23,13 +23,19 @@ class PerformanceTableRow extends Component {
       amount: this.props.amountFromParent,
       symbol: this.props.symbolFromParent,
       count: this.props.count ? this.props.count : 0,
+      urlFromParent: this.props.urlFromParent
     };
+  }
+
+  openNewTab(e, url) {
+    e.preventDefault();
+    window.open(url, "_blank");
   }
 
   render() {
     return (
       <>
-        <div className="w-fund-composition-table-row">
+        <div onClick={(e) => this.openNewTab(e, this.state.urlFromParent)} className="w-fund-composition-table-row">
           <div className="w-fund-composition-table-row-cell asset">
             <div className="w-fund-composition-asset-bullet">
               <div

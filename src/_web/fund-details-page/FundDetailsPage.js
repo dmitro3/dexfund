@@ -15,6 +15,7 @@ import {
   activateLoaderOverlay,
   deactivateLoaderOverlay,
 } from "./../../redux/actions/LoaderAction";
+import { getCreationSharePrices } from './../../api/statistics';
 import configs from "./../../config";
 // ASSETS
 // ...
@@ -49,6 +50,7 @@ class FundDetailsPage extends Component {
       loaded: false,
       aum: 0,
       currentSharePrice: "INTERNAL_API",
+      startingSharePrice: 0,
       ethPrice: 1,
     };
 
@@ -76,6 +78,13 @@ class FundDetailsPage extends Component {
     let _ethPrice = await getEthPrice();
     let aum = await getAUM(vaultAddress);
     let currentSharePrice = (aum * _ethPrice) / parseFloat(totalSupply);
+    var startingSharePrice = await getCreationSharePrices([vaultAddress]);
+    startingSharePrice = startingSharePrice[vaultAddress]
+
+    var profit = currentSharePrice - startingSharePrice;
+    var ltr = (profit / startingSharePrice) * 100;
+
+    console.log("LIFETIME RETURN: "+ltr)
 
     var isRegistered = fundDetails.length > 0;
     if (configs.BLACKLISTED_VAULTS.includes(vaultAddress) || !isRegistered) {
@@ -89,9 +98,11 @@ class FundDetailsPage extends Component {
       fundName: fundDetails.name,
       fundDetails: fundDetails,
       ethPrice: _ethPrice,
-      currentSharePrice: currencyFormat(currentSharePrice),
+      currentSharePrice: currentSharePrice,
+      startingSharePrice: startingSharePrice,
+      lifetimeReturn: ltr,
       loaded: true,
-      AUM: currencyFormat(aum * _ethPrice),
+      AUM: aum * _ethPrice,
     });
 
     this.props.deactivateLoaderOverlay();
@@ -116,7 +127,7 @@ class FundDetailsPage extends Component {
   renderTrade() {
     return (
       <>
-        <FundTrade />
+        <FundTrade state={this.state} {...this.props} />
       </>
     );
   }

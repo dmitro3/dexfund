@@ -20,6 +20,7 @@ class FundComposition extends Component {
     this.state = {
       holdings: [],
       isLoading: false,
+      aum: 0
     };
   }
 
@@ -33,11 +34,31 @@ class FundComposition extends Component {
     if (fundComposition.portfolio) {
       holdings = fundComposition.portfolio.holdings;
     }
+    let aum = 0;
+    holdings.forEach((item) => {
+      aum += item.amount * item.asset.price.price;
+    });
+
+    for(var i = 0; i < holdings.length; i++) {
+      holdings[i].weight = parseFloat((holdings[i].amount * holdings[i].asset.price.price / aum) * 100).toFixed(2);
+      holdings[i].url = `https://etherscan.io/token/${holdings[i].asset.id}`;
+    }
+
+    holdings.sort((a, b) => {
+      if(a.weight > b.weight)
+        return -1;
+      else if(a.weight < b.weight)
+        return 1;
+      else
+        return 0;
+    });
+
     let _ethPrice = await getEthPrice();
     this.setState({
       holdings,
       ethPrice: _ethPrice,
       isLoading: false,
+      aum: aum
     });
   }
 
@@ -95,11 +116,9 @@ class FundComposition extends Component {
                           composition.asset.price.price *
                           this.state.ethPrice
                         }
-                        weightFromParent={"0.00"}
-                        weightFromParent={this.calcWgOfAnAsset(
-                          composition.amount * composition.asset.price.price
-                        )}
+                        weightFromParent={composition.weight}
                         symbolFromParent={composition.asset.symbol}
+                        urlFromParent={composition.url}
                       />
                     ))}
               </div>

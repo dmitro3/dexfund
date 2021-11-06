@@ -162,3 +162,19 @@
 .w-swaps-exchange-cell-text {
     padding: 0 0 0 10px;
 }
+
+.w-swap-card-half-section-asset-dropdown {
+    height: 140px;
+    overflow-y: scroll;
+    border: 1px solid #E926C3;
+    margin: 0 0 16px 0;
+}
+
+.w-swap-card-half-section-asset-row {
+    padding: 16px;
+}
+
+.w-swap-card-half-section-asset-row:hover {
+    cursor: pointer;
+    background-color: #17171C;;
+}
