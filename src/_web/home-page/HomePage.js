@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import Header from "../global/header/Header";
 import Portfolio from "../global/portfolio/Portfolio";
 import SettingsPopup from "../global/settings-popup/SettingsPopup";
-import YourInvestments from "./your-investments/YourInvestments";
+import UserInvestments from "./your-investments/UserInvestment";
 import TopInvestmentFunds from "./top-investment-funds/TopInvestmentFunds";
 import FeaturedFunds from "./featured-funds/FeaturedFunds";
 import YourTransactions from "../global/your-transactions/YourTransactions";
@@ -26,6 +26,7 @@ import {
   getFundAllFunds,
   getYourInvestments,
   currentUserAllTransactions,
+  getCurrentUserInvestments,
 } from "./../../sub-graph-integrations/funds/index";
 
 class HomePage extends Component {
@@ -52,12 +53,15 @@ class HomePage extends Component {
   async componentDidMount() {
     const topFundsList = await getFundAllFunds();
     const currentUserInvestments = await currentUserAllTransactions(
-      this.props.onboard.address
+      "0xea09bdeb7d0ce27c39e73251fccdb0a081fece05"
     );
 
+    const investments = await getCurrentUserInvestments();
+
+    console.log(investments);
     this.setState({
       topFunds: topFundsList ? topFundsList : [],
-      userInvestments: currentUserInvestments.investments,
+      userInvestments: investments,
       userTransactions: currentUserInvestments.transactions,
     });
   }
@@ -89,7 +93,7 @@ class HomePage extends Component {
                 {...this.props}
                 topFunds={this.state.topFunds}
               />
-              <YourInvestments investments={this.state.userInvestments} />
+              <UserInvestments investments={this.state.userInvestments} />
               <FeaturedFunds {...this.props} />
               <YourTransactions
                 transactions={this.state.userTransactions}

@@ -768,3 +768,44 @@ export const currentUserVaults = async (accessor) => {
 
   return data.data.funds;
 };
+
+export const getCurrentUserInvestments = async () => {
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.MAINNET_ENDPOINT;
+
+  const query = `
+  {
+    accounts(where: {id: "0x4e2d0c28da19c1bd2f5c38605763a439dd25e8cf"}) {
+     id
+     investments {
+       id
+       fund {
+         id
+         shares {
+           totalSupply
+         }
+         name
+         portfolio {
+           holdings {
+             amount
+             asset {
+               symbol
+               price {
+                 price
+               }
+             }
+           }
+         }
+       }
+       shares
+     }
+   }
+   }`;
+
+  const { data } = await axios.post(url, {
+    query,
+  });
+
+  return data.data.accounts.length > 0 ? data.data.accounts[0].investments : [];
+};

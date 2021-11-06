@@ -9,7 +9,7 @@ import { getIconSource } from "../../../../icons";
 // ASSETS
 import addIcon from "../assets/add-icon.svg";
 import minusIcon from "../assets/minus-icon.svg";
-import linkIcon from "../assets/link.svg";
+import linkIcon from "../../../global/your-transactions/assets/link.png";
 
 // CSS
 import "../styles/yourTransactions.css";
