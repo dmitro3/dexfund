@@ -36,6 +36,7 @@ import {
 } from "./../../../../ethereum/funds/fund-related";
 
 import { getAssetDecimals } from "./../../../../ethereum/utils/index";
+import { toastr } from "react-redux-toastr";
 
 class AddNewFundReview extends Component {
   constructor(props) {
@@ -191,7 +192,9 @@ class AddNewFundReview extends Component {
       this.props.goToNextStepEvent({
         ...this.state,
       });
+      toastr.success("Successfully created a new vault");
     } catch (error) {
+      toastr.error("Error occurred while creating a Vault: ", error.message);
       this.props.deactivateLoaderOverlay();
     }
   };

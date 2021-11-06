@@ -1,3 +1,4 @@
+import { toastr } from "react-redux-toastr";
 import { onboard } from "./../../ethereum/onboard";
 
 export const ACCOUNT_CHANGE = "WALLET_CHANGE_SUBSCRIPTION";
@@ -77,17 +78,28 @@ export const connectAccountOnboard = () => {
           },
         });
       }
-    } catch (e) {}
+      toastr.success("Successfully connect to your account");
+    } catch (e) {
+      toastr.error("Error connecting: ", e.message);
+    }
   };
 };
 
 export const disconnectAccountOnboard = () => {
-  return async (dispatch) => {
-    await onboard.walletReset();
-    dispatch({
-      type: ACCOUNT_DISCONNECT,
-    });
-  };
+  try {
+    const data = async (dispatch) => {
+      await onboard.walletReset();
+      dispatch({
+        type: ACCOUNT_DISCONNECT,
+      });
+    };
+
+    toastr.success("Successfully disconnect to your account");
+
+    return data;
+  } catch (e) {
+    toastr.error("Error disconnecting: ", e.message);
+  }
 };
 
 export const checkWallet = () => {

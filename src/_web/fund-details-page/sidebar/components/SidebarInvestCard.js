@@ -30,6 +30,7 @@ import {
   deactivateLoaderOverlay,
   activateLoaderOverlay,
 } from "./../../../../redux/actions/LoaderAction";
+import { toastr } from "react-redux-toastr";
 
 class SidebarInvestCard extends Component {
   constructor(props) {
@@ -201,8 +202,10 @@ class SidebarInvestCard extends Component {
         amount
       );
       await this.setAllowance();
+      toastr.success("Successfully approved to your transactions.");
     } catch (e) {}
     this.props.deactivateLoaderOverlay();
+    toastr.error("An error occurred while approving.");
   };
 
   invest = async (e) => {

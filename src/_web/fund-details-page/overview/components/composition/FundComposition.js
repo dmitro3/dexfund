@@ -76,7 +76,12 @@ class FundComposition extends Component {
             <div className="w-fund-composition-title">VAULT COMPOSITION</div>
             <div className="w-fund-composition-table">
               <FundCompositionTableHeader />
-              <div style={{ overflowY: "scroll", height: "40vh" }}>
+              <div
+                style={{
+                  overflowY: "scroll",
+                  height: this.state.holdings.length > 0 ? "30vh" : "10vh",
+                }}
+              >
                 {this.state.isLoading
                   ? this.renderLoading()
                   : this.state.holdings.map((composition) => (

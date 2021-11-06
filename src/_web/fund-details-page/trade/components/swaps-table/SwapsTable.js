@@ -71,7 +71,12 @@ class SwapsTable extends Component {
       <>
         <div className="w-swaps-table">
           <SwapsTableHeader />
-          <div style={{ overflowY: "scroll", height: "60vh" }}>
+          <div
+            style={{
+              overflowY: "scroll",
+              height: this.state.swapTrades.length > 0 ? "40vh" : "10vh",
+            }}
+          >
             {this.state.isLoading
               ? this.renderLoading()
               : this.state.swapTrades.length > 0

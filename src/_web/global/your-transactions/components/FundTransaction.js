@@ -23,6 +23,7 @@ import FundTransactionsTableHeader from "./FundTransactionsTableHeader";
 import addIcon from "../assets/add-icon.svg";
 import minusIcon from "../assets/minus-icon.svg";
 import wethIcon from "../assets/weth-icon.svg";
+import linkIcon from "./../assets/link.png";
 import { getIconSource } from "../../../../icons";
 
 import { currencyFormat } from "../../../../ethereum/utils";
@@ -75,7 +76,12 @@ class InvestmentFunds extends Component {
   renderTransactions() {
     return (
       <>
-        <div style={{ overflowY: "scroll", height: "60vh" }}>
+        <div
+          style={{
+            overflowY: "scroll",
+            height: this.state.transactionHistory.length > 0 ? "40vh" : "10vh",
+          }}
+        >
           {this.state.transactionHistory.map((transaction, index) => (
             <>
               <div className="w-your-transactions-table-row" key={index}>
@@ -91,7 +97,23 @@ class InvestmentFunds extends Component {
                 </div>
 
                 <div className="w-your-transactions-table-cell token">
-                  {transaction.investor}
+                  <a
+                    href={`https://etherscan.io/address/${transaction.investor}`}
+                    target="_blank"
+                  >
+                    <div>
+                      <b> {`${transaction.investor.slice(0, 4)} ....`} </b>
+                      <img
+                        className="fund-composition-weth-icon"
+                        src={linkIcon}
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          fill: "red",
+                        }}
+                      />
+                    </div>
+                  </a>
                 </div>
 
                 <div className="w-your-transactions-table-cell vault">
@@ -115,18 +137,6 @@ class InvestmentFunds extends Component {
                     />{" "}
                     <div className="w-investment-funds-token-bullet-text">
                       {currencyFormat(parseInt(transaction.amount), "$")}
-                    </div>
-                  </div>
-
-                  <div className="w-investment-funds-token-bullet">
-                    <div>$</div>
-                    <div className="w-investment-funds-token-bullet-text">
-                      {currencyFormat(
-                        parseInt(transaction.amount) *
-                          parseFloat(transaction.price) *
-                          this.state.ethPrice,
-                        "$"
-                      )}
                     </div>
                   </div>
                 </div>

@@ -24,7 +24,7 @@ class YourTransactionsTableHeader extends Component {
             Action
           </div>
           <div className="w-your-transactions-table-header-cell token">
-            From/ To
+            Investor
           </div>
 
           <div className="w-your-transactions-table-header-cell vault">

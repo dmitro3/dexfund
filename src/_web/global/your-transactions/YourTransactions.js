@@ -62,7 +62,15 @@ class InvestmentFunds extends Component {
 
   renderConnected() {
     return (
-      <div style={{ overflowY: "scroll", height: "30vh" }}>
+      <div
+        style={{
+          overflowY: "scroll",
+          height:
+            this.isConnected || this.props.transactions.length > 0
+              ? "40vh"
+              : "10vh",
+        }}
+      >
         {this.props.transactions.map((transaction, index) => (
           <YourTransactionsTableRow
             key={index}

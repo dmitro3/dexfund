@@ -17,6 +17,7 @@ import {
   deactivateLoaderOverlay,
   activateLoaderOverlay,
 } from "./../../../../redux/actions/LoaderAction";
+import { toastr } from "react-redux-toastr";
 
 class SidebarWithdrawCard extends Component {
   constructor(props) {
@@ -60,7 +61,10 @@ class SidebarWithdrawCard extends Component {
         this.state.fundAddress,
         this.props.onboard.provider
       );
-    } catch (er) {}
+      toastr.success("You have succeffuly withdrawn you shares");
+    } catch (er) {
+      toastr.error("An Error occurred while withdrawaling your shares.");
+    }
 
     this.props.deactivateLoaderOverlay();
   };

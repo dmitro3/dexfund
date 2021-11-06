@@ -16,8 +16,14 @@ import { Web3ReactProvider } from "@web3-react/core";
 import ProtectedRoute from "./_web/ProtectedRoute/ProtectedRoute";
 import LoaderOverlary from "./_web/LoaderOverlay/LoaderOverlay";
 
-import "./onboardStyling.css";
+//TOASTR
+import ReduxToastr from "react-redux-toastr";
 
+//CSS
+import "./onboardStyling.css";
+import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
+
+//get Library
 function getLibrary(provider) {
   return new Web3(provider);
 }
@@ -41,6 +47,17 @@ const app = (
             </Switch>
           </BrowserRouter>
         </LoaderOverlary>
+        <ReduxToastr
+          timeOut={4000}
+          newestOnTop={false}
+          preventDuplicates
+          position="top-right"
+          getState={(state) => state.toastr} // This is the default
+          transitionIn="fadeIn"
+          transitionOut="fadeOut"
+          progressBar
+          closeOnToastrClick
+        />
       </Provider>
     </React.StrictMode>
   </Web3ReactProvider>
