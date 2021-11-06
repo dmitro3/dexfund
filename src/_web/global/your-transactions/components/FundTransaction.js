@@ -121,11 +121,15 @@ class InvestmentFunds extends Component {
                 </div>
 
                 <div className="w-your-transactions-table-cell value">
-                  $
-                  {currencyFormat(
-                    parseInt(transaction.amount * this.state.ethPrice),
-                    ""
-                  )}
+                  <div className="w-investment-funds-token-bullet">
+                    <div>$</div>
+                    <div className="w-investment-funds-token-bullet-text">
+                      {currencyFormat(
+                        parseFloat(transaction.amount) * this.state.ethPrice,
+                        "$"
+                      )}
+                    </div>
+                  </div>
                 </div>
                 <div className="w-your-transactions-table-cell time">
                   {getTimeDiff(transaction.timestamp)}
