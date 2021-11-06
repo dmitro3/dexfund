@@ -8,7 +8,7 @@ const getProvider = (onboardProvider) => {
   return new ethers.providers.Web3Provider(onboardProvider);
 };
 
-const getContracts = async (fundAddress, provider) => {
+export const getContracts = async (fundAddress, provider) => {
   const signer = await provider.getSigner();
 
   const VaultLibInterface = new ethers.utils.Interface(

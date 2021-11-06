@@ -18,9 +18,13 @@ class SwapCard extends Component {
         super(props);
 
         this.state = {
+            ...this.props.state,
             amountToSwap: '',
             amountToReceive: '',
-            maxAmountToSwap: '10.23',
+            maxAmountToSwap: '',
+
+            fromDropdown: false,
+            toDropdown: false,
         }
     }
 
@@ -40,6 +44,196 @@ class SwapCard extends Component {
         this.setState({ amountToSwap: value });
     }
 
+    renderFromDropdownOff() {
+
+        return (
+
+            <>
+                <div className="w-swap-card-half-section-asset-input"
+                    onClick={() => this.setState({
+                        fromDropdown: true
+                    })}
+                >
+                    <div className="w-swap-card-half-section-asset-section">
+                        <img src={ethIcon} alt='eth-icon' className="swap-asset-icon" />
+                        <div className="w-swap-card-half-section-asset-text">
+                            ETH
+                        </div>
+                    </div>
+                    <img src={caretDownIcon} alt='caret-down-icon' className="swap-caret-down-icon" />
+                </div>
+            </>
+        )
+    }
+
+    renderFromDropdownOn() {
+
+        return (
+
+            <>
+                <div className="w-swap-card-half-section-asset-input"
+                    style={{ border: '1px solid #E926C3' }}
+                    onClick={() => this.setState({
+                        fromDropdown: false
+                    })}
+                >
+                    <div className="w-swap-card-half-section-asset-section">
+                        <img src={ethIcon} alt='eth-icon' className="swap-asset-icon" />
+                        <div className="w-swap-card-half-section-asset-text">
+                            ETH
+                        </div>
+                    </div>
+                    <img src={caretDownIcon} alt='caret-down-icon' className="swap-caret-down-icon" />
+                </div>
+                <div className="w-swap-card-half-section-asset-dropdown">
+                    <div className="w-swap-card-half-section-asset-row"
+                        onClick={() => this.setState({
+                            fromDropdown: false
+                        })}
+                    >
+                        <div className="w-swap-card-half-section-asset-section">
+                            <img src={ethIcon} alt='eth-icon' className="swap-asset-icon" />
+                            <div className="w-swap-card-half-section-asset-text">
+                                ETH
+                            </div>
+                        </div>
+                    </div>
+                    <div className="w-swap-card-half-section-asset-row"
+                        onClick={() => this.setState({
+                            fromDropdown: false
+                        })}
+                    >
+                        <div className="w-swap-card-half-section-asset-section">
+                            <img src={ethIcon} alt='eth-icon' className="swap-asset-icon" />
+                            <div className="w-swap-card-half-section-asset-text">
+                                ETH
+                            </div>
+                        </div>
+                    </div>
+                    <div className="w-swap-card-half-section-asset-row"
+                        onClick={() => this.setState({
+                            fromDropdown: false
+                        })}
+                    >
+                        <div className="w-swap-card-half-section-asset-section">
+                            <img src={ethIcon} alt='eth-icon' className="swap-asset-icon" />
+                            <div className="w-swap-card-half-section-asset-text">
+                                ETH
+                            </div>
+                        </div>
+                    </div>
+                    <div className="w-swap-card-half-section-asset-row"
+                        onClick={() => this.setState({
+                            fromDropdown: false
+                        })}
+                    >
+                        <div className="w-swap-card-half-section-asset-section">
+                            <img src={ethIcon} alt='eth-icon' className="swap-asset-icon" />
+                            <div className="w-swap-card-half-section-asset-text">
+                                ETH
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>
+        )
+    }
+
+    renderToDropdownOff() {
+
+        return (
+
+            <>
+                <div className="w-swap-card-half-section-asset-input"
+                    onClick={() => this.setState({
+                        toDropdown: true
+                    })}
+                >
+                    <div className="w-swap-card-half-section-asset-section">
+                        <img src={usdcIcon} alt='eth-icon' className="swap-asset-icon" />
+                        <div className="w-swap-card-half-section-asset-text">
+                            USDC
+                        </div>
+                    </div>
+                    <img src={caretDownIcon} alt='caret-down-icon' className="swap-caret-down-icon" />
+                </div>
+            </>
+        )
+    }
+
+    renderToDropdownOn() {
+
+        return (
+
+            <>
+                <div className="w-swap-card-half-section-asset-input"
+                    style={{ border: '1px solid #E926C3' }}
+                    onClick={() => this.setState({
+                        toDropdown: false
+                    })}
+                >
+                    <div className="w-swap-card-half-section-asset-section">
+                        <img src={usdcIcon} alt='eth-icon' className="swap-asset-icon" />
+                        <div className="w-swap-card-half-section-asset-text">
+                            USDC
+                        </div>
+                    </div>
+                    <img src={caretDownIcon} alt='caret-down-icon' className="swap-caret-down-icon" />
+                </div>
+                <div className="w-swap-card-half-section-asset-dropdown">
+                    <div className="w-swap-card-half-section-asset-row"
+                        onClick={() => this.setState({
+                            toDropdown: false,
+                        })}
+                    >
+                        <div className="w-swap-card-half-section-asset-section">
+                            <img src={ethIcon} alt='eth-icon' className="swap-asset-icon" />
+                            <div className="w-swap-card-half-section-asset-text">
+                                ETH
+                            </div>
+                        </div>
+                    </div>
+                    <div className="w-swap-card-half-section-asset-row"
+                        onClick={() => this.setState({
+                            toDropdown: false
+                        })}
+                    >
+                        <div className="w-swap-card-half-section-asset-section">
+                            <img src={ethIcon} alt='eth-icon' className="swap-asset-icon" />
+                            <div className="w-swap-card-half-section-asset-text">
+                                ETH
+                            </div>
+                        </div>
+                    </div>
+                    <div className="w-swap-card-half-section-asset-row"
+                        onClick={() => this.setState({
+                            toDropdown: false
+                        })}
+                    >
+                        <div className="w-swap-card-half-section-asset-section">
+                            <img src={ethIcon} alt='eth-icon' className="swap-asset-icon" />
+                            <div className="w-swap-card-half-section-asset-text">
+                                ETH
+                            </div>
+                        </div>
+                    </div>
+                    <div className="w-swap-card-half-section-asset-row"
+                        onClick={() => this.setState({
+                            toDropdown: false
+                        })}
+                    >
+                        <div className="w-swap-card-half-section-asset-section">
+                            <img src={ethIcon} alt='eth-icon' className="swap-asset-icon" />
+                            <div className="w-swap-card-half-section-asset-text">
+                                ETH
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>
+        )
+    }
+
     render() {
 
         return (
@@ -55,15 +249,10 @@ class SwapCard extends Component {
                                 <div className="w-swap-card-half-section-text">
                                     Asset
                                 </div>
-                                <div className="w-swap-card-half-section-asset-input">
-                                    <div className="w-swap-card-half-section-asset-section">
-                                        <img src={ethIcon} alt='eth-icon' className="swap-asset-icon" />
-                                        <div className="w-swap-card-half-section-asset-text">
-                                            ETH
-                                        </div>
-                                    </div>
-                                    <img src={caretDownIcon} alt='caret-down-icon' className="swap-caret-down-icon" />
-                                </div>
+
+                                {this.state.fromDropdown === false && this.renderFromDropdownOff()}
+                                {this.state.fromDropdown === true && this.renderFromDropdownOn()}
+
                                 <div className="w-swap-card-half-section-text">
                                     Amount
                                 </div>
@@ -96,20 +285,15 @@ class SwapCard extends Component {
                             <img src={middleImg} alt='middle-img' className="swap-middle-img" />
                             <div className="w-swap-card-half-section">
                                 <div className="w-swap-card-half-section-header">
-                                    FROM
+                                    TO
                                 </div>
                                 <div className="w-swap-card-half-section-text">
                                     Asset
                                 </div>
-                                <div className="w-swap-card-half-section-asset-input">
-                                    <div className="w-swap-card-half-section-asset-section">
-                                        <img src={usdcIcon} alt='eth-icon' className="swap-asset-icon" />
-                                        <div className="w-swap-card-half-section-asset-text">
-                                            USDC
-                                        </div>
-                                    </div>
-                                    <img src={caretDownIcon} alt='caret-down-icon' className="swap-caret-down-icon" />
-                                </div>
+
+                                {this.state.toDropdown === false && this.renderToDropdownOff()}
+                                {this.state.toDropdown === true && this.renderToDropdownOn()}
+
                                 <div className="w-swap-card-half-section-text">
                                     Amount
                                 </div>

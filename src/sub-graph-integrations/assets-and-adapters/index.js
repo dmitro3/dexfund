@@ -242,3 +242,29 @@ export const getAllAssetsIntegrations = async () => {
     console.log(error);
   }
 };
+
+export const getAssetsDecimals = async (assets) => {
+  try {
+    const endpoint = configs.DEBUG_MODE
+      ? configs.ENZYME_ENDPOINT
+      : configs.MAINNET_ENDPOINT;
+
+      const query = `
+      {
+        assets(where: {id_in: [${'"' + assets.join('","') + '"'}]}) {
+          decimals
+          symbol
+          id
+        }
+      }
+      `
+    
+      const { data } = await axios.post(endpoint, {
+        query: query
+      });
+      return data.data;
+  }catch(e) {
+    console.log(e);
+    return false;
+  }
+}

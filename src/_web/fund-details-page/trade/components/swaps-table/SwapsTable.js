@@ -17,35 +17,17 @@ class SwapsTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      exchange: "Paraswap",
-      price1: "$2,000.00",
-      amount1: "2,000.00 WETH",
-      vsReference1: "+10%",
-      vsBestPrice1: "Best price",
-
-      exchange2: "Paraswap",
-      price2: "$2,000.00",
-      amount2: "2,000.00 WETH",
-      vsReference2: "+10%",
-      vsBestPrice2: "-21.31%",
-
-      swapTrades: [],
+      swapTrades: [{
+        exchange: "Paraswap",
+        price: 0.18,
+        amount: 2000
+      }],
       isLoading: false,
     };
   }
 
   async componentDidMount() {
-    this.setState({
-      ...this.state,
-      isLoading: true,
-    });
-    const swapTrades = await getFundSwapTrades(this.props.state.fundId);
 
-    this.setState({
-      ...this.state,
-      swapTrades,
-      isLoading: false,
-    });
   }
 
   loader = () => {
@@ -61,7 +43,7 @@ class SwapsTable extends Component {
   recordNotFound() {
     return (
       <div className="w-your-investments-table-row-no-data">
-        There are not trades
+        No trade paths found
       </div>
     );
   }
@@ -74,33 +56,15 @@ class SwapsTable extends Component {
           <div style={{ overflowY: "scroll", height: "60vh" }}>
             {this.state.isLoading
               ? this.renderLoading()
-              : this.state.swapTrades.length > 0
+              : (this.state.swapTrades.length > 0
               ? this.state.swapTrades.map((trade, i) => (
                   <SwapsTableRow
-                    key={i}
-                    trade={trade}
-                    method={trade.method}
-                    exchangeFromParent={trade.adapter.identifier}
-                    priceFromParent={
-                      trade.incomingAssetAmount
-                        ? trade.incomingAssetAmount.price.price
-                        : ""
-                    }
-                    amountFromParent={currencyFormat(
-                      trade.incomingAssetAmount
-                        ? trade.incomingAssetAmount.amount
-                        : ""
-                    )}
-                    symbolFromParent={
-                      trade.incomingAssetAmount
-                        ? trade.incomingAssetAmount.asset.symbol
-                        : ""
-                    }
-                    vsReferenceFromParent="0.00%"
-                    vsBestPriceFromParent="0.00%"
+                    exchangeFromParent={trade.exchange}
+                    priceFromParent={trade.price}
+                    amountFromParent={trade.amount}
                   />
                 ))
-              : this.recordNotFound()}
+              : this.recordNotFound())}
           </div>
         </div>
       </>

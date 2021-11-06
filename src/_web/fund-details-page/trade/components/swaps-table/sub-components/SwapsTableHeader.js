@@ -19,11 +19,10 @@ class SwapsTableHeader extends Component {
     return (
       <>
         <div className="w-swaps-table-header">
-          <div className="w-swaps-table-header-item exchange">Date</div>
           <div className="w-swaps-table-header-item exchange">Exchange</div>
-          <div className="w-swaps-table-header-item price">Type</div>
-          <div className="w-swaps-table-header-item exchange">From</div>
-          <div className="w-swaps-table-header-item exchange">To</div>
+          <div className="w-swaps-table-header-item price">Price</div>
+          <div className="w-swaps-table-header-item price">Amount</div>
+          <div className="w-swaps-table-header-item price">Received Value ($)</div>
         </div>
       </>
     );
