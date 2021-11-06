@@ -733,15 +733,6 @@ export const currentUserAllTransactions = async (walletAddress) => {
   return { transactions, investments };
 };
 
-export const userFundList = async (address) => {
-  const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
-    : configs.MAINNET_ENDPOINT;
-  const { data } = await axios.post(url, {
-    query: `{  }`,
-  });
-};
-
 export const currentUserVaults = async (accessor) => {
   const url = configs.DEBUG_MODE
     ? configs.ENZYME_ENDPOINT
