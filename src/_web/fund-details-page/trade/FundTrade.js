@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import Portfolio from '../../global/portfolio/Portfolio';
 import SwapCard from './components/swap-card/SwapCard';
 import SwapsTable from './components/swaps-table/SwapsTable';
-import { getParaswapData } from '../../../ethereum/funds/trade';
+import { getTradePaths } from '../../../ethereum/funds/trade';
 
 // ASSETS
 // ... 
@@ -17,13 +17,30 @@ class FundTrade extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ...this.props.state
+            ...this.props.state,
+            swapTrades: [],
+            pathsLoading: false,
+            destSymbol: '',
+            selectedSwapPath: null
         }
+
+        this.getSwapTrades = this.getSwapTrades.bind(this);
+        this.setPathsLoading = this.setPathsLoading.bind(this);
+        this.getSwapTrades = this.getSwapTrades.bind(this);
     }
 
-    async componentDidMount() {
-        const pData = await getParaswapData(this.state.fundId, "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", 1, 3); // slippage 3%
-        console.log(`pdata response: ${JSON.stringify(pData)}`)
+    async getSwapTrades(from, to, amount, slippage=3, toSymbol) {
+        const paths = await getTradePaths(this.state.fundId, from, to, amount, slippage);
+        await this.setState({
+            swapTrades: paths,
+            pathsLoading: false,
+            destSymbol: toSymbol,
+            selectedSwapPath: paths.length > 0 ? paths[0] : null
+        })
+    }
+
+    async setPathsLoading(bl) {
+        await this.setState({ pathsLoading: bl, selectedSwapPath: null })
     }
 
     render() {
@@ -36,8 +53,8 @@ class FundTrade extends Component {
                 <>
                     <div className="">
                         {/* <Portfolio /> */}
-                        <SwapCard state={this.state} {...this.props}/>
-                        <SwapsTable state={this.state} {...this.props} />
+                        <SwapCard selectedSwapPath={this.state.selectedSwapPath} getSwapTrades={this.getSwapTrades} setPathsLoading={this.setPathsLoading} state={this.state} {...this.props}/>
+                        <SwapsTable selectedSwapPath={this.state.selectedSwapPath} destSymbol={this.state.destSymbol} pathsLoading={this.state.pathsLoading} swapTrades={this.state.swapTrades} state={this.state} {...this.props} />
                     </div>
                 </>
 

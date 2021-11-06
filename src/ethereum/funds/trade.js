@@ -4,6 +4,7 @@ import { fullNumber } from '../utils';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
 import { getContracts } from './deposits-withdraws';
+import VaultLib from "./../abis/VaultLib.json";
 
 export const getParaswapData = async (
     fundAddress,
@@ -80,7 +81,9 @@ export const getParaswapData = async (
             fromUSD,
             toUSD,
             priceWithSlippage,
-            minSlippageExpected
+            minSlippageExpected,
+            srcDecs,
+            destDecs
         }
 
     } catch(e) {
@@ -102,4 +105,44 @@ export const doParaswapTrade = async (
     const { comptrollerContract } = await getContracts(fundAddress, signer);
 
     
+}
+
+export const getFundAvailable = async (fundAddress, asset, provider) => {
+    try {
+        provider = new ethers.providers.Web3Provider(provider);
+        
+        const VaultLibInterface = new ethers.utils.Interface(
+            JSON.parse(JSON.stringify(VaultLib.abi))
+        );
+
+        const assetContract = new ethers.Contract(
+            asset,
+            VaultLibInterface,
+            provider
+        );
+
+        const balance = await assetContract.balanceOf(fundAddress);
+
+        return balance;
+    } catch (e) {
+        console.log(e)
+        return 0
+    }
+}
+
+export const getTradePaths = async (fund, from, to, amount, slippage) => {
+    var swapPaths = [];
+
+    var paraswapData = await getParaswapData(fund, from, to, amount, slippage);
+    console.log("paraswapData: "+JSON.stringify(paraswapData))
+    if (paraswapData) {
+        swapPaths.push({
+            exchange: "Paraswap V4",
+            price: 1/parseFloat(parseInt(paraswapData.priceWithSlippage) / (10**paraswapData.destDecs)),
+            amount: parseFloat(parseInt(paraswapData.contractData.data.expectedAmount) / (10**paraswapData.destDecs)),
+            ...paraswapData
+        })
+    }
+
+    return swapPaths;
 }

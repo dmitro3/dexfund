@@ -121,12 +121,39 @@
     opacity: 0.9;
 }
 
+.w-swap-card-button-disabled {
+    background: linear-gradient(90deg, #E926C3 0%, #FF4D86 97.5%);
+    opacity: 0.5;
+    width: 170px;
+    padding: 16px 0;
+}
+
+.w-swap-card-button-disabled:hover {
+    cursor: pointer;
+}
+
 .w-swap-card-button-text {
     font-family: 'Bai Jamjuree', sans-serif;
     font-size: 15px;
     font-weight: 600;
     color: #020202;
     text-align: center;
+}
+
+.w-swaps-table-row-selected {
+    display: flex;
+    justify-content: space-between;
+    background-color: #070708;
+    padding: 16px;
+    border-style: solid;
+    border-width: 1px;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(90deg, #E926C3 0%, #FF4D86 97.5%);
+}
+
+.w-swaps-table-row-selected:hover {
+    cursor: pointer;
+    background-color: #17171C;
 }
 
 .w-swaps-table-row {

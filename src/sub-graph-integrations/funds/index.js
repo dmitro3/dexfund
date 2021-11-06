@@ -208,6 +208,7 @@ export const getFundCompostion = async (fundId) => {
             asset {
               id
               symbol
+              decimals
               price {
                 price
               }
