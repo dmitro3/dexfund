@@ -36,13 +36,13 @@ class FundFinancials extends Component {
           <div className="w-fund-info-table-row">
             <div className="w-fund-info-row-cell type">Share supply</div>
             <div className="w-fund-info-row-cell value">
-              {parseFloat(this.state.shareSupply).toFixed(4)} shares
+              {parseFloat(this.state.shareSupply).toFixed(2)} shares
             </div>
           </div>
           <div className="w-fund-info-table-row">
             <div className="w-fund-info-row-cell type">Share price</div>
             <div className="w-fund-info-row-cell value">
-              {this.state.currentSharePrice} {this.state.denominationAsset}
+              ${this.state.currentSharePrice.toFixed(2)}
             </div>
           </div>
         </div>

@@ -121,24 +121,11 @@ class InvestmentFunds extends Component {
                 </div>
 
                 <div className="w-your-transactions-table-cell value">
-                  <div
-                    className="w-investment-funds-token-bullet"
-                    style={{ textAlign: "left" }}
-                  >
-                    <img
-                      style={{ height: "24px", width: "24px" }}
-                      alt=""
-                      className="fund-composition-weth-icon"
-                      src={
-                        transaction.symbol
-                          ? getIconSource(transaction.symbol.toLowerCase())
-                          : wethIcon
-                      }
-                    />{" "}
-                    <div className="w-investment-funds-token-bullet-text">
-                      {currencyFormat(parseInt(transaction.amount), "$")}
-                    </div>
-                  </div>
+                  $
+                  {currencyFormat(
+                    parseInt(transaction.amount * this.state.ethPrice),
+                    ""
+                  )}
                 </div>
                 <div className="w-your-transactions-table-cell time">
                   {getTimeDiff(transaction.timestamp)}
