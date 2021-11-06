@@ -240,7 +240,7 @@ class FundDetailsPage extends Component {
                       ? selectedNavbarItemStyle
                       : {}
                   }
-                  onClick={() => this.setState({ selectedNavbarItem: "trade" })}
+                  // onClick={() => this.setState({ selectedNavbarItem: "trade" })}
                 >
                   Trade
                 </div>

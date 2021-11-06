@@ -21,7 +21,6 @@ import { withStyles } from "@material-ui/core/styles";
 // ...
 
 // ASSETS
-import { ReactSVG } from 'react-svg'
 import graph from '../assets/graph.svg';
 import graphLoading from '../assets/graph_loading_mask.svg';
 import logoSPinning from '../assets/loading_spinning.gif';
