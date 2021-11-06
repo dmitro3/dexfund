@@ -18,7 +18,7 @@ import YourTransactions from "../../../../global/your-transactions/YourTransacti
 class FundOverviewStatistics extends Component {
   constructor(props) {
     super(props);
-    console.log("STATS", this.props);
+
     this.state = {
       selectedNavbarItem: "yourInvestments",
       ...this.props.state,
@@ -32,7 +32,7 @@ class FundOverviewStatistics extends Component {
     const currentUserHistory = await currentUserAllTransactions(
       this.props.onboard.address ? this.props.onboard.address : ""
     );
-    console.log("STATS", currentUserHistory);
+
     this.setState({
       ...this.state,
       investments: currentUserHistory.investments,

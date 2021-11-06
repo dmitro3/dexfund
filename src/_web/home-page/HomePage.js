@@ -55,15 +55,11 @@ class HomePage extends Component {
       this.props.onboard.address
     );
 
-    console.log("Investments 1", currentUserInvestments.investments);
-
     this.setState({
       topFunds: topFundsList ? topFundsList : [],
       userInvestments: currentUserInvestments.investments,
       userTransactions: currentUserInvestments.transactions,
     });
-
-    console.log("STATE", this.state);
   }
 
   render() {
@@ -94,9 +90,7 @@ class HomePage extends Component {
                 topFunds={this.state.topFunds}
               />
               <YourInvestments investments={this.state.userInvestments} />
-              <FeaturedFunds
-                {...this.props}
-              />
+              <FeaturedFunds {...this.props} />
               <YourTransactions
                 transactions={this.state.userTransactions}
                 titleFromParent="YOUR TRANSACTIONS"

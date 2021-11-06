@@ -44,9 +44,7 @@ export const getAllInvestments = async () => {
     });
 
     return data.data.funds;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 // Get all investments
@@ -79,7 +77,6 @@ export const getFiveInvestments = async () => {
 
     return data.data.funds || [];
   } catch (error) {
-    console.log(error);
     return [];
   }
 };
@@ -145,12 +142,9 @@ export const getYourInvestments = async (address) => {
     const { data } = await axios.post(endpoint, {
       query: q,
     });
-    console.log("YOUR INVESTMENTS: ", data.data);
 
     return data.data.sharesBoughtEvents;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 // get featured Investments
@@ -187,12 +181,9 @@ export const getYourInvestmentsPerFund = async (fundId, address) => {
     
         `,
     });
-    console.log("YOUR INVESTMENTS in fund: ", data.data);
 
     return data.data.fund.investments;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 // Fund Compostion
@@ -229,12 +220,9 @@ export const getFundCompostion = async (fundId) => {
       }   
        `,
     });
-    console.log("FUND HOLDINGS: ", data.data);
 
     return data.data.fund;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const ListAllTrades = async () => {
@@ -303,12 +291,9 @@ export const getFundAllFunds = async () => {
       }  
        `,
     });
-    console.log("FUND: ", data.data.funds);
 
     return data.data.funds;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 // Claim Rewards
@@ -339,12 +324,9 @@ export const getClaimRewards = async (fundId) => {
           }
        `,
     });
-    console.log("CLAIM REWARDS TRADES: ", data.data);
 
     return data.data.claimRewardsTrades;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 // Get Ruleset
@@ -367,12 +349,9 @@ export const getRuleSet = async (fundId) => {
           }
        `,
     });
-    console.log("CLAIM REWARDS TRADES: ", data.data);
 
     return data.data.minMaxInvestmentFundSettingsSetEvents;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const getLiquidityPools = async () => {
@@ -404,12 +383,9 @@ export const getLiquidityPools = async () => {
       } 
        `,
     });
-    console.log("LIQUIDITY POOLS: ", data.data);
 
     return data.data.uniswapV2PoolAssetDetails;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const getAUM = async (fundId) => {
@@ -458,11 +434,9 @@ export const getAUM = async (fundId) => {
         parseFloat(holding.amount) * parseFloat(holding.asset.price.price);
       AUM += amount;
     });
-    console.log(`Assets Under Management = ${AUM} ETH`);
+
     return AUM;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 /**
@@ -703,8 +677,6 @@ export const currentUserAllTransactions = async (walletAddress) => {
   let transactions = [];
   const funds = data.data.investments.map((fItem) => fItem.fund);
 
-  console.log("INVST", funds);
-
   funds.forEach((fund) => {
     fund.sharesChanges
       .map((item) => {
@@ -759,8 +731,6 @@ export const currentUserAllTransactions = async (walletAddress) => {
       .filter((item) => item);
   });
 
-  console.log("INVST", { transactions, investments });
-
   return { transactions, investments };
 };
 
@@ -805,8 +775,6 @@ export const currentUserVaults = async (accessor) => {
   const { data } = await axios.post(url, {
     query,
   });
-
-  console.log(data.data.funds);
 
   return data.data.funds;
 };

@@ -14,8 +14,6 @@ class MostProfitableAllTime extends Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props);
-
     this.state = {};
 
     this.toPage = this.toPage.bind(this);

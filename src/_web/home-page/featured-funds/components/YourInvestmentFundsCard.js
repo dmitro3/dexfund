@@ -15,7 +15,7 @@ import { currencyFormat } from "../../../../ethereum/utils";
 class YourInvestmentsCard extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
+
     this.state = {
       fundAddress: this.props.fundAddressFromParent,
       funds: this.props.fundsFromParent,
@@ -59,11 +59,18 @@ class YourInvestmentsCard extends Component {
               <div className="w-your-investments-type right">Performance</div>
               <div className="w-your-investments-performance-section">
                 <img
-                  src={this.state.performance >= 0 ? greenArrowIcon : redArrowIcon}
+                  src={
+                    this.state.performance >= 0 ? greenArrowIcon : redArrowIcon
+                  }
                   alt="green-arrow-icon"
                   className="performance-green-arrow-icon"
                 />
-                <div style={{color: this.state.performance >= 0 ? "#00AF00" : "red"}} className="w-your-investments-value green">
+                <div
+                  style={{
+                    color: this.state.performance >= 0 ? "#00AF00" : "red",
+                  }}
+                  className="w-your-investments-value green"
+                >
                   {this.state.performance.toFixed(2)}%
                 </div>
               </div>
@@ -77,7 +84,7 @@ class YourInvestmentsCard extends Component {
               <div className="w-your-investments-type right">Share Price</div>
               <div className="w-your-investments-performance-section">
                 ${this.state.sharePriceData.toFixed(2)}
-              </div>     
+              </div>
             </div>
           </div>
         </div>

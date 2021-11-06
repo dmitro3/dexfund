@@ -23,7 +23,6 @@ class AddNewFundGeneral extends Component {
       denominationAssetsList: false,
       ...this.props.state,
     };
-    console.log(`assets`, this.state);
   }
 
   goToNextStep = () => {
@@ -56,7 +55,10 @@ class AddNewFundGeneral extends Component {
           </div>
           <img src={caretUpIcon} alt="caret-up-icon" />
         </div>
-        <div style={{overflowY: "scroll", height: "25vh"}} className="w-add-new-fund-denomination-assets-list">
+        <div
+          style={{ overflowY: "scroll", height: "25vh" }}
+          className="w-add-new-fund-denomination-assets-list"
+        >
           {this.state.assets.map((asset) => {
             return (
               <div
@@ -206,8 +208,8 @@ class AddNewFundGeneral extends Component {
                 }}
               ></input>
             </div>
-            <br/>
-          
+            <br />
+
             {/* <div
               className="w-add-new-fund-step-input"
               style={{ margin: "16px 0" }}

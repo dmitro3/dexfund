@@ -8,8 +8,8 @@ import SkeletonLoader from "../../global/skeleton-loader/SkeletonLoader";
 // ASSETS
 import addIcon from "./assets/add-icon.svg";
 
-import { getAllInvestments } from './../../../sub-graph-integrations/index';
-import { getEthPrice } from './../../../ethereum/funds/fund-related';
+import { getAllInvestments } from "./../../../sub-graph-integrations/index";
+import { getEthPrice } from "./../../../ethereum/funds/fund-related";
 
 // CSS
 import "./styles/yourInvestmentFunds.css";
@@ -23,12 +23,10 @@ class FeaturedFunds extends Component {
   constructor(props) {
     super(props);
 
-    console.log("PROP---", this.props);
-
     this.state = {
       ...this.props,
       loaded: false,
-      funds: []
+      funds: [],
     };
   }
 
@@ -37,13 +35,14 @@ class FeaturedFunds extends Component {
   }
 
   calculateAUM(fund, ethPrice) {
-    let AUM = 0
-    fund.portfolio.holdings.forEach(holding => {
-      const amount = parseFloat(holding.amount) *  parseFloat(holding.asset.price.price)
-      AUM += amount
+    let AUM = 0;
+    fund.portfolio.holdings.forEach((holding) => {
+      const amount =
+        parseFloat(holding.amount) * parseFloat(holding.asset.price.price);
+      AUM += amount;
     });
 
-    return AUM * ethPrice
+    return AUM * ethPrice;
   }
 
   getData = async () => {
@@ -51,29 +50,32 @@ class FeaturedFunds extends Component {
     var investments = await getAllInvestments();
     // calculate AUM - AUM
     const ethPrice = await getEthPrice();
-    for(var i = 0; i < investments.length; i++) {
-      investments[i].AUM = this.calculateAUM(investments[i], ethPrice)
+    for (var i = 0; i < investments.length; i++) {
+      investments[i].AUM = this.calculateAUM(investments[i], ethPrice);
     }
     // sort after AUM and get first 5
     investments = investments.sort((a, b) => {
-      if (a.AUM < b.AUM)
-        return 1;
-      else if(a.AUM > b.AUM)
-        return -1;
-      else
-        return 0;
+      if (a.AUM < b.AUM) return 1;
+      else if (a.AUM > b.AUM) return -1;
+      else return 0;
     });
-    console.log("INVESTMENTS: "+JSON.stringify(investments))
-    investments = investments.slice(0, 5)
+
+    investments = investments.slice(0, 5);
     // calculate share price - sharePrice
-    const startSharePrices = await getCreationSharePrices(investments.map((v) => v.id))
+    const startSharePrices = await getCreationSharePrices(
+      investments.map((v) => v.id)
+    );
     // get LTR with the use of the API - LTR
-    for(var i = 0; i < investments.length; i++) {
+    for (var i = 0; i < investments.length; i++) {
       investments[i].fundName = investments[i].name;
-      investments[i].sharePrice = parseFloat(investments[i].AUM) / parseFloat(investments[i].shares.totalSupply);
-      investments[i].sharePrice = Number.isNaN(investments[i].sharePrice) ? 0 : investments[i].sharePrice;
+      investments[i].sharePrice =
+        parseFloat(investments[i].AUM) /
+        parseFloat(investments[i].shares.totalSupply);
+      investments[i].sharePrice = Number.isNaN(investments[i].sharePrice)
+        ? 0
+        : investments[i].sharePrice;
       if (!Object.keys(startSharePrices).includes(investments[i].id)) {
-        investments[i].ltr = 0.00;
+        investments[i].ltr = 0.0;
       } else {
         const creationSP = startSharePrices[investments[i].id.toLowerCase()];
         var ltr;
@@ -85,13 +87,13 @@ class FeaturedFunds extends Component {
 
     this.setState({
       loaded: true,
-      funds: investments
-    })
-  }
+      funds: investments,
+    });
+  };
 
   toPage(path, e) {
     e.preventDefault();
-    console.log("GOING TO /add-new-fund");
+
     this.props.history.push(path);
     window.scrollTo({
       top: 0,
@@ -106,7 +108,7 @@ class FeaturedFunds extends Component {
 
   renderNoVaults() {
     return (
-      <div style={{textAlign: "center", color: "white"}}>
+      <div style={{ textAlign: "center", color: "white" }}>
         There are no created vaults.
       </div>
     );
@@ -135,14 +137,16 @@ class FeaturedFunds extends Component {
       <>
         <div className="w-your-investment-funds-wrapper">
           <div className="w-your-investment-funds-header">
-            <div className="w-your-investment-funds-title">
-              FEATURED VAULTS
-            </div>
+            <div className="w-your-investment-funds-title">FEATURED VAULTS</div>
           </div>
           <div className="w-your-investments-cards-section">
             {this.state.loaded === false && this.renderLoader()}
-            {this.state.loaded === true && this.state.funds.length > 0 && this.renderCards()}
-            {this.state.loaded === true && this.state.funds.length === 0 && this.renderNoVaults()}
+            {this.state.loaded === true &&
+              this.state.funds.length > 0 &&
+              this.renderCards()}
+            {this.state.loaded === true &&
+              this.state.funds.length === 0 &&
+              this.renderNoVaults()}
           </div>
         </div>
       </>
@@ -159,7 +163,4 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FeaturedFunds);
+export default connect(mapStateToProps, mapDispatchToProps)(FeaturedFunds);

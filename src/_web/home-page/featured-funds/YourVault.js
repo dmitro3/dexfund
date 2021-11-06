@@ -21,8 +21,6 @@ class YourInvestmentFunds extends Component {
   constructor(props) {
     super(props);
 
-    console.log("PROP---", this.props);
-
     this.state = {
       title: this.props.titleFromParent,
       addNewFund: this.props.addNewFundFromParent,
@@ -41,7 +39,7 @@ class YourInvestmentFunds extends Component {
 
   toPage(path, e) {
     e.preventDefault();
-    console.log("GOING TO /add-new-fund");
+
     this.props.history.push(path);
     window.scrollTo({
       top: 0,

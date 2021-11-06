@@ -180,7 +180,5 @@ export const getFundSwapTrades = async (id) => {
     return [...trades.data.data.trades];
 
     return [];
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };

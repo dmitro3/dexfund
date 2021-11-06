@@ -22,10 +22,7 @@ const start = async () => {
     useCreateIndex: true,
   });
 
-  console.log("Successfully connected to db.");
-  app.listen(4000, '0.0.0.0', () => {
-    console.log("Server is up!");
-  });
+  app.listen(4000, "0.0.0.0", () => {});
 };
 
 start();

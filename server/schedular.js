@@ -9,12 +9,10 @@ const client = createClient({
 
 const querying = async () => {
   const response = await client.query(newFundCreatedEvents).toPromise();
-  console.log(JSON.stringify(response.data, null, 2));
 };
 
 const init = () => {
   cron.schedule("* * * * *", () => {
-    console.log("Running a task every minute ......");
     querying();
   });
 };

@@ -104,7 +104,7 @@ class FundDetailsPage extends Component {
       loaded: true,
       AUM: aum * _ethPrice,
     });
-    console.log("REACHED");
+
     this.props.deactivateLoaderOverlay();
   }
 

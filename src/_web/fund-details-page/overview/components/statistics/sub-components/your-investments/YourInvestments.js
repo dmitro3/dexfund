@@ -35,15 +35,14 @@ class YourInvestments extends Component {
         this.props.state.fundId,
         "0xea09bdeb7d0ce27c39e73251fccdb0a081fece05"
       );
-      // console.log('1221', investments);
+      //
       const yourFundInvestments =
         investments.state.fundState.portfolio.holdings;
-      // console.log("ur inv: "+yourFundInvestments)
+      //
       this.setState({
         yourFundInvestments: investments,
       });
     } catch (e) {
-      console.log("ERROR: " + e);
       this.setState({
         yourFundInvestments: [],
       });

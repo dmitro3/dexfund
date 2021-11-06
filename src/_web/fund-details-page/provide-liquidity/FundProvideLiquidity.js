@@ -31,7 +31,7 @@ class FundProvideLiquidity extends Component {
       const assetA = pool.token0.id;
       const assetB = pool.token1.id;
 
-      // console.log("Assets ", assetA, assetB);
+      //
 
       liquidityPools["asset0Balance"] = await getTokenBalance(assetA);
       liquidityPools["asset1Balance"] = await getTokenBalance(assetB);
@@ -40,8 +40,6 @@ class FundProvideLiquidity extends Component {
     this.setState({
       liquidityPools,
     });
-
-    console.log("Poools ", this.state.liquidityPools);
   }
 
   callbackFunction = (childData) => {

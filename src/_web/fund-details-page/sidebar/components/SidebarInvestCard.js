@@ -6,8 +6,9 @@ import {
   getDenominationBalance,
   approveForInvestment,
   investFundDenomination,
-  getFundMinMaxAdapter } from '../../../../ethereum/funds/deposits-withdraws';
-import { fullNumber } from './../../../../ethereum/utils/common';
+  getFundMinMaxAdapter,
+} from "../../../../ethereum/funds/deposits-withdraws";
+import { fullNumber } from "./../../../../ethereum/utils/common";
 
 // COMPONENTS
 // ...
@@ -19,8 +20,8 @@ import ethIcon from "../assets/eth-icon.svg";
 import "../styles/sidebar.css";
 // WEB3/ETHERSjs
 // import { investFundEth, estimateInvestFundEth } from "./../../../../ethereum/funds/deposits-withdraws";
-import { utils } from 'ethers';
-import BigNumber from 'bignumber.js';
+import { utils } from "ethers";
+import BigNumber from "bignumber.js";
 
 // REDUX
 import { connect } from "react-redux";
@@ -29,19 +30,20 @@ import {
   deactivateLoaderOverlay,
   activateLoaderOverlay,
 } from "./../../../../redux/actions/LoaderAction";
+import { toastr } from "react-redux-toastr";
 
 class SidebarInvestCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      amountToInvest: '0',
+      amountToInvest: "0",
       maxEth: this.props.onboard.balance,
       maxClicked: false,
       selectedAsset: "denomination",
       fundAddress: this.props.fundAddress,
 
       approved: false,
-      allowance: '',
+      allowance: "",
       maxAmountDenomination: 0,
 
       fundMaxDeposit: 0,
@@ -49,7 +51,7 @@ class SidebarInvestCard extends Component {
 
       warningText: "",
 
-      ...this.props.state
+      ...this.props.state,
     };
 
     this.invest = this.invest.bind(this);
@@ -57,8 +59,6 @@ class SidebarInvestCard extends Component {
     this.setMaxAmountDenomination = this.setMaxAmountDenomination.bind(this);
     this.setFundMinMax = this.setFundMinMax.bind(this);
     this.checkDepositLimits = this.checkDepositLimits.bind(this);
-
-    console.log("deno asset: "+this.props.state.denominationAssetSymbol)
   }
 
   inputField = (e) => {
@@ -82,19 +82,21 @@ class SidebarInvestCard extends Component {
     this.checkDepositLimits();
     if (prevProps.onboard != this.props.onboard) {
       this.setState({
-        maxEth: this.props.onboard.balance
-      })
+        maxEth: this.props.onboard.balance,
+      });
     }
 
     if (prevProps.state != this.props.state) {
       this.setState({
-        ...this.props.state
-      })
+        ...this.props.state,
+      });
     }
 
-    if (this.props.onboard.address != prevProps.onboard.address ||
+    if (
+      this.props.onboard.address != prevProps.onboard.address ||
       this.props.onboard.fundAddress != prevProps.onboard.fundAddress ||
-      this.props.onboard.provider != prevProps.onboard.provider) {
+      this.props.onboard.provider != prevProps.onboard.provider
+    ) {
       this.setMaxAmountDenomination();
       this.setAllowance();
       this.setFundMinMax();
@@ -106,52 +108,74 @@ class SidebarInvestCard extends Component {
     allowance = await getDenominationAllowance(
       this.state.fundAddress,
       this.props.onboard.address,
-      this.props.onboard.provider,
+      this.props.onboard.provider
     );
 
-    console.log("UPDATED ALLOWANCE: "+allowance)
-
     this.setState({
-      allowance: allowance
-    })
-  }
+      allowance: allowance,
+    });
+  };
 
   setMaxAmountDenomination = async () => {
-    const maxAmount = await getDenominationBalance(this.state.fundAddress, this.props.onboard.address, this.props.onboard.provider);
+    const maxAmount = await getDenominationBalance(
+      this.state.fundAddress,
+      this.props.onboard.address,
+      this.props.onboard.provider
+    );
 
     await this.setState({
-      maxAmountDenomination: maxAmount
+      maxAmountDenomination: maxAmount,
     });
-  }
+  };
 
   setFundMinMax = async () => {
-    const data = await getFundMinMaxAdapter(this.state.fundAddress, this.props.onboard.provider);
+    const data = await getFundMinMaxAdapter(
+      this.state.fundAddress,
+      this.props.onboard.provider
+    );
 
     this.setState({
       fundMaxDeposit: data[1],
-      fundMinDeposit: data[0]
-    })
+      fundMinDeposit: data[0],
+    });
   };
 
   checkDepositLimits = async () => {
-    var currentValue = parseFloat(this.state.amountToInvest) * 10**this.props.state.denominationAssetDecimals;
-    if(currentValue == NaN)
-      currentValue = 0;
-    if(((currentValue > this.state.fundMaxDeposit && this.state.fundMaxDeposit != 0) || (currentValue < this.state.fundMinDeposit && this.state.fundMinDeposit != 0)) && this.state.warningText == "") {
+    var currentValue =
+      parseFloat(this.state.amountToInvest) *
+      10 ** this.props.state.denominationAssetDecimals;
+    if (currentValue == NaN) currentValue = 0;
+    if (
+      ((currentValue > this.state.fundMaxDeposit &&
+        this.state.fundMaxDeposit != 0) ||
+        (currentValue < this.state.fundMinDeposit &&
+          this.state.fundMinDeposit != 0)) &&
+      this.state.warningText == ""
+    ) {
       this.setState({
-        warningText: "WARNING! Deposit not within minimum/maximum deposit limits."
-      })
+        warningText:
+          "WARNING! Deposit not within minimum/maximum deposit limits.",
+      });
     }
 
-    if(((currentValue <= this.state.fundMaxDeposit || this.state.fundMaxDeposit == 0) && (currentValue >= this.state.fundMinDeposit || this.state.fundMinDeposit == 0)) && this.state.warningText != "") {
+    if (
+      (currentValue <= this.state.fundMaxDeposit ||
+        this.state.fundMaxDeposit == 0) &&
+      (currentValue >= this.state.fundMinDeposit ||
+        this.state.fundMinDeposit == 0) &&
+      this.state.warningText != ""
+    ) {
       this.setState({
-        warningText: ""
-      })
+        warningText: "",
+      });
     }
-  }
+  };
 
   componentDidMount() {
-    if (this.props.onboard.provider != null && this.props.onboard.address != null) {
+    if (
+      this.props.onboard.provider != null &&
+      this.props.onboard.address != null
+    ) {
       this.setAllowance();
       this.setMaxAmountDenomination();
       this.setFundMinMax();
@@ -163,17 +187,26 @@ class SidebarInvestCard extends Component {
     this.props.activateLoaderOverlay();
 
     try {
-      var amount = this.state.maxClicked ? this.state.maxAmountDenomination : fullNumber(new BigNumber(this.state.amountToInvest).multipliedBy(10**this.props.state.denominationAssetDecimals).toString());
-      if (amount == 0)
-        return;
+      var amount = this.state.maxClicked
+        ? this.state.maxAmountDenomination
+        : fullNumber(
+            new BigNumber(this.state.amountToInvest)
+              .multipliedBy(10 ** this.props.state.denominationAssetDecimals)
+              .toString()
+          );
+      if (amount == 0) return;
 
-      await approveForInvestment(this.state.fundAddress, this.props.onboard.provider, amount);
+      await approveForInvestment(
+        this.state.fundAddress,
+        this.props.onboard.provider,
+        amount
+      );
       await this.setAllowance();
-    } catch (e) {
-      console.log(e)
-    }
+      toastr.success("Successfully approved to your transactions.");
+    } catch (e) {}
     this.props.deactivateLoaderOverlay();
-  }
+    toastr.error("An error occurred while approving.");
+  };
 
   invest = async (e) => {
     e.preventDefault();
@@ -181,18 +214,26 @@ class SidebarInvestCard extends Component {
 
     try {
       if (this.state.selectedAsset == "denomination") {
-        var amount = this.state.maxClicked ? this.state.maxAmountDenomination : fullNumber(new BigNumber(this.state.amountToInvest).multipliedBy(10**this.props.state.denominationAssetDecimals).toString());
-        if (amount == 0)
-          return;
+        var amount = this.state.maxClicked
+          ? this.state.maxAmountDenomination
+          : fullNumber(
+              new BigNumber(this.state.amountToInvest)
+                .multipliedBy(10 ** this.props.state.denominationAssetDecimals)
+                .toString()
+            );
+        if (amount == 0) return;
 
-        await investFundDenomination(this.state.fundAddress, this.props.onboard.address, this.props.onboard.provider, amount);
+        await investFundDenomination(
+          this.state.fundAddress,
+          this.props.onboard.address,
+          this.props.onboard.provider,
+          amount
+        );
         await this.setAllowance();
       }
-    } catch(e) {
-      console.log(e);
-    }
+    } catch (e) {}
     this.props.deactivateLoaderOverlay();
-  }
+  };
 
   // invest  any amount toa fund
   // investAmountToFund = async () => {
@@ -214,12 +255,12 @@ class SidebarInvestCard extends Component {
   //         this.state.amountToInvest
   //       );
 
-  //       console.log(deposit);
+  //
   //     } catch (error) {
-  //       console.log(error);
+  //
   //     }
   //   } else {
-  //     console.log("Show Toast here");
+  //
   //   }
   //   this.props.deactivateLoaderOverlay();
   // };
@@ -229,7 +270,8 @@ class SidebarInvestCard extends Component {
   renderApproveButton() {
     return (
       <>
-        <div className="w-invest-card-button"
+        <div
+          className="w-invest-card-button"
           onClick={(e) => {
             this.approve(e);
           }}
@@ -239,13 +281,14 @@ class SidebarInvestCard extends Component {
           </div>
         </div>
       </>
-    )
+    );
   }
 
   renderInvestButton() {
     return (
       <>
-        <div className="w-invest-card-button"
+        <div
+          className="w-invest-card-button"
           onClick={(e) => {
             this.invest(e);
           }}
@@ -255,7 +298,7 @@ class SidebarInvestCard extends Component {
           </div>
         </div>
       </>
-    )
+    );
   }
 
   render() {
@@ -263,9 +306,7 @@ class SidebarInvestCard extends Component {
       this.props.onboard.walletConnected && (
         <>
           <div className="w-invest-card">
-            <div className="w-invest-card-header">
-              Amount to invest
-            </div>
+            <div className="w-invest-card-header">Amount to invest</div>
             <div className="w-invest-table">
               <div className="w-invest-table-asset-cell">
                 <img
@@ -304,8 +345,17 @@ class SidebarInvestCard extends Component {
                   className="w-invest-table-amount-max-button"
                   onClick={() =>
                     this.setState({
-                      amountToInvest: this.state.selectedAsset === "eth" ? (this.state.maxEth / 10 ** this.props.state.denominationAssetDecimals).toFixed(2) : (this.state.maxAmountDenomination / 10 ** this.props.state.denominationAssetDecimals).toFixed(2),
-                      maxClicked: true
+                      amountToInvest:
+                        this.state.selectedAsset === "eth"
+                          ? (
+                              this.state.maxEth /
+                              10 ** this.props.state.denominationAssetDecimals
+                            ).toFixed(2)
+                          : (
+                              this.state.maxAmountDenomination /
+                              10 ** this.props.state.denominationAssetDecimals
+                            ).toFixed(2),
+                      maxClicked: true,
                     })
                   }
                 >
@@ -316,9 +366,15 @@ class SidebarInvestCard extends Component {
                 </div>
               </div>
             </div>
-            {(parseFloat(this.state.amountToInvest) * 10**this.props.state.denominationAssetDecimals > this.state.allowance || this.state.amountToInvest == "") && this.renderApproveButton()}
-            {(parseFloat(this.state.amountToInvest) * 10**this.props.state.denominationAssetDecimals <= this.state.allowance) && this.renderInvestButton()}
-            <div style={{marginTop: "1%", color: "red"}}>
+            {(parseFloat(this.state.amountToInvest) *
+              10 ** this.props.state.denominationAssetDecimals >
+              this.state.allowance ||
+              this.state.amountToInvest == "") &&
+              this.renderApproveButton()}
+            {parseFloat(this.state.amountToInvest) *
+              10 ** this.props.state.denominationAssetDecimals <=
+              this.state.allowance && this.renderInvestButton()}
+            <div style={{ marginTop: "1%", color: "red" }}>
               {this.state.warningText}
             </div>
           </div>
@@ -331,7 +387,7 @@ class SidebarInvestCard extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.connect,
-    onboard: state.onboard
+    onboard: state.onboard,
   };
 };
 

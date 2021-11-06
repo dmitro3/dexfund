@@ -33,7 +33,6 @@ class FundComposition extends Component {
     let holdings;
     if (fundComposition.portfolio) {
       holdings = fundComposition.portfolio.holdings;
-      console.log("1", holdings);
     }
     let aum = 0;
     holdings.forEach((item) => {
@@ -98,7 +97,12 @@ class FundComposition extends Component {
             <div className="w-fund-composition-title">VAULT COMPOSITION</div>
             <div className="w-fund-composition-table">
               <FundCompositionTableHeader />
-              <div style={{ overflowY: "scroll", height: "30vh" }}>
+              <div
+                style={{
+                  overflowY: "scroll",
+                  height: this.state.holdings.length > 0 ? "30vh" : "10vh",
+                }}
+              >
                 {this.state.isLoading
                   ? this.renderLoading()
                   : this.state.holdings.map((composition) => (

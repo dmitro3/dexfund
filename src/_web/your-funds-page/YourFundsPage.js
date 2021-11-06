@@ -49,7 +49,7 @@ class YourFundsPage extends Component {
     );
 
     const funds = await currentUserVaults(this.props.onboard.address);
-    console.log("FUNDS", funds);
+
     this.setState({
       yourInvestments: yourInvestments,
       userTransactions: currentUserInvestments.transactions,

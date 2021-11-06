@@ -1,10 +1,6 @@
-import { utils, ethers } from 'ethers'
-import FundDeployer from './../abis/FundDeployer.json'
-import { connectMetamask } from './../web3'
-
-
-
-
+import { utils, ethers } from "ethers";
+import FundDeployer from "./../abis/FundDeployer.json";
+import { connectMetamask } from "./../web3";
 
 // export const createNewFund = async (
 //     fundOwner,
@@ -15,7 +11,6 @@ import { connectMetamask } from './../web3'
 //     policyManagerConfigData,
 //     gaslimit
 //     ) => {
-
 
 //     const { provider, signer, address, balance } = await connectMetamask()
 //     const nonce = await provider.getTransactionCount(address, "pending");
@@ -40,10 +35,7 @@ import { connectMetamask } from './../web3'
 
 //         return fund;
 //     } catch (error) {
-//         console.log(error)
+//
 //     }
 
 // }
-
-
-

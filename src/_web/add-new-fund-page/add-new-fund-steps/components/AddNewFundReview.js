@@ -36,6 +36,7 @@ import {
 } from "./../../../../ethereum/funds/fund-related";
 
 import { getAssetDecimals } from "./../../../../ethereum/utils/index";
+import { toastr } from "react-redux-toastr";
 
 class AddNewFundReview extends Component {
   constructor(props) {
@@ -44,8 +45,6 @@ class AddNewFundReview extends Component {
   }
 
   goToNextStep = async () => {
-    console.log("Create Fund");
-
     this.props.activateLoaderOverlay();
 
     let feeManagerSettingsData = []; // value configurations
@@ -131,7 +130,7 @@ class AddNewFundReview extends Component {
         );
       } catch (e) {
         // TODO: CHANGE THIS ALERT WITH A GOOD FRONTEND ALERT
-        console.log(e);
+
         alert("Error processing you Min/Max Deposit values");
       }
     }
@@ -172,8 +171,6 @@ class AddNewFundReview extends Component {
     }
 
     try {
-      console.log(this.props.onboard.provider);
-
       const timeLockInSeconds = this.state.timeLock * 60 * 60;
       var provider = this.props.onboard.provider;
       var adr = this.props.onboard.address;
@@ -188,7 +185,6 @@ class AddNewFundReview extends Component {
         provider,
         adr
       );
-      console.log(fund);
 
       this.setState({ ...this.state, hash: "" });
 
@@ -196,8 +192,9 @@ class AddNewFundReview extends Component {
       this.props.goToNextStepEvent({
         ...this.state,
       });
+      toastr.success("Successfully created a new vault");
     } catch (error) {
-      console.log(error);
+      toastr.error("Error occurred while creating a Vault: ", error.message);
       this.props.deactivateLoaderOverlay();
     }
   };

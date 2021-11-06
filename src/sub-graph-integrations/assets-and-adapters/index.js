@@ -28,9 +28,7 @@ export const queryFundOverviewDetails = async (fundId) => {
     });
 
     return data.data.fund;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const queryFundDetails = async (fundId) => {
@@ -80,9 +78,7 @@ export const queryFundDetails = async (fundId) => {
     });
 
     return data.data.fund;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const queryFundFinancials = async (fundId) => {
@@ -112,9 +108,7 @@ export const queryFundFinancials = async (fundId) => {
     });
 
     return data.data.fund;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const getAllAdapterIntegrations = async () => {
@@ -139,9 +133,7 @@ export const getAllAdapterIntegrations = async () => {
     });
 
     return data.data.integrationAdapters;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 // denomination Assets
@@ -213,9 +205,7 @@ export const getDenominationAssets = async () => {
     });
 
     return data.data.assets;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const getAllAssetsIntegrations = async () => {
@@ -238,9 +228,7 @@ export const getAllAssetsIntegrations = async () => {
       }`,
     });
     return data.data.assets;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const getAssetsDecimals = async (assets) => {
