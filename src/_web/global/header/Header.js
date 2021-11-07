@@ -154,7 +154,7 @@ class Header extends Component {
                 <>
                   <div
                     className="w-header-address-button"
-                    onClick={() => this.displaySettingsPopup()}
+                    // onClick={() => this.displaySettingsPopup()}
                   >
                     <div className="w-header-address-button-amount-button">
                       <div className="w-header-address-button-amount-button-text">

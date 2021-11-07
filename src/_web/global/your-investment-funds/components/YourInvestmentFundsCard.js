@@ -51,7 +51,7 @@ class YourInvestmentsCard extends Component {
             <div>
               <div className="w-your-investments-type">Funds</div>
               <div className="w-your-investments-value">
-                {currencyFormat(this.state.funds, "$")}
+                $ {currencyFormat(this.state.funds, "$")}
               </div>
             </div>
             <div>

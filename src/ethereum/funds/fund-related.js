@@ -28,6 +28,7 @@ import { Decimal } from "decimal.js";
 import axios from "axios";
 import { VaultLib, redeemShares } from "@enzymefinance/protocol";
 import configs from "../../config";
+import { toastr } from "react-redux-toastr";
 
 export {
   PerformanceFee,
@@ -80,7 +81,10 @@ export const createNewFund = async (
     );
 
     return fund;
-  } catch (error) {}
+  } catch (error) {
+    toastr.error("An Error occurred. Please try again", error.message);
+    return;
+  }
 };
 
 /**
