@@ -752,6 +752,9 @@ export const currentUserVaults = async (accessor) => {
          id 
          name
          manager 
+         shares {
+          totalSupply
+        }
          accessor{
            id
            denominationAsset{
@@ -762,6 +765,23 @@ export const currentUserVaults = async (accessor) => {
              }
            }
          }
+         portfolio {
+          holdings {
+            amount
+            asset {
+              symbol
+              price {
+                price
+              }
+            }
+          }
+        }
+        investmentCount
+        lastKnowGavInEth
+        trackedAssets {
+          name
+          symbol
+        }
          state{
            shares{
              totalSupply

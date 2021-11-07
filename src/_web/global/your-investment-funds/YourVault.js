@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 // COMPONENTS
-import YourInvestmentFundsCard from "./components/YourInvestmentFundsCard";
+import YourInvestmentFundsCard from "./../../home-page/featured-funds/components/YourInvestmentFundsCard";
 // ASSETS
 import addIcon from "./assets/add-icon.svg";
 
@@ -30,10 +30,12 @@ class YourInvestmentFunds extends Component {
       ...this.props,
       ethPrice: 1,
       isLoading: true,
+      investments: [],
     };
   }
 
   async componentDidMount() {
+    this.getData();
     setTimeout(() => this.setState({ isLoading: false }), 50);
     this.setState({
       ethPrice: await getEthPrice(),
@@ -64,7 +66,8 @@ class YourInvestmentFunds extends Component {
 
   getData = async () => {
     // get all vaults - address and name
-    var investments = await getAllInvestments();
+    console.log(this.props.yourInvestments);
+    var investments = this.props.yourInvestments;
     // calculate AUM - AUM
     const ethPrice = await getEthPrice();
     for (var i = 0; i < investments.length; i++) {
@@ -101,6 +104,8 @@ class YourInvestmentFunds extends Component {
         investments[i].ltr = ltr;
       }
     }
+
+    this.setState({ investments });
   };
 
   renderNoTransactions() {
@@ -151,21 +156,17 @@ class YourInvestmentFunds extends Component {
             </div>
           </div>
           {this.props.onboard.walletConnected ? (
-            this.props.yourInvestments.length > 0 ? (
+            this.state.investments.length > 0 ? (
               <div className="w-your-investments-cards-section">
-                {this.props.yourInvestments.map((fund) => (
+                {this.state.investments.map((investment) => (
                   <YourInvestmentFundsCard
-                    {...this.props}
-                    key={fund.id}
-                    fundAddressFromParent={fund.id}
-                    fundsFromParent={
-                      parseFloat(fund.state.shares.totalSupply) *
-                      parseFloat(fund.accessor.denominationAsset.price.price) *
-                      this.state.ethPrice
-                    }
-                    performanceFromParent={(1 / 2) * 100}
-                    fundNameFromParent={fund.name}
-                    sharePriceDataFromParent={fund.state}
+                    {...this.state}
+                    key={investment.id}
+                    fundAddressFromParent={investment.id}
+                    fundsFromParent={investment.AUM}
+                    performanceFromParent={investment.ltr}
+                    fundNameFromParent={investment.fundName}
+                    sharePriceDataFromParent={investment.sharePrice}
                   />
                 ))}
               </div>

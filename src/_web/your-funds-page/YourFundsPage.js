@@ -49,7 +49,7 @@ class YourFundsPage extends Component {
     );
 
     const funds = await currentUserVaults(
-      "0xf5be8b4c82b8a681bacf357cfb712ab9e9296cb2"
+      "0x18a44219f99831d238b7c5d0a91f21b37be547d9"
     );
 
     this.setState({
