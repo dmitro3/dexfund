@@ -15,9 +15,11 @@ class SwapsTableRow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      exchange: this.props.exchangeFromParent,
-      price: this.props.priceFromParent,
-      amount: this.props.amountFromParent,
+      exchange: this.props.trade.exchange,
+      price: this.props.trade.price,
+      amount: this.props.trade.amount,
+      destSymbol: this.props.destSymbol,
+      isSelectedPath: this.props.isSelectedPath
     };
   }
 
@@ -30,25 +32,25 @@ class SwapsTableRow extends Component {
 
     return (
       <>
-        <div className="w-swaps-table-row">
+        <div className={"w-swaps-table-row" + (this.state.isSelectedPath ? "-selected" : "")}>
           <div className="w-swaps-table-row-cell exchange">
             <div className="w-swaps-exchange-cell-section">
               <div className="w-swaps-exchange-cell-text">
-                {this.state.exchangeFromParent}
+              <img className="swap-asset-icon" src={getIconSource(this.state.exchange)} /> {this.state.exchange}
               </div>
             </div>
           </div>
           <div className="w-swaps-table-row-cell price">
-            <div className="w-swaps-exchange-cell-section">
-              <div className="w-swaps-exchange-cell-text">
-                {this.state.priceFromParent}
+            <div className="w-swaps-price-cell-section">
+              <div className="w-swaps-price-cell-text">
+                {this.state.price.toFixed(8)}
               </div>
             </div>
           </div>
-          <div className="w-swaps-table-row-cell amount">
-            <div className="w-swaps-exchange-cell-section">
-              <div className="w-swaps-exchange-cell-text">
-                {this.state.amountFromParent}
+          <div className="w-swaps-table-row-cell price">
+            <div className="w-swaps-price-cell-section">
+              <div className="w-swaps-price-cell-text">
+                <img className="swap-asset-icon" src={getIconSource(this.state.destSymbol)} /> {this.state.amount.toFixed(2)} {this.state.destSymbol}
               </div>
             </div>
           </div>

@@ -1,19 +1,25 @@
 const exceptions = {
-    "weth": "eth",
-    "adai": "aave",
-    "ceth": "comp",
-    "cuni": "comp"
+    "weth": "eth.svg",
+    "adai": "aave.svg",
+    "ceth": "comp.svg",
+    "cuni": "comp.svg",
+    "paraswap v4": "paraswap.png"
 }
 
 export const getIconSource = (asset) => {
     asset = asset.toLowerCase();
     if (Object.keys(exceptions).includes(asset)) {
-        return `/icons/${exceptions[asset]}.svg`;
+        return `/icons/${exceptions[asset]}`;
     }
     try{
         require(`./../public/icons/${asset}.svg`);
         return `/icons/${asset}.svg`;
     } catch {
-        return '/icons/eth.svg'
+        try{
+            require(`./../public/icons/${asset}.png`)
+            return `/icons/${asset}.png`;
+        } catch {
+            return '/icons/eth.svg'
+        }
     }
 }

@@ -14,6 +14,7 @@ export const getAllInvestments = async () => {
                 funds(first: 1000, orderBy: lastKnowGavInEth, orderDirection: desc) {
                   id
                   name
+                  inception
                   shares {
                     totalSupply
                   }
@@ -209,6 +210,7 @@ export const getFundCompostion = async (fundId) => {
             asset {
               id
               symbol
+              decimals
               price {
                 price
               }

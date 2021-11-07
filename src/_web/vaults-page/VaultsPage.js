@@ -99,9 +99,9 @@ class VaultsPage extends Component {
     this.setState({
       ...this.state,
       investments: investments,
+      isLoaded: true
     });
     // this.props.deactivateLoaderOverlay();
-    await this.setState({ isLoaded: true });
   }
 
   displaySettingsPopup = () => {

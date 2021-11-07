@@ -63,7 +63,6 @@ export const createNewFund = async (
     JSON.parse(JSON.stringify(FundDeployer.abi))
   );
   // FundDeployer Contract
-  try {
     const fundDeployer = new ethers.Contract(
       FundDeployer.address,
       FundDeployerInterface,
@@ -81,10 +80,6 @@ export const createNewFund = async (
     );
 
     return fund;
-  } catch (error) {
-    toastr.error("An Error occurred. Please try again", error.message);
-    return;
-  }
 };
 
 /**

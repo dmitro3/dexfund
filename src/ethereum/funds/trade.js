@@ -4,6 +4,9 @@ import { fullNumber } from '../utils';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
 import { getContracts } from './deposits-withdraws';
+import VaultLib from "./../abis/VaultLib.json";
+import ParaSwapV4Adapter  from './../abis/ParaSwapV4Adapter.json';
+import IntegrationManager from './../abis/IntegrationManager.json'
 
 export const getParaswapData = async (
     fundAddress,
@@ -80,7 +83,12 @@ export const getParaswapData = async (
             fromUSD,
             toUSD,
             priceWithSlippage,
-            minSlippageExpected
+            minSlippageExpected,
+            srcDecs,
+            destDecs,
+            src,
+            dest,
+            outgoingAssetAmount: scaledAmount
         }
 
     } catch(e) {
@@ -102,4 +110,100 @@ export const doParaswapTrade = async (
     const { comptrollerContract } = await getContracts(fundAddress, signer);
 
     
+}
+
+export const getFundAvailable = async (fundAddress, asset, provider) => {
+    try {
+        provider = new ethers.providers.Web3Provider(provider);
+        
+        const VaultLibInterface = new ethers.utils.Interface(
+            JSON.parse(JSON.stringify(VaultLib.abi))
+        );
+
+        const assetContract = new ethers.Contract(
+            asset,
+            VaultLibInterface,
+            provider
+        );
+
+        const balance = await assetContract.balanceOf(fundAddress);
+
+        return balance;
+    } catch (e) {
+        console.log(e)
+        return 0
+    }
+}
+
+export const getTradePaths = async (fund, from, to, amount, slippage) => {
+    var swapPaths = [];
+
+    var paraswapData = await getParaswapData(fund, from, to, amount, slippage);
+    console.log("paraswapData: "+JSON.stringify(paraswapData))
+    if (paraswapData) {
+        swapPaths.push({
+            exchange: "Paraswap V4",
+            price: 1/parseFloat(parseInt(paraswapData.priceWithSlippage) / (10**paraswapData.destDecs)),
+            amount: parseFloat(parseInt(paraswapData.contractData.data.expectedAmount) / (10**paraswapData.destDecs)),
+            ...paraswapData
+        })
+    }
+
+    return swapPaths;
+}
+
+export const doTrade = async (fund, provider, pathData) => {
+    provider = new ethers.providers.Web3Provider(provider);
+    const signer = await provider.getSigner();
+    var integrationData;
+    const abiCoder = new ethers.utils.AbiCoder();
+    console.log("PATH DATA: "+JSON.stringify(pathData))
+
+    const { comptrollerContract } = await getContracts(fund, provider);
+    console.log("COMPTROLLER LIB ADDRESS: "+comptrollerContract.address)
+    switch(pathData.exchange) {
+        case "Paraswap V4":
+            var paths = [];
+            for(var j = 0; j < pathData.contractData.data.path.length; j++) {
+                var routes = [];
+                for(var i = 0; i < pathData.contractData.data.path[j].routes.length; i++) {
+                    var route = pathData.contractData.data.path[j].routes[i];
+                    routes.push([
+                            route.exchange,
+                            route.targetExchange,
+                            route.percent,
+                            route.payload,
+                            route.networkFee
+                        ])
+                }
+
+                paths.push([
+                    pathData.contractData.data.path[j].to,
+                    pathData.contractData.data.path[j].totalNetworkFee,
+                    routes
+                ])
+            }
+
+            const integrationData = abiCoder.encode(['uint256', 'uint256', 'address', 'uint256', 'tuple(address,uint256,tuple(address,address,uint256,bytes,uint256)[])[]'], [
+                pathData.minSlippageExpected.toString(),
+                pathData.contractData.data.expectedAmount.toString(),
+                pathData.src,
+                pathData.outgoingAssetAmount.toString(),
+                paths
+            ]);
+
+            const integrationCallArgs = abiCoder.encode(['address', 'bytes4', 'bytes'], [
+                ParaSwapV4Adapter.address,
+                '0x03e38a2b', // takeOrder
+                integrationData
+            ]);
+
+            const receipt = await comptrollerContract.callOnExtension(
+                IntegrationManager.address,
+                '0',
+                integrationCallArgs
+            );
+            await receipt.wait();
+            break;
+    }
 }

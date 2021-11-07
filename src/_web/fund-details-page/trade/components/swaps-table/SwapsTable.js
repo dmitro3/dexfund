@@ -17,21 +17,22 @@ class SwapsTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      swapTrades: [{
-        exchange: "Paraswap",
-        price: 0.18,
-        amount: 2000
-      }],
+      swapTrades: this.props.swapTrades,
+      destSymbol: "",
       isLoading: false,
+      pathsLoading: this.props.pathsLoading,
+      selectedSwapPath: this.props.selectedSwapPath
     };
   }
 
-  async componentDidMount() {
-
+  async componentDidUpdate() {
+    if (this.state.swapTrades != this.props.swapTrades || this.state.pathsLoading != this.props.pathsLoading || this.state.destSymbol != this.props.destSymbol || this.props.selectedSwapPath != this.state.selectedSwapPath) {
+      this.setState({ swapTrades: this.props.swapTrades, pathsLoading: this.props.pathsLoading, destSymbol: this.props.destSymbol, selectedSwapPath: this.props.selectedSwapPath })
+    }
   }
 
   loader = () => {
-    return <SkeletonLoader rows={40} rowHeight={40} />;
+    return <SkeletonLoader rows={4} rowHeight={40} />;
   };
 
   renderLoading() {
@@ -59,14 +60,14 @@ class SwapsTable extends Component {
               height: this.state.swapTrades.length > 0 ? "40vh" : "10vh",
             }}
           >
-            {this.state.isLoading
-              ? this.renderLoading()
+            {this.state.pathsLoading
+              ? this.loader()
               : (this.state.swapTrades.length > 0
-              ? this.state.swapTrades.map((trade, i) => (
+              ? this.state.swapTrades.map((trade) => (
                   <SwapsTableRow
-                    exchangeFromParent={trade.exchange}
-                    priceFromParent={trade.price}
-                    amountFromParent={trade.amount}
+                    trade={trade}
+                    destSymbol={this.state.destSymbol}
+                    isSelectedPath={this.state.selectedSwapPath == trade}
                   />
                 ))
               : this.recordNotFound())}
