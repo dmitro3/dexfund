@@ -32,7 +32,7 @@ class MostProfitableThisMonth extends Component {
         <div className="w-profitable-funds-card">
           <div className="w-profitable-funds-card-header">
             <div className="w-profitable-funds-card-title">
-              MOST PROFITABLE THIS MONTH
+              LARGEST AUM
             </div>
             <div
               onClick={(e) => this.toPage(e, "/vaults")}
@@ -49,7 +49,7 @@ class MostProfitableThisMonth extends Component {
               fundNoFromParent={index + 1}
               fundNameFromParent={item.name}
               fundAssetFromParent={item.accessor.denominationAsset.symbol}
-              fundPerformanceFromParent="0.00%"
+              AUM={item.currentAUM}
             />
           ))}
         </div>

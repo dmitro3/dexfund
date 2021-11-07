@@ -144,6 +144,8 @@ class SwapCard extends Component {
                 this.state.selectedSwapPath
             );
             toastr.success("Swap complete!");
+            await this.sleep(5000)
+            window.location.reload(false);
         } catch(e) {
             console.log(e)
             toastr.error("Error swapping assets: "+e.message)
