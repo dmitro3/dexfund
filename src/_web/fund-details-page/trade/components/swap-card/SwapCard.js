@@ -3,17 +3,22 @@ import { connect } from "react-redux";
 
 // COMPONENTS
 import SkeletonLoader from './../../../../global/skeleton-loader/SkeletonLoader';
-
+import {
+    deactivateLoaderOverlay,
+    activateLoaderOverlay
+} from './../../../../../redux/actions/LoaderAction';
 import { getFundCompostion } from '../../../../../sub-graph-integrations';
 import { getDenominationAssets } from '../../../../../sub-graph-integrations';
 import { getIconSource } from '../../../../../icons';
-import { getFundAvailable } from '../../../../../ethereum/funds/trade';
+import { getFundAvailable, doTrade } from '../../../../../ethereum/funds/trade';
 // ASSETS
 import middleImg from '../../assets/middle-img.svg';
 import ethIcon from '../../assets/eth-icon.svg';
 import usdcIcon from '../../assets/usdc-icon.svg';
 import caretDownIcon from '../../assets/caret-down-icon.svg';
 // import dots from './../../assets/dots.gif';
+
+import { toastr } from "react-redux-toastr";
 
 // CSS
 import '../../styles/fundTrade.css';
@@ -99,8 +104,8 @@ class SwapCard extends Component {
     async loadNewData() {
         await this.setState({ lastLoadData: Date.now(), selectedSwapPath: null });
         await this.state.setPathsLoadingCallback(true);
-        await this.sleep(2000);
-        if (this.state.lastLoadData + 2000 > Date.now())
+        await this.sleep(4000);
+        if (this.state.lastLoadData + 4000 > Date.now())
             return;
         
         await this.state.getSwapTradesCallback(
@@ -116,13 +121,35 @@ class SwapCard extends Component {
         await this.setState({ loadingAmount: true });
         const balance = await getFundAvailable(this.state.fundId, this.state.selectedFrom.address, this.props.onboard.provider);
 
-        this.setState({ fromAvailable: (parseInt(balance) / (10**this.state.selectedFrom.decimals)), loadingAmount: false })
+        var warn;
+        if (parseFloat(this.state.amountToSwap) > (parseInt(balance) / (10**this.state.selectedFrom.decimals))) {
+            warn = "WARNING: Amount exceeds available amount"
+        } else {
+            warn = "";
+        }
+        this.setState({ fromAvailable: (parseInt(balance) / (10**this.state.selectedFrom.decimals)), loadingAmount: false, warning: warn })
     }
 
     async doSwap(e) {
         e.preventDefault();
-        if (this.state.selectedSwapPath != null)
+        console.log("Selected path: "+JSON.stringify(this.state.selectedSwapPath))
+        if (this.state.selectedSwapPath == null)
             return;
+        await this.props.activateLoaderOverlay();
+
+        try {
+            await doTrade(
+                this.state.fundId,
+                this.props.onboard.provider,
+                this.state.selectedSwapPath
+            );
+            toastr.success("Swap complete!");
+        } catch(e) {
+            console.log(e)
+            toastr.error("Error swapping assets: "+e.message)
+        }
+
+        await this.props.deactivateLoaderOverlay();
     }
 
     inputField = async (e) => {
@@ -357,7 +384,7 @@ class SwapCard extends Component {
 
                         </div>
                         <div className="w-swap-card-button-section">
-                            <div onClick={(e) => this.doSwap(e)} className={"w-swap-card-button" + (this.state.selectedSwapPath !== null ? "" : "-disabled")}>
+                            <div onClick={(e) => this.doSwap(e)} className={"w-swap-card-button" + ((this.state.selectedSwapPath !== null && this.state.warning == "") ? "" : "-disabled")}>
                                 <div className="w-swap-card-button-text">
                                     SWAP
                                 </div>
@@ -391,6 +418,9 @@ const mapStateToProps = (state) => {
     };
   };
   
-  const mapDispatchToProps = {};
+  const mapDispatchToProps = {
+    deactivateLoaderOverlay,
+    activateLoaderOverlay,
+  };
   
   export default connect(mapStateToProps, mapDispatchToProps)(SwapCard);

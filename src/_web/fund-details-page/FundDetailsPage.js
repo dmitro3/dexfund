@@ -215,9 +215,9 @@ class FundDetailsPage extends Component {
                       ? selectedNavbarItemStyle
                       : {}
                   }
-                  // onClick={() =>
-                  //   this.setState({ selectedNavbarItem: "overview" })
-                  // }
+                  onClick={() =>
+                    this.setState({ selectedNavbarItem: "overview" })
+                  }
                 >
                   Overview
                 </div>
@@ -229,7 +229,7 @@ class FundDetailsPage extends Component {
                     document.getElementById("trade-id").innerHTML =
                       this.state.fundDetails.creator.id ===
                       this.props.onboard.address
-                        ? "Coming Soon"
+                        ? "Trade"
                         : "Available for Vault Manager Only";
                   }}
                   onMouseOut={() => {
@@ -240,7 +240,11 @@ class FundDetailsPage extends Component {
                       ? selectedNavbarItemStyle
                       : {}
                   }
-                  // onClick={() => this.setState({ selectedNavbarItem: "trade" })}
+                  onClick={(e) => {
+                    if (this.state.fundDetails.creator.id !== this.props.onboard.address)
+                      return;
+                    this.setState({ selectedNavbarItem: "trade" })
+                  }}
                 >
                   Trade
                 </div>
