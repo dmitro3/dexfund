@@ -53,7 +53,7 @@ class HomePage extends Component {
   async componentDidMount() {
     const topFundsList = await getFundAllFunds();
     const currentUserInvestments = await currentUserAllTransactions(
-      "0x4e2d0c28da19c1bd2f5c38605763a439dd25e8cf"
+      this.props.onboard.address
     );
 
     const investments = await getCurrentUserInvestments(
