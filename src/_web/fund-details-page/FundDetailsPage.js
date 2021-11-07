@@ -124,6 +124,9 @@ class FundDetailsPage extends Component {
     );
   }
 
+  renderItems() {
+    console.log("ITems");
+  }
   renderTrade() {
     return (
       <>

@@ -14,6 +14,9 @@ export const getFundDetails = async (fundAddress) => {
                 creator {
                   id
                 }
+                comptrollerProxies{
+                  id
+                }
                 manager {
                   id
                 }

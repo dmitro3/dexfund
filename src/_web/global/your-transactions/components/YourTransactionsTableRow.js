@@ -9,7 +9,7 @@ import { getIconSource } from "../../../../icons";
 // ASSETS
 import addIcon from "../assets/add-icon.svg";
 import minusIcon from "../assets/minus-icon.svg";
-import wethIcon from "../assets/weth-icon.svg";
+import linkIcon from "../../../global/your-transactions/assets/link.png";
 
 // CSS
 import "../styles/yourTransactions.css";
@@ -17,7 +17,7 @@ import "../styles/yourTransactions.css";
 class YourTransactionsTableRow extends Component {
   constructor(props) {
     super(props);
-
+    console.log(this.props);
     this.state = {
       searchedValue: this.props.searchedValueFromParent,
       ethPrice: 1,
@@ -47,45 +47,42 @@ class YourTransactionsTableRow extends Component {
           </div>
 
           <div className="w-your-transactions-table-cell token">
-            {this.props.transaction.investor}
+            <a
+              href={`https://etherscan.io/address/${this.props.transaction.investor}`}
+              target="_blank"
+            >
+              <div>
+                <b> {`${this.props.transaction.investor.slice(0, 4)} ....`} </b>
+                <img
+                  className="fund-composition-weth-icon"
+                  src={linkIcon}
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                    fill: "red",
+                  }}
+                />
+              </div>
+            </a>
           </div>
 
           <div className="w-your-transactions-table-cell vault">
             {currencyFormat(this.props.transaction.shares)}
           </div>
 
-          <div className="w-your-transactions-table-cell value">
-            <div
-              className="w-investment-funds-token-bullet"
-              style={{ textAlign: "left" }}
-            >
-              <img
-                style={{ height: "24px", width: "24px" }}
-                alt=""
-                className="fund-composition-weth-icon"
-                src={
-                  this.props.transaction.symbol
-                    ? getIconSource(this.props.transaction.symbol.toLowerCase())
-                    : wethIcon
-                }
-              />{" "}
-              <div className="w-investment-funds-token-bullet-text">
-                {currencyFormat(parseInt(this.props.transaction.amount), "$")}
-              </div>
-            </div>
-
+          {/* <div className="w-your-transactions-table-cell value">
             <div className="w-investment-funds-token-bullet">
               <div>$</div>
               <div className="w-investment-funds-token-bullet-text">
                 {currencyFormat(
                   parseFloat(this.props.transaction.amount) *
-                    this.state.ethPrice *
-                    parseFloat(this.props.transaction.price),
+                    this.state.ethPrice,
                   "$"
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
+
           <div className="w-your-transactions-table-cell time">
             {getTimeDiff(this.props.transaction.timestamp)}
           </div>

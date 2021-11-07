@@ -1,4 +1,5 @@
 import axios from "axios";
+import { convertScaledPerSecondRateToRate } from "../../ethereum/utils";
 import configs from "./../../config";
 
 // Get all investments
@@ -481,6 +482,9 @@ export const allFundTransactions = async (fundId) => {
             id
             name
             symbol
+            price{
+              price
+            }
           }
           investor{
             id 
@@ -549,6 +553,9 @@ export const allFundTransactions = async (fundId) => {
           symbol: item.payoutAssetAmounts
             ? item.payoutAssetAmounts[0].asset.symbol
             : "",
+          price: item.payoutAssetAmounts
+            ? item.payoutAssetAmounts[0].price.price
+            : "",
           investor: item.investor.id,
           fundName: item.fund.name,
           fundId: item.fund.id,
@@ -563,6 +570,7 @@ export const allFundTransactions = async (fundId) => {
           from: item.transaction.from,
           amount: item.investmentAmount,
           symbol: item.asset.symbol,
+          price: item.asset.price.price,
           investor: item.investor.id,
           fundName: data.data.fund.name,
           fundId: data.data.fund.id,
@@ -736,15 +744,6 @@ export const currentUserAllTransactions = async (walletAddress) => {
   return { transactions, investments };
 };
 
-export const userFundList = async (address) => {
-  const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
-    : configs.MAINNET_ENDPOINT;
-  const { data } = await axios.post(url, {
-    query: `{  }`,
-  });
-};
-
 export const currentUserVaults = async (accessor) => {
   const url = configs.DEBUG_MODE
     ? configs.ENZYME_ENDPOINT
@@ -756,6 +755,9 @@ export const currentUserVaults = async (accessor) => {
          id 
          name
          manager 
+         shares {
+          totalSupply
+        }
          accessor{
            id
            denominationAsset{
@@ -766,6 +768,23 @@ export const currentUserVaults = async (accessor) => {
              }
            }
          }
+         portfolio {
+          holdings {
+            amount
+            asset {
+              symbol
+              price {
+                price
+              }
+            }
+          }
+        }
+        investmentCount
+        lastKnowGavInEth
+        trackedAssets {
+          name
+          symbol
+        }
          state{
            shares{
              totalSupply
@@ -779,4 +798,162 @@ export const currentUserVaults = async (accessor) => {
   });
 
   return data.data.funds;
+};
+
+export const getCurrentUserInvestments = async (address) => {
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.MAINNET_ENDPOINT;
+
+  const query = `
+  {
+    accounts(where: {id: "${address}"}) {
+     id
+     investments {
+       id
+       fund {
+         id
+         shares {
+           totalSupply
+         }
+         name
+         portfolio {
+           holdings {
+             amount
+             asset {
+               symbol
+               price {
+                 price
+               }
+             }
+           }
+         }
+       }
+       shares
+     }
+   }
+   }`;
+
+  const { data } = await axios.post(url, {
+    query,
+  });
+
+  return data.data.accounts.length > 0 ? data.data.accounts[0].investments : [];
+};
+
+export const minMaxDepositAmounts = async (fundId) => {
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.MAINNET_ENDPOINT;
+
+  const query = `{
+    minMaxInvestmentFundSettingsSetEvents(first:1, where:{fund: "${fundId}"}) {
+      id
+      fund{
+        id
+        accessor{
+          denominationAsset{
+            id
+            symbol
+            name
+          }
+        }
+      }
+      minInvestmentAmount
+      maxInvestmentAmount
+    }
+  }`;
+
+  const { data } = await axios.post(url, {
+    query,
+  });
+  console.log(data.data);
+
+  return data.data.minMaxInvestmentFundSettingsSetEvents.length
+    ? data.data.minMaxInvestmentFundSettingsSetEvents[0]
+    : { maxInvestmentAmount: "0.00", minInvestmentAmount: "0.00" };
+};
+
+export const performanceFee = async (comptrollerId) => {
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.MAINNET_ENDPOINT;
+
+  const query = `
+  {
+    performanceFeeSettings(where:{comptroller: "${comptrollerId}"}){
+     rate
+     period
+     comptroller{
+       id
+       fund{
+         id
+       }
+     }
+   }
+   }`;
+
+  const { data } = await axios.post(url, {
+    query,
+  });
+
+  return data.data.performanceFeeSettings.length > 0
+    ? {
+        rate: data.data.performanceFeeSettings[0].rate,
+        period: data.data.performanceFeeSettings[0].period,
+      }
+    : { rate: "0.00", period: "0.00" };
+};
+
+export const entranceDirectBurnFees = async (fundId) => {
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.MAINNET_ENDPOINT;
+
+  const query = `
+  {
+    entranceRateBurnFeeSettledEvents(where:{fund: "${fundId}"}){
+      fund{
+        id 
+      }
+      sharesQuantity
+    }
+  }`;
+
+  const { data } = await axios.post(url, {
+    query,
+  });
+
+  return data.data.entranceRateBurnFeeSettledEvents.length > 0
+    ? { rate: data.data.entranceRateBurnFeeSettledEvents[0].sharesQuantity }
+    : { rate: "0.00" };
+};
+
+export const managementFee = async (comptrollerId) => {
+  const url = configs.DEBUG_MODE
+    ? configs.ENZYME_ENDPOINT
+    : configs.MAINNET_ENDPOINT;
+
+  const query = `
+  {
+    managementFeeSettings(where:{comptroller: "${comptrollerId}"}){
+      id
+      comptroller{
+        id
+      }    
+      scaledPerSecondRate
+    }
+  }`;
+
+  const { data } = await axios.post(url, {
+    query,
+  });
+
+  return data.data.managementFeeSettings.length > 0
+    ? {
+        scaledPerSecondRate: convertScaledPerSecondRateToRate(
+          data.data.managementFeeSettings[0].scaledPerSecondRate
+        ),
+      }
+    : { scaledPerSecondRate: "0.00" };
 };

@@ -28,6 +28,7 @@ import { Decimal } from "decimal.js";
 import axios from "axios";
 import { VaultLib, redeemShares } from "@enzymefinance/protocol";
 import configs from "../../config";
+import { toastr } from "react-redux-toastr";
 
 export {
   PerformanceFee,
