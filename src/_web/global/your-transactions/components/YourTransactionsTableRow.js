@@ -70,7 +70,7 @@ class YourTransactionsTableRow extends Component {
             {currencyFormat(this.props.transaction.shares)}
           </div>
 
-          <div className="w-your-transactions-table-cell value">
+          {/* <div className="w-your-transactions-table-cell value">
             <div className="w-investment-funds-token-bullet">
               <div>$</div>
               <div className="w-investment-funds-token-bullet-text">
@@ -81,7 +81,7 @@ class YourTransactionsTableRow extends Component {
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="w-your-transactions-table-cell time">
             {getTimeDiff(this.props.transaction.timestamp)}

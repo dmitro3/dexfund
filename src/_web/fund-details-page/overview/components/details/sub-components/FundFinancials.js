@@ -42,7 +42,7 @@ class FundFinancials extends Component {
           <div className="w-fund-info-table-row">
             <div className="w-fund-info-row-cell type">Share price</div>
             <div className="w-fund-info-row-cell value">
-              ${this.state.currentSharePrice.toFixed(2)}
+              ${this.state.currentSharePrice}
             </div>
           </div>
         </div>

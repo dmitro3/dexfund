@@ -3,19 +3,22 @@ import axios from "axios";
 
 // COMPONENTS
 import YourInvestmentFundsCard from "./components/YourInvestmentFundsCard";
-
 // ASSETS
 import addIcon from "./assets/add-icon.svg";
 
 // CSS
 import "./styles/yourInvestmentFunds.css";
-import { getYourInvestments } from "../../../sub-graph-integrations";
+import {
+  getYourInvestments,
+  getAllInvestments,
+} from "../../../sub-graph-integrations";
 
 // REDUX
 import { connect } from "react-redux";
 import WalletNotConnected from "../wallet-not-connected/WalletNotConnected";
 import { getEthPrice } from "../../../ethereum/funds/fund-related";
 import SkeletonLoader from "../skeleton-loader/SkeletonLoader";
+import { getCreationSharePrices } from "../../../api/statistics";
 
 class YourInvestmentFunds extends Component {
   constructor(props) {
@@ -47,6 +50,58 @@ class YourInvestmentFunds extends Component {
       behavior: "smooth",
     });
   }
+
+  calculateAUM(fund, ethPrice) {
+    let AUM = 0;
+    fund.portfolio.holdings.forEach((holding) => {
+      const amount =
+        parseFloat(holding.amount) * parseFloat(holding.asset.price.price);
+      AUM += amount;
+    });
+
+    return AUM * ethPrice;
+  }
+
+  getData = async () => {
+    // get all vaults - address and name
+    var investments = await getAllInvestments();
+    // calculate AUM - AUM
+    const ethPrice = await getEthPrice();
+    for (var i = 0; i < investments.length; i++) {
+      investments[i].AUM = this.calculateAUM(investments[i], ethPrice);
+    }
+    // sort after AUM and get first 5
+    investments = investments.sort((a, b) => {
+      if (a.AUM < b.AUM) return 1;
+      else if (a.AUM > b.AUM) return -1;
+      else return 0;
+    });
+
+    investments = investments.slice(0, 5);
+    // calculate share price - sharePrice
+    const startSharePrices = await getCreationSharePrices(
+      investments.map((v) => v.id)
+    );
+    // get LTR with the use of the API - LTR
+    for (var i = 0; i < investments.length; i++) {
+      investments[i].fundName = investments[i].name;
+      investments[i].sharePrice =
+        parseFloat(investments[i].AUM) /
+        parseFloat(investments[i].shares.totalSupply);
+      investments[i].sharePrice = Number.isNaN(investments[i].sharePrice)
+        ? 0
+        : investments[i].sharePrice;
+      if (!Object.keys(startSharePrices).includes(investments[i].id)) {
+        investments[i].ltr = 0.0;
+      } else {
+        const creationSP = startSharePrices[investments[i].id.toLowerCase()];
+        var ltr;
+        var profit = investments[i].sharePrice - creationSP;
+        ltr = (profit / creationSP) * 100;
+        investments[i].ltr = ltr;
+      }
+    }
+  };
 
   renderNoTransactions() {
     return (

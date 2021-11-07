@@ -13,14 +13,53 @@ import FundRuleset from "./sub-components/FundRuleset";
 import "./styles/fundDetails.css";
 import SwapsTable from "../../../trade/components/swaps-table/SwapsTable";
 import FundTransaction from "../../../../global/your-transactions/components/FundTransaction";
+import {
+  minMaxDepositAmounts,
+  performanceFee,
+  managementFee,
+  entranceDirectBurnFees,
+} from "../../../../../sub-graph-integrations";
 
 class FundDetails extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props);
+
     this.state = {
       selectedNavbarItem: "factsheets",
       ...this.props.state,
+      policy: null,
+      manageFee: { scaledPerSecondRate: "0.00" },
+      feePerformance: { rate: "0.00", period: "0.00" },
+      entranceFee: { rate: "0.00" },
     };
+  }
+
+  async componentDidMount() {
+    const policy = await minMaxDepositAmounts(this.props.state.fundId);
+    // comptrollerProxies
+    const feePerformance = await performanceFee(
+      this.props.state.fundDetails.comptrollerProxies.length > 0
+        ? this.props.state.fundDetails.comptrollerProxies[0].id
+        : ""
+    );
+
+    const manageFee = await managementFee(
+      this.props.state.fundDetails.comptrollerProxies.length > 0
+        ? this.props.state.fundDetails.comptrollerProxies[0].id
+        : ""
+    );
+
+    const entranceFee = await entranceDirectBurnFees(this.props.state.fundId);
+
+    console.log(feePerformance);
+    this.setState({
+      ...this.state,
+      policy,
+      feePerformance: feePerformance,
+      manageFee: manageFee,
+      entranceFee: entranceFee,
+    });
   }
 
   renderFactsheets() {
@@ -34,7 +73,11 @@ class FundDetails extends Component {
   renderFees() {
     return (
       <>
-        <FundFees />
+        <FundFees
+          performanceFee={this.state.feePerformance}
+          manageFee={this.state.manageFee}
+          entranceFee={this.state.entranceFee}
+        />
       </>
     );
   }
@@ -50,7 +93,7 @@ class FundDetails extends Component {
   renderRuleset() {
     return (
       <>
-        <FundRuleset />
+        <FundRuleset policy={{ ...this.state.policy }} />
       </>
     );
   }

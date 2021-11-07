@@ -36,7 +36,7 @@ class InvestmentFunds extends Component {
       title: this.props.titleFromParent,
 
       searchedValue: "",
-      ethPrice: 0,
+      ethPrice: 1,
       transactionHistory: [],
       isLoaded: false,
     };
@@ -120,17 +120,19 @@ class InvestmentFunds extends Component {
                   {currencyFormat(transaction.shares)}
                 </div>
 
-                <div className="w-your-transactions-table-cell value">
+                {/* <div className="w-your-transactions-table-cell value">
                   <div className="w-investment-funds-token-bullet">
                     <div>$</div>
                     <div className="w-investment-funds-token-bullet-text">
                       {currencyFormat(
-                        parseFloat(transaction.amount) * this.state.ethPrice,
+                        parseFloat(transaction.amount) *
+                          this.state.ethPrice *
+                          transaction.price,
                         "$"
                       )}
                     </div>
                   </div>
-                </div>
+                </div> */}
                 <div className="w-your-transactions-table-cell time">
                   {getTimeDiff(transaction.timestamp)}
                 </div>

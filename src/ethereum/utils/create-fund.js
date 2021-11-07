@@ -170,3 +170,16 @@ export function minMaxInvestmentArgs({
 export function policyManagerConfigArgs({ policies, settings }) {
   return encodeArgs(["address[]", "bytes[]"], [policies, settings]);
 }
+
+export function convertScaledPerSecondRateToRate(scaledPerSecondRate) {
+  const scaledPerSecondRateD = new Decimal(scaledPerSecondRate.toString()).div(
+    managementFeeScaleDecimal
+  );
+  const effectiveRate = scaledPerSecondRateD
+    .pow(secondsPerYear)
+    .minus(new Decimal(1));
+  const rate = effectiveRate.div(new Decimal(1).plus(effectiveRate));
+
+  // return utils.parseEther(rate.toFixed(17, Decimal.ROUND_UP));
+  return rate.toFixed(17, Decimal.ROUND_UP) * 1000;
+}

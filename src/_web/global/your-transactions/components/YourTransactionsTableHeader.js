@@ -30,9 +30,9 @@ class YourTransactionsTableHeader extends Component {
           <div className="w-your-transactions-table-header-cell vault">
             Shares
           </div>
-          <div className="w-your-transactions-table-header-cell value">
+          {/* <div className="w-your-transactions-table-header-cell value">
             Value($)
-          </div>
+          </div> */}
           <div className="w-your-transactions-table-header-cell time">Date</div>
         </div>
       </>
