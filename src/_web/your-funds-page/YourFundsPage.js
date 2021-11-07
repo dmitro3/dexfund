@@ -48,9 +48,7 @@ class YourFundsPage extends Component {
       this.props.onboard.address
     );
 
-    const funds = await currentUserVaults(
-      "0x18a44219f99831d238b7c5d0a91f21b37be547d9"
-    );
+    const funds = await currentUserVaults(this.props.onboard.address);
 
     this.setState({
       yourInvestments: yourInvestments,
