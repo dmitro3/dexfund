@@ -22,7 +22,7 @@ import ReduxToastr from "react-redux-toastr";
 //CSS
 import "./onboardStyling.css";
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
-
+import "./index.css";
 //get Library
 function getLibrary(provider) {
   return new Web3(provider);

@@ -35,7 +35,7 @@
 .w-fund-your-investments-table-row {
     display: flex;
     justify-content: space-between;
-    background-color: #070708;
+background-color: transparent;
     padding: 16px;
 }
 
@@ -45,7 +45,7 @@
 }
 
 .w-fund-your-investments-table-row:hover .w-fund-your-investments-asset-bullet {
-    background-color: #070708;
+background-color: transparent;
 }
 
 .w-fund-your-investments-table-row-cell {

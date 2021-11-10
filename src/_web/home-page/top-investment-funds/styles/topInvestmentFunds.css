@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap");
 
 .w-top-investment-funds-wrapper {
-  padding: 80px 0 0 0;
+  padding: 0;
 }
 
 .w-top-investment-funds-header {
@@ -18,7 +18,7 @@
 }
 
 .w-profitable-funds-card {
-  background-color: #070708;
+  background-color: transparent;
   padding: 16px;
   width: 33%;
 }
@@ -89,7 +89,7 @@
 }
 
 .w-profitable-funds-card:hover .w-profitable-funds-card-asset-bullet {
-  background-color: #070708;
+  background-color: transparent;
 }
 
 .w-profitable-funds-card-asset-bullet-text {

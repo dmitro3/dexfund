@@ -124,9 +124,9 @@ class InvestmentFunds extends React.Component {
   render() {
     return (
       <>
-        <div className="w-top-investment-funds-wrapper">
-          <div className="w-top-investment-funds-header">
-            ALL INVESTMENT FUNDS
+        <div className="w-investment-funds-wrapper">
+          <div className="w-investment-funds-header">
+            Browse Dexify
           </div>
           <SearchBar
             parentCallback={this.searchCallbackFunction}

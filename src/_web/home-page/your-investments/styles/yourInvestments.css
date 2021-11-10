@@ -41,7 +41,7 @@
 .w-your-investments-table-row {
     display: flex;
     justify-content: space-between;
-    background-color: #070708;
+background-color: transparent;
     padding: 16px;
 }
 
@@ -60,7 +60,7 @@
 
 .w-your-investments-table-row-no-data {
     justify-content: space-between;
-    background-color: #070708;
+background-color: transparent;
     padding: 16px;
     color: white;
     text-align: center;

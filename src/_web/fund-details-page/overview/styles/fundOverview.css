@@ -15,7 +15,7 @@
 
 .w-fund-overview-card {
   width: 24%;
-  background-color: #070708;
+  background-color: transparent;
   padding: 16px;
 }
 
@@ -145,7 +145,7 @@
 .w-fund-performance-table-row {
   display: flex;
   justify-content: space-between;
-  background-color: #070708;
+  background-color: transparent;
   padding: 16px;
 }
 
@@ -208,7 +208,7 @@
 .w-fund-composition-table-row {
   display: flex;
   justify-content: space-between;
-  background-color: #070708;
+  background-color: transparent;
   padding: 10px;
 }
 
@@ -236,7 +236,7 @@
 }
 
 .w-fund-composition-table-row:hover .w-fund-composition-asset-bullet {
-  background-color: #070708;
+  background-color: transparent;
 }
 
 .w-fund-composition-asset-bullet-text {

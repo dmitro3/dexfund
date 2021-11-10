@@ -8,7 +8,7 @@
 
 .w-add-new-fund-step-sidebar {
     width: 25%;
-    background-color: #020202;
+    background-color: transparent;
 }
 
 .w-add-new-fund-step {
@@ -32,13 +32,13 @@
 }
 
 .current {
-    background-color: #070708;
+background-color: transparent;
     color: #fff;
 }
 
 .w-add-new-fund-step-input-section {
     padding: 32px 64px;
-    background-color: #070708;
+background-color: transparent;
     width: 75%;
     margin: 0 0 120px;
 }
@@ -245,7 +245,7 @@
     top: 0;
     left: 0;
 
-    width: 100vw;
+    width: 100%;
     height: 100vh;
 
     background-color: #252528a6;
@@ -256,7 +256,7 @@
 }
 
 .w-add-new-fund-policy-popup-box {
-    background-color: #070708;
+background-color: transparent;
 
     width: 510px;
 

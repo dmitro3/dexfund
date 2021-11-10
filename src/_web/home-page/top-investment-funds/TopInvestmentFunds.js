@@ -133,14 +133,14 @@ class TopInvestmentFunds extends Component {
           investments={this.state.profitable}
           {...this.props}
         />
-        <MostProfitableThisMonth
+        {/* <MostProfitableThisMonth
           investments={this.state.largest}
           {...this.props}
         />
         <MostProfitableToday
           investments={this.state.recent}
           {...this.props}
-        />
+        /> */}
       </div>
     );
   }
@@ -154,7 +154,7 @@ class TopInvestmentFunds extends Component {
       <>
         <div className="w-top-investment-funds-wrapper">
           <div className="w-top-investment-funds-header">
-            TOP INVESTMENT VAULTS
+            Top Dexfunds
           </div>
           {this.state.loading === true && this.renderLoading()}
           {this.state.loading === false && this.renderContent()}

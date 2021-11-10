@@ -56,7 +56,7 @@
 .w-markets-table-row {
     display: flex;
     justify-content: space-between;
-    background-color: #070708;
+background-color: transparent;
     margin: 2px 0;
     padding: 16px;
 }

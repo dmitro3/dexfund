@@ -42,14 +42,14 @@
 .w-your-transactions-table-row {
   display: flex;
   justify-content: space-between;
-  background-color: #070708;
+  background-color: transparent;
   margin: 2px 0;
   padding: 16px;
 }
 
 .w-your-transactions-table-row-no-data {
   justify-content: space-between;
-  background-color: #070708;
+  background-color: transparent;
   margin: 2px 0;
   padding: 16px;
   color: white;
@@ -62,7 +62,7 @@
 }
 
 .w-your-transactions-table-row:hover .w-investment-funds-token-bullet {
-  background-color: #070708;
+  background-color: transparent;
 }
 
 .w-your-transactions-table-cell {

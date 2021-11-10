@@ -3,7 +3,7 @@
 .w-sidebar-wrapper {
     width: 430px;
     height: 100vh;
-    background-color: #020202;
+    background-color: transparent;
     
     position: fixed;
     z-index: 1;
@@ -49,7 +49,7 @@
 }
 
 .w-invest-card {
-    background-color: #070708;
+background-color: transparent;
     padding: 16px;
     margin: 10px 0 0 0;
 }

@@ -40,7 +40,7 @@
 .w-funds-your-transactions-table-row {
   display: flex;
   justify-content: space-between;
-  background-color: #070708;
+  background-color: transparent;
   margin: 2px 0;
   padding: 16px;
 }
@@ -78,7 +78,7 @@
 
 .w-funds-your-transactions-table-row:hover
   .w-fund-your-transactions-asset-bullet {
-  background-color: #070708;
+  background-color: transparent;
 }
 
 .w-fund-your-transactions-asset-bullet-text {

@@ -5,7 +5,7 @@ const publicPath = path.join(__dirname, "..", "build");
 const port = process.env.PORT || 3000;
 const mongoose = require("mongoose");
 const { init } = require("./schedular");
-const { configs } = require("./../src/config");
+const configs  = require("./../src/config");
 
 app.use(express.static(publicPath));
 
