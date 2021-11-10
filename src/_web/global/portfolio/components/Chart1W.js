@@ -22,6 +22,7 @@ import { energyConsumption as data } from "./demo-data/data-vizualization";
 
 // CSS
 import "../styles/portfolio.css";
+import { chart1w } from "../../../../sub-graph-integrations";
 
 const Line = (props) => (
   <LineSeries.Path
@@ -81,8 +82,40 @@ class Chart1W extends React.PureComponent {
 
     this.state = {
       data,
+      unformatedChart1w: [],
+      chart1w: [],
     };
   }
+
+  async componentDidMount() {
+    const chart1W = await chart1w();
+
+    console.log(chart1W);
+    this.setState({
+      ...this.state,
+      unformatedChart1w: chart1W,
+    });
+
+    this.formatChartData();
+  }
+
+  formatChartData = () => {
+    let data = [];
+    this.state.unformatedChart1w.forEach((fundState) => {
+      fundState.currencyPrices[0].currency.dailyHistory.forEach((history) => {
+        data.push({
+          time: new Date(history.from * 1000).toLocaleString("en-US", {
+            dateStyle: "medium",
+          }),
+          chart1w: parseFloat(history.close),
+        });
+      });
+    });
+
+    console.log(data);
+
+    return data;
+  };
 
   render() {
     const { data: chartData } = this.state;
@@ -90,7 +123,7 @@ class Chart1W extends React.PureComponent {
 
     return (
       <Paper>
-        <Chart data={chartData} className={classes.chart}>
+        <Chart data={this.formatChartData()} className={classes.chart}>
           <ArgumentScale factory={scalePoint} />
           <ArgumentAxis />
           <LineSeries

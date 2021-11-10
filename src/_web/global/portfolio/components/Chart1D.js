@@ -25,6 +25,7 @@ import { energyConsumption as data } from "./demo-data/data-vizualization";
 
 // CSS
 import "../styles/portfolio.css";
+import { chart1d } from "../../../../sub-graph-integrations";
 
 const Line = (props) => (
   <LineSeries.Path
@@ -99,16 +100,48 @@ class Chart1D extends React.PureComponent {
 
     this.state = {
       data,
+      unformatedChart1d: [],
+      chart1d: [],
     };
   }
 
+  async componentDidMount() {
+    const chart1D = await chart1d();
+
+    console.log(chart1D);
+    this.setState({
+      ...this.state,
+      unformatedChart1d: chart1D,
+    });
+
+    this.formatChartData();
+  }
+
+  formatChartData = () => {
+    let data = [];
+    this.state.unformatedChart1d.forEach((fundState) => {
+      fundState.currencyPrices[0].currency.hourlyHistory.forEach((history) => {
+        data.push({
+          time: new Date(history.from * 1000).toLocaleString("en-US", {
+            hour: "numeric",
+            hour12: true,
+          }),
+          chart1d: parseFloat(history.close),
+        });
+      });
+    });
+
+    console.log(data);
+
+    return data;
+  };
   render() {
     const { data: chartData } = this.state;
     const { classes } = this.props;
 
     return (
       <Paper>
-        <Chart data={chartData} className={classes.chart}>
+        <Chart data={this.formatChartData()} className={classes.chart}>
           <ArgumentScale factory={scalePoint} />
           <ArgumentAxis />
           <LineSeries
