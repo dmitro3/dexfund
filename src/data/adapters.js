@@ -6,7 +6,6 @@ import CurveLiquidityAaveAdapter from './../ethereum/abis/CurveLiquidityAaveAdap
 import CurveLiquidityEursAdapter from './../ethereum/abis/CurveLiquidityEursAdapter.json';
 import CurveLiquiditySethAdapter from './../ethereum/abis/CurveLiquiditySethAdapter.json';
 import CurveLiquidityStethAdapter from './../ethereum/abis/CurveLiquidityStethAdapter.json';
-
 const ADAPTERS = [
     {
         name: "AAVE",
