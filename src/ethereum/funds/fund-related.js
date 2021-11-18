@@ -29,6 +29,7 @@ import axios from "axios";
 import { VaultLib, redeemShares } from "@enzymefinance/protocol";
 import configs from "../../config";
 import { toastr } from "react-redux-toastr";
+import { getYourInvestments } from "../../sub-graph-integrations";
 
 export {
   PerformanceFee,
@@ -419,7 +420,7 @@ export const getTopAsset = (fund) => {
       parseInt(holding.amount) * parseInt(holding.asset.price.price)
   ));
   var indexOfMaxValue = values.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
-  var sum = values.reduce((a, b) => a + b);
+  var sum = values.reduce((a, b) => { return a + b }, 0);
   if (sum > 0) {
       return ({
           symbol: holdings[indexOfMaxValue].asset.symbol,
@@ -431,3 +432,21 @@ export const getTopAsset = (fund) => {
     }
   }
 }
+
+export const getStartAUM = async (address, memberSince, _ethPrice) => {
+  console.log('calc aum: ', address, memberSince, _ethPrice);
+  const investments = await getYourInvestments(address, memberSince);
+  
+  const _yourTotalAUM = investments.reduce((investment1, investment2) => {
+    const amount1 = parseFloat(investment1.investmentAmount) || 0;
+    const amount2 = parseFloat(investment2.investmentAmount) || 0;
+    const price1 = investment1.asset ? parseFloat(investment1.asset.price.price) : 0;
+    const price2 = investment2.asset ? parseFloat(investment2.asset.price.price) : 0;
+    return amount1 * price1 * _ethPrice + amount2 * price2 * _ethPrice;
+  }
+  , 0);
+  console.log('calc aum: ', _yourTotalAUM);
+
+  return _yourTotalAUM;
+}
+

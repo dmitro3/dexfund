@@ -67,7 +67,68 @@ class DexfundRoundChart extends React.Component {
         }
     }
 
-
+    componentWillReceiveProps(props) {
+        console.log('props: ', props)
+        const titles = props.values.map(v => v.fundName)
+        this.setState({
+            series: props.values.map(v => v.AUM),
+            options : {
+                chart: {
+                    width: 480,
+                    type: 'donut',
+                },
+                plotOptions: {
+                    pie: {
+                        startAngle: -90,
+                        endAngle: 270
+                    }
+                },
+                dataLabels: {
+                    enabled: true,
+                    position: 'top',
+                    offsetX: 10,
+                    offsetY: 10,
+                    formatter: function(val) {
+                        return Math.ceil(val) + '%';
+                    },
+                    style: {
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+                    },
+                    background: {
+                        enabled: false,
+                        foreColor: '#000',
+                        borderRadius: '50%',
+                        opacity: 1,
+                        borderWidth: 10,
+                        borderColor: '#fff'
+                    },
+                },
+                fill: {
+                    type: 'gradient',
+                },
+                legend: {
+                    formatter: function (val, opts) {
+                        return titles[opts.seriesIndex]
+                    }
+                },
+                title: {
+                    text: ''
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            }
+        })
+    }
 
     render() {
         return (

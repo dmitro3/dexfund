@@ -84,63 +84,173 @@ export const getFiveInvestments = async () => {
 };
 
 // Get your investemnt funds
-export const getYourInvestments = async (address) => {
+export const getYourInvestments = async (address, memberSince) => {
   try {
     const endpoint = configs.DEBUG_MODE
       ? configs.ENZYME_ENDPOINT
       : configs.MAINNET_ENDPOINT;
 
-    const q = address
-      ? `
-    { 
-        sharesBoughtEvents(where:  {investor_contains: "${address}"}){
-            investmentAmount
-            investmentState {
-                shares
-            }
-            fund {
-                name
-                id
-                accessor{
-                  denominationAsset{
-                    name
-                    price{
-                      price
-                    }
-                  }
-                }  
-            }
-            investor {
-                firstSeen
-                investorSince
-            }
-        } 
-    }`
-      : `
+    //this is dummy. should be removed for production.
+    const testAddress1 = "0x365de2d36e5760b98d41fb36c5dd2ac9e538c911";
+    const testAddress2 = "0x3c0b176d27a1d3c9749bb0ee087835359ad732f1";
+    const testAddress3 = "0x61af26e2f47da6efe567595501b080d6e8754e60";
+    const testAddress4 = "0x7b64686d7f36a0816ea60c2051b5a5decdccb323";
+
+    var q = undefined;
+    if (address) {
+      if (memberSince) {
+        q = `
         { 
-            sharesBoughtEvents(first: 5, orderBy: timestamp, orderDirection: desc){
+            sharesBoughtEvents(where:  {investor_contains: "${testAddress1}", timestamp_gte: "${memberSince}"}){
                 investmentAmount
+                asset {
+                  symbol,
+                  price {
+                    price
+                  }
+                }
                 investmentState {
                     shares
                 }
                 fund {
+                  id
                     name
-                    id
-                    accessor{
-                      denominationAsset{
-                        name
-                        price{
-                          price
+                    inception
+                    shares {
+                      totalSupply
+                    }
+                    accessor {
+                      denominationAsset {
+                        symbol
+                      }
+                    }
+                    portfolio {
+                      holdings {
+                        amount
+                        asset {
+                          symbol
+                          price {
+                            price
+                          }
                         }
                       }
-                    } 
+                    }
+                    investmentCount
+                    lastKnowGavInEth
+                    trackedAssets {
+                      name
+                      symbol
+                    }
                 }
                 investor {
                     firstSeen
                     investorSince
                 }
             } 
-        }`;
+        }`
+      } else {
+        q = `
+        { 
+            sharesBoughtEvents(where:  {investor_contains: "${testAddress1}"}){
+                investmentAmount
+                asset {
+                  symbol,
+                  price {
+                    price
+                  }
+                }
+                investmentState {
+                    shares
+                }
+                fund {
+                  id
+                    name
+                    inception
+                    shares {
+                      totalSupply
+                    }
+                    accessor {
+                      denominationAsset {
+                        symbol
+                      }
+                    }
+                    portfolio {
+                      holdings {
+                        amount
+                        asset {
+                          symbol
+                          price {
+                            price
+                          }
+                        }
+                      }
+                    }
+                    investmentCount
+                    lastKnowGavInEth
+                    trackedAssets {
+                      name
+                      symbol
+                    }
+                }
+                investor {
+                    firstSeen
+                    investorSince
+                }
+            } 
+        }`
+      }
+    } else {
+      q = `
+      { 
+          sharesBoughtEvents(first: 5, orderBy: timestamp, orderDirection: desc){
+              investmentAmount
+              asset {
+                symbol,
+                price {
+                  price
+                }
+              }
+              investmentState {
+                  shares
+              }
+              fund {
+                id
+                 name
+                 inception
+                 shares {
+                   totalSupply
+                 }
+                 accessor {
+                   denominationAsset {
+                     symbol
+                   }
+                 }
+                 portfolio {
+                   holdings {
+                     amount
+                     asset {
+                       symbol
+                       price {
+                         price
+                       }
+                     }
+                   }
+                 }
+                 investmentCount
+                 lastKnowGavInEth
+                 trackedAssets {
+                   name
+                   symbol
+                 }
+             }
+              investor {
+                  firstSeen
+                  investorSince
+              }
+          } 
+      }`
+    }
+  
     const { data } = await axios.post(endpoint, {
       query: q,
     });
