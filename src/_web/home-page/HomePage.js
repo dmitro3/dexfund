@@ -52,14 +52,6 @@ class HomePage extends Component {
     };
   }
 
-  displaySettingsPopup = () => {
-    this.setState({ settingsPopup: true });
-  };
-
-  closeSettingsPopup = () => {
-    this.setState({ settingsPopup: false });
-  };
-
   // async componentDidMount() {
   //   const topFundsList = await getFundAllFunds();
   //   const currentUserInvestments = await currentUserAllTransactions(
@@ -146,18 +138,8 @@ class HomePage extends Component {
   render() {
     var width = window.innerWidth;
 
-    const doNotDisplay = {
-      display: "none",
-    };
-
     if (width > 1000) {
       return (
-        <CardContainer>
-          <Header
-            {...this.props}
-            displaySettingsPopupEvent={this.displaySettingsPopup}
-            selectedPage="home"
-          />
           <div className="w-home-page-wrapper">
             <div className="w-home-page-content">
               {/* <Portfolio
@@ -185,13 +167,6 @@ class HomePage extends Component {
               /> */}
             </div>
           </div>
-          <div style={this.state.settingsPopup === false ? doNotDisplay : {}}>
-            <SettingsPopup
-              {...this.props}
-              closeSettingsPopupEvent={this.closeSettingsPopup}
-            />
-          </div>
-        </CardContainer>
       );
     } else {
       return <></>;

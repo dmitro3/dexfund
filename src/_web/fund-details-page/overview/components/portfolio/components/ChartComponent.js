@@ -39,16 +39,9 @@ import {
 import ContentLoader from "react-content-loader";
 
 import "../styles/portfolio.css";
+import moment from "moment";
+import ReactApexChart from "react-apexcharts";
 
-// const Line = (props) => (
-//   <LineSeries.Path
-//     {...props}
-//     path={line()
-//       .x(({ arg }) => arg)
-//       .y(({ val }) => val)
-//       .curve(curveCatmullRom)}
-//   />
-// );
 const demoStyles = () => ({
   chart: {
     paddingRight: "30px",
@@ -139,79 +132,112 @@ class ChartComponent extends React.PureComponent {
   }
 
   renderChart() {
-    const { data: chartData } = this.state;
+    // const { data: chartData } = this.state;
     const { classes } = this.props;
+    const series = [{
+      name: 'series1',
+      data: [31, 40, 28, 51, 42, 109, 100]
+    }];
+
+    const options =  {
+        chart: {
+            height: 400,
+            type: 'area'
+        },
+        colors:['#CA6BE5'],
+        legend: {
+            show: false
+        },
+        dataLabels: {
+            enabled: false
+        },
+        grid: {
+            borderColor: '#eee',
+            strokeDashArray: 7,
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        xaxis: {
+            type: 'datetime',
+            categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+        },
+        yaxis: {
+            type: 'numeric',
+            labels: {
+                formatter: function (value) {
+                  return value
+                }
+            }
+        },
+    };
 
     return (
-      // <Paper>
-      //   <Chart data={chartData} className={classes.chart}>
-      //     <ArgumentScale factory={scalePoint} />
-      //     <ArgumentAxis />
-      //     <LineSeries
-      //       name="Performance Chart1D"
-      //       valueField="sharePrice"
-      //       argumentField="timestamp"
-      //       seriesComponent={Line}
-      //       color="#F135AE"
+      // <ResponsiveContainer
+      //   padding={{ top: "10%" }}
+      //   width="100%"
+      //   height={400}
+      //   className={classes.chart}
+      // >
+      //   <AreaChart data={chartData}>
+      //     <defs>
+      //       <linearGradient id="colorSharePrice" x1="0" y1="0" x2="0" y2="1">
+      //         <stop offset="0%" stopColor="#FF4D86" stopOpacity={0.1} />
+      //         <stop offset="100%" stopColor="#E926C3" stopOpacity={0} />
+      //       </linearGradient>
+      //     </defs>
+      //     <Area
+      //       type="monotone"
+      //       fillOpacity={1}
+      //       fill="url(#colorSharePrice)"
+      //       dot={false}
+      //       dataKey="sharePrice"
+      //       stroke="#F135AE"
       //     />
-      //     <Animation />
-      //   </Chart>
-      // </Paper>
-      <ResponsiveContainer
-        padding={{ top: "10%" }}
-        width="100%"
-        height={400}
-        className={classes.chart}
-      >
-        <AreaChart data={chartData}>
-          <defs>
-            <linearGradient id="colorSharePrice" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#FF4D86" stopOpacity={0.1} />
-              <stop offset="100%" stopColor="#E926C3" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <Area
-            type="monotone"
-            fillOpacity={1}
-            fill="url(#colorSharePrice)"
-            dot={false}
-            dataKey="sharePrice"
-            stroke="#F135AE"
-          />
-          <XAxis strokeWidth={0} minTickGap={10} dataKey="timestamp" />
-          <YAxis
-            strokeWidth={0}
-            domain={["auto", "auto"]}
-            dataKey="sharePrice"
-          />
-          <Tooltip
-            animationDuration={200}
-            cursor={{ stroke: "#444444", width: "1px" }}
-            itemStyle={{ color: "white" }}
-            wrapperStyle={{ backgroundColor: "black", color: "white" }}
-            labelStyle={{ color: "white" }}
-            contentStyle={{
-              backgroundColor: "#18181D",
-              color: "white",
-              border: "0px",
-              padding: "10px",
-              borderRadius: "8px",
-            }}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+      //     <XAxis 
+      //       type="number"
+      //       strokeWidth={0}
+      //       minTickGap={10} 
+      //       dataKey="timestamp" 
+      //       tickFormatter={(date) => moment(date).format('YYYY-MM-DD')}
+      //       type="number"
+      //       domain={['auto', 'auto']}
+      //       />
+      //     <YAxis
+      //       strokeWidth={0}
+      //       domain={["auto", "auto"]}
+      //       dataKey="sharePrice"
+      //     />
+      //     <Tooltip
+      //       animationDuration={200}
+      //       cursor={{ stroke: "#444444", width: "1px" }}
+      //       itemStyle={{ color: "white" }}
+      //       wrapperStyle={{ backgroundColor: "black", color: "white" }}
+      //       labelStyle={{ color: "white" }}
+      //       contentStyle={{
+      //         backgroundColor: "#18181D",
+      //         color: "white",
+      //         border: "0px",
+      //         padding: "10px",
+      //         borderRadius: "8px",
+      //       }}
+      //     />
+      //   </AreaChart>
+      // </ResponsiveContainer>
+
+      <ReactApexChart options={options} series={series} type="area" height={400} width={'100%'} />
     );
   }
 
   render() {
     if (this.state.loading) {
       return this.renderLoading();
-    } else if (this.state.noData) {
-      return this.renderNoData();
+    // } else if (this.state.noData) {
+    //   return this.renderNoData();
     } else {
       return this.renderChart();
     }
   }
 }
 
-export default withStyles(demoStyles, { name: "Chart1D" })(ChartComponent);
+export default withStyles(demoStyles, { timestamp: "Chart1D" })(ChartComponent);

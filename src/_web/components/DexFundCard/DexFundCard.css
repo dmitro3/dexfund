@@ -1,0 +1,127 @@
+.dexfund-card {
+    width: 448px;
+    height: 272px;
+    background: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+}
+.dexfund-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    width: 100%;
+    padding: 5px 20px;
+
+}
+.dexfund-info {
+    width: fit-content;
+    height: 100%;
+    align-items: center;
+    display: flex;
+}
+
+.dexfund-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.dexfund-info .dexfund-text {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+.dexfund-info .dexfund-text .dexfund-name {
+    color: black;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+    width: 200px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.dexfund-info .dexfund-text .dexfund-detail {
+    font-size: 14px;
+    color:rgb(63, 63, 63);
+    width: 200px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.dexfund-value {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end   ;
+}
+.dexfund-value-price {
+    font-size: 16px;
+    color: #CA6BE5;
+    font-weight: bold;
+}
+
+.dexfund-value-source {
+    font-size: 14px;
+    color: black;
+}
+
+.dexfund-card-body {
+    display: flex;
+    background: #FFFFFF;
+    box-shadow: 0px -4px 10px rgba(202, 107, 229, 0.15);
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.dexfund-detailed-info {
+    display: flex;
+    flex-direction: column;
+    width: 0;
+    justify-content: space-around;
+    height: 100%;
+    flex: 1;
+    padding: 5px 10px;
+}
+
+.dexfund-detailed-info div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.dexfund-detailed-info span {
+    font-size: 12px;
+    color: black;
+}
+.dexfund-detailed-info .title {
+    border-radius: 6px;
+    padding: 5px 10px;
+}
+.dexfund-detailed-info .value {
+    text-align: right;
+}
+.dexfund-detailed-info .users .title {
+    background: #DAD7FE;
+}
+.dexfund-detailed-info .risk .title {
+    background: #F3C9FF;
+}
+.dexfund-detailed-info .min-investment .title {
+    background: #FFE5D3;
+}
+.dexfund-detailed-info .age .title {
+    background: #E2FBD7;
+}
+.dexfund-detailed-info .holding .title {
+    background: #FFD6D2;
+}
+
+.dexfund-card-body .chart-container {
+    width: 265px;
+    height: 100%;
+    padding: 5px;
+}

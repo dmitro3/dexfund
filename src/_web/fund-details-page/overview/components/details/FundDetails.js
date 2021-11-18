@@ -26,8 +26,8 @@ class FundDetails extends Component {
     console.log(this.props);
 
     this.state = {
-      selectedNavbarItem: "factsheets",
       ...this.props.state,
+      selectedNavbarItem: "factsheets",
       policy: null,
       manageFee: { scaledPerSecondRate: "0.00" },
       feePerformance: { rate: "0.00", period: "0.00" },
@@ -77,6 +77,8 @@ class FundDetails extends Component {
           performanceFee={this.state.feePerformance}
           manageFee={this.state.manageFee}
           entranceFee={this.state.entranceFee}
+          minimumInvestmentAmount={this.state.policy ? this.state.policy.minInvestmentAmount: '-'}
+          denominationAssetSymbol={this.state.policy.fund ? this.state.policy.fund.accessor.denominationAsset.symbol : '-'}
         />
       </>
     );
@@ -109,23 +111,21 @@ class FundDetails extends Component {
   renderTransactions() {
     return (
       <>
-        <FundTransaction fundId={this.props.state.fundId} />
+        <FundTransaction fundId={this.state.fundId} currentSharePrice={this.state.currentSharePrice} />
       </>
     );
   }
 
   render() {
     const selectedNavbarItemStyle = {
-      background: "linear-gradient(to right, #E926C3 10%, #FF4D86 100%)",
-      "-webkit-background-clip": "text",
-      "-webkit-text-fill-color": "transparent",
+      background: "#F9E1FD",
+      borderRadius: "9px"
     };
 
     return (
       <>
         <div className="w-fund-details-wrapper">
           <div className="w-fund-details-content">
-            <div className="w-fund-details-title">DETAILS</div>
             <div className="w-fund-details-navbar">
               <div
                 className="w-fund-details-navbar-item"
@@ -138,7 +138,7 @@ class FundDetails extends Component {
                   this.setState({ selectedNavbarItem: "factsheets" })
                 }
               >
-                Factsheets
+                Bio
               </div>
               <div
                 className="w-fund-details-navbar-item"
@@ -164,7 +164,7 @@ class FundDetails extends Component {
               >
                 Financials
               </div>
-              <div
+              {/* <div
                 className="w-fund-details-navbar-item"
                 style={
                   this.state.selectedNavbarItem === "ruleset"
@@ -174,7 +174,7 @@ class FundDetails extends Component {
                 onClick={() => this.setState({ selectedNavbarItem: "ruleset" })}
               >
                 Ruleset
-              </div>
+              </div> */}
               <div
                 className="w-fund-details-navbar-item"
                 style={
@@ -186,9 +186,9 @@ class FundDetails extends Component {
                   this.setState({ selectedNavbarItem: "transactions" })
                 }
               >
-                Transactions
+                Total History
               </div>
-              <div
+              {/* <div
                 className="w-fund-details-navbar-item"
                 style={
                   this.state.selectedNavbarItem === "trades"
@@ -198,7 +198,7 @@ class FundDetails extends Component {
                 onClick={() => this.setState({ selectedNavbarItem: "trades" })}
               >
                 Trades
-              </div>
+              </div> */}
             </div>
             <div className="w-fund-details-info-section">
               {this.state.selectedNavbarItem === "factsheets" &&

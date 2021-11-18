@@ -15,14 +15,17 @@ import separatorIcon from "./assets/separator-icon.svg";
 import graph from "./assets/graph.svg";
 // CSS
 import "./styles/portfolio.css";
+import avatar from '../../../../components/DexFundCard/avatar.png';
 
 // REDUX
 import { connect } from "react-redux";
+import { Twitter } from "react-bootstrap-icons";
 
 class VaultChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      fundName: props.fundName,
       selectedChart: "1D",
       portfolioTimeframe: "Last day",
       portfolioPercent: "0.00%", // for 1D
@@ -185,26 +188,30 @@ class VaultChart extends Component {
 
   renderWalletConnected() {
     const selectedMenuItem = {
-      color: "#fff",
+      color: "var(--primary-color)",
     };
 
     return (
       <>
         <div className="w-portfolio-wrapper">
+          <div className="fund-header">
+            <img src={avatar} className="avatar"/>
+            <label className="fund-name">{this.state.fundName}</label>
+            <div className="twitter-icon-layout">
+              <span>Twitter</span>
+              <Twitter size={20} color="#03A9F4"/>
+            </div>
+          </div>
           <div className="w-portfolio-header">
             <div className="w-portfolio-header-title-section">
-              <div className="w-portfolio-header-title">
-                $ {currencyFormat(this.props.currentSharePrice)} 
-              </div>
+              
               <div className="w-portfolio-header-subtitle-section">
                 <div className="w-portfolio-header-subtitle">
-                  Vault Performance
+                  AUM
                 </div>
-                <img
-                  src={separatorIcon}
-                  alt="separator-icon"
-                  className="separator-icon"
-                />
+                <div className="w-portfolio-header-subtitle">
+                  $ {currencyFormat(this.props.currentSharePrice)} 
+                </div>
                 <div className="w-portfolio-header-subtitle">
                   {this.state.portfolioTimeframe}
                 </div>
@@ -213,7 +220,7 @@ class VaultChart extends Component {
                 alt="green-arrow-icon"
                 className="green-arrow-icon"
                 />
-                <div style={{color: this.state.portfolioPercent >= 0 ? "#00AF00" : "red"}} className="w-portfolio-header-subtitle-percent">
+                <div style={{color: this.state.portfolioPercent >= 0 ? "#25FC02" : "red"}} className="w-portfolio-header-subtitle-percent">
                   {this.state.portfolioPercent}%
                 </div>
               </div>
@@ -305,10 +312,8 @@ class VaultChart extends Component {
   render() {
     return (
       <>
-        <div className="w-portfolio-wrapper">
-          <div className="w-portfolio-content">
-            {this.renderWalletConnected()}
-          </div>
+        <div className="w-portfolio-content">
+          {this.renderWalletConnected()}
         </div>
       </>
     );

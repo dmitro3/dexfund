@@ -169,6 +169,16 @@ class AddNewFundReview extends Component {
     } else {
       policyArgsData = getPolicyArgsData(policies, policyManagerSettingsData);
     }
+    console.log('create new fund args: ', this.props.onboard.address,
+    this.state.fundName,
+    this.state.denominationAddress,
+    3600,
+    feeArgsData,
+    policyArgsData,
+    1000000,
+    this.props.onboard.provider,
+    this.props.onboard.address
+);
 
     try {
       const timeLockInSeconds = this.state.timeLock * 60 * 60;

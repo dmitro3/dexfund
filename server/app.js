@@ -22,7 +22,7 @@ const start = async () => {
     useCreateIndex: true,
   });
 
-  app.listen(4000, "0.0.0.0", () => {});
+  app.listen(3001, "0.0.0.0", () => {});
 };
 
 start();

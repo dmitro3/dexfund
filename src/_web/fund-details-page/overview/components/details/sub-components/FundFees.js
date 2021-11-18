@@ -24,12 +24,12 @@ class FundFees extends Component {
     return (
       <>
         <div className="w-fund-info-table">
-          <div className="w-fund-info-table-row">
+          {/* <div className="w-fund-info-table-row">
             <div className="w-fund-info-row-cell type">Management fee</div>
             <div className="w-fund-info-row-cell value">
               {this.props.manageFee.scaledPerSecondRate} %
             </div>
-          </div>
+          </div> */}
           <div className="w-fund-info-table-row">
             <div className="w-fund-info-row-cell type">Performance fee</div>
             <div className="w-fund-info-row-cell value">
@@ -40,6 +40,12 @@ class FundFees extends Component {
             <div className="w-fund-info-row-cell type">Entrance fee</div>
             <div className="w-fund-info-row-cell value">
               {this.props.entranceFee.rate} %
+            </div>
+          </div>
+          <div className="w-fund-info-table-row">
+            <div className="w-fund-info-row-cell type">Minimum Investment Amount</div>
+            <div className="w-fund-info-row-cell value">
+              {this.props.minimumInvestmentAmount || "-"} {this.props.denominationAssetSymbol || '-'} 
             </div>
           </div>
         </div>

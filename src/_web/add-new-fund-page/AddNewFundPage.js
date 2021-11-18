@@ -176,14 +176,6 @@ class AddNewFundPage extends Component {
     });
   };
 
-  displaySettingsPopup = () => {
-    this.setState({ settingsPopup: true });
-  };
-
-  closeSettingsPopup = () => {
-    this.setState({ settingsPopup: false });
-  };
-
   renderConnected() {
 
     const doNotDisplay = {
@@ -191,10 +183,6 @@ class AddNewFundPage extends Component {
     };
     return (
       <>
-        <Header
-          {...this.props}
-          displaySettingsPopupEvent={this.displaySettingsPopup}
-        />
         <div className="w-add-new-fund-page-wrapper">
           <div className="w-add-new-fund-page-content">
             <div className="w-add-new-fund-page-title">ADD NEW VAULT</div>

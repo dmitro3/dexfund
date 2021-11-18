@@ -16,8 +16,8 @@ class SkeletonLoader extends Component {
             <ContentLoader 
             speed={1}
             viewBox={`0 0 1500 ${rowHeight * rows}`}
-            backgroundColor="#020202"
-            foregroundColor="#151515"
+            backgroundColor="white"
+            foregroundColor="var(--secondary-color)"
             {...this.props}
           >
               {new Array(rows).fill(' ').map((el, index) => {

@@ -94,13 +94,14 @@ class FundComposition extends Component {
       <>
         <div className="w-fund-composition-wrapper">
           <div className="w-fund-composition-content">
-            <div className="w-fund-composition-title">VAULT COMPOSITION</div>
             <div className="w-fund-composition-table">
               <FundCompositionTableHeader />
               <div
                 style={{
-                  overflowY: "scroll",
-                  height: this.state.holdings.length > 0 ? "30vh" : "10vh",
+                  overflowY: "auto",
+                  minHeight: "30vh",
+                  maxHeight: "50vh",
+                  height: 'fit-content'
                 }}
               >
                 {this.state.isLoading

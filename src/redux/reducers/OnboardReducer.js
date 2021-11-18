@@ -62,3 +62,7 @@ export default function connectToOnboardReducer(state=initialState, action) {
             return state;
     }
 }
+
+export const getOnboardInformation = (state) => {
+    return state.onboard
+}

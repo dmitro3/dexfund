@@ -15,6 +15,7 @@ import FundDetails from "./components/details/FundDetails";
 
 // CSS
 import "./styles/fundOverview.css";
+import RoundCard from "../../components/RoundCard/RoundCard";
 
 class FundOverview extends Component {
   constructor(props) {
@@ -47,14 +48,25 @@ class FundOverview extends Component {
       return (
         <>
           <div className="w-fund-overview-wrapper">
-            <Sidebar state={this.state} />
+            {/* <Sidebar state={this.state} /> */}
             <div className="w-fund-overview-content">
-              <VaultChart fundAddress={this.state.fundId} walletMust={false} currentSharePrice={this.state.currentSharePrice} state={this.state}/>
-              <FundOverviewCards state={this.state} />
-              <FundOverviewStatistics state={this.state} />
-              <FundOverviewPerformance />
-              <FundComposition state={this.state}/>
-              <FundDetails state={this.state} />
+              <RoundCard width="100%">
+                <VaultChart fundAddress={this.state.fundId} parentState={this.state} fundName={this.state.fundName} walletMust={false} currentSharePrice={this.state.currentSharePrice} state={this.state}/>
+              </RoundCard>
+
+              {/* <FundOverviewCards state={this.state} /> */}
+              {/* <FundOverviewStatistics state={this.state} /> */}
+              {/* <FundOverviewPerformance /> */}
+              <RoundCard width="100%">
+                <FundComposition state={this.state}/>
+              </RoundCard>
+
+              <div className="btn-layout">
+                <button className="btn-invest">Invest</button>
+                <button className="btn-withdraw">Withdraw</button>
+              </div>
+
+              {/* <FundDetails state={this.state} /> */}
             </div>
           </div>
         </>

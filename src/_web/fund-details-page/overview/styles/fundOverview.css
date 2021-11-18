@@ -1,11 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap");
 
 .w-fund-overview-wrapper {
-  padding-right: 430px;
-}
-
-.w-fund-overview-cards-wrapper {
-  padding: 25px 0 0 0;
+  padding: 0;
+  background: transparent;
 }
 
 .w-fund-overview-cards-content {
@@ -162,7 +159,8 @@
 }
 
 .w-fund-composition-wrapper {
-  padding: 0 0 80px 0;
+    background: white;
+    padding: 20px;
 }
 
 /* .w-fund-composition-content {
@@ -176,20 +174,29 @@
 }
 
 .w-fund-composition-table {
-  padding: 20px 0 80px 0;
+  padding: 0 0 0 0;
 }
 
 .w-fund-composition-table-header {
   display: flex;
   justify-content: space-between;
   padding: 8px 16px;
+  background: #F7F7F7;
 }
 
 .w-fund-composition-table-header-item {
-  font-family: "Bai Jamjuree", sans-serif;
-  font-size: 13px;
+  font-style: normal;
   font-weight: 500;
-  color: #999;
+  font-size: 14px;
+  line-height: 20px;
+  /* identical to box height, or 143% */
+
+
+  color: #636677;
+}
+
+.w-fund-composition-table-header-item.value {
+  color: #636677 !important;
 }
 
 .asset {
@@ -200,6 +207,9 @@
 .weight {
   width: 25%;
 }
+.w-your-transactions-table-header-cell.value {
+  width: 25%;
+}
 
 .weight {
   text-align: right;
@@ -208,30 +218,38 @@
 .w-fund-composition-table-row {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background-color: transparent;
   padding: 10px;
 }
 
+.w-fund-composition-table-row .value {
+  color: #292A32 !important;
+}
+
 .w-fund-composition-table-row:hover {
   cursor: pointer;
-  background-color: #17171c;
+  background-color: #eec0ec6b;
 }
 
 .w-fund-composition-table-row-cell {
-  font-family: "Bai Jamjuree", sans-serif;
-  /* text-align: left; */
-  font-size: 15px;
-  font-weight: 500;
-  color: #fff;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 20px;
+  /* identical to box height, or 143% */
+  color: #292A32;
 }
 
 .w-fund-composition-asset-bullet {
   width: 180px;
-  background-color: #17171c;
+  background-color: #eca7ee62;
   border-radius: 10px;
   padding: 4px;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 20px;
   margin-top: -4px;
 }
 
@@ -241,4 +259,50 @@
 
 .w-fund-composition-asset-bullet-text {
   margin: 0 0 0 8px;
+  font-weight: bold;
+}
+
+.w-fund-overview-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.btn-layout {
+  display: flex;
+  align-items: content;
+  width: fit-content;
+  margin: 24px auto;
+}
+.btn-layout button {
+  box-shadow: 0px 4px 15px rgba(230, 210, 253, 0.58);
+  border-radius: 10px;
+  height: 40px;
+  width: 104px;
+  outline: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  /* identical to box height, or 143% */
+  text-align: center;
+  mix-blend-mode: normal;
+}
+.btn-layout button:hover {
+  box-shadow: inset 0px 4px 15px rgba(230, 210, 253, 0.918);
+}
+
+.btn-withdraw {
+  background-color: #C96AE4;
+  color: white;
+}
+
+.btn-invest {
+  color: #C96AE4;
+  background-color: white;
+  margin-right: 15px;
 }

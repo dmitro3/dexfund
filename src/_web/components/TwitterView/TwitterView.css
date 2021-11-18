@@ -1,0 +1,84 @@
+.twitter-wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    background: white;
+    height: 100%;
+    overflow: auto;
+    padding: 20px;
+}
+.twitter-wrapper-title {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 32px;
+    /* identical to box height, or 160% */
+
+    display: flex;
+    align-items: center;
+
+    /* UI / Text & Selection */
+
+    color: #2A3135;
+}
+
+.tweet-item {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 40px;
+}
+.tweet-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.tweet-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-left: 14px;
+}
+.tweet-author {
+    display: flex;
+    flex-direction: column;
+}
+.tweet-author-name {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    /* or 229% */
+
+    display: flex;
+    align-items: center;
+
+    /* UI / Text & Selection */
+
+    color: #2A3135;
+}
+.tweet-author-id {
+    font-style: normal;
+    font-weight: 300;
+    font-size: 10px;
+    /* or 320% */
+
+    display: flex;
+    align-items: center;
+
+    color: #5E889B;
+}
+.tweet-content {
+    font-style: normal;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 20px;
+    /* or 133% */
+    margin-top: 6px;;
+    display: flex;
+    align-items: center;
+
+    color: #292A32;
+}

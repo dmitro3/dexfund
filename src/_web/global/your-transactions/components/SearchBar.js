@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 // COMPONENTS
+
 // ...
 
 // ASSETS
@@ -8,6 +9,11 @@ import searchIcon from "../assets/search-icon.svg";
 
 // CSS
 import "../styles/yourTransactions.css";
+import { Filter } from "react-bootstrap-icons";
+import Select from 'react-select';
+import { Fragment } from "react";
+
+
 
 class InvestmentFunds extends Component {
   constructor(props) {
@@ -15,6 +21,8 @@ class InvestmentFunds extends Component {
 
     this.state = {
       value: this.props.defaultValue,
+      sortOption: this.props.sortOptions[1],
+      sortDirectionOption: this.props.sortDirectionOptions[0]
     };
   }
 
@@ -41,6 +49,22 @@ class InvestmentFunds extends Component {
     }
   };
 
+  handleSortChange = (selectedOption) => {
+    this.setState({ sortOption: selectedOption });
+    console.log('sortOption: ', selectedOption);
+    if (this.props.handleSortOptionChange) {
+      this.props.handleSortOptionChange(selectedOption);
+    }
+  }
+
+  handleSortDirectionChange = (selectedOption) => {
+    this.setState({ sortDirectionOption: selectedOption });
+    console.log('sortDirectionOption: ', selectedOption);
+    if (this.props.handleSortDirectionOptionChange) {
+      this.props.handleSortDirectionOptionChange(selectedOption);
+    }
+  }
+
   render() {
     return (
       <>
@@ -61,19 +85,51 @@ class InvestmentFunds extends Component {
                 onFocus={() => this.clearInputValue()}
                 onBlur={() => this.rewriteField()}
                 style={{
-                  marginTop: "9px",
-                  width: "700px",
+                  width: "320px",
+                  height: "100%",
                   borderWidth: "0px 0px 0px 0px",
-                  backgroundColor: "#020202",
-                  color: "#999",
+                  backgroundColor: "#fff",
+                  color: "#222",
                   fontFamily: "Bai Jamjuree, sans-serif",
                   fontSize: "15px",
                   fontWeight: "400",
                   outline: "none",
                   textAlign: "left",
                 }}
-              ></input>
+              />
             </div>
+          </div>
+          <div className="searchbar-sort-layout">
+            <label className="label">Sort by: </label>
+            <div className="filter-input">
+            <Fragment>
+              <Select
+                className="sort-option"
+                classNamePrefix="select"
+                defaultValue={this.state.sortOption}
+                isClearable={true}
+                isSearchable={true}
+                name="sortOption"
+                onChange={this.handleSortChange}
+                options={this.props.sortOptions}
+              />
+            </Fragment>
+            </div>
+            <div className="filter-input">
+            <Fragment>
+              <Select
+                className="sort-direction-option"
+                classNamePrefix="select"
+                defaultValue={this.state.sortDirectionOption}
+                isClearable={true}
+                isSearchable={true}
+                name="sortDirectionOption"
+                onChange={this.handleSortDirectionChange}
+                options={this.props.sortDirectionOptions}
+              />
+            </Fragment>
+            </div>
+            
           </div>
         </div>
       </>

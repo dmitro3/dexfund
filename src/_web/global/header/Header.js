@@ -1,14 +1,13 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component, useEffect, useState } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
 // COMPONENTS
 // ...
 
 // ASSETS
-import radarIcon from "./assets/radar-icon.png";
-import ethIcon from "./assets/eth-icon.svg";
-import warningIcon from "./assets/warning-icon.svg";
-import chevronDownIcon from "./assets/chevron-down-icon.svg";
-import activityIcon from "./assets/activity-icon.svg";
+import logoIcon from "./assets/logo.png";
+// import ethIcon from "./assets/eth-icon.svg";
+import ethIcon from '../../../assets/images/eth-icon.png';
+
 // CSS
 import "./styles/header.css";
 
@@ -19,31 +18,48 @@ import {
   checkWallet,
 } from "./../../../redux/actions/OnboardActions";
 
-import { ethers } from "ethers";
-
 import {
   activateLoaderOverlay,
   deactivateLoaderOverlay,
 } from "./../../../redux/actions/LoaderAction";
+import avatarImage from './assets/avatar.png';
+import { ChevronDown } from 'react-bootstrap-icons';
+import {Bell} from 'react-bootstrap-icons'
+import {useHistory, useLocation} from 'react-router-dom';
+import { getOnboardInformation } from "../../../redux/reducers/OnboardReducer";
+import { getConnectInformation } from "../../../redux/reducers/AccountConnectReducer";
 
-class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.toPage = this.toPage.bind(this);
-    this.state = {
-      settingsPopup: false,
-      selectedPage:
-        typeof this.props.selectedPage !== "undefined"
-          ? this.props.selectedPage
-          : "",
-      expectedNetworkId: configs.DEBUG_MODE
-        ? configs.networkId_DEBUG
-        : configs.networkId,
-    };
-  }
+const Header = (props) => {
+  const [settingsPopup, setSettingsPopup] = useState(false);
+  const [selectedPage, setSelectedPage] = useState('home');
+  const expectedNetworkId = configs.DEBUG_MODE ? configs.networkId_DEBUG : configs.networkId;
+  const dispatch = useDispatch();
+  const onboard = useSelector(state => getOnboardInformation(state));
+  const account = useSelector(state => getConnectInformation(state));
+  const history = useHistory();
+  const location = useLocation();
 
-  toPage(path) {
-    this.props.history.push(path);
+  useEffect(() => {
+    const pathName = location.pathname;
+    console.log('pathname: ', pathName, location)
+    let _page = "home";
+    switch(pathName) {
+      case "/manage":
+        _page = "manage";
+        break;
+      case "/profile":
+        _page = "profile";
+        break;
+      default:
+        _page = "home";
+        break;
+    }
+
+    setSelectedPage(_page);
+  })
+  const toPage = (path) => {
+    history.push(path);
+    
     window.scrollTo({
       top: 0,
       left: 0,
@@ -51,176 +67,153 @@ class Header extends Component {
     });
   }
 
-  displaySettingsPopup = () => {
-    this.setState({ settingsPopup: true });
-    this.props.displaySettingsPopupEvent();
+  const displaySettingsPopup = () => {
+    setSettingsPopup(true);
+    props.displaySettingsPopupEvent();
   };
 
-  displayAddress = (address) => {
+  const displayAddress = (address) => {
     return `${address.substring(0, 4)} ... ${address.substring(39)}`;
   };
 
-  doCheckWallet(e) {
+  const doCheckWallet = (e) => {
     e.preventDefault();
-    if (this.props.onboard.networkId !== this.state.expectedNetworkId) {
-      this.props.checkWallet();
+    if (onboard.networkId !== expectedNetworkId) {
+      dispatch(checkWallet());
     }
   }
 
-  render() {
-    const selectedNavbarItemStyle = {
-      background: "linear-gradient(to right, #E926C3 10%, #FF4D86 100%)",
-      WebkitBackgroundClip: "text",
-      WebkiTtextFillColor: "transparent",
-    };
+  const selectedNavbarItemStyle = {
+    background: "linear-gradient(to right, #E926C3 10%, #FF4D86 100%)",
+    WebkitBackgroundClip: "text",
+    WebkiTtextFillColor: "transparent",
+  };
 
-    return (
-      <>
-        <div className="w-header-wrapper">
-          <div className="w-header-content">
-            <div className="w-header-navbar-section">
-              <img
-                src={radarIcon}
-                alt="radar-protocol-icon"
-                className="radar-protocol-icon"
-              />
-              <div
-                className={
-                  "w-header-navbar-item" +
-                  (this.state.selectedPage === "home" ? "-selected" : "")
-                }
-                onClick={() => this.toPage("/", { name: "home-page" })}
-              >
-                HOME
-              </div>
-              <div
-                className={
-                  "w-header-navbar-item" +
-                  (this.state.selectedPage === "vaults" ? "-selected" : "")
-                }
-                onClick={() => this.toPage("/vaults")}
-              >
-                VAULTS
-              </div>
-
-              <div
-                className={
-                  "w-header-navbar-item" +
-                  (this.state.selectedPage === "yourfunds" ? "-selected" : "")
-                }
-                onClick={() => this.toPage("/your-funds")}
-              >
-                YOUR VAULTS
-              </div>
+  return (
+    <>
+      <div className="w-header-wrapper">
+        <div className="w-header-content">
+          <div className="w-header-navbar-section">
+            <img
+              src={logoIcon}
+              alt="radar-protocol-icon"
+              className="radar-protocol-icon"
+            />
+            <div
+              className={
+                "w-header-navbar-item" +
+                (selectedPage === "home" ? "-selected" : "")
+              }
+              onClick={() => toPage("/", { name: "home-page" })}
+            >
+              HOME
             </div>
-            <div className="w-header-account-section">
-              <div className="w-header-settings-button">
-                {/* <img
-                  src={activityIcon}
-                  alt="activity-icon"
-                  className="activity-icon"
-                /> */}
-              </div>
-              <div
-                onClick={(e) => this.doCheckWallet(e)}
-                className="w-header-eth-button"
-              >
-                <div className="w-header-eth-button-asset-section">
-                  <img
-                    src={
-                      this.props.onboard.networkId ===
-                      this.state.expectedNetworkId
-                        ? ethIcon
-                        : warningIcon
-                    }
-                    alt="eth-icon"
-                    className="eth-icon"
-                  />
-                  <div className="w-header-eth-button-asset-text">
-                    {this.props.onboard.networkId ===
-                    this.state.expectedNetworkId
-                      ? "Ethereum"
-                      : "Unsupported Network"}
-                  </div>
-                </div>
-                {/* <img
-                  src={chevronDownIcon}
-                  alt="arrow-down-icon"
-                  className="chevron-down-icon"
-                /> */}
-              </div>
+            {/* <div
+              className={
+                "w-header-navbar-item" +
+                (selectedPage === "vaults" ? "-selected" : "")
+              }
+              onClick={() => toPage("/vaults")}
+            >
+              VAULTS
+            </div>
 
-              {this.props.onboard.walletConnected ? (
+            <div
+              className={
+                "w-header-navbar-item" +
+                (selectedPage === "yourfunds" ? "-selected" : "")
+              }
+              onClick={() => toPage("/your-funds")}
+            >
+              YOUR VAULTS
+            </div> */}
+            {
+              onboard.provider && (
                 <>
-                  <div
-                    className="w-header-address-button"
-                    // onClick={() => this.displaySettingsPopup()}
-                  >
+                <div
+                  className={
+                    "w-header-navbar-item" +
+                    (selectedPage === "manage" ? "-selected" : "")
+                  }
+                  onClick={() => toPage("/manage")}
+                >
+                  MANAGE
+                </div>
+                <div
+                className={
+                  "w-header-navbar-item" +
+                  (selectedPage === "profile" ? "-selected" : "")
+                }
+                onClick={() => toPage("/profile")}
+              >
+                PROFILE
+              </div>
+              </>
+              )
+            }
+            
+          </div>
+          <div className="w-header-account-section">
+
+            {onboard.walletConnected ? (
+              <>
+                <div
+                  className="w-header-address-button"
+                  onClick={() => dispatch(disconnectAccountOnboard())}
+                >
+                  <img src={ethIcon} className="ether-icon" alt="eth-icon"/>
+                  <div className="account-information-wrapper">
                     <div className="w-header-address-button-amount-button">
                       <div className="w-header-address-button-amount-button-text">
                         {parseFloat(
-                          this.props.onboard.balance == null
+                          onboard.balance == null
                             ? 0
-                            : this.props.onboard.balance / 10 ** 18
+                            : onboard.balance / 10 ** 18
                         ).toFixed(4)}{" "}
                         ETH
                       </div>
                     </div>
                     <div className="w-header-address-button-text">
-                      {this.displayAddress(
-                        this.props.onboard.address
-                          ? this.props.onboard.address
+                      {
+                      displayAddress(
+                        onboard.address
+                          ? onboard.address
                           : ""
                       )}
                     </div>
-                    <img
-                      src={chevronDownIcon}
-                      alt="arrow-down-icon"
-                      className="chevron-down-icon address"
-                    />
                   </div>
-                  <button
-                    className="w-header-connect-wallet-button"
-                    onClick={() => this.props.disconnectAccountOnboard()}
-                  >
-                    <div className="w-header-connect-wallet-button-text">
-                      DISCONNECT
-                    </div>
-                  </button>
-                </>
-              ) : (
-                <button
-                  className="w-header-connect-wallet-button"
-                  onClick={() => {
-                    this.props.connectAccountOnboard();
-                  }}
+                </div>
+                
+                <div className="notification-layout">
+                  <Bell className="notification-icon"/>
+                  <span className="badge notification-count">{1}</span>
+                </div>
+                <div className="header-profile-layout" 
+                  // onClick={() => displaySettingsPopup()}
                 >
-                  <div className="w-header-connect-wallet-button-text">
-                    CONNECT WALLET
+                  <img src={avatarImage} className="avatar-image" alt="avatar" />
+                  <div className="user-description">
+                    <span className="username">{'Jonathan Amam'}</span>
+                    <span className="detail">{'New User'}</span>
                   </div>
-                </button>
-              )}
-            </div>
+                  <ChevronDown className="user-expand" />
+                </div>
+              </>
+            ) : (
+              <button
+                className="w-header-connect-wallet-button"
+                onClick={() => {
+                  dispatch(connectAccountOnboard());
+                }}
+              >
+                  CONNECT WALLET
+              </button>
+            )}
           </div>
         </div>
-      </>
-    );
-  }
+      </div>
+    </>
+  );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    account: state.connect,
-    onboard: state.onboard,
-  };
-};
-
-const mapDispatchToProps = {
-  deactivateLoaderOverlay,
-  activateLoaderOverlay,
-  connectAccountOnboard,
-  disconnectAccountOnboard,
-  checkWallet,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

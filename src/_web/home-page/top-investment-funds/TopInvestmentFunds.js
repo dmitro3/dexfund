@@ -23,6 +23,7 @@ import SkeletonLoader from "../../global/skeleton-loader/SkeletonLoader";
 // CSS
 import "./styles/topInvestmentFunds.css";
 import WalletNotConnected from "../../global/wallet-not-connected/WalletNotConnected";
+import DexFundCard from "../../components/DexFundCard/DexFundCard";
 
 class TopInvestmentFunds extends Component {
   constructor(props) {
@@ -92,7 +93,7 @@ class TopInvestmentFunds extends Component {
         return 0;
     });
 
-    const largest = investments.splice(0, 5);
+    const largest = investments.splice(0, 6);
 
     investments.sort((a, b) => {
       if (a.ltr > 1000)
@@ -105,7 +106,7 @@ class TopInvestmentFunds extends Component {
         return 0;
     });
 
-    const profitable = investments.splice(0, 5);
+    const profitable = investments.splice(0, 6);
 
     investments.sort((a, b) => {
       if (a.inception < b.inception)
@@ -116,7 +117,7 @@ class TopInvestmentFunds extends Component {
         return 0;
     });
 
-    const recent = investments.splice(0, 5);
+    const recent = investments.splice(0, 6);
     // const investments = {}
     this.setState({
       loading: false,
@@ -129,10 +130,19 @@ class TopInvestmentFunds extends Component {
   renderContent() {
     return (
       <div className="w-top-investment-funds-content">
-        <MostProfitableAllTime
+        {/* <MostProfitableAllTime
           investments={this.state.profitable}
           {...this.props}
-        />
+        /> */}
+        {
+          this.state.largest.map((fund, index) => {
+            return (
+              <div key={index} className="fund-card-wrapper">
+                <DexFundCard {...this.props} fund={fund}/>
+              </div>
+            )
+          })
+        }
         {/* <MostProfitableThisMonth
           investments={this.state.largest}
           {...this.props}

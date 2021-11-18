@@ -124,11 +124,6 @@ class VaultsPage extends Component {
     if (width > 1000) {
       return (
         <>
-          <Header
-            {...this.props}
-            displaySettingsPopupEvent={this.displaySettingsPopup}
-            selectedPage="vaults"
-          />
           <div
             className="w-your-funds-page-wrapper"
             style={{ padding: "60px 0 120px 0", height: "100vh" }}

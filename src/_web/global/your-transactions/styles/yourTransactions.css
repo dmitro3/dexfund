@@ -1,41 +1,43 @@
 @import url("https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap");
 
 .w-your-transactions-wrapper {
-  padding: 16px 0 0px 0;
+  padding: 0;
 }
 
 .w-your-transactions-header {
   font-family: "Bai Jamjuree", sans-serif;
   font-size: 24px;
   font-weight: 600;
-  color: #fff;
+  color: #000;
 }
 
 .w-your-transactions-table-header {
   display: flex;
   justify-content: space-between;
-  padding: 28px 16px 12px 16px;
+  align-items: center;
+  padding: 10px 16px;
+  background-color: #f7f7f7;
 }
 
 .w-your-transactions-table-header-cell {
   font-family: "Bai Jamjuree", sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
-  color: #999;
+  color: #636677;
 }
 
-.action,
-.token,
-.value,
-.vault,
-.type,
-.newItem {
-  width: 16%;
+.w-your-transactions-table-cell.action,
+.w-your-transactions-table-cell.token,
+.w-your-transactions-table-cell.value,
+.w-your-transactions-table-cell.vault,
+.w-your-transactions-table-cell.type,
+.w-your-transactions-table-cell.newItem {
+  width: 25%;
   text-align: left;
 }
 
-.time {
-  width: 20%;
+.w-your-transactions-table-cell.time {
+  width: 25%;
   text-align: right;
 }
 
@@ -52,13 +54,13 @@
   background-color: transparent;
   margin: 2px 0;
   padding: 16px;
-  color: white;
+  color: #292A32;
   text-align: center;
 }
 
 .w-your-transactions-table-row:hover {
   cursor: pointer;
-  background-color: #17171c;
+  background-color: var(--secondary-color);
 }
 
 .w-your-transactions-table-row:hover .w-investment-funds-token-bullet {
@@ -69,7 +71,7 @@
   font-family: "Bai Jamjuree", sans-serif;
   font-size: 15px;
   font-weight: 500;
-  color: #fff;
+  color: #292A32;
 }
 
 .w-your-transactions-action-section {
@@ -83,7 +85,7 @@
 
 .w-investment-funds-token-bullet {
   width: 120px;
-  background-color: #17171c;
+  background-color: white;
   border-radius: 10px;
   padding: 4px 6px;
   display: flex;
@@ -96,13 +98,21 @@
 }
 
 .w-search-bar-wrapper {
-  border-bottom: 1px solid #171717;
   padding: 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .w-search-bar {
   display: flex;
   justify-content: left;
+  width: fit-content;
+  background: white;
+  border-radius: 12px;
+  height: 58px;
+  padding: 0 10px;
+  align-items: center;
 }
 
 .w-search-bar-input {
@@ -112,4 +122,121 @@
 .investment-funds-search-ico {
   width: 24px;
   height: 24px;
+}
+
+.investment-funds-search-icon {
+  width: 24px;
+  height: 24px;
+}
+.searchbar-sort-layout {
+  margin-left: auto;
+  display: flex;
+  height: fit-content;
+  align-items: center;
+}
+
+.searchbar-sort-layout .label {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 22px;
+  /* identical to box height */
+
+  text-align: right;
+
+  /* Colors / Black / 100% */
+
+  color: #000000;
+}
+.searchbar-sort-layout .filter-input {
+  display: flex;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 15px rgba(184, 149, 255, 0.35);
+  border-radius: 12px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  margin-left: 10px;
+  /* identical to box height, or 143% */
+
+  text-align: right;
+
+  /* Gray/100% */
+
+  color: #7F85A2;
+}
+.filter-input input {
+  outline: none;
+  border: none;
+  margin-right: 5px;
+}
+.filter-input select {
+  outline: none;
+  border: none;
+}
+.filter-input i {
+  color: #999;
+}
+
+.searchbar-sort-layout #demo-simple-select-label {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  /* identical to box height, or 143% */
+
+  text-align: right;
+
+  /* Gray/100% */
+
+  color: #7F85A2;
+}
+
+.sort-component {
+  background: #FFFFFF;
+  box-shadow: 0px 4px 15px rgba(184, 149, 255, 0.35);
+  border-radius: 12px
+}
+
+.total-invest-title {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 20px;
+  /* identical to box height, or 100% */
+
+
+  color: #292A32;
+}
+
+.total-invest-value {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 20px;
+  /* identical to box height, or 100% */
+
+
+  color: #292A32;
+}
+
+.select__control  {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  min-height: fit-content !important;
+}
+.select__control:hover {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.select__control, .select__control * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }

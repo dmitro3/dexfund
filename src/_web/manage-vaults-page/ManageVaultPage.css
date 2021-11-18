@@ -1,0 +1,135 @@
+.manage-vault-wrapper {
+    background: #FFFFFF;
+    box-shadow: 0px 10px 30px rgba(201, 107, 228, 0.29);
+    border-radius: 10px;
+    width: 70%;
+    height: fit-content;
+    padding: 30px 50px;
+    margin: 20px auto;
+}
+.manage-vault-wrapper .title {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 32px;
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #2A3135;
+}
+
+.manage-body {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.create-fund-form {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.manage-form-group {
+    display: flex;
+    width: 100%;
+    margin-bottom: 8px;
+}
+.w-100 {
+    width: 100%;
+}
+.w-49 {
+    width: 49%;
+}
+textarea.manage-form-control, textarea.manage-form-control:focus {
+    background: #F8F8F8;
+    border: none;
+    outline: #c2c1c1;
+    border-radius: 10px;
+    width: 100%;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 25px 30px;
+    color: #000000;
+    mix-blend-mode: normal;
+}
+
+.control-label {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+
+
+    /* Colors / Black / 100% */
+
+    color: #000000;
+
+    mix-blend-mode: normal;
+    opacity: 0.8;
+}
+
+.asset-label {
+    border-radius: 10px;
+    min-width: 58px;
+    width: fit-content;
+    height: 30px;
+    padding: 5px 10px;
+    margin: 0 0 10px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+
+.asset-label:hover {
+    opacity: 0.8;
+}
+
+.assets-wrapper {
+    width: 0;
+    flex: 1;
+    flex-wrap: wrap;
+    display: flex;
+    margin-left: 30px;
+}
+.asset-label.active {
+    box-shadow: 0 0 10px 5px #d7aadb;
+}
+
+.create-fund-form button[type=submit] {
+    background-color: var(--button-color);
+    color: white;
+    width: 150px;
+    height: 40px;
+    border-radius: 12px;
+    outline: none;
+    border: none;
+    margin: 30px auto;
+    transition: all 0.3s;
+    box-shadow: 0 0 3px 3px var(--button-color);
+}
+
+.create-fund-form button[type=submit]:hover {
+    color: var(--button-color);
+    background-color: white;
+}
+
+.create-fund-form button[type=submit]:disabled {
+    background-color: var(--background-color);
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.assets-layout {
+    margin: 20px 0;
+}

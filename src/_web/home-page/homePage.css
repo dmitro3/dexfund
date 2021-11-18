@@ -3,11 +3,10 @@
 .w-home-page-wrapper {
   width: 100%;
   background-color: transparent;
-  padding-top: 80px;
 }
 
 .w-home-page-content {
-  width: 90%;
+  width: 100;
   margin: auto;
 }
 

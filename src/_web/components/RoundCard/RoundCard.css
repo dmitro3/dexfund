@@ -1,0 +1,14 @@
+.round-card-container {
+    box-shadow: 0px 4px 15px rgba(201, 107, 228, 0.29);
+    border-radius: 10px;
+    width: fit-content;
+    height: fit-content;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+/* .round-card-container:hover {
+    margin-top: -5px;
+    box-shadow: 5px 10px 20px 10px rgba(201, 107, 228, 0.5);
+} */

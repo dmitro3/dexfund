@@ -1,0 +1,137 @@
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.profile-overview {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+.profile-container > .title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 33px;
+    /* identical to box height */
+
+    margin-top: 40px;
+    margin-bottom: 20px;
+    /* Colors / Black / 100% */
+
+    color: #000000;
+}
+
+.overview-card {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    background-color: white;
+    min-height: 340px;
+}
+
+.overview-card-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.overview-header .title {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 32px;
+    /* or 160% */
+
+    display: flex;
+    align-items: center;
+
+    /* UI / Text & Selection */
+
+    color: #2A3135;
+}
+
+.overview-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 45px;
+}
+
+.overview-detail-row {
+    border-top: 1px solid #F3F5F9;
+}
+
+.overview-detail-row:last-child {
+    border-bottom: 1px solid #F3F5F9;
+}
+
+.overview-detail-row .subject {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+
+    display: flex;
+    align-items: center;
+    font-feature-settings: 'tnum'on, 'lnum'on, 'ss01'on;
+
+    /* UI / Basic Grey */
+
+    color: #868C90;
+}
+
+.overview-detail-row .subject-value {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: center;
+    text-align: right;
+    font-feature-settings: 'tnum'on, 'lnum'on, 'ss01'on;
+
+    /* UI / Text & Selection */
+
+    color: #2A3135;
+}
+
+.fund-titles {
+    display: flex;
+    flex-direction: column;
+}
+
+.fund-title-row {
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fund-title-row-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+.fund-title-row span {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+
+    display: flex;
+    align-items: center;
+    font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on;
+    color: #868C90;
+}
+.fund-title-row-name {
+    color: black !important;
+    font-weight: bold;
+    margin-right: 5px;
+}

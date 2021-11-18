@@ -1,0 +1,42 @@
+.floating-input-wrapper {
+    width: 100%;
+    position:relative;
+    outline: #c2c1c1;
+    background: #F8F8F8;
+    padding: 25px 30px;
+    border-radius: 10px;
+    display: flex;
+}
+.floating-input-wrapper input{
+    border:none;
+    outline:none;
+    border: none;
+    width: 100%;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #000000;
+    mix-blend-mode: normal;
+    background-color: transparent;
+}
+.floating-input-wrapper input::placeholder{
+    opacity:0;
+}
+.floating-input-wrapper span{
+    position:absolute;
+    top:0;
+    left:30px;
+    transform:translateY(30px);
+    font-size:0.825em;
+    transition-duration:300ms;
+    color: #999898;
+}
+
+.floating-input-wrapper:focus-within > span,
+.floating-input-wrapper input:not(:placeholder-shown) + span{
+    color:purple;
+    transform:translateY(0px);
+    left: 10px;
+}
+

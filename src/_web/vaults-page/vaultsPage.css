@@ -4,3 +4,13 @@
 .w-investment-funds-header {
     
 }
+.investment-funds-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: white;
+    box-shadow: 0px 4px 15px rgba(201, 107, 228, 0.29);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 5px;
+}

@@ -17,7 +17,7 @@ import SkeletonLoader from "./../../skeleton-loader/SkeletonLoader";
 
 // CSS
 import "./../styles/yourTransactions.css";
-import { allFundTransactions } from "../../../../sub-graph-integrations";
+import { allFundTransactions, queryFundFinancials } from "../../../../sub-graph-integrations";
 import FundTransactionsTableHeader from "./FundTransactionsTableHeader";
 
 import addIcon from "../assets/add-icon.svg";
@@ -33,12 +33,15 @@ class InvestmentFunds extends Component {
     super(props);
 
     this.state = {
+      ...props,
       title: this.props.titleFromParent,
 
       searchedValue: "",
       ethPrice: 1,
       transactionHistory: [],
       isLoaded: false,
+      shareSupply: 0,
+      denominationAsset: undefined,
     };
   }
 
@@ -46,6 +49,15 @@ class InvestmentFunds extends Component {
     if (prevProps.onboard !== this.props.onboard) {
       this.getData();
     }
+  }
+
+  async componentDidMount() {
+    let fund = await queryFundFinancials(this.props.state.fundId);
+    this.setState({
+      ...this.state,
+      shareSupply: fund.shares.totalSupply,
+      denominationAsset: fund.accessor.denominationAsset.symbol,
+    });
   }
 
   callbackFunction = (childData) => {
@@ -63,6 +75,7 @@ class InvestmentFunds extends Component {
     const allFundTx = await allFundTransactions(this.props.fundId);
 
     this.setState({
+      ...this.state,
       transactionHistory: allFundTx || [],
       ethPrice: _ethPrice,
       isLoaded: true,
@@ -96,7 +109,7 @@ class InvestmentFunds extends Component {
                   </div>
                 </div>
 
-                <div className="w-your-transactions-table-cell token">
+                {/* <div className="w-your-transactions-table-cell token">
                   <a
                     href={`https://etherscan.io/address/${transaction.investor}`}
                     target="_blank"
@@ -114,13 +127,13 @@ class InvestmentFunds extends Component {
                       />
                     </div>
                   </a>
-                </div>
+                </div> */}
 
                 <div className="w-your-transactions-table-cell vault">
                   {currencyFormat(transaction.shares)}
                 </div>
 
-                {/* <div className="w-your-transactions-table-cell value">
+                <div className="w-your-transactions-table-cell value">
                   <div className="w-investment-funds-token-bullet">
                     <div>$</div>
                     <div className="w-investment-funds-token-bullet-text">
@@ -132,13 +145,19 @@ class InvestmentFunds extends Component {
                       )}
                     </div>
                   </div>
-                </div> */}
+                </div>
                 <div className="w-your-transactions-table-cell time">
                   {getTimeDiff(transaction.timestamp)}
                 </div>
               </div>
             </>
           ))}
+        </div>
+        <div className="w-fund-info-table-row">
+            <div className="total-invest-title">Total Invested</div>
+            <div className="total-invest-value">
+              {this.state.currentSharePrice}
+            </div>
         </div>
       </>
     );
@@ -172,7 +191,6 @@ class InvestmentFunds extends Component {
     return (
       <>
         <div className="w-your-transactions-wrapper">
-          <div className="w-your-transactions-header">{this.state.title}</div>
           <div>
             {/* <SearchBar
               {...this.props}

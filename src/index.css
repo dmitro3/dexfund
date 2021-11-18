@@ -1,3 +1,11 @@
 :root {
-    --background-color: #000;
+    --background-color: rgb(225,210,255);
+    --padding: 10px;
+    --secondary-color: #ca6ae413;
+    --button-color: #C96AE4;
+    --primary-color: #E926C3;
+}
+#root {
+    background-color: var(--background-color);
+    font-family: "Bai Jamjuree", sans-serif
 }

@@ -412,3 +412,22 @@ export const getEthPrice = async () => {
 
   return parseFloat(currency.price.price) || 0;
 };
+
+export const getTopAsset = (fund) => {
+  const holdings = fund.portfolio.holdings || [];
+  const values = holdings.map(holding => (
+      parseInt(holding.amount) * parseInt(holding.asset.price.price)
+  ));
+  var indexOfMaxValue = values.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
+  var sum = values.reduce((a, b) => a + b);
+  if (sum > 0) {
+      return ({
+          symbol: holdings[indexOfMaxValue].asset.symbol,
+          percentage: values[indexOfMaxValue] * 100 / sum
+      });
+  } else {
+    return {
+
+    }
+  }
+}

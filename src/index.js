@@ -22,7 +22,11 @@ import ReduxToastr from "react-redux-toastr";
 //CSS
 import "./onboardStyling.css";
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
+import  ManageVaultPage  from "./_web/manage-vaults-page/ManageVaultPage";
+import Layout from "./_web/global/layout/Layout";
+import Profile from "./_web/components/Profile/Profile";
 //get Library
 function getLibrary(provider) {
   return new Web3(provider);
@@ -34,17 +38,29 @@ const app = (
       <Provider store={store}>
         <LoaderOverlary>
           <BrowserRouter>
-            <Switch>
-              <Route path="/" exact component={HomePage} />
-              <Route path="/your-funds" exact component={YourFundsPage} />
-              <Route path="/fund/:address" exact component={FundDetailsPage} />
-              <ProtectedRoute
-                path="/add-new-fund"
-                exact
-                component={AddNewFundPage}
-              />
-              <Route path="/vaults" exact component={VaultsPage} />
-            </Switch>
+            <Layout>
+              <Switch>
+                <Route path="/" exact component={HomePage} />
+                <Route path="/your-funds" exact component={YourFundsPage} />
+                <Route path="/fund/:address" exact component={FundDetailsPage} />
+                <ProtectedRoute
+                  path="/add-new-fund"
+                  exact
+                  component={AddNewFundPage}
+                />
+                <ProtectedRoute
+                  path="/manage"
+                  exact
+                  component={ManageVaultPage}
+                />
+                <ProtectedRoute
+                  path="/profile"
+                  exact
+                  component={Profile}
+                />
+                <Route path="/vaults" exact component={VaultsPage} />
+              </Switch>
+            </Layout>
           </BrowserRouter>
         </LoaderOverlary>
         <ReduxToastr

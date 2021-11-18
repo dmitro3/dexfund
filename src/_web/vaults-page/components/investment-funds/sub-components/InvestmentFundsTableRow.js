@@ -25,6 +25,19 @@ class InvestmentFundsTableRow extends Component {
     this.toPage = this.toPage.bind(this);
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({
+      searchedValue: props.searchedValueFromParent,
+      address: props.idFromParent,
+      name: props.nameFromParent,
+      type: props.typeFromParent,
+      denominationAsset: props.denominationAssetFromParent,
+      AUM: props.AUMFromParent,
+      depositors: props.depositorsFromParent,
+      lifetimeGain: props.lifetimeGainFromParent,
+    })
+  }
+
   toPage(address, params) {
     this.props.history.push("/fund/" + address);
     window.scrollTo({
@@ -60,7 +73,7 @@ class InvestmentFundsTableRow extends Component {
           >
             <img
               style={{ height: "24px", width: "24px" }}
-              src={getIconSource(this.state.denominationAsset.toLowerCase())}
+              src={this.state.denominationAsset ? getIconSource(this.state.denominationAsset.toLowerCase()) : '/icons/eth.svg'}
             />{" "}
             {this.state.denominationAsset}
           </div>

@@ -25,18 +25,7 @@ class FundOverviewCards extends Component {
     };
   }
 
-  // async componentDidMount() {
-  //   let overview = await queryFundOverviewDetails(this.state.fundId);
-  //   this.setState({
-  //     depositors: overview.investmentCount,
-  //     denominationAssetSymbol: overview.accessor.denominationAsset.symbol,
-  //     denominationAssetName: overview.accessor.denominationAsset.name,
-  //   });
-  // }
-
   render() {
-    // var width = window.innerWidth;
-
     return (
       <>
         <div className="w-fund-overview-cards-wrapper">

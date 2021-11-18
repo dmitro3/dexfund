@@ -6,15 +6,20 @@
 
 .w-top-investment-funds-header {
   font-family: "Bai Jamjuree", sans-serif;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
-  color: #fff;
+  color: #000;
   padding: 0 0 20px 0;
 }
 
 .w-top-investment-funds-content {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.fund-card-wrapper {
+  margin-bottom: 40px;
 }
 
 .w-profitable-funds-card {

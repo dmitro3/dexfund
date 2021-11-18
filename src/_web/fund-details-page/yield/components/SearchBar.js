@@ -51,11 +51,11 @@ class InvestmentFunds extends Component {
                                 onChange={(e) => this.inputField(e)}
                                 onFocus={() => this.clearInputValue()}
                                 style={{
-                                    marginTop: '9px',
-                                    width: '700px',
+                                    width: '320px',
+                                    height: '100%',
                                     borderWidth: '0px 0px 0px 0px',
-                                    backgroundColor: '#020202',
-                                    color: '#999',
+                                    backgroundColor: '#fff',
+                                    color: '#222',
                                     fontFamily: 'Bai Jamjuree, sans-serif',
                                     fontSize: '15px',
                                     fontWeight: '400',

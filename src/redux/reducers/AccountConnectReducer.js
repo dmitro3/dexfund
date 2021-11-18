@@ -42,3 +42,8 @@ export default function connectToAccountReducer(state = initialState, action) {
       return state;
   }
 }
+
+
+export const getConnectInformation = (state) => {
+  return state.connect;
+}
