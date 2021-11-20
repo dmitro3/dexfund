@@ -1,0 +1,24 @@
+.ReactModal__Content {
+    border-radius: 12px !important;
+    padding: 0 !important;
+    border: none !important;
+    overflow: hidden !important;
+    z-index: 20 !important;
+    width: fit-content !important;
+    height: fit-content !important;
+    left: calc(50% - 230px) !important;
+    top: calc(50% - 200px) !important;
+    background-color: #0d0f1a !important;
+}
+
+.modal-close {
+    right: 10px;
+    top: 10px;
+    position: absolute;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.ReactModal__Overlay {
+    z-index: 20;
+}

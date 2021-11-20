@@ -16,6 +16,8 @@ import FundDetails from "./components/details/FundDetails";
 // CSS
 import "./styles/fundOverview.css";
 import RoundCard from "../../components/RoundCard/RoundCard";
+import { connect } from "react-redux";
+import CustomModal from "../../components/Modal/Modal";
 
 class FundOverview extends Component {
   constructor(props) {
@@ -27,7 +29,15 @@ class FundOverview extends Component {
       depositors: "",
       denominationAssetSymbol: "",
       denominationAssetName: "",
+      modalShow: false
     };
+    this.showModal = this.showModal.bind(this);
+  }
+  componentWillReceiveProps(props) {
+    this.setState({
+      ...props.state,
+      ...props.props,
+    });
   }
 
   async componentDidMount() {
@@ -40,15 +50,28 @@ class FundOverview extends Component {
     });
   }
 
-  render() {
+  showModal(value) {
+    console.log('modal: ', value);
+    this.setState({
+      ...this.state,
+      modalShow: value
+    })
+  }
 
+  render() {
+    console.log('onboard: ', this.state.onboard, this.state.account)
     var width = window.innerWidth;
 
     if (width > 1000) {
       return (
         <>
           <div className="w-fund-overview-wrapper">
-            {/* <Sidebar state={this.state} /> */}
+            {
+              this.state.onboard.walletConnected && 
+              <CustomModal modalIsOpen={this.state.modalShow} onCloseButtonClick={() => this.showModal(false)}>
+                <Sidebar state={this.state} />
+              </CustomModal>
+            }
             <div className="w-fund-overview-content">
               <RoundCard width="100%">
                 <VaultChart fundAddress={this.state.fundId} parentState={this.state} fundName={this.state.fundName} walletMust={false} currentSharePrice={this.state.currentSharePrice} state={this.state}/>
@@ -60,11 +83,13 @@ class FundOverview extends Component {
               <RoundCard width="100%">
                 <FundComposition state={this.state}/>
               </RoundCard>
-
-              <div className="btn-layout">
-                <button className="btn-invest">Invest</button>
-                <button className="btn-withdraw">Withdraw</button>
-              </div>
+              {
+                this.state.onboard.walletConnected && 
+                <div className="btn-layout">
+                  <button className="btn-invest" onClick={() => this.showModal(true)}>Invest</button>
+                  <button className="btn-withdraw" onClick={() => this.showModal(true)}>Withdraw</button>
+                </div>
+              }
 
               {/* <FundDetails state={this.state} /> */}
             </div>
@@ -78,3 +103,4 @@ class FundOverview extends Component {
 }
 
 export default FundOverview;
+

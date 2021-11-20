@@ -78,33 +78,34 @@ class SidebarInvestCard extends Component {
     this.setState({ amountToInvest: value, maxClicked: false });
   };
 
-  async componentDidUpdate(prevProps) {
-    this.checkDepositLimits();
-    if (prevProps.onboard != this.props.onboard) {
-      this.setState({
-        maxEth: this.props.onboard.balance,
-      });
-    }
+  // async componentDidUpdate(prevProps) {
+  //   this.checkDepositLimits();
+  //   if (prevProps.onboard != this.props.onboard) {
+  //     this.setState({
+  //       maxEth: this.props.onboard.balance,
+  //     });
+  //   }
 
-    if (prevProps.state != this.props.state) {
-      this.setState({
-        ...this.props.state,
-      });
-    }
+  //   if (prevProps.state != this.props.state) {
+  //     this.setState({
+  //       ...this.props.state,
+  //     });
+  //   }
 
-    if (
-      this.props.onboard.address != prevProps.onboard.address ||
-      this.props.onboard.fundAddress != prevProps.onboard.fundAddress ||
-      this.props.onboard.provider != prevProps.onboard.provider
-    ) {
-      this.setMaxAmountDenomination();
-      this.setAllowance();
-      this.setFundMinMax();
-    }
-  }
+  //   if (
+  //     this.props.onboard.address != prevProps.onboard.address ||
+  //     this.props.onboard.fundAddress != prevProps.onboard.fundAddress ||
+  //     this.props.onboard.provider != prevProps.onboard.provider
+  //   ) {
+  //     this.setMaxAmountDenomination();
+  //     this.setAllowance();
+  //     this.setFundMinMax();
+  //   }
+  // }
 
   setAllowance = async () => {
     var allowance;
+    console.log('set allowance: ', this.state.fundAddress, this.props.onboard)
     allowance = await getDenominationAllowance(
       this.state.fundAddress,
       this.props.onboard.address,

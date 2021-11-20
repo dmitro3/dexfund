@@ -18,19 +18,25 @@ class Sidebar extends Component {
     super(props);
 
     this.state = {
+      ...this.props.state,
       selectedSidebarItem: "invest",
       fundAddress: this.props.state.fundId,
-
-      ...this.props.state
     };
   }
 
   componentDidUpdate(prevProps) {
+    console.log('sidebar: ', this.state)
     if (prevProps.state != this.props.state) {
       this.setState({
         ...this.props.state
       })
     }
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      ...props.state
+    });
   }
 
   renderInvestCard() {
@@ -95,11 +101,6 @@ class Sidebar extends Component {
                     Withdraw
                   </div>
                 </div>
-                <img
-                  src={settingsIcon}
-                  alt="settings-icon"
-                  className="sidebar-settings-icon"
-                />
               </div>
               {this.state.selectedSidebarItem === "invest" &&
                 this.renderInvestCard()}

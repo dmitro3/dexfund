@@ -9,8 +9,8 @@ const configs = {
     gasLimit: "30000",
   },
   DB_URL: "mongodb://localhost:27017/radar-dapp",
-  MAINNET_ENDPOINT: "",
-  DEBUG_MODE: true,
+  MAINNET_ENDPOINT: "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme",
+  DEBUG_MODE: false,
   BLACKLISTED_VAULTS: [],
   FALLBACK_PROVIDER:
     "https://eth-mainnet.alchemyapi.io/v2/BMl6OKMeu0A6ZnM8gj5oBrzdO63r5SXH",

@@ -78,7 +78,7 @@ class FundDetails extends Component {
           manageFee={this.state.manageFee}
           entranceFee={this.state.entranceFee}
           minimumInvestmentAmount={this.state.policy ? this.state.policy.minInvestmentAmount: '-'}
-          denominationAssetSymbol={this.state.policy.fund ? this.state.policy.fund.accessor.denominationAsset.symbol : '-'}
+          denominationAssetSymbol={this.state.policy && this.state.policy.fund ? this.state.policy.fund.accessor.denominationAsset.symbol : '-'}
         />
       </>
     );

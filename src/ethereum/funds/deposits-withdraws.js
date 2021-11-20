@@ -1,4 +1,7 @@
-import { ethers, providers } from "ethers";
+import {
+  ethers,
+  providers
+} from "ethers";
 import FundActionsWrapper from "./../abis/FundActionsWrapper.json";
 import VaultLib from "./../abis/VaultLib.json";
 import ComptrollerLib from "./../abis/ComptrollerLib.json";
@@ -24,27 +27,38 @@ export const getContracts = async (fundAddress, provider) => {
     signer
   );
 
+  console.log('getContracts: ', fundAddress, vaultLibContract);
+
   // Estimation
-  const comptroller = await vaultLibContract.getAccessor();
-  const comptrollerContract = new ethers.Contract(
-    comptroller,
-    ComptrollerLibInterface,
-    signer
-  );
-  const denominationAsset = await comptrollerContract.getDenominationAsset();
+  let comptroller;
+  try {
 
-  // Use VaultLib interface for shares functions
-  const assetContract = new ethers.Contract(
-    denominationAsset,
-    VaultLibInterface,
-    signer
-  );
+    const comptroller = await vaultLibContract.getAccessor();
+    const comptrollerContract = new ethers.Contract(
+      comptroller,
+      ComptrollerLibInterface,
+      signer
+    );
 
-  return {
-    assetContract,
-    comptrollerContract,
-    vaultLibContract,
-  };
+    console.log('getComptroller Contracts: ', comptroller)
+    const denominationAsset = await comptrollerContract.getDenominationAsset();
+
+    // Use VaultLib interface for shares functions
+    const assetContract = new ethers.Contract(
+      denominationAsset,
+      VaultLibInterface,
+      signer
+    );
+
+    return {
+      assetContract,
+      comptrollerContract,
+      vaultLibContract,
+    };
+  } catch (e) {
+    console.log('error: ', e);
+  }
+  return comptroller;
 };
 
 export const getDenominationAllowance = async (
@@ -54,8 +68,11 @@ export const getDenominationAllowance = async (
 ) => {
   provider = getProvider(provider);
   const signer = await provider.getSigner();
-
-  const { assetContract, comptrollerContract } = await getContracts(
+  console.log('signer: ', signer);
+  const {
+    assetContract,
+    comptrollerContract
+  } = await getContracts(
     fundAddress,
     provider
   );
@@ -72,7 +89,10 @@ export const approveForInvestment = async (fundAddress, provider, amount) => {
   provider = getProvider(provider);
   const signer = await provider.getSigner();
 
-  const { assetContract, comptrollerContract } = await getContracts(
+  const {
+    assetContract,
+    comptrollerContract
+  } = await getContracts(
     fundAddress,
     provider
   );
@@ -94,7 +114,9 @@ export const investFundDenomination = async (
 ) => {
   provider = getProvider(provider);
   const signer = await provider.getSigner();
-  const { comptrollerContract } = await getContracts(fundAddress, provider);
+  const {
+    comptrollerContract
+  } = await getContracts(fundAddress, provider);
 
   const receipt = await comptrollerContract.buyShares(
     [investor],
@@ -113,7 +135,9 @@ export const getDenominationBalance = async (
   provider = getProvider(provider);
   const signer = await provider.getSigner();
 
-  const { assetContract } = await getContracts(fundAddress, provider);
+  const {
+    assetContract
+  } = await getContracts(fundAddress, provider);
 
   const balance = await assetContract.balanceOf(investor);
 
@@ -124,7 +148,9 @@ export const redeemAllShares = async (fundAddress, provider) => {
   provider = getProvider(provider);
   const signer = await provider.getSigner();
 
-  const { comptrollerContract } = await getContracts(fundAddress, provider);
+  const {
+    comptrollerContract
+  } = await getContracts(fundAddress, provider);
 
   const receipt = await comptrollerContract.redeemShares();
   await receipt.wait();
@@ -190,7 +216,9 @@ export const getFundMinMaxAdapter = async (fundAddress, provider) => {
   provider = getProvider(provider);
   const signer = await provider.getSigner();
 
-  const { comptrollerContract } = await getContracts(fundAddress, provider);
+  const {
+    comptrollerContract
+  } = await getContracts(fundAddress, provider);
 
   const MinMaxInterface = new ethers.utils.Interface(
     JSON.parse(JSON.stringify(MinMaxInvestment.abi))
