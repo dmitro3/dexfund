@@ -56,7 +56,7 @@ const Header = (props) => {
     }
 
     setSelectedPage(_page);
-  })
+  }, [location])
   const toPage = (path) => {
     history.push(path);
     
@@ -99,6 +99,7 @@ const Header = (props) => {
               alt="radar-protocol-icon"
               className="radar-protocol-icon"
             />
+            <h2 className="title"><span className="hightlight">DEX</span><span>IFY</span></h2>
             <div
               className={
                 "w-header-navbar-item" +
@@ -106,7 +107,7 @@ const Header = (props) => {
               }
               onClick={() => toPage("/", { name: "home-page" })}
             >
-              HOME
+              Dexfund
             </div>
             {/* <div
               className={

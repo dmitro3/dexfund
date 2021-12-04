@@ -135,13 +135,17 @@ class TopInvestmentFunds extends Component {
           {...this.props}
         /> */}
         {
-          this.state.largest.map((fund, index) => {
+         this.state.largest.length > 0 ? this.state.largest.map((fund, index) => {
             return (
               <div key={index} className="fund-card-wrapper">
                 <DexFundCard {...this.props} fund={fund}/>
               </div>
             )
-          })
+          }) : (
+            <div className="fund-empty-card-wrapper">
+              No Dexfunds Available
+            </div>
+          )
         }
         {/* <MostProfitableThisMonth
           investments={this.state.largest}

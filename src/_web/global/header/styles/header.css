@@ -252,3 +252,17 @@ background-color: transparent;
      font-size: 8px;
      margin-left: 10px;
  }
+ .title {
+     margin: 0;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    color: black;
+ }
+ .hightlight {
+    color: #C96BE4;
+
+ }

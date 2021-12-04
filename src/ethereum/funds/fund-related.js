@@ -411,7 +411,7 @@ export const getEthPrice = async () => {
 
   const currency = response.data.data.currency;
 
-  return parseFloat(currency.price.price) || 0;
+  return currency ? parseFloat(currency.price.price) || 0 : 0;
 };
 
 export const getTopAsset = (fund) => {

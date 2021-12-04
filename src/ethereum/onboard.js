@@ -72,10 +72,11 @@ export const onboard = Onboard({
   walletSelect: {
     wallets: [
       { walletName: "metamask", preferred: true },
+      {walletName: "binance"},
       {
         walletName: "trezor",
-        appUrl: "https://radarprotocol.com",
-        email: "contact@radar.global",
+        appUrl: "https://dexify.com",
+        email: "contact@dexify.global",
         rpcUrl,
         preferred: true,
       },
@@ -87,8 +88,8 @@ export const onboard = Onboard({
       {
         walletName: "walletConnect",
         rpc: {
-          [42]: configs.FALLBACK_PROVIDER_DEBUG,
-          [1]: configs.FALLBACK_PROVIDER,
+          [97]: configs.FALLBACK_PROVIDER_DEBUG,
+          [56]: configs.FALLBACK_PROVIDER,
           [31337]: configs.FALLBACK_PROVIDER_DEBUG,
         },
         preferred: true,

@@ -125,8 +125,7 @@ textarea.manage-form-control, textarea.manage-form-control:focus {
 }
 
 .create-fund-form button[type=submit]:disabled {
-    background-color: var(--background-color);
-    opacity: 0.7;
+    opacity: 0.5;
     cursor: not-allowed;
 }
 

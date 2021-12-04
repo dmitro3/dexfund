@@ -54,7 +54,7 @@ export const getParaswapData = async (
         console.log("minSlippageExpected: "+minSlippageExpected.toString());
 
         var paramBuilderBody = {
-            referrer: "RADAR",
+            referrer: "Dexify",
             userAddress: fundAddress,
             receiver: fundAddress,
             srcToken: src,

@@ -23,9 +23,9 @@ const ManageVaultPage = () => {
     const [fundName, setFundName] = useState('');
     const [performanceFee, setPerformanceFee] = useState(undefined);
     const [entryFee, setEntryFee] = useState(undefined);
-    const [minimumInvestment, setMinimumInvestment] = useState(undefined);
+    const [minimumInvestment, setMinimumInvestment] = useState(0);
+    const [maxInvestment, setMaxInvestment] = useState(0);
     const [startingAssetAddress, setstartingAssetAddress] = useState();
-    const [bio, setBio] = useState('');
     const [assets, setAssets] = useState([]);
 
 
@@ -61,9 +61,9 @@ const ManageVaultPage = () => {
             setWalletAddress(onboard.address);
             setstartingAssetAddress('');
             setEntryFee(undefined);
-            setMinimumInvestment(undefined);
+            setMinimumInvestment(0);
+            setMaxInvestment(0);
             setPerformanceFee(undefined);
-            setBio('');
             toastr.success("Successfully created a new vault");
           } catch (error) {
             console.log('create fund error: ', error)
@@ -74,13 +74,12 @@ const ManageVaultPage = () => {
 
     const generateColor = (seed) => {
         const color = seed.slice(2, 8);
-        console.log('color: ', color);
 
         return `#${color}44`;
     }
 
     const isValidate = () => {
-        return walletAddress && fundName && performanceFee && entryFee && minimumInvestment && startingAssetAddress;
+        return walletAddress && fundName && performanceFee && entryFee && minimumInvestment && maxInvestment && startingAssetAddress && (maxInvestment >= minimumInvestment);
     }
 
     const handleSelectAsset = (selectedAssetAddress) => {
@@ -126,11 +125,15 @@ const ManageVaultPage = () => {
         let policies = [];
     
         // Min / Max Investment Policy
-        if (minimumInvestment) {
+        if (minimumInvestment > maxInvestment) {
+          toastr.warning('Warning', 'Min investment value should not bigger than max investment amount');
+          return 'error';
+        }
+        if (minimumInvestment && maxInvestment) {
           try {
             // Get values from frontend. Should be 0 if they are not enabled.
             let minDeposit = minimumInvestment ? minimumInvestment : 0;
-            let maxDeposit = 0;
+            let maxDeposit = maxInvestment ? maxInvestment : minimumInvestment + 100000000;
             // Scale the minDeposit/maxDeposit values to the denomination asset's decimals
             var denominationAssetDecimals = await getAssetDecimals(
               startingAssetAddress,
@@ -229,6 +232,16 @@ const ManageVaultPage = () => {
                         className="manage-form-control"
                       />
                     </div>
+                    <div className="manage-form-group w-49">
+                      <FloatingInput
+                        id="max_investment"
+                        type="number"
+                        value={maxInvestment}
+                        placeholder="Max Investment" 
+                        onChange={(value) => setMaxInvestment(value)} 
+                        className="manage-form-control"
+                      />
+                    </div>
                     <div className="manage-form-group w-100 assets-layout">
                         <label htmlFor="" className="control-label">Select Starting Assets</label>
                         <div className="assets-wrapper">
@@ -242,15 +255,6 @@ const ManageVaultPage = () => {
                                 ))
                             }
                         </div>
-                    </div>
-                    <div className="manage-form-group w-100">
-                      <textarea
-                        id="bio"
-                        value={bio}
-                        placeholder="Bio" 
-                        onChange={(e) => setBio(e.target.value)} 
-                        className="manage-form-control"
-                      />
                     </div>
                     <button type="submit" disabled={!isValidate()}>Create New Fund</button>
                 </form>

@@ -350,7 +350,7 @@ class AddNewFundReview extends Component {
             <div className="w-fund-review-info-box">
               <div className="w-fund-review-terms">
                 By using this software, you understand, acknowledge and accept
-                that Radar Protocol and/or the underlying software are provided
+                that Dexify Protocol and/or the underlying software are provided
                 “as is” and without warranties or representations of any kind
                 either expressed or implied.
               </div>

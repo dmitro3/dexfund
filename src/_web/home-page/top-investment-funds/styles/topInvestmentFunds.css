@@ -119,3 +119,16 @@
   color: #999;
   text-align: right;
 }
+.fund-empty-card-wrapper {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 33px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* identical to box height */
+  height: 30vh;
+  color: rgba(0, 0, 0, 0.75);
+}

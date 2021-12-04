@@ -141,72 +141,90 @@ const Profile = (props) => {
     return (
         <div className="profile-container">
             <div className="profile-overview">
-                <RoundCard>
-                    <div className="overview-card">
-                        <div className="overview-card-header">
-                            <h4 className="overview-title">Total AUM</h4>
-                            <ThreeDots color={'black'} size={24}/>
-                        </div>
-                        <div className="overview-card-body">
-                            <div className="overview-detail">
-                                <div className="overview-detail-row">
-                                    <span className="subject">Total AUM</span>
-                                    <span className="subject-value">${parseFloat(myTotalAUM).toFixed(2)}</span> 
+                <div className="profile-overview-element">
+                    <RoundCard width="100%">
+                        <div className="overview-card">
+                            <div className="overview-card-header">
+                                <h4 className="overview-title">Total AUM</h4>
+                                <ThreeDots color={'black'} size={24}/>
+                            </div>
+                            <div className="overview-card-body">
+                                <div className="overview-detail">
+                                    <div className="overview-detail-row">
+                                        <span className="subject">Total AUM</span>
+                                        <span className="subject-value">${parseFloat(myTotalAUM).toFixed(2)}</span> 
+                                    </div>
+                                    <div className="overview-detail-row">
+                                        <span className="subject">7 Day %</span>
+                                        <span className="subject-value">{weekIncreasePercent}%</span> 
+                                    </div>
+                                    <div className="overview-detail-row">
+                                        <span className="subject">Total %</span>
+                                        <span className="subject-value">{totalIncreasePercent}%</span> 
+                                    </div>
                                 </div>
-                                <div className="overview-detail-row">
-                                    <span className="subject">7 Day %</span>
-                                    <span className="subject-value">{weekIncreasePercent}%</span> 
-                                </div>
-                                <div className="overview-detail-row">
-                                    <span className="subject">Total %</span>
-                                    <span className="subject-value">{totalIncreasePercent}%</span> 
+                                <div className="fund-titles">
+                                    <div className="fund-title-row">
+                                        <img src={avatar} alt="" className="fund-title-row-avatar" />
+                                        <span className="fund-title-row-name">{'Alt Queen'}'s{' '}</span>
+                                        <span>Dexfund - Biggest Dexfund</span>
+                                    </div>
+                                    <div className="fund-title-row">
+                                        <img src={avatar} alt="" className="fund-title-row-avatar" />
+                                        <span className="fund-title-row-name">{'BlackRock'}'s</span>
+                                        <span>Dexfund - Best Dexfund</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="fund-titles">
-                                <div className="fund-title-row">
-                                    <img src={avatar} alt="" className="fund-title-row-avatar" />
-                                    <span className="fund-title-row-name">{'Alt Queen'}'s{' '}</span>
-                                    <span>Dexfund - Biggest Dexfund</span>
-                                </div>
-                                <div className="fund-title-row">
-                                    <img src={avatar} alt="" className="fund-title-row-avatar" />
-                                    <span className="fund-title-row-name">{'BlackRock'}'s</span>
-                                    <span>Dexfund - Best Dexfund</span>
-                                </div>
+                        </div>
+                    </RoundCard>
+                </div>
+                <div className="profile-overview-element">
+                    <RoundCard width="100%">
+                        <div className="overview-card">
+                            <div className="overview-card-header">
+                                <h4 className="overview-title">Dexfund Split</h4>
+                                <ThreeDots color={'black'} size={24}/>
+                            </div>
+                            
+                            <div className="overview-card-body">
+                                {
+                                    splitAUM && splitAUM.length > 0 ? (
+                                        <DexfundRoundChart values={splitAUM}/>
+                                    ) : (
+                                        <div className="profile-empty-card-wrapper">
+                                            No Dexfunds Available
+                                        </div>
+                                    )
+                                }
                             </div>
                         </div>
-                    </div>
-                </RoundCard>
-                <RoundCard>
-                    <div className="overview-card">
-                        <div className="overview-card-header">
-                            <h4 className="overview-title">Dexfund Split</h4>
-                            <ThreeDots color={'black'} size={24}/>
+                    </RoundCard>
+                </div>
+                <div className="profile-overview-element">
+                    <RoundCard width="100%">
+                        <div className="overview-card">
+                            <div className="overview-card-header">
+                                <h4 className="overview-title">Total ROL</h4>
+                                <ThreeDots color={'black'} size={24}/>
+                            </div>
+                            <div className="overview-card-body">
+                                <DexfundChart outline={false} width={350} yLabel={true}/>
+                            </div>
                         </div>
-                        <div className="overview-card-body">
-                            <DexfundRoundChart values={splitAUM}/>
-                        </div>
-                    </div>
-                </RoundCard>
-                <RoundCard>
-                    <div className="overview-card">
-                        <div className="overview-card-header">
-                            <h4 className="overview-title">Total ROL</h4>
-                            <ThreeDots color={'black'} size={24}/>
-                        </div>
-                        <div className="overview-card-body">
-                            <DexfundChart outline={false} width={350} yLabel={true}/>
-                        </div>
-                    </div>
-                </RoundCard>
-          
+                    </RoundCard>
+                </div>
             </div>
             <h3 className="title">My Dexfunds</h3>
             <div className="profile-overview">
                 {
-                    myInvestments.map((fund, index) => (
+                   myInvestments.length > 0 ? myInvestments.map((fund, index) => (
                         <DexFundCard fund={fund} key={index}/>
-                    ))
+                    )) : (
+                        <div className="fund-empty-card-wrapper">
+                            No Dexfunds Available
+                        </div>
+                    )
                 }
             </div>
         </div>
