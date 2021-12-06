@@ -90,18 +90,12 @@ export const getYourInvestments = async (address, memberSince) => {
       ? configs.ENZYME_ENDPOINT
       : configs.MAINNET_ENDPOINT;
 
-    //this is dummy. should be removed for production.
-    const testAddress1 = "0x365de2d36e5760b98d41fb36c5dd2ac9e538c911";
-    const testAddress2 = "0x3c0b176d27a1d3c9749bb0ee087835359ad732f1";
-    const testAddress3 = "0x61af26e2f47da6efe567595501b080d6e8754e60";
-    const testAddress4 = "0x7b64686d7f36a0816ea60c2051b5a5decdccb323";
-
     var q = undefined;
     if (address) {
       if (memberSince) {
         q = `
         { 
-            sharesBoughtEvents(where:  {investor_contains: "${testAddress1}", timestamp_gte: "${memberSince}"}){
+            sharesBoughtEvents(where:  {investor_contains: "${address}", timestamp_gte: "${memberSince}"}){
                 investmentAmount
                 asset {
                   symbol,
@@ -151,7 +145,7 @@ export const getYourInvestments = async (address, memberSince) => {
       } else {
         q = `
         { 
-            sharesBoughtEvents(where:  {investor_contains: "${testAddress1}"}){
+            sharesBoughtEvents(where:  {investor_contains: "${address}"}){
                 investmentAmount
                 asset {
                   symbol,

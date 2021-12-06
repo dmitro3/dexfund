@@ -48,7 +48,7 @@ class YourTransactionsTableRow extends Component {
 
           <div className="w-your-transactions-table-cell token">
             <a
-              href={`https://etherscan.io/address/${this.props.transaction.investor}`}
+              href={`https://bscscan.com/address/${this.props.transaction.investor}`}
               target="_blank"
             >
               <div>

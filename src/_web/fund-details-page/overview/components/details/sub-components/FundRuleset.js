@@ -29,7 +29,7 @@ class FundRuleset extends Component {
               {this.props.policy.minInvestmentAmount}{" "}
               {this.props.policy.fund
                 ? this.props.policy.fund.accessor.denominationAsset.symbol
-                : ""}
+                : "--"}
             </div>
           </div>
           <div className="w-fund-info-table-row">
@@ -38,7 +38,7 @@ class FundRuleset extends Component {
               {this.props.policy.maxInvestmentAmount}{" "}
               {this.props.policy.fund
                 ? this.props.policy.fund.accessor.denominationAsset.symbol
-                : ""}
+                : "--"}
             </div>
           </div>
         </div>

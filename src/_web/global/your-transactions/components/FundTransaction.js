@@ -72,13 +72,21 @@ class InvestmentFunds extends Component {
     await this.setState({ isLoaded: false });
     let _ethPrice = await getEthPrice();
 
-    const allFundTx = await allFundTransactions(this.props.fundId);
+    const allFundTx = await allFundTransactions(this.props.fundId) || [];
 
+    console.log('transactions: ', allFundTx);
+    const _total = allFundTx.reduce((a, b) => {
+      const sign1 = a.type === 'INVEST' ? 1: -1;
+      const sign2 = b.type === 'INVEST' ? 1: -1;
+      console.log('transaction item: ', a, b)
+      return (sign1) * parseFloat(a.price || 0) * parseFloat(a.shares || 0) * _ethPrice + (sign2) * parseFloat(b.price || 0) * parseFloat(b.shares || 0) * _ethPrice
+    }, 0);
     this.setState({
       ...this.state,
       transactionHistory: allFundTx || [],
       ethPrice: _ethPrice,
       isLoaded: true,
+      totalInvest:  _total,
     });
   }
 
@@ -91,12 +99,12 @@ class InvestmentFunds extends Component {
       <>
         <div
           style={{
-            overflowY: "scroll",
+            overflowY: "auto",
             height: this.state.transactionHistory.length > 0 ? "40vh" : "10vh",
           }}
         >
           {this.state.transactionHistory.map((transaction, index) => (
-            <>
+            <a href={`https://bscscan.com/tx/${transaction.transaction_id}`} target="_blank" className="transaction-item-link">
               <div className="w-your-transactions-table-row" key={index}>
                 <div className="w-your-transactions-table-cell newItem">
                   <div className="w-your-transactions-action-section">
@@ -109,25 +117,16 @@ class InvestmentFunds extends Component {
                   </div>
                 </div>
 
-                {/* <div className="w-your-transactions-table-cell token">
+                <div className="w-your-transactions-table-cell token">
                   <a
-                    href={`https://etherscan.io/address/${transaction.investor}`}
+                    href={`https://bscscan.com/address/${transaction.investor}`}
                     target="_blank"
                   >
                     <div>
-                      <b> {`${transaction.investor.slice(0, 4)} ....`} </b>
-                      <img
-                        className="fund-composition-weth-icon"
-                        src={linkIcon}
-                        style={{
-                          width: "20px",
-                          height: "20px",
-                          fill: "red",
-                        }}
-                      />
+                      <b> {`${transaction.investor.slice(0, 4)}..${transaction.investor.slice(-4)}`} </b>
                     </div>
                   </a>
-                </div> */}
+                </div>
 
                 <div className="w-your-transactions-table-cell vault">
                   {currencyFormat(transaction.shares)}
@@ -150,13 +149,13 @@ class InvestmentFunds extends Component {
                   {getTimeDiff(transaction.timestamp)}
                 </div>
               </div>
-            </>
+            </a>
           ))}
         </div>
         <div className="w-fund-info-table-row">
             <div className="total-invest-title">Total Invested</div>
             <div className="total-invest-value">
-              {this.state.currentSharePrice}
+              {parseFloat(this.state.totalInvest).toFixed(2)}
             </div>
         </div>
       </>

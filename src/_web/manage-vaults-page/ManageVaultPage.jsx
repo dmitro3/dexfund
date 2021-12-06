@@ -13,6 +13,7 @@ import { activateLoaderOverlay, deactivateLoaderOverlay } from "../../redux/acti
 import { utils } from "ethers";
 import { toastr } from "react-redux-toastr";
 import FloatingInput from "../components/FloatingInput/FloatingInput";
+import { getIconSource } from "../../icons";
 
 const ManageVaultPage = () => {
 
@@ -60,10 +61,10 @@ const ManageVaultPage = () => {
             dispatch(deactivateLoaderOverlay());
             setWalletAddress(onboard.address);
             setstartingAssetAddress('');
-            setEntryFee(undefined);
+            setEntryFee(0);
+            setPerformanceFee(0)
             setMinimumInvestment(0);
             setMaxInvestment(0);
-            setPerformanceFee(undefined);
             toastr.success("Successfully created a new vault");
           } catch (error) {
             console.log('create fund error: ', error)
@@ -79,7 +80,8 @@ const ManageVaultPage = () => {
     }
 
     const isValidate = () => {
-        return walletAddress && fundName && performanceFee && entryFee && minimumInvestment && maxInvestment && startingAssetAddress && (maxInvestment >= minimumInvestment);
+      console.log('validate: ', walletAddress, fundName, performanceFee, entryFee, minimumInvestment, maxInvestment, startingAssetAddress, (maxInvestment >= minimumInvestment), typeof maxInvestment, typeof minimumInvestment)
+        return walletAddress && fundName && performanceFee && entryFee && minimumInvestment && maxInvestment && startingAssetAddress && (parseFloat(maxInvestment) >= parseFloat(minimumInvestment));
     }
 
     const handleSelectAsset = (selectedAssetAddress) => {
@@ -144,13 +146,13 @@ const ManageVaultPage = () => {
               minDeposit === 0
                 ? 0
                 : utils
-                    .parseEther(minDeposit)
+                    .parseEther('' + minDeposit)
                     .div(10 ** (18 - denominationAssetDecimals));
             maxDeposit =
               maxDeposit === 0
                 ? 10
                 : utils
-                    .parseEther(maxDeposit)
+                    .parseEther('' + maxDeposit)
                     .div(10 ** (18 - denominationAssetDecimals));
     
             // Push settings and actual policy
@@ -228,7 +230,7 @@ const ManageVaultPage = () => {
                         type="number"
                         value={minimumInvestment}
                         placeholder="Minimum Investment" 
-                        onChange={(value) => setMinimumInvestment(value)} 
+                        onChange={(value) => setMinimumInvestment(parseFloat(value))} 
                         className="manage-form-control"
                       />
                     </div>
@@ -238,7 +240,7 @@ const ManageVaultPage = () => {
                         type="number"
                         value={maxInvestment}
                         placeholder="Max Investment" 
-                        onChange={(value) => setMaxInvestment(value)} 
+                        onChange={(value) => setMaxInvestment(parseFloat(value))} 
                         className="manage-form-control"
                       />
                     </div>
@@ -251,7 +253,13 @@ const ManageVaultPage = () => {
                                         className={"asset-label " + (startingAssetAddress === asset.id ? " active" : "")} 
                                         style={{background: generateColor(asset.id)}}
                                         onClick={() => handleSelectAsset(asset.id)}
-                                    >{asset.symbol}</label>
+                                        key={index}
+                                    >
+                                      <img src={getIconSource(asset.symbol)} alt="" className="token-avatar" 
+                                        style={{marginRight: '10px', width: '20px', height: '20px'}}
+                                      />
+                                      <span>{asset.symbol}</span>
+                                    </label>
                                 ))
                             }
                         </div>

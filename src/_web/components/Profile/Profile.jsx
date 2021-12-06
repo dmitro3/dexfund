@@ -23,6 +23,8 @@ const Profile = (props) => {
     const [ethPrice, setEthPrice] = useState(0);
     const dispatch = useDispatch();
     const [myTotalAUM, setMyTotalAUM] = useState(0);
+    const [biggestFund, setBiggestFund] = useState(undefined);
+    const [bestFund, setBestFund] = useState(undefined);
     const [totalIncreasePercent, setTotalIncreasePercent] = useState(0);
     const [weekIncreasePercent, setWeekIncreasePercent] = useState(0);
     const [splitAUM, setSplitAUM] = useState([]);
@@ -35,7 +37,7 @@ const Profile = (props) => {
         });
     
         return AUM
-      }
+    }
     
      const calculateCurrentSharePrice = (investment, aum) => {
         const shareSupply = parseFloat(investment.shares.totalSupply);
@@ -79,11 +81,10 @@ const Profile = (props) => {
                     const price1 = investment1.asset ? parseFloat(investment1.asset.price.price) : 0;
                     return {
                         AUM: amount1 * price1 * _ethPrice,
-                        fundName: investment1.fund.name
+                        fundName: investment1.fund.name,
+                        fundId: investment1.fund.id
                     };
                 });
-
-                console.log('aums: ', aums);
 
                 const _yourTotalAUM = aums.reduce((a, b) => {
                     return (a.AUM || 0) + (b.AUM || 0);
@@ -98,9 +99,9 @@ const Profile = (props) => {
                     const startAUM = await getStartAUM(onboard.address, yourInvestments[0].investor.investorSince, _ethPrice);
                     const weekAgoTime = Math.ceil(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000);
                     const weekAgoAUM = await getStartAUM(onboard.address, weekAgoTime, _ethPrice);
-                    setTotalIncreasePercent((parseFloat((_yourTotalAUM - startAUM) * 100) / (startAUM || 1)).toFixed(2));
+                    setTotalIncreasePercent((100 + parseFloat((_yourTotalAUM - startAUM) * 100) / (startAUM || 1)).toFixed(2));
                     if (weekAgoTime < parseInt(yourInvestments[0].investor.investorSince)) {
-                        setWeekIncreasePercent((parseFloat((_yourTotalAUM - weekAgoAUM) * 100) / (weekAgoAUM || 1)).toFixed(2));
+                        setWeekIncreasePercent((100 + parseFloat((_yourTotalAUM - weekAgoAUM) * 100) / (weekAgoAUM || 1)).toFixed(2));
                     } else {
                         setWeekIncreasePercent('--');
                     }
@@ -129,8 +130,19 @@ const Profile = (props) => {
                     else
                     return 0;
                 });
-                
+                setBiggestFund(yourFunds[0]);
                 setMyInvestments(yourFunds);
+
+                yourFunds.sort((a, b) => {
+                    if (a.ltr < b.ltr)
+                    return 1;
+                    else if(a.ltr > b.ltr)
+                    return -1;
+                    else
+                    return 0;
+                });
+
+                setBestFund(yourFunds[0]);
                 setIsLoaded(true);
                 dispatch(deactivateLoaderOverlay());
 
@@ -164,16 +176,25 @@ const Profile = (props) => {
                                     </div>
                                 </div>
                                 <div className="fund-titles">
-                                    <div className="fund-title-row">
-                                        <img src={avatar} alt="" className="fund-title-row-avatar" />
-                                        <span className="fund-title-row-name">{'Alt Queen'}'s{' '}</span>
-                                        <span>Dexfund - Biggest Dexfund</span>
-                                    </div>
-                                    <div className="fund-title-row">
-                                        <img src={avatar} alt="" className="fund-title-row-avatar" />
-                                        <span className="fund-title-row-name">{'BlackRock'}'s</span>
-                                        <span>Dexfund - Best Dexfund</span>
-                                    </div>
+                                    {
+                                        biggestFund && (
+                                        <a className="fund-title-row" href={`https://bscscan.com/address/${biggestFund.id}`} target="_blank">
+                                            <img src={avatar} alt="" className="fund-title-row-avatar" />
+                                            <span className="fund-title-row-name">{biggestFund.name}</span>
+                                            <span>- Biggest Dexfund</span>
+                                        </a>
+                                        )
+                                    }
+                                    {
+                                        bestFund && (
+                                            <a className="fund-title-row" href={`https://bscscan.com/address/${bestFund.id}`} target="_blank">
+                                                <img src={avatar} alt="" className="fund-title-row-avatar" />
+                                                <span className="fund-title-row-name">{bestFund.name}</span>
+                                                <span>- Best Dexfund</span>
+                                            </a>
+                                        )
+                                    }
+                                    
                                 </div>
                             </div>
                         </div>

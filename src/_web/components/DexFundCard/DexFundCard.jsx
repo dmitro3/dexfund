@@ -9,6 +9,7 @@ import './DexFundCard.css';
 import {format, formatDistance, subDays} from 'date-fns';
 import { minMaxDepositAmounts } from '../../../sub-graph-integrations';
 import { useHistory } from 'react-router-dom';
+import { getIconSource } from '../../../icons';
 
 const DexFundCard = (props) => {
     const {fund} = props; 
@@ -72,7 +73,18 @@ const DexFundCard = (props) => {
                     </div>
                     <div className="holding">
                         <span className="title">Biggest Holding</span>
-                        <span className="value"><img src="" alt="" className="coin-avatar" />{biggestHolding.symbol ? biggestHolding.symbol : '-'} {biggestHolding.percentage ? biggestHolding.percentage.toFixed(2) : '-'}%</span>
+                        <span className="value">
+                            {
+                                (biggestHolding && biggestHolding.symbol && biggestHolding.percentage) ? (
+                                    <>
+                                        <img src={getIconSource(biggestHolding.symbol)} alt="" className="coin-avatar" />
+                                        <span>{biggestHolding.percentage.toFixed(2)}</span>%
+                                    </>
+                                ) : (
+                                    <>--</>
+                                )
+                            }
+                        </span>
                     </div>
                 </div>
                 <div className="chart-container">

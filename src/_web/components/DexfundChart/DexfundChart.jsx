@@ -54,8 +54,8 @@ class DexfundChart extends React.Component {
         return (
             this.props.outline ? 
             <div className="dexfund-chart-card">
-                <ReactApexChart options={this.state.options} series={this.state.series} type="area" height={this.props.height || 200} width={this.props.width || 200} />
-            </div> : <ReactApexChart options={this.state.options} series={this.state.series} type="area" height={this.props.height || 200} width={this.props.width || 200} />
+                <ReactApexChart options={this.state.options} series={this.state.series} type="area" height={this.props.height || 220} width={this.props.width || 200} />
+            </div> : <ReactApexChart options={this.state.options} series={this.state.series} type="area" height={this.props.height || 220} width={this.props.width || 200} />
         );
     }
 }

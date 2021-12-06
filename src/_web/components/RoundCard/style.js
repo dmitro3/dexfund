@@ -8,7 +8,6 @@ export default {
         transition: "all 0.3s",
     },
     hover: {
-        "marginTop": "-5px",
         "boxShadow": "5px 10px 20px 10px rgba(201, 107, 228, 0.5)",
     }
   }

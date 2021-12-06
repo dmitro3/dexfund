@@ -78,13 +78,13 @@ textarea.manage-form-control, textarea.manage-form-control:focus {
 
 .asset-label {
     border-radius: 10px;
-    min-width: 58px;
+    min-width: 110px;
     width: fit-content;
     height: 30px;
     padding: 5px 10px;
     margin: 0 0 10px 10px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     cursor: pointer;
     outline: none;
@@ -119,13 +119,12 @@ textarea.manage-form-control, textarea.manage-form-control:focus {
     box-shadow: 0 0 3px 3px var(--button-color);
 }
 
-.create-fund-form button[type=submit]:hover {
+.create-fund-form button[type=submit]:not(:disabled):hover {
     color: var(--button-color);
     background-color: white;
 }
 
 .create-fund-form button[type=submit]:disabled {
-    opacity: 0.5;
     cursor: not-allowed;
 }
 

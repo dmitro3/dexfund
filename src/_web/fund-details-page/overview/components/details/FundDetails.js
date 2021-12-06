@@ -52,7 +52,9 @@ class FundDetails extends Component {
 
     const entranceFee = await entranceDirectBurnFees(this.props.state.fundId);
 
-    console.log(feePerformance);
+    console.log('performanceFee: ', feePerformance);
+    console.log('manageFee: ', manageFee);
+    console.log('entranceFee: ', entranceFee);
     this.setState({
       ...this.state,
       policy,
@@ -77,7 +79,8 @@ class FundDetails extends Component {
           performanceFee={this.state.feePerformance}
           manageFee={this.state.manageFee}
           entranceFee={this.state.entranceFee}
-          minimumInvestmentAmount={this.state.policy ? this.state.policy.minInvestmentAmount: '-'}
+          minimumInvestmentAmount={this.state.policy ? this.state.policy.minInvestmentAmount: '--'}
+          maxInvestmentAmount={this.state.policy ? this.state.policy.maxInvestmentAmount: '--'}
           denominationAssetSymbol={this.state.policy && this.state.policy.fund ? this.state.policy.fund.accessor.denominationAsset.symbol : '-'}
         />
       </>

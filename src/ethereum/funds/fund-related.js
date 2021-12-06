@@ -428,7 +428,8 @@ export const getTopAsset = (fund) => {
       });
   } else {
     return {
-
+      symbol: holdings[indexOfMaxValue].asset.symbol,
+      percentage: 0
     }
   }
 }
@@ -450,3 +451,6 @@ export const getStartAUM = async (address, memberSince, _ethPrice) => {
   return _yourTotalAUM;
 }
 
+export const getMyLargestFunds = async (address) => {
+  
+}

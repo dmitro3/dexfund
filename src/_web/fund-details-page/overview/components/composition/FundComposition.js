@@ -41,7 +41,7 @@ class FundComposition extends Component {
 
     for(var i = 0; i < holdings.length; i++) {
       holdings[i].weight = parseFloat((holdings[i].amount * holdings[i].asset.price.price / aum) * 100).toFixed(2);
-      holdings[i].url = `https://etherscan.io/token/${holdings[i].asset.id}`;
+      holdings[i].url = `https://bscscan.com/token/${holdings[i].asset.id}`;
     }
 
     holdings.sort((a, b) => {

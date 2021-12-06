@@ -1,6 +1,6 @@
 .dexfund-card {
     width: 448px;
-    height: 272px;
+    height: 300px;
     background: #FFFFFF;
     display: flex;
     flex-direction: column;
@@ -124,4 +124,8 @@
     width: 265px;
     height: 100%;
     padding: 5px;
+}
+.coin-avatar {
+    width: 20px;
+    height: 20px;
 }

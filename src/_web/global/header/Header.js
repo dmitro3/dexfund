@@ -107,7 +107,7 @@ const Header = (props) => {
               }
               onClick={() => toPage("/", { name: "home-page" })}
             >
-              Dexfund
+              DEXFUNDS
             </div>
             {/* <div
               className={
