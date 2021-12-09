@@ -41,6 +41,7 @@ import ContentLoader from "react-content-loader";
 import "../styles/portfolio.css";
 import moment from "moment";
 import ReactApexChart from "react-apexcharts";
+import { getEthPrice } from "../../../../../../ethereum/funds/fund-related";
 
 const demoStyles = () => ({
   chart: {
@@ -55,6 +56,7 @@ class ChartComponent extends React.PureComponent {
     super(props);
 
     this.state = {
+      ethPrice: this.props.ethPrice,
       data: this.props.data,
       loading: this.props.loading,
       noData: this.props.noData,
@@ -134,14 +136,21 @@ class ChartComponent extends React.PureComponent {
   renderChart() {
     // const { data: chartData } = this.state;
     const { classes } = this.props;
+    const {height} = this.props;
+    const values = this.state.data;
+    const times = values.times.map(t => parseInt(t) * 1000);
+    const ethPrice = parseFloat(this.state.ethPrice);
+    const priceValues = values.sharePrices.map(p => (parseFloat(p) * ethPrice).toFixed(2));
+    console.log('priceValues: ', priceValues)
+    const fundName = this.state.fundName
     const series = [{
-      name: 'series1',
-      data: [31, 40, 28, 51, 42, 109, 100]
+      name: fundName,
+      data: priceValues
     }];
 
     const options =  {
         chart: {
-            height: 400,
+            height: height || 400,
             type: 'area'
         },
         colors:['#CA6BE5'],
@@ -160,7 +169,7 @@ class ChartComponent extends React.PureComponent {
         },
         xaxis: {
             type: 'datetime',
-            categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+            categories: times
         },
         yaxis: {
             type: 'numeric',
@@ -225,15 +234,15 @@ class ChartComponent extends React.PureComponent {
       //   </AreaChart>
       // </ResponsiveContainer>
 
-      <ReactApexChart options={options} series={series} type="area" height={400} width={'100%'} />
+      <ReactApexChart options={options} series={series} type="area" height={height || 400} width={'100%'} />
     );
   }
 
   render() {
     if (this.state.loading) {
       return this.renderLoading();
-    // } else if (this.state.noData) {
-    //   return this.renderNoData();
+    } else if (this.state.noData) {
+      return this.renderNoData();
     } else {
       return this.renderChart();
     }

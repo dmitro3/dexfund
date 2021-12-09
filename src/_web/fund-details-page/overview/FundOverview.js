@@ -50,11 +50,12 @@ class FundOverview extends Component {
     });
   }
 
-  showModal(value) {
+  showModal(value, type=undefined) {
     console.log('modal: ', value);
     this.setState({
       ...this.state,
-      modalShow: value
+      modalShow: value,
+      selectedSidebarItem: type
     })
   }
 
@@ -69,12 +70,12 @@ class FundOverview extends Component {
             {
               this.state.onboard.walletConnected && 
               <CustomModal modalIsOpen={this.state.modalShow} onCloseButtonClick={() => this.showModal(false)}>
-                <Sidebar state={this.state} />
+                <Sidebar state={this.state} selectedSidebarItem={this.state.selectedSidebarItem} />
               </CustomModal>
             }
             <div className="w-fund-overview-content">
               <RoundCard width="100%">
-                <VaultChart fundAddress={this.state.fundId} parentState={this.state} fundName={this.state.fundName} walletMust={false} currentSharePrice={this.state.currentSharePrice} state={this.state}/>
+                <VaultChart ethPrice={this.state.ethPrice} fundAddress={this.state.fundId} parentState={this.state} fundName={this.state.fundName} walletMust={false} currentSharePrice={this.state.currentSharePrice} state={this.state}/>
               </RoundCard>
 
               {/* <FundOverviewCards state={this.state} /> */}
@@ -86,8 +87,8 @@ class FundOverview extends Component {
               {
                 this.state.onboard.walletConnected && 
                 <div className="btn-layout">
-                  <button className="btn-invest" onClick={() => this.showModal(true)}>Invest</button>
-                  <button className="btn-withdraw" onClick={() => this.showModal(true)}>Withdraw</button>
+                  <button className="btn-invest" onClick={() => this.showModal(true, 'invest')}>Invest</button>
+                  <button className="btn-withdraw" onClick={() => this.showModal(true, 'withdraw')}>Withdraw</button>
                 </div>
               }
 

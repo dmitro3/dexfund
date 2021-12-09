@@ -152,9 +152,9 @@
     align-items: center;
 }
 img.ether-icon {
-    width: 21px;
-    height: 21px;
-    padding: 10px;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
     box-sizing: content-box;
     border-radius: 10px;
     background: #f7f7f7;

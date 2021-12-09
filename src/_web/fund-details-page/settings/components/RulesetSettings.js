@@ -8,12 +8,13 @@ import React, { Component } from "react";
 import closeIcon from "../assets/close-icon.svg";
 import chevronLeftIcon from "../assets/chevron-left-icon.svg";
 import infoIcon from "../assets/info-icon.svg";
-import ethIcon from "../assets/eth-icon.svg";
+import ethIcon from "../assets/eth-icon.png";
 
 // CSS
 import "../styles/fundSettings.css";
 import "../../fund-details-popup/styles/fundDetailsPopup.css";
 import { getRuleSet } from "../../../../sub-graph-integrations";
+import { getIconSource } from "../../../../icons";
 
 class RulesetSettings extends Component {
   constructor(props) {
@@ -86,18 +87,6 @@ class RulesetSettings extends Component {
               placeholder={this.state.minDeposit}
               value={this.state.minDepositNow}
               onChange={(e) => this.setMinDeposit(e)}
-              style={{
-                color: "#fff",
-                backgroundColor: "#070708",
-                fontFamily: "Bai Jamjuree, sans-serif",
-                borderWidth: "0",
-                fontSize: "15px",
-                fontWeight: "400",
-                outline: "none",
-                textAlign: "right",
-                width: "100%",
-                margin: "4px 4px 0 0",
-              }}
             ></input>
           </div>
           <div
@@ -145,18 +134,6 @@ class RulesetSettings extends Component {
               placeholder={this.state.maxDeposit}
               value={this.state.maxDepositNow}
               onChange={(e) => this.setMaxDeposit(e)}
-              style={{
-                color: "#fff",
-                backgroundColor: "#070708",
-                fontFamily: "Bai Jamjuree, sans-serif",
-                borderWidth: "0",
-                fontSize: "15px",
-                fontWeight: "400",
-                outline: "none",
-                textAlign: "right",
-                width: "100%",
-                margin: "4px 4px 0 0",
-              }}
             ></input>
           </div>
           <div
@@ -263,14 +240,14 @@ class RulesetSettings extends Component {
             <img
               src={ethIcon}
               alt="eth-icon"
-              className="w-ruleset-network-fee-icon"
+              className="w-ruleset-network-fee-icon token-avatar"
             />
             <div className="w-fund-details-popup-network-fee-text">
               <div className="w-fund-details-popup-network-fee-header">
                 Network Fees
               </div>
               <div className="w-fund-details-popup-network-fee-eth">
-                0.003232 ETH
+                0.003232 BNB
               </div>
               <div className="w-fund-details-popup-network-fee-usd">$9.45</div>
             </div>
@@ -297,22 +274,25 @@ class RulesetSettings extends Component {
   render() {
     return (
       <>
-        <div className="w-fund-settings-header">RULESET</div>
+        <div className="w-fund-settings-header">Deposit limits</div>
         <div className="w-fund-settings-card">
           <div className="w-fund-ruleset-settings-row">
-            <div className="w-fund-ruleset-settings-info">Deposit limits</div>
             <div className="w-fund-ruleset-settings-values-section">
-              <div>
-                Minimum deposit:{" "}
-                <a className="w-fund-ruleset-bullet">
-                  {this.state.minDeposit}WETH
-                </a>
+              <div className="w-fund-ruleset-settings-value-row">
+                <label htmlFor="value" className="w-fund-ruleset-label">Minimum deposit:</label>
+                <span className="w-fund-ruleset-bullet">
+                  <span className="limit-deposit-value">{this.state.minDeposit}</span>
+                  <span className="token-symbol">BUSD</span>
+                  <img src={getIconSource('busd')} className="small-token-avatar"/>
+                </span>
               </div>
-              <div style={{ margin: "20px 0 0 0" }}>
-                Maximum deposit:{" "}
-                <a className="w-fund-ruleset-bullet">
-                  {this.state.maxDeposit}WETH
-                </a>
+              <div className="w-fund-ruleset-settings-value-row">
+                <label htmlFor="value" className="w-fund-ruleset-label">Minimum deposit:</label>
+                <span className="w-fund-ruleset-bullet">
+                  <span className="limit-deposit-value">{this.state.maxDeposit}</span>
+                  <span className="token-symbol">BUSD</span>
+                  <img src={getIconSource('busd')} className="small-token-avatar"/>
+                </span>
               </div>
             </div>
             <div className="w-fund-ruleset-settings-buttons-section">

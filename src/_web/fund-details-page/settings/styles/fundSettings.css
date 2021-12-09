@@ -1,8 +1,13 @@
+.w-fund-settings-wrapper {
+    width:  fit-content
+}
+
 .w-fund-settings-header {
     font-family: 'Bai Jamjuree', sans-serif;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 600;
     color: #fff;
+    margin-top: 10px;
 }
 
 .w-fund-settings-card {
@@ -14,6 +19,8 @@ background-color: transparent;
 .w-fund-ruleset-settings-row {
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
+    min-width: 350px
 }
 
 .w-fund-ruleset-settings-info {
@@ -25,7 +32,7 @@ background-color: transparent;
 }
 
 .w-fund-ruleset-settings-values-section {
-    width: 40%;
+    width: 100%;
     font-family: 'Bai Jamjuree', sans-serif;
     font-size: 15px;
     font-weight: 500;
@@ -33,19 +40,21 @@ background-color: transparent;
 }
 
 .w-fund-ruleset-settings-buttons-section {
-    width: 40%;
+    width: 100%;
 }
 
 .w-fund-ruleset-bullet {
-    padding: 4px;
-    margin: 4px 4px 0 0;
-    width: 110px;
+    padding: 8px;
+    width: 150px;
     background-color: #17171C;
     border-radius: 10px;
     text-align: center;
+    display: flex;
+    justify-content: space-between;
 }
 
 .w-fund-ruleset-settings-buttons-section {
+    margin-top: 30px;
     display: flex;
     justify-content: right;
 }
@@ -84,15 +93,15 @@ background-color: transparent;
 }
 
 .w-ruleset-popup-box {
-background-color: transparent;
+    background:  #17171c;
 
-    width: 512px;
+    width: 700px;
     height: 373px;
 
     margin: 10% auto 10% auto;
     padding: 32px;
 
-    border-radius: 3px;
+    border-radius: 12px;
 }
 
 .w-ruleset-popup-header {
@@ -129,6 +138,19 @@ background-color: transparent;
 .w-ruleset-popup-input {
     border: 1px solid #17171C;
 }
+.w-ruleset-popup-input input {
+    color: white;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: end;
+    width: 100%;
+    margin: 0;
+    height: 100%;
+    color: "#fff";
+}
 
 .w-ruleset-popup-input:hover {
     border: 1px solid #E926C3;
@@ -153,12 +175,13 @@ background-color: transparent;
 .w-ruleset-popup-input-button.enable {
     background: linear-gradient(90deg, #E926C3 0%, #FF4D86 97.5%);
     color: #020202;
+    border-radius: 8px;
 }
 
 .w-ruleset-continue-button-section {
     border-top: 1px solid #17171C;
     padding: 16px 0 0 0;
-    margin: 40px 0 0 0;
+    margin: 40px auto 0 auto;
     display: flex;
     justify-content: space-between;
 }
@@ -166,13 +189,17 @@ background-color: transparent;
 .w-ruleset-continue-button {
     background: linear-gradient(90deg, #E926C3 0%, #FF4D86 97.5%);
     color: #020202;
-    width: 128px;
-    height: 56px;
+    width: 100px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    padding: 16px 26px;
     font-size: 15px;
     font-weight: 600;
     float: right;
+    margin: auto;
+    border-radius: 8px;
 }
 
 .w-ruleset-continue-button:hover {
@@ -198,7 +225,7 @@ background-color: transparent;
 
 .w-ruleset-popup-info {
     font-family: 'Bai Jamjuree', sans-serif;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 400;
     color: #999;
 }
@@ -274,4 +301,20 @@ background-color: transparent;
 .w-fund-settings-claim-button:hover {
     cursor: pointer;
     opacity: 0.9;
+}
+.small-token-avatar {
+    width: 20px;
+    height: 20px;
+}
+
+.w-fund-ruleset-label {
+    margin: 0 15px 0 0;
+
+}
+
+.w-fund-ruleset-settings-value-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
 }

@@ -211,7 +211,7 @@ export const withdraw = async (fundAddress, amount, signer, provider) => {
 
 const getVaultProxyAddress = async (fundAddress) => {
   const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
+    ? configs.MAINNET_ENDPOINT
     : configs.MAINNET_ENDPOINT;
   // const url = config.MAINNET_ENDPOINT;
 
@@ -281,7 +281,7 @@ export const getPolicies = async () => {
 
 export const getTransactions = async (address) => {
   const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
+    ? configs.MAINNET_ENDPOINT
     : configs.MAINNET_ENDPOINT;
   const query = `{
     transferEvents{
@@ -339,7 +339,7 @@ export const getTransactions = async (address) => {
 
 export const getFundTransactions = async (address) => {
   const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
+    ? configs.MAINNET_ENDPOINT
     : configs.MAINNET_ENDPOINT;
   // const url = config.MAINNET_ENDPOINT;
 
@@ -392,7 +392,7 @@ export const getFundTransactions = async (address) => {
 
 export const getEthPrice = async () => {
   const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
+    ? configs.MAINNET_ENDPOINT
     : configs.MAINNET_ENDPOINT;
 
   const priceQuery = {
@@ -417,8 +417,9 @@ export const getEthPrice = async () => {
 export const getTopAsset = (fund) => {
   const holdings = fund.portfolio.holdings || [];
   const values = holdings.map(holding => (
-      parseInt(holding.amount) * parseInt(holding.asset.price.price)
+      parseFloat(holding.amount) * parseFloat(holding.asset.price.price)
   ));
+
   var indexOfMaxValue = values.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
   var sum = values.reduce((a, b) => { return a + b }, 0);
   if (sum > 0) {
@@ -451,6 +452,3 @@ export const getStartAUM = async (address, memberSince, _ethPrice) => {
   return _yourTotalAUM;
 }
 
-export const getMyLargestFunds = async (address) => {
-  
-}

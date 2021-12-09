@@ -6,7 +6,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 // ASSETS
 import logoIcon from "./assets/logo.png";
 // import ethIcon from "./assets/eth-icon.svg";
-import ethIcon from '../../../assets/images/eth-icon.png';
+import ethIcon from '../../../assets/images/eth-icon.svg';
 
 // CSS
 import "./styles/header.css";
@@ -171,7 +171,7 @@ const Header = (props) => {
                             ? 0
                             : onboard.balance / 10 ** 18
                         ).toFixed(4)}{" "}
-                        ETH
+                        BNB
                       </div>
                     </div>
                     <div className="w-header-address-button-text">

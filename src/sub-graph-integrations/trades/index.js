@@ -5,7 +5,7 @@ import axios from "axios";
 export const getFundSwapTrades = async (id) => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const trades = await axios.post(endpoint, {
       query: `

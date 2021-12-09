@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { getOnboardInformation } from '../../../redux/reducers/OnboardReducer';
 import { getConnectInformation } from '../../../redux/reducers/AccountConnectReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllInvestments, getYourInvestments } from '../../../sub-graph-integrations';
+import { allFundTransactions, getAllInvestments, getYourInvestments } from '../../../sub-graph-integrations';
 import { getEthPrice, getStartAUM } from '../../../ethereum/funds/fund-related';
 import { getAllCreationSharePrices } from '../../../api/vaults';
 import configs from '../../../config';
@@ -65,43 +65,69 @@ const Profile = (props) => {
             if (onboard) {
                 dispatch(activateLoaderOverlay())
 
+                const _ethPrice = await getEthPrice();
+                setEthPrice(_ethPrice);
+
                 var yourInvestments = await getYourInvestments(
                     onboard.address
                 );
                 console.log('your investment: ', yourInvestments);
+                var yourFunds = yourInvestments.map(investment => investment.fund) || [];
+                const allFundTx = [];
 
-                setIsLoaded(false);
-                const _ethPrice = await getEthPrice();
-                setEthPrice(_ethPrice);
-                var creationSharePrices = await getAllCreationSharePrices();
-                
-                //yourInvestments = await getAllInvestments();
-                const aums = yourInvestments.map(investment1 => {
-                    const amount1 = parseFloat(investment1.investmentAmount) || 0;
-                    const price1 = investment1.asset ? parseFloat(investment1.asset.price.price) : 0;
-                    return {
-                        AUM: amount1 * price1 * _ethPrice,
-                        fundName: investment1.fund.name,
-                        fundId: investment1.fund.id
-                    };
+                yourFunds.map((fund) => {
+                    (async () => {
+                        allFundTx.push(await allFundTransactions(fund.id) || []); 
+                    })();
                 });
 
-                const _yourTotalAUM = aums.reduce((a, b) => {
-                    return (a.AUM || 0) + (b.AUM || 0);
-                }
-                , 0);
-                console.log('total aum: ', _yourTotalAUM);
+
+                setIsLoaded(false);
+                var creationSharePrices = await getAllCreationSharePrices();
+                console.log('allfundTX: ', allFundTx)
+                //yourInvestments = await getAllInvestments();
+                const aums = allFundTx.map(fundTx => {
+                    let priceArrayPerFund =  fundTx.map(tx => {
+                        const amount = parseFloat(tx.amount) || 0;
+                        const sign = tx.type === 'INVEST' ? 1: -1;
+                        const price = parseFloat(tx.price) || 0;
+                        return {
+                            AUM: sign * amount * price * _ethPrice,
+                            fundName: tx.fundName,
+                            fundId: tx.fundId
+                        };
+                    });
+
+                    let sum = 0;
+                    priceArrayPerFund.map(r => {
+                        sum += r.AUM;
+                    });
+
+                    return {
+                        fundName: priceArrayPerFund[0].fundName,
+                        fundAddress: priceArrayPerFund[0].fundId,
+                        AUM: sum
+                    }
+                });
+
+                console.log('AUMS: ', aums);
                 
-                setMyTotalAUM(_yourTotalAUM);
+                let _total = 0;
+                for (var a of aums) {
+                    _total += a.AUM;
+                }
+                console.log('total aum: ', _total);
+                setMyTotalAUM(_total);
+                
                 setSplitAUM(aums);
 
                 if (yourInvestments && yourInvestments.length > 0) {
                     const startAUM = await getStartAUM(onboard.address, yourInvestments[0].investor.investorSince, _ethPrice);
                     const weekAgoTime = Math.ceil(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000);
                     const weekAgoAUM = await getStartAUM(onboard.address, weekAgoTime, _ethPrice);
-                    setTotalIncreasePercent((100 + parseFloat((_yourTotalAUM - startAUM) * 100) / (startAUM || 1)).toFixed(2));
+                    setTotalIncreasePercent((100 + parseFloat((_total - startAUM) * 100) / (startAUM || 1)).toFixed(2));
                     if (weekAgoTime < parseInt(yourInvestments[0].investor.investorSince)) {
-                        setWeekIncreasePercent((100 + parseFloat((_yourTotalAUM - weekAgoAUM) * 100) / (weekAgoAUM || 1)).toFixed(2));
+                        setWeekIncreasePercent((100 + parseFloat((_total - weekAgoAUM) * 100) / (weekAgoAUM || 1)).toFixed(2));
                     } else {
                         setWeekIncreasePercent('--');
                     }
@@ -110,9 +136,7 @@ const Profile = (props) => {
                     setWeekIncreasePercent('--');
                 }
 
-                var yourFunds = yourInvestments.map(investment => investment.fund) ;
-                yourFunds
-                 = yourFunds.filter((v) => {
+                yourFunds = yourFunds.filter((v) => {
                     return !configs.BLACKLISTED_VAULTS.includes(v.id.toLowerCase());
                 });
 

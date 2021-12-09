@@ -6,7 +6,7 @@ import configs from "./../../config";
 export const getAllInvestments = async () => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
@@ -53,7 +53,7 @@ export const getAllInvestments = async () => {
 export const getFiveInvestments = async () => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
@@ -87,7 +87,7 @@ export const getFiveInvestments = async () => {
 export const getYourInvestments = async (address, memberSince) => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
 
     var q = undefined;
@@ -259,7 +259,7 @@ export const getYourInvestments = async (address, memberSince) => {
 export const getYourInvestmentsPerFund = async (fundId, address) => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
@@ -296,7 +296,7 @@ export const getYourInvestmentsPerFund = async (fundId, address) => {
 export const getFundCompostion = async (fundId) => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
@@ -335,7 +335,7 @@ export const getFundCompostion = async (fundId) => {
 export const ListAllTrades = async () => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.get(endpoint, {
       query: `
@@ -367,7 +367,7 @@ export const ListAllTrades = async () => {
 export const getFundAllFunds = async () => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
@@ -407,7 +407,7 @@ export const getFundAllFunds = async () => {
 export const getClaimRewards = async (fundId) => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
@@ -440,7 +440,7 @@ export const getClaimRewards = async (fundId) => {
 export const getRuleSet = async (fundId) => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
@@ -464,7 +464,7 @@ export const getRuleSet = async (fundId) => {
 export const getLiquidityPools = async () => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
@@ -498,7 +498,7 @@ export const getLiquidityPools = async () => {
 export const getAUM = async (fundId) => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
 
     let results;
@@ -552,7 +552,7 @@ export const getAUM = async (fundId) => {
 
 export const allFundTransactions = async (fundId) => {
   const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
+    ? configs.MAINNET_ENDPOINT
     : configs.MAINNET_ENDPOINT;
   const { data } = await axios.post(url, {
     query: `{
@@ -563,7 +563,7 @@ export const allFundTransactions = async (fundId) => {
         shares
         timestamp
         fundState{
-          id 
+          id
           portfolio{
             id
             holdings{
@@ -690,7 +690,7 @@ export const allFundTransactions = async (fundId) => {
 export const currentUserAllTransactions = async (walletAddress) => {
   //0xaed39f9013fe44deb694203d9d12ea4029edac49
   const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
+    ? configs.MAINNET_ENDPOINT
     : configs.MAINNET_ENDPOINT;
   const { data } = await axios.post(url, {
     query: `{
@@ -850,7 +850,7 @@ export const currentUserAllTransactions = async (walletAddress) => {
 
 export const currentUserVaults = async (accessor) => {
   const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
+    ? configs.MAINNET_ENDPOINT
     : configs.MAINNET_ENDPOINT;
 
   const query = `
@@ -906,7 +906,7 @@ export const currentUserVaults = async (accessor) => {
 
 export const getCurrentUserInvestments = async (address) => {
   const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
+    ? configs.MAINNET_ENDPOINT
     : configs.MAINNET_ENDPOINT;
 
   const query = `
@@ -947,7 +947,7 @@ export const getCurrentUserInvestments = async (address) => {
 
 export const minMaxDepositAmounts = async (fundId) => {
   const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
+    ? configs.MAINNET_ENDPOINT
     : configs.MAINNET_ENDPOINT;
 
   const query = `{
@@ -980,7 +980,7 @@ export const minMaxDepositAmounts = async (fundId) => {
 
 export const performanceFee = async (comptrollerId) => {
   const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
+    ? configs.MAINNET_ENDPOINT
     : configs.MAINNET_ENDPOINT;
 
   const query = `
@@ -1011,7 +1011,7 @@ export const performanceFee = async (comptrollerId) => {
 
 export const entranceDirectBurnFees = async (fundId) => {
   const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
+    ? configs.MAINNET_ENDPOINT
     : configs.MAINNET_ENDPOINT;
 
   const query = `
@@ -1035,7 +1035,7 @@ export const entranceDirectBurnFees = async (fundId) => {
 
 export const managementFee = async (comptrollerId) => {
   const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
+    ? configs.MAINNET_ENDPOINT
     : configs.MAINNET_ENDPOINT;
 
   const query = `
@@ -1064,8 +1064,8 @@ export const managementFee = async (comptrollerId) => {
 
 export const chart1d = async () => {
   const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
-    : configs.SUB_GRAPH_ENDPOINT;
+    ? configs.TESTNET_ENDPOINT
+    : configs.MAINNET_ENDPOINT;
 
   console.log(url);
 
@@ -1116,8 +1116,8 @@ export const chart1d = async () => {
 
 export const chart1w = async () => {
   const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
-    : configs.SUB_GRAPH_ENDPOINT;
+  ? configs.TESTNET_ENDPOINT
+  : configs.MAINNET_ENDPOINT
 
   console.log(url);
 
@@ -1168,8 +1168,8 @@ export const chart1w = async () => {
 
 export const chart1m = async () => {
   const url = configs.DEBUG_MODE
-    ? configs.ENZYME_ENDPOINT
-    : configs.SUB_GRAPH_ENDPOINT;
+  ? configs.TESTNET_ENDPOINT
+  : configs.MAINNET_ENDPOINT
 
   console.log(url);
 
@@ -1217,3 +1217,88 @@ export const chart1m = async () => {
     console.log("Data");
   }
 };
+
+
+export const getChartdata = async (fundId, timePeriod) => {
+  const url = configs.DEBUG_MODE
+  ? configs.TESTNET_ENDPOINT
+  : configs.MAINNET_ENDPOINT
+
+  console.log('chartType: ', timePeriod);
+
+  var now = Math.floor(new Date().getTime() / 1000);
+
+  var aday = 3600 * 24 * 30;
+  var aWeek = 7 * aday;
+  var aMonth = 31 * aday;
+  var _3Month = 3 * aMonth;
+  var _6Month = 6 * aMonth;
+  var aYear = 365 * aday;
+
+  var time1 = now;
+  var time2;
+  switch(timePeriod) {
+    case '1D':
+      time2 = now - aday;
+      break;
+    case '1W':
+      time2 = now - aWeek;
+      break;
+    case '1M':
+      time2 = now - aMonth
+      break;
+    case '3M':
+      time2 = now - _3Month
+      break;
+    case '6M':
+      time2 = now - _6Month
+      break;
+    case '1Y':
+      time2 = now - aYear
+      break;
+  }
+
+  let result = await axios
+  .post(url, {
+    query: `
+  {
+    fund(id: "${fundId}") {
+      name
+      portfolioHistory(where: {timestamp_gte: "${time2}", timestamp_lte: "${time1}"}) {
+        timestamp
+        holdings {
+          amount
+          price {
+            price
+          }
+        }
+      }
+    }
+  }
+  `,
+  })
+  .then((res) => {
+    return res.data.data.fund;
+  });
+
+  let times = [];
+  let sharePrices = [];
+
+  result.portfolioHistory.map((history) => {
+    let holdings = history.holdings;
+    let value = 0;
+    let amount = 0;
+    holdings.map(holding => {
+      let valuePerAsset = parseFloat(holding.amount) * parseFloat(holding.price.price);
+      value += valuePerAsset;
+      amount += holding.amount;
+    });
+    times.push(history.timestamp);
+    sharePrices.push(amount > 0 ? value / amount : 0);
+  });
+
+  return {
+    times,
+    sharePrices
+  }
+}

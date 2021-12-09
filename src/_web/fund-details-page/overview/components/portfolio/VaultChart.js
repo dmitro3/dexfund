@@ -6,7 +6,7 @@ import WalletNotConnected from "../../../../global/wallet-not-connected/WalletNo
 
 import ContentLoader from "react-content-loader";
 
-import { getChartData } from './../../../../../api/statistics';
+// import { getChartData } from './../../../../../api/statistics';
 import { currencyFormat } from "./../../../../../ethereum/utils";
 // ASSETS
 import greenArrowIcon from "./assets/green-arrow-icon.svg";
@@ -20,6 +20,8 @@ import avatar from '../../../../components/DexFundCard/avatar.png';
 // REDUX
 import { connect } from "react-redux";
 import { Twitter } from "react-bootstrap-icons";
+import Chart1D from "../../../../global/portfolio/components/Chart1D";
+import { chart1d, getChartdata } from "../../../../../sub-graph-integrations";
 
 class VaultChart extends Component {
   constructor(props) {
@@ -32,6 +34,7 @@ class VaultChart extends Component {
       noData: false,
       loading: true,
       selectedData: [],
+      ethPrice: props.ethPrice,
       fundAddress: this.props.fundAddress
     };
   }
@@ -49,14 +52,17 @@ class VaultChart extends Component {
   }
 
   calculateIncrease = (data, nodata) => {
+    if (!data.sharePrices) {
+      return 0.00;
+    }
     if (nodata) {
       return 0.00;
     }
 
-    const first = data[0].sharePrice;
-    const last = data[data.length-1].sharePrice;
-
-    return (((last-first)/first)*100).toFixed(2)
+    const first = data.sharePrices[0];
+    const last = data.sharePrices[data.sharePrices.length - 1];
+    const increase = first > 0 ? (((last-first)/first)*100).toFixed(2) : 100;
+    return increase;
   }
 
   roundMinutes(date) {
@@ -106,20 +112,23 @@ class VaultChart extends Component {
         break;
     }
 
-    const data = await getChartData(this.state.fundAddress, from, 0, interval);
-    if (data.length < 5) {
+    // const data = await getChartData(this.state.fundAddress, from, 0, interval);
+    // const data = await chart1d();
+    const data = await getChartdata(this.state.fundAddress, selectedChart);
+    console.log('chardData: ', data);
+    if (!data) {
       noData = true;
     }
 
-    for(var i = 0; i < data.length; i++) {
-      if (data[i].sharePrice == 0) {
-        noData = true;
-        break;
-      }
-    }
+    // for(var i = 0; i < data.length; i++) {
+    //   if (data[i].sharePrice == 0) {
+    //     noData = true;
+    //     break;
+    //   }
+    // }
 
     const chartIncrease = this.calculateIncrease(data, noData);
-
+    console.log('chartIncrease: ', chartIncrease)
     await this.setState({ loading: false, selectedData: data, noData: noData, portfolioPercent: chartIncrease });
   }
 
@@ -136,7 +145,7 @@ class VaultChart extends Component {
     return (
       <>
       <div style={{paddingTop: "2%"}}>
-        <ChartComponent data={this.state.selectedData} loading={this.state.loading} noData={this.state.noData} />
+        <ChartComponent height={this.props.height} width={this.props.width} ethPrice={this.state.ethPrice} data={this.state.selectedData} loading={this.state.loading} noData={this.state.noData} fundName={this.state.fundName}/>
       </div>
       </>
     );

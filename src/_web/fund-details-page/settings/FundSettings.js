@@ -17,31 +17,66 @@ class FundSettings extends Component {
         super(props);
         this.state = {
             ...this.props.props,
-            ...this.props.state
+            ...this.props.state,
+            selectedSidebarItem: 'Asset'
         }
     }
 
     render() {
 
         var width = window.innerWidth;
-
+        
+        const selectedSidebarItemStyle = {
+            background: "linear-gradient(to right, #E926C3 10%, #FF4D86 100%)",
+            "-webkit-background-clip": "text",
+            WebkitTextFillColor: "transparent",
+        };
+      
         if (width > 1000) {
             return (
 
                 <>
-                    <div className="w-fund-settings-wrapper">
-                        <RulesetSettings state={this.state}/>
-                        <FeesSettings />
+                 <div className="w-sidebar-wrapper">
+                    <div className="w-sidebar-content">
+                        <div className="w-sidebar-header">
+                            <div className="w-sidebar-menu">
+                                <div
+                                    className="w-sidebar-menu-item"
+                                    style={
+                                    this.state.selectedSidebarItem === "Asset"
+                                        ? selectedSidebarItemStyle
+                                        : {}
+                                    }
+                                    onClick={() =>
+                                    this.setState({ selectedSidebarItem: "Asset" })
+                                    }
+                                >
+                                    Asset
+                                </div>
+                                <div
+                                    className="w-sidebar-menu-item"
+                                    style={
+                                    this.state.selectedSidebarItem === "Deposit"
+                                        ? selectedSidebarItemStyle
+                                        : {}
+                                    }
+                                    onClick={() =>
+                                    this.setState({ selectedSidebarItem: "Deposit" })
+                                    }
+                                >
+                                    Deposit
+                                </div>
+                            </div>
+                        </div>
+                        {this.state.selectedSidebarItem === "Asset" &&
+                            <RulesetSettings />}
+                        {this.state.selectedSidebarItem === "Deposit" &&
+                            <FeesSettings />}
                     </div>
-                </>
+                </div>
+                    
+                </> 
 
-            )
-        } else {
-            return (
-
-                <>
-
-                </>
             )
         }
     }

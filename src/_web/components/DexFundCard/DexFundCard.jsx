@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getTopAsset } from '../../../ethereum/funds/fund-related';
+import { getEthPrice, getTopAsset } from '../../../ethereum/funds/fund-related';
 import Chart1D from '../../global/portfolio/components/Chart1D';
 import Portfolio from '../../global/portfolio/Portfolio';
 import DexfundChart from '../DexfundChart/DexfundChart';
@@ -7,18 +7,29 @@ import RoundCard from '../RoundCard/RoundCard';
 import avatar from './avatar.png'
 import './DexFundCard.css';
 import {format, formatDistance, subDays} from 'date-fns';
-import { minMaxDepositAmounts } from '../../../sub-graph-integrations';
+import { getAUM, getFundCompostion, minMaxDepositAmounts } from '../../../sub-graph-integrations';
 import { useHistory } from 'react-router-dom';
 import { getIconSource } from '../../../icons';
+import VaultChart from '../../fund-details-page/overview/components/portfolio/VaultChart';
+import { getFundDetails } from '../../../sub-graph-integrations/get-funds';
+import { getCreationSharePrices } from '../../../api/statistics';
+import configs from '../../../config';
 
 const DexFundCard = (props) => {
     const {fund} = props; 
-    const [biggestHolding, setBiggestHolding] = useState({});
+    const [biggestHolding, setBiggestHolding] = useState(undefined);
     const [policy, setPolicy] = useState({});
     const history = useHistory();
-
+    const [fundDetails, setFundDetails] = useState({});
+    const [ethPrice, setEthPrice] = useState(1);
+    const [currentSharePrice, setCurrentSharePrice] = useState(1);
+    const [startingSharePrice, setStartingSharePrice] = useState(1);
+    const [ltr, setLTR] = useState(1);
+    const [AUM, setAUM] = useState(0);
+    const [loaded, setLoaded] = useState(false);
     useEffect(() => {
         const topAsset = getTopAsset(fund);
+        console.log('topAsset Result: ', fund);
         (async () => {
             const policy = await minMaxDepositAmounts(fund.id);
             setPolicy(policy);
@@ -27,6 +38,44 @@ const DexFundCard = (props) => {
         setBiggestHolding(topAsset);
     }, [props]);
 
+    useEffect(() => {
+        (async () => {
+            var vaultAddress = fund.id;
+            var _fundDetails = await getFundDetails(vaultAddress);
+        
+            const fundComposition = await getFundCompostion(vaultAddress);
+            var totalSupply = fundComposition.shares.totalSupply;
+        
+            let _ethPrice = await getEthPrice();
+            let aum = await getAUM(vaultAddress);
+            let _currentSharePrice = (aum * _ethPrice) / parseFloat(totalSupply);
+            var startingSharePrice = await getCreationSharePrices([vaultAddress]);
+            startingSharePrice = startingSharePrice[vaultAddress]
+        
+            var profit = _currentSharePrice - startingSharePrice;
+            var _ltr = (profit / startingSharePrice) * 100;
+        
+            console.log("LIFETIME RETURN: "+_ltr)
+        
+            var isRegistered = _fundDetails.length > 0;
+            if (configs.BLACKLISTED_VAULTS.includes(vaultAddress) || !isRegistered) {
+              await this.props.deactivateLoaderOverlay();
+              this.toPage("/");
+              return;
+            }
+            _fundDetails = _fundDetails[0];
+    
+            setFundDetails(_fundDetails);
+            setEthPrice(_ethPrice);
+            setCurrentSharePrice(_currentSharePrice);
+            setStartingSharePrice(startingSharePrice);
+            setLTR(_ltr);
+            setLoaded(true);
+            setAUM(aum);
+        })();
+    }, [props]) 
+        
+      
     const toPage = (path) => {
         history.push(path);
         
@@ -75,10 +124,14 @@ const DexFundCard = (props) => {
                         <span className="title">Biggest Holding</span>
                         <span className="value">
                             {
-                                (biggestHolding && biggestHolding.symbol && biggestHolding.percentage) ? (
+                                biggestHolding  ? (
                                     <>
                                         <img src={getIconSource(biggestHolding.symbol)} alt="" className="coin-avatar" />
-                                        <span>{biggestHolding.percentage.toFixed(2)}</span>%
+                                        {
+                                            biggestHolding.symbol && biggestHolding.percentage && (
+                                                <span>{biggestHolding.percentage.toFixed(2)}%</span>
+                                            )
+                                        }
                                     </>
                                 ) : (
                                     <>--</>
@@ -88,7 +141,7 @@ const DexFundCard = (props) => {
                     </div>
                 </div>
                 <div className="chart-container">
-                    <DexfundChart width={250}/>
+                    <DexfundChart width={250} height={220} ethPrice={ethPrice} fundAddress={fund ? fund.id : undefined} parentState={props} fundName={fund ? fund.fundName : ''} walletMust={false} currentSharePrice={currentSharePrice}/>
                 </div>
             </div>
         </div>

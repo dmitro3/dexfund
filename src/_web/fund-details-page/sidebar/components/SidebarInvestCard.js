@@ -204,9 +204,10 @@ class SidebarInvestCard extends Component {
       );
       await this.setAllowance();
       toastr.success("Successfully approved to your transactions.");
-    } catch (e) {}
+    } catch (e) {
+      toastr.error("An error occurred while approving.");
+    }
     this.props.deactivateLoaderOverlay();
-    toastr.error("An error occurred while approving.");
   };
 
   invest = async (e) => {
@@ -231,8 +232,11 @@ class SidebarInvestCard extends Component {
           amount
         );
         await this.setAllowance();
+        toastr.success("Successfully invested to fund.");
       }
-    } catch (e) {}
+    } catch (e) {
+      toastr.error("An error occurred while investing");
+    }
     this.props.deactivateLoaderOverlay();
   };
 

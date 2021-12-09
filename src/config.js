@@ -1,10 +1,4 @@
 const configs = {
-  // ENZYME_ENDPOINT:
-  //   "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme",
-  ENZYME_ENDPOINT:
-    "https://api.thegraph.com/subgraphs/name/trust0212/dexify-finance-subgraph",
-
-
   DEV: {
     JSON_RPC: "http://127.0.0.1:8545/",
     gasLimit: "30000",
@@ -12,6 +6,7 @@ const configs = {
   DB_URL: "mongodb://localhost:27017/dexify-dapp",
   // MAINNET_ENDPOINT: "https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme",
   MAINNET_ENDPOINT: "https://api.thegraph.com/subgraphs/name/trust0212/dexify-finance-subgraph",
+  TESTNET_ENDPOINT: "https://api.thegraph.com/subgraphs/name/trust0212/dexify-subgraph",
   DEBUG_MODE: false,
   BLACKLISTED_VAULTS: [],
   FALLBACK_PROVIDER:

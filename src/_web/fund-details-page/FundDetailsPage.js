@@ -38,6 +38,8 @@ import { currencyFormat } from "../../ethereum/utils";
 import RoundCard from "../components/RoundCard/RoundCard";
 import TwitterView from "../components/TwitterView/TwitterView";
 import FundDetails from "./overview/components/details/FundDetails";
+import FundRewards from "./rewards/FundRewards";
+import CustomModal from "../components/Modal/Modal";
 
 class FundDetailsPage extends Component {
   constructor(props) {
@@ -146,6 +148,60 @@ class FundDetailsPage extends Component {
     )
   }
 
+  renderSettings() {
+    return (
+      <>
+        <FundSettings />
+      </>
+    );
+  }
+
+  renderTrade() {
+    return (
+      <>
+        <FundTrade state={this.state} {...this.props} />
+      </>
+    );
+  }
+
+  renderProvideLiquidity() {
+    return (
+      <>
+        <FundProviderLiquidity />
+      </>
+    );
+  }
+
+  renderStake() {
+    return (
+      <>
+        <FundStake />
+      </>
+    );
+  }
+
+  renderYield() {
+    return (
+      <>
+        <FundYield />
+      </>
+    );
+  }
+
+  renderRewards() {
+    return (
+      <>
+        <FundRewards />
+      </>
+    );
+  }
+
+  showSettingModal(value) {
+    this.setState({
+      settingModalShow: value
+    });
+  }
+
   render() {
     var width = window.innerWidth;
     if (width > 1000) {
@@ -161,11 +217,29 @@ class FundDetailsPage extends Component {
                   <div className="fund-other-infos">
                     {this.state.loaded === true && this.renderTwitter()}
                     {this.state.loaded && this.renderFundExtraInfo()}
+                    {/* {this.state.loaded && this.renderSettings()}
+                    {this.state.loaded === true &&
+                    this.state.selectedNavbarItem === "provideLiquidity" &&
+                    this.renderProvideLiquidity()}
+                    {this.state.loaded === true &&
+                      this.renderTrade()}
+                    {this.state.loaded === true &&
+                      this.renderStake()}
+                    {this.state.loaded === true &&
+                      this.renderYield()}
+                    {this.state.loaded === true &&
+                      this.renderRewards()} */}
                   </div>
+                  
                 </div>
-
             </div>
+            {/* <button className="btn-fund-setting" onClick={(e) => {
+              this.showSettingModal(true);
+            }}>Setting</button> */}
           </div>
+            {/* <CustomModal modalIsOpen={this.state.settingModalShow} onCloseButtonClick={() => this.showSettingModal(false)}>
+              {this.state.loaded && this.renderSettings()}
+            </CustomModal> */}
         </>
       );
     } else {

@@ -19,7 +19,7 @@ class Sidebar extends Component {
 
     this.state = {
       ...this.props.state,
-      selectedSidebarItem: "invest",
+      selectedSidebarItem: props.selectedSidebarItem || "invest",
       fundAddress: this.props.state.fundId,
     };
   }

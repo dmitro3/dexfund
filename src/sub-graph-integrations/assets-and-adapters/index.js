@@ -21,7 +21,7 @@ export const queryFundOverviewDetails = async (fundId) => {
       }
     }`;
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query,
@@ -71,7 +71,7 @@ export const queryFundDetails = async (fundId) => {
       }
     `;
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query,
@@ -101,7 +101,7 @@ export const queryFundFinancials = async (fundId) => {
       }
     `;
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query,
@@ -114,7 +114,7 @@ export const queryFundFinancials = async (fundId) => {
 export const getAllAdapterIntegrations = async () => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
@@ -140,7 +140,7 @@ export const getAllAdapterIntegrations = async () => {
 export const getDenominationAssets = async () => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
@@ -211,7 +211,7 @@ export const getDenominationAssets = async () => {
 export const getAllAssetsIntegrations = async () => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
     const { data } = await axios.post(endpoint, {
       query: `
@@ -234,7 +234,7 @@ export const getAllAssetsIntegrations = async () => {
 export const getAssetsDecimals = async (assets) => {
   try {
     const endpoint = configs.DEBUG_MODE
-      ? configs.ENZYME_ENDPOINT
+      ? configs.MAINNET_ENDPOINT
       : configs.MAINNET_ENDPOINT;
 
       const query = `
