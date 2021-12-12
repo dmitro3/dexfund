@@ -76,17 +76,38 @@
     height: fit-content;
     overflow: auto;
 }
-.btn-fund-setting {
+.fund-toolbutton-navbar {
     position: absolute;
     top: -50px;
-    width: 100px;
-    height: 38px;
+    gap: 20px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     font-size: 16px;
     align-items: center;
-    border-radius: 4px;
     right: 0;
+    
+}
+.fund-toolbutton-navbar button {
+    box-shadow: 0px 4px 15px rgb(230 210 253 / 58%);
+    border-radius: 10px;
+    height: 40px;
+    width: 104px;
     outline: none;
     border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    mix-blend-mode: normal;
+    color: #C96AE4;
+    background-color: white;
+}
+
+.fund-toolbutton-navbar button:hover {
+    box-shadow: 0px 4px 15px rgba(230, 210, 253, 0.918);
+    background: #f7f7f7;
 }

@@ -56,7 +56,7 @@ class SwapsTable extends Component {
           <SwapsTableHeader />
           <div
             style={{
-              overflowY: "scroll",
+              overflowY: "auto",
               height: this.state.swapTrades.length > 0 ? "40vh" : "10vh",
             }}
           >

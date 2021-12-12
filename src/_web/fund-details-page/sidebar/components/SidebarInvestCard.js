@@ -238,6 +238,7 @@ class SidebarInvestCard extends Component {
       toastr.error("An error occurred while investing");
     }
     this.props.deactivateLoaderOverlay();
+    this.props.onPurchase();
   };
 
   // invest  any amount toa fund

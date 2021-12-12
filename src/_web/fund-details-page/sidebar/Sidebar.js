@@ -44,6 +44,7 @@ class Sidebar extends Component {
       <>
         <SidebarInvestCard 
           state={this.state}
+          onPurchase={this.props.onDone}
         />
       </>
     );
@@ -54,6 +55,7 @@ class Sidebar extends Component {
       <>
         <SidebarWithdrawCard 
           state={this.state}
+          onPurchase={this.props.onDone}
         />
       </>
     );

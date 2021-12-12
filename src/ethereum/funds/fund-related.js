@@ -64,23 +64,25 @@ export const createNewFund = async (
     JSON.parse(JSON.stringify(FundDeployer.abi))
   );
   // FundDeployer Contract
-    const fundDeployer = new ethers.Contract(
-      FundDeployer.address,
-      FundDeployerInterface,
-      signer
-    );
-    //0xd0a1e359811322d97991e03f863a0c30c2cf029c
-    const fund = await fundDeployer.createNewFund(
-      fundOwner,
-      fundName,
-      denominationAsset,
-      timeLockInSeconds,
-      feeManagerConfig,
-      policyManagerConfigData,
-      { nonce: nonce }
-    );
+  const fundDeployer = new ethers.Contract(
+    FundDeployer.address,
+    FundDeployerInterface,
+    signer
+  );
+  //0xd0a1e359811322d97991e03f863a0c30c2cf029c
+  const fund = await fundDeployer.createNewFund(
+    fundOwner,
+    fundName,
+    denominationAsset,
+    timeLockInSeconds,
+    feeManagerConfig,
+    policyManagerConfigData,
+    { nonce: nonce }
+  );
 
-    return fund;
+  console.log('new fund created: ', fund)
+
+  return fund;
 };
 
 /**

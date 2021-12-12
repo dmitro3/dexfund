@@ -76,7 +76,6 @@ class FundDetailsPage extends Component {
     var _path = window.location.pathname;
     var vaultAddress = _path.split("/fund/")[1].toLowerCase();
     var fundDetails = await getFundDetails(vaultAddress);
-
     const fundComposition = await getFundCompostion(vaultAddress);
     var totalSupply = fundComposition.shares.totalSupply;
 
@@ -97,6 +96,7 @@ class FundDetailsPage extends Component {
       this.toPage("/");
       return;
     }
+    
     fundDetails = fundDetails[0];
     await this.setState({
       fundId: vaultAddress,
@@ -108,9 +108,16 @@ class FundDetailsPage extends Component {
       lifetimeReturn: ltr,
       loaded: true,
       AUM: aum * _ethPrice,
+      isManager: fundDetails && (fundDetails.manager.id === this.props.onboard.address)
     });
 
     this.props.deactivateLoaderOverlay();
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      isManager: this.state.fundDetails && (this.state.fundDetails.manager.id === props.onboard.address)
+    })
   }
 
   renderOverview() {
@@ -140,6 +147,14 @@ class FundDetailsPage extends Component {
     )
   };
 
+  renderTrade() {
+    return (
+      <RoundCard width="100%">
+          <FundTrade state={this.state} props={this.props} />
+      </RoundCard>
+    )
+  }
+
   renderFundExtraInfo() {
     return (
       <RoundCard width="100%">
@@ -152,14 +167,6 @@ class FundDetailsPage extends Component {
     return (
       <>
         <FundSettings />
-      </>
-    );
-  }
-
-  renderTrade() {
-    return (
-      <>
-        <FundTrade state={this.state} {...this.props} />
       </>
     );
   }
@@ -215,8 +222,11 @@ class FundDetailsPage extends Component {
                     {this.state.loaded === true && this.renderOverview()}
                   </div>
                   <div className="fund-other-infos">
-                    {this.state.loaded === true && this.renderTwitter()}
-                    {this.state.loaded && this.renderFundExtraInfo()}
+                    {this.state.loaded && this.state.selectedNavbarItem === 'overview' && this.renderTwitter()}
+                    {this.state.loaded && this.state.selectedNavbarItem === 'overview' && this.renderFundExtraInfo()}
+
+                    {this.state.loaded && this.state.selectedNavbarItem === 'trade' && this.props.onboard.provider && this.renderTrade()}
+
                     {/* {this.state.loaded && this.renderSettings()}
                     {this.state.loaded === true &&
                     this.state.selectedNavbarItem === "provideLiquidity" &&
@@ -233,13 +243,20 @@ class FundDetailsPage extends Component {
                   
                 </div>
             </div>
-            {/* <button className="btn-fund-setting" onClick={(e) => {
-              this.showSettingModal(true);
-            }}>Setting</button> */}
+            {
+              this.props.onboard.provider && this.state.isManager && (
+                <div className="fund-toolbutton-navbar">
+                  <button className="btn-fund-tool" onClick={(e) => {
+                    this.setState({selectedNavbarItem: 'overview'});
+                  }}>Overview</button>
+                  <button className="btn-fund-tool" onClick={(e) => {
+                    this.setState({selectedNavbarItem: 'trade'});
+                  }}>Trade</button>
+                </div>
+              )
+            }
+            
           </div>
-            {/* <CustomModal modalIsOpen={this.state.settingModalShow} onCloseButtonClick={() => this.showSettingModal(false)}>
-              {this.state.loaded && this.renderSettings()}
-            </CustomModal> */}
         </>
       );
     } else {

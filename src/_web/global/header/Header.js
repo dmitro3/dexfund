@@ -38,6 +38,7 @@ const Header = (props) => {
   const account = useSelector(state => getConnectInformation(state));
   const history = useHistory();
   const location = useLocation();
+  const [showDisconnectButton, setShowDisconnectButton] = useState(false);
 
   useEffect(() => {
     const pathName = location.pathname;
@@ -56,7 +57,13 @@ const Header = (props) => {
     }
 
     setSelectedPage(_page);
-  }, [location])
+  }, [location]);
+
+  useEffect(() => {
+    if (!onboard.provider) {
+      dispatch(connectAccountOnboard());
+    }
+  }, [])
   const toPage = (path) => {
     history.push(path);
     
@@ -88,6 +95,10 @@ const Header = (props) => {
     WebkitBackgroundClip: "text",
     WebkiTtextFillColor: "transparent",
   };
+
+  const toggleDisconnectButton = () => {
+    setShowDisconnectButton(!showDisconnectButton);
+  }
 
   return (
     <>
@@ -160,7 +171,7 @@ const Header = (props) => {
               <>
                 <div
                   className="w-header-address-button"
-                  onClick={() => dispatch(disconnectAccountOnboard())}
+                  // onClick={() => dispatch(disconnectAccountOnboard())}
                 >
                   <img src={ethIcon} className="ether-icon" alt="eth-icon"/>
                   <div className="account-information-wrapper">
@@ -190,22 +201,38 @@ const Header = (props) => {
                   <span className="badge notification-count">{1}</span>
                 </div>
                 <div className="header-profile-layout" 
-                  // onClick={() => displaySettingsPopup()}
+                  onClick={(e) => {
+                    toggleDisconnectButton()
+                  }}
                 >
                   <img src={avatarImage} className="avatar-image" alt="avatar" />
                   <div className="user-description">
-                    <span className="username">{'Jonathan Amam'}</span>
+                    <span className="username">{'New User'}</span>
                     <span className="detail">{'New User'}</span>
                   </div>
                   <ChevronDown className="user-expand" />
+                  {
+                  showDisconnectButton && (
+                    <button className="btn-disconnect"
+                      onClick={() => {
+                        dispatch(disconnectAccountOnboard())
+                        setShowDisconnectButton(false)
+                      }
+                      }
+                    >Disconnect</button>
+                    )
+                  }
                 </div>
+                
+                
               </>
             ) : (
               <button
                 className="w-header-connect-wallet-button"
                 onClick={() => {
-                  dispatch(connectAccountOnboard());
+                  dispatch(connectAccountOnboard())
                 }}
+
               >
                   CONNECT WALLET
               </button>

@@ -70,7 +70,7 @@ class FundOverview extends Component {
             {
               this.state.onboard.walletConnected && 
               <CustomModal modalIsOpen={this.state.modalShow} onCloseButtonClick={() => this.showModal(false)}>
-                <Sidebar state={this.state} selectedSidebarItem={this.state.selectedSidebarItem} />
+                <Sidebar state={this.state} selectedSidebarItem={this.state.selectedSidebarItem} onDone={() => this.showModal(false)}/>
               </CustomModal>
             }
             <div className="w-fund-overview-content">

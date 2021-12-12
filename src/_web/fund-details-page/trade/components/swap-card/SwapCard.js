@@ -10,7 +10,7 @@ import {
 import { getFundCompostion } from '../../../../../sub-graph-integrations';
 import { getDenominationAssets } from '../../../../../sub-graph-integrations';
 import { getIconSource } from '../../../../../icons';
-import { getFundAvailable, doTrade } from '../../../../../ethereum/funds/trade';
+import { getFundAvailable, doTrade, getComptrollerInfo } from '../../../../../ethereum/funds/trade';
 // ASSETS
 import middleImg from '../../assets/middle-img.svg';
 import ethIcon from '../../assets/eth-icon.svg';
@@ -58,7 +58,19 @@ class SwapCard extends Component {
         }
     }
 
+    componentWillReceiveProps(props) {
+        if (!props.onboard) {
+            this.setState({
+                walletNotConnected: true
+            });
+        }
+    }
+
     async componentDidMount() {
+        if (this.state.walletNotConnected) {
+            toastr('warning', 'Wallet is not connected');
+            return;
+        }
         const compositiom = await getFundCompostion(this.state.fundId);
         const fromTokens = compositiom.portfolio.holdings.map((item) => {
             return {
@@ -88,6 +100,10 @@ class SwapCard extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState) {
+        if (this.state.walletNotConnected) {
+            toastr('warning', 'Wallet is not connected');
+            return;
+        }
         if(prevState.selectedFrom.symbol != this.state.selectedFrom.symbol) {
             this.getVaultAmount();
         }
@@ -136,7 +152,12 @@ class SwapCard extends Component {
         if (this.state.selectedSwapPath == null)
             return;
         await this.props.activateLoaderOverlay();
-
+        // try {
+        //     const result = await getComptrollerInfo(this.state.fundId, this.props.onboard.provider);
+        //     console.log('comptroller info: ', result);
+        // } catch (e) {
+        //     console.log('comptroller bug: ', e);
+        // }
         try {
             await doTrade(
                 this.state.fundId,
@@ -156,23 +177,22 @@ class SwapCard extends Component {
 
     inputField = async (e) => {
         var warn = "";
-
-        if(e.target.value == '') {
-            warn = "";
-            await this.setState({amountToSwap: '', selectedMax: false, warning: warn});
-            await this.loadNewData();
-        }
+        var value = e.target ? e.target.value : 0;
+        warn = "";
+        this.setState({amountToSwap: value, selectedMax: false, warning: warn});
+        await this.loadNewData();
 
         const re = /^[0-9.\b]+$/;
-        if (!re.test(e.target.value)) {
+
+        if (!re.test(value)) {
             return;
         }
+        console.log('catch error: ', e, e.target)
 
-        if (parseFloat(e.target.value) > this.state.fromAvailable) {
+        if (value && (parseFloat(value) > this.state.fromAvailable)) {
             warn = "WARNING: Amount exceeds available amount"
         }
 
-        var value = e.target.value;
         this.setState({ amountToSwap: value, selectedMax: false, warning: warn });
         await this.loadNewData();
     }
@@ -213,7 +233,7 @@ class SwapCard extends Component {
 
         return (
 
-            <>
+            <div className="w-swap-card-asset-list">
                 <div className="w-swap-card-half-section-asset-input"
                     style={{ border: '1px solid #E926C3' }}
                     onClick={() => this.setState({
@@ -245,7 +265,7 @@ class SwapCard extends Component {
                         </div>
                     ))}
                 </div>
-            </>
+            </div>
         )
     }
 
@@ -253,7 +273,7 @@ class SwapCard extends Component {
 
         return (
 
-            <>
+            <div className="w-swap-card-asset-list">
                 <div className="w-swap-card-half-section-asset-input"
                     onClick={() => this.setState({
                         toDropdown: true
@@ -267,7 +287,7 @@ class SwapCard extends Component {
                     </div>
                     <img src={caretDownIcon} alt='caret-down-icon' className="swap-caret-down-icon" />
                 </div>
-            </>
+            </div>
         )
     }
 
@@ -275,7 +295,7 @@ class SwapCard extends Component {
 
         return (
 
-            <>
+            <div className="w-swap-card-asset-list">
                 <div className="w-swap-card-half-section-asset-input"
                     style={{ border: '1px solid #E926C3' }}
                     onClick={() => this.setState({
@@ -307,7 +327,7 @@ class SwapCard extends Component {
                         </div>
                     ))}
                 </div>
-            </>
+            </div>
         )
     }
 
@@ -333,11 +353,11 @@ class SwapCard extends Component {
                                     Amount
                                 </div>
                                 <div className="w-swap-card-half-section-amount-input">
-                                    <input type="text" id="amount" name="amount"
+                                    <input type="number" id="amount" name="amount"
                                         value={this.state.amountToSwap} onChange={(e) => this.inputField(e)}
                                         style={{
                                             color: '#fff',
-                                            backgroundColor: '#070708',
+                                            background: 'transparent',
                                             fontFamily: 'Bai Jamjuree, sans-serif',
                                             borderWidth: '0',
                                             fontSize: '15px',

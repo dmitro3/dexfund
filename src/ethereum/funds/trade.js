@@ -6,7 +6,9 @@ import { ethers } from 'ethers';
 import { getContracts } from './deposits-withdraws';
 import VaultLib from "./../abis/VaultLib.json";
 import ParaSwapV4Adapter  from './../abis/ParaSwapV4Adapter.json';
-import IntegrationManager from './../abis/IntegrationManager.json'
+import IntegrationManager from './../abis/IntegrationManager.json';
+import UniswapAdapter from './../abis/UniswapV2Adapter.json';
+import configs from '../../config';
 
 export const getParaswapData = async (
     fundAddress,
@@ -33,10 +35,11 @@ export const getParaswapData = async (
             destSymbol = decimalData.assets[0].symbol;
             destDecs = parseInt(decimalData.assets[0].decimals);
         }
-
+        console.log('swap data: ', fundAddress, src, dest, amount, slippage);
         const scaledAmount = fullNumber(amount * 10**srcDecs);
+        const networkId = configs.DEBUG_MODE ? configs.networkId_DEBUG : configs.networkId;
 
-        const getPathRequestEndpoint = `https://apiv4.paraswap.io/v2/prices/?network=1&includeContractMethods=multiSwap&side=SELL&from=${srcSymbol}&to=${destSymbol}&amount=${scaledAmount}&fromDecimals=${srcDecs}&toDecimals=${destDecs}`
+        const getPathRequestEndpoint = `https://apiv4.paraswap.io/v2/prices/?network=${networkId}&includeContractMethods=multiSwap&side=SELL&from=${srcSymbol}&to=${destSymbol}&amount=${scaledAmount}&fromDecimals=${srcDecs}&toDecimals=${destDecs}`
         const { data } = await axios.get(getPathRequestEndpoint);
 
         const {
@@ -66,7 +69,7 @@ export const getParaswapData = async (
             priceRoute: data.priceRoute,
         }
 
-        var pPath = await axios.post("https://apiv4.paraswap.io/v2/transactions/1?skipChecks=true&onlyParams=true&useReduxToken=false", paramBuilderBody, {
+        var pPath = await axios.post(`https://apiv4.paraswap.io/v2/transactions/${networkId}?skipChecks=true&onlyParams=true&useReduxToken=false`, paramBuilderBody, {
             headers: {
                 "Content-Type": "application/json",
                 "accept": "application/json"
@@ -198,12 +201,24 @@ export const doTrade = async (fund, provider, pathData) => {
                 integrationData
             ]);
 
+            console.log('integrationCallArgs: ', integrationCallArgs);
+
             const receipt = await comptrollerContract.callOnExtension(
                 IntegrationManager.address,
                 '0',
-                integrationCallArgs
+                // integrationCallArgs
+                []
             );
             await receipt.wait();
             break;
     }
+}
+
+export const getComptrollerInfo = async (fund, provider) => {
+    provider = new ethers.providers.Web3Provider(provider);
+    const signer = await provider.getSigner();
+    const { comptrollerContract } = await getContracts(fund, provider);
+    console.log("COMPTROLLER LIB ADDRESS: "+comptrollerContract.address)
+    const comptrollerInfo = await comptrollerContract.getLibRoutes();
+    return comptrollerInfo;
 }

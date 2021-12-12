@@ -67,6 +67,7 @@ class SidebarWithdrawCard extends Component {
     }
 
     this.props.deactivateLoaderOverlay();
+    this.props.onPurchase();
   };
 
   renderJustRedeemAllShares() {

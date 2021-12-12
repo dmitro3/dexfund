@@ -67,6 +67,7 @@ export const connectAccountOnboard = () => {
         var check = await onboard.walletCheck();
         if (!check) return;
         var statee = await onboard.getState();
+        console.log('wallet connected: ', statee);
         dispatch({
           type: ONBOARD_CREATED,
           payload: {
