@@ -7,7 +7,7 @@
 
 .w-swap-card {
 background-color: transparent;
-    padding: 32px;
+    padding: 0 32px 10px 32px;
 }
 
 .w-swap-card-inputs-section {
@@ -32,6 +32,8 @@ background-color: transparent;
     font-size: 15px;
     font-weight: 400;
     color: #999;
+    width: 100%;
+    margin-top: 10px;
 }
 
 .w-swap-card-half-section-asset-input {
@@ -154,24 +156,20 @@ background-color: transparent;
     font-family: 'Bai Jamjuree', sans-serif;
     font-size: 15px;
     font-weight: 600;
-    color: #020202;
+    color: #C96AE4;
     text-align: center;
 }
 
 .w-swaps-table-row-selected {
     display: flex;
     justify-content: space-between;
-background-color: transparent;
+    background-color: transparent;
     padding: 16px;
-    border-style: solid;
-    border-width: 1px;
-    border-image-slice: 1;
-    border-image-source: linear-gradient(90deg, #E926C3 0%, #FF4D86 97.5%);
 }
 
 .w-swaps-table-row-selected:hover {
     cursor: pointer;
-    background-color: #17171C;
+    background-color: #30143b;
 }
 
 .w-swaps-table-row {
@@ -234,4 +232,8 @@ background-color: transparent;
 .w-swap-card-asset-list {
     display: flex;
     position: relative;
+}
+
+.pricefeed-container {
+    margin-top: 18px;
 }

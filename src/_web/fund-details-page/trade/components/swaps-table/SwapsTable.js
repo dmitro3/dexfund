@@ -9,8 +9,7 @@ import SwapsTableRow from "./sub-components/SwapsTableRow";
 
 // CSS
 import "./styles/swapsTable.css";
-import { getFundSwapTrades } from "../../../../../sub-graph-integrations/trades";
-import { currencyFormat } from "../../../../../ethereum/utils";
+
 import SkeletonLoader from "../../../../global/skeleton-loader/SkeletonLoader";
 
 class SwapsTable extends Component {
@@ -57,7 +56,8 @@ class SwapsTable extends Component {
           <div
             style={{
               overflowY: "auto",
-              height: this.state.swapTrades.length > 0 ? "40vh" : "10vh",
+              maxHeight: this.state.swapTrades.length > 0 ? "40vh" : "10vh",
+              minHeight: '10vh'
             }}
           >
             {this.state.pathsLoading

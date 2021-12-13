@@ -205,11 +205,11 @@ export const doTrade = async (fund, provider, pathData) => {
 
             const receipt = await comptrollerContract.callOnExtension(
                 IntegrationManager.address,
-                '0',
-                // integrationCallArgs
-                []
+                0,
+                integrationCallArgs
             );
             await receipt.wait();
+            console.log('trade result: ', receipt);
             break;
     }
 }

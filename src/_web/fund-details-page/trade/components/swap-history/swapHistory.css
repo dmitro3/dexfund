@@ -1,0 +1,48 @@
+.history-wrapper {
+    background: #3f2255;
+    color: white;
+    font-size: 14px;
+}
+.swap-history-header, .swap-history-row {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 10px 10px;
+}
+.swap-history-header {
+    background-color: rgb(68, 22, 68);
+}
+
+.history-no {
+    width: 5%;
+}
+.history-date, .history-amount {
+    width: 16%;
+}
+
+.history-from, .history-to {
+    width: 20%;
+}
+.history-from img, .history-to img {
+    display: inline-flex;
+    margin-right: 5px;
+}
+.history-rate {
+    width: 5%;
+}
+.swap-history-body {
+    width: 100%;
+    min-height: 20vh;
+    max-height: 36vh;
+}
+
+.empty-view {
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.swap-history-row:hover {
+    background: #3a1755;
+}

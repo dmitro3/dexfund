@@ -119,6 +119,7 @@ export const investFundDenomination = async (
   } = await getContracts(fundAddress, provider);
 
   const receipt = await comptrollerContract.buyShares(
+    // [investor],
     [investor],
     [amount],
     [1]

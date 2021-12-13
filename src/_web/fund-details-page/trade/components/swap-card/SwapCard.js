@@ -72,6 +72,7 @@ class SwapCard extends Component {
             return;
         }
         const compositiom = await getFundCompostion(this.state.fundId);
+        if (!compositiom) return [];
         const fromTokens = compositiom.portfolio.holdings.map((item) => {
             return {
                 address: item.asset.id,
@@ -120,9 +121,9 @@ class SwapCard extends Component {
     async loadNewData() {
         await this.setState({ lastLoadData: Date.now(), selectedSwapPath: null });
         await this.state.setPathsLoadingCallback(true);
-        await this.sleep(4000);
-        if (this.state.lastLoadData + 4000 > Date.now())
-            return;
+        // await this.sleep(40);
+        // if (this.state.lastLoadData + 4000 > Date.now())
+        //     return;
         
         await this.state.getSwapTradesCallback(
             this.state.selectedFrom.address,
@@ -165,7 +166,7 @@ class SwapCard extends Component {
                 this.state.selectedSwapPath
             );
             toastr.success("Swap complete!");
-            await this.sleep(5000)
+            // await this.sleep(5000)
             window.location.reload(false);
         } catch(e) {
             console.log(e)

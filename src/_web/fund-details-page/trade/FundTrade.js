@@ -11,6 +11,11 @@ import { getTradePaths } from '../../../ethereum/funds/trade';
 
 // CSS
 import './styles/fundTrade.css';
+import RoundCard from '../../components/RoundCard/RoundCard';
+import PriceFeedChart from '../../components/PriceFeedChart/PriceFeedChart';
+import { getFundSwapTrades } from "../../../sub-graph-integrations/trades";
+import { currencyFormat } from "../../../ethereum/utils";
+import SwapHistory from './components/swap-history/SwapHistory';
 
 class FundTrade extends Component {
 
@@ -21,7 +26,8 @@ class FundTrade extends Component {
             swapTrades: [],
             pathsLoading: false,
             destSymbol: '',
-            selectedSwapPath: null
+            selectedSwapPath: null,
+            swapHistory: []
         }
 
         this.getSwapTrades = this.getSwapTrades.bind(this);
@@ -39,6 +45,14 @@ class FundTrade extends Component {
         })
     }
 
+    async componentDidMount() {
+        const fundTradeHistory = await getFundSwapTrades(this.state.fundId) || [];
+        this.setState({
+            swapHistory: fundTradeHistory
+        });
+        console.log('fundTradeHistory: ', fundTradeHistory);
+    }
+
     async setPathsLoading(bl) {
         await this.setState({ pathsLoading: bl, selectedSwapPath: null })
     }
@@ -53,8 +67,16 @@ class FundTrade extends Component {
                 <>
                     <div className="">
                         {/* <Portfolio /> */}
-                        <SwapCard selectedSwapPath={this.state.selectedSwapPath} getSwapTrades={this.getSwapTrades} setPathsLoading={this.setPathsLoading} state={this.state} {...this.props}/>
-                        <SwapsTable selectedSwapPath={this.state.selectedSwapPath} destSymbol={this.state.destSymbol} pathsLoading={this.state.pathsLoading} swapTrades={this.state.swapTrades} state={this.state} {...this.props} />
+                        <RoundCard width="100%">
+                            <SwapCard selectedSwapPath={this.state.selectedSwapPath} getSwapTrades={this.getSwapTrades} setPathsLoading={this.setPathsLoading} state={this.state} {...this.props}/>
+                            <SwapsTable selectedSwapPath={this.state.selectedSwapPath} destSymbol={this.state.destSymbol} pathsLoading={this.state.pathsLoading} swapTrades={this.state.swapTrades} state={this.state} {...this.props} />
+                        </RoundCard>
+                        <div className="pricefeed-container">
+                            <RoundCard width="100%">
+                                {/* <PriceFeedChart /> */}
+                                <SwapHistory swapHistory={this.state.swapHistory}/>
+                            </RoundCard>
+                        </div>
                     </div>
                 </>
 

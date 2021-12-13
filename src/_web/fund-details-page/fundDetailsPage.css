@@ -91,7 +91,7 @@
     box-shadow: 0px 4px 15px rgb(230 210 253 / 58%);
     border-radius: 10px;
     height: 40px;
-    width: 104px;
+    min-width: 104px;
     outline: none;
     border: none;
     display: flex;

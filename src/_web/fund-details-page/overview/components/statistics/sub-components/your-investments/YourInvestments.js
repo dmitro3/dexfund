@@ -59,7 +59,7 @@ class YourInvestments extends Component {
               You have no investments
             </div>
           ) : (
-            <div style={{ overflowY: "scroll", height: "60vh" }}>
+            <div style={{ overflowY: "auto", height: "60vh" }}>
               {this.state.yourFundInvestments.map((investment) => (
                 <YourInvestmentsTableRow
                   assetFromParent={investment.asset.symbol}

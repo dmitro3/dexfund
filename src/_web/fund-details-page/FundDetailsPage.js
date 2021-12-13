@@ -98,6 +98,7 @@ class FundDetailsPage extends Component {
     }
     
     fundDetails = fundDetails[0];
+    console.log('fundDetails: ', fundDetails);
     await this.setState({
       fundId: vaultAddress,
       fundName: fundDetails.name,
@@ -149,9 +150,7 @@ class FundDetailsPage extends Component {
 
   renderTrade() {
     return (
-      <RoundCard width="100%">
-          <FundTrade state={this.state} props={this.props} />
-      </RoundCard>
+      <FundTrade state={this.state} props={this.props} />
     )
   }
 
@@ -252,6 +251,8 @@ class FundDetailsPage extends Component {
                   <button className="btn-fund-tool" onClick={(e) => {
                     this.setState({selectedNavbarItem: 'trade'});
                   }}>Trade</button>
+                  <button className="btn-fund-tool">Liquidity Pool (Soon)</button>
+                  <button className="btn-fund-tool">Lend(Soon)</button>
                 </div>
               )
             }

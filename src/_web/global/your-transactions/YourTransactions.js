@@ -64,7 +64,7 @@ class InvestmentFunds extends Component {
     return (
       <div
         style={{
-          overflowY: "scroll",
+          overflowY: "auto",
           height:
             this.isConnected || this.props.transactions.length > 0
               ? "40vh"

@@ -141,7 +141,7 @@ class InvestmentFunds extends React.Component {
     });
     funds = sortOption.value === 'name' ? funds.reverse() : funds;
     return (
-      <div style={{ overflowY: "scroll", height: "50vh" }}>
+      <div style={{ overflowY: "auto", height: "50vh" }}>
         {funds.map((investment, index) => {
           if (
             investment.name

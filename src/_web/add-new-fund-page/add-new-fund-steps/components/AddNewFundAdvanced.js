@@ -440,7 +440,7 @@ class AddNewFundAdvanced extends Component {
           <img src={caretUpIcon} alt="caret-up-icon" />
         </div>
         <div
-          style={{ overflowY: "scroll", height: "25vh" }}
+          style={{ overflowY: "auto", height: "25vh" }}
           className="w-add-new-fund-denomination-assets-list"
         >
           {this.renderWhichForm()}

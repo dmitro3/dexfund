@@ -31,7 +31,7 @@ class InvestmentFundsTableHeader extends Component {
                     </div>
                     <div className="w-your-transactions-table-header-cell"
                     style={{width:'16.6%'}}>
-                        Top Assets
+                        Top Asset
                     </div>
                     <div className="w-your-transactions-table-header-cell"
                     style={{width:'16.6%'}}>
