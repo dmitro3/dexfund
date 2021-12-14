@@ -126,10 +126,7 @@ const DexFundCard = (props) => {
                             {
                                 biggestHolding  ? (
                                     <>
-                                        <img src={
-                                            // getIconSource(biggestHolding.symbol)
-                                        `/icons/${biggestHolding.symbol}.png`
-                                        } alt="" className="coin-avatar" />
+                                        <img src={getIconSource(biggestHolding.symbol)} alt="" className="coin-avatar" />
                                         {
                                             biggestHolding.symbol && biggestHolding.percentage && (
                                                 <span>{biggestHolding.percentage.toFixed(2)}%</span>
