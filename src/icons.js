@@ -9,17 +9,17 @@ const exceptions = {
 export const getIconSource = (asset) => {
     asset = asset.toLowerCase();
     if (Object.keys(exceptions).includes(asset)) {
-        return `/icons/${exceptions[asset]}`;
+        return `${window.location.origin}/icons/${exceptions[asset]}`;
     }
     try{
-        require(`%PUBLIC_URL%/icons/${asset}.svg`);
-        return `/icons/${asset}.svg`;
+        require(`/icons/${asset}.svg`);
+        return `${window.location.origin}/icons/${asset}.svg`;
     } catch {
         try{
             require(`./../public/icons/${asset}.png`)
-            return `/icons/${asset}.png`;
+            return `${window.location.origin}/icons/${asset}.png`;
         } catch {
-            return '/icons/eth.svg'
+            return `${window.location.origin}/icons/eth.svg`
         }
     }
 }
