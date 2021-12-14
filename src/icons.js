@@ -12,7 +12,7 @@ export const getIconSource = (asset) => {
         return `/icons/${exceptions[asset]}`;
     }
     try{
-        require(`./../public/icons/${asset}.svg`);
+        require(`%PUBLIC_URL%/icons/${asset}.svg`);
         return `/icons/${asset}.svg`;
     } catch {
         try{

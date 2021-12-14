@@ -8,28 +8,28 @@ const TwitterView = ({ props, state }) => {
   const [tweets, setTweets] = useState([]);
   useEffect(() => {
     setTweets([
-      {
-        name: 'Ryan Gosling',
-        id: '@gosling685',
-        content: 'News from the SEC on the XRP Case! This is huge for the adoption of crypto, regulation will bring mass adoption!'
-      },
-      {
-        name: 'Ryan Gosling',
-        id: '@gosling685',
-        content: 'News from the SEC on the XRP Case! This is huge for the adoption of crypto, regulation will bring mass adoption!'
-      },
-      {
-        name: 'Ryan Gosling',
-        id: '@gosling685',
-        content: 'News from the SEC on the XRP Case! This is huge for the adoption of crypto, regulation will bring mass adoption!'
-      }
+      // {
+      //   name: 'Ryan Gosling',
+      //   id: '@gosling685',
+      //   content: 'News from the SEC on the XRP Case! This is huge for the adoption of crypto, regulation will bring mass adoption!'
+      // },
+      // {
+      //   name: 'Ryan Gosling',
+      //   id: '@gosling685',
+      //   content: 'News from the SEC on the XRP Case! This is huge for the adoption of crypto, regulation will bring mass adoption!'
+      // },
+      // {
+      //   name: 'Ryan Gosling',
+      //   id: '@gosling685',
+      //   content: 'News from the SEC on the XRP Case! This is huge for the adoption of crypto, regulation will bring mass adoption!'
+      // }
     ]);
   }, [])
   return (
     <div className="twitter-wrapper">
       <h4 className="twitter-wrapper-title">Tweets</h4>
       {
-        tweets.map(tweet => (
+        (tweets && tweets.length > 0) ? tweets.map(tweet => (
           <div className="tweet-item">
             <img src={avatarImage} alt="avatar" className="tweet-avatar" />
             <div className="tweet-body">
@@ -40,7 +40,7 @@ const TwitterView = ({ props, state }) => {
               <p className="tweet-content">{tweet.content}</p>
             </div>
           </div>
-        ))
+        )) : <span className="empty-view">No tweets available</span>
       }
       
     </div>
