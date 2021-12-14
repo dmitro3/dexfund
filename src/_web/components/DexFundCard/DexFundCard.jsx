@@ -110,7 +110,7 @@ const DexFundCard = (props) => {
                     </div>
                     <div className="risk">
                         <span className="title">Risk</span>
-                        <span className="value">3</span>
+                        <span className="value">0</span>
                     </div>
                     <div className="min-investment">
                         <span className="title">Min Investment</span>
