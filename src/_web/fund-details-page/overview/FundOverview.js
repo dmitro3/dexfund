@@ -61,9 +61,6 @@ class FundOverview extends Component {
 
   render() {
     console.log('onboard: ', this.state.onboard, this.state.account)
-    var width = window.innerWidth;
-
-    if (width > 1000) {
       return (
         <>
           <div className="w-fund-overview-wrapper">
@@ -97,9 +94,6 @@ class FundOverview extends Component {
           </div>
         </>
       );
-    } else {
-      return <></>;
-    }
   }
 }
 

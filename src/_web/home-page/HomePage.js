@@ -138,7 +138,6 @@ class HomePage extends Component {
   render() {
     var width = window.innerWidth;
 
-    if (width > 1000) {
       return (
           <div className="w-home-page-wrapper">
             <div className="w-home-page-content">
@@ -168,9 +167,6 @@ class HomePage extends Component {
             </div>
           </div>
       );
-    } else {
-      return <></>;
-    }
   }
 }
 

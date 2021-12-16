@@ -38,6 +38,7 @@
     display: flex;
     width: 100%;
     margin-bottom: 8px;
+    flex-wrap: wrap;
 }
 .w-100 {
     width: 100%;
@@ -130,4 +131,33 @@ textarea.manage-form-control, textarea.manage-form-control:focus {
 
 .assets-layout {
     margin: 20px 0;
+}
+
+@media(max-width: 767px) {
+    .manage-vault-wrapper {
+        width: 100%;
+        padding: 30px 20px;
+    }
+    .w-49 {
+        width: 100%;
+    }
+    .manage-form-group {
+        flex-direction: column;
+    }
+    .assets-wrapper {
+        margin-left: 0;
+        gap: 10px;
+        width: 100%;
+        margin-top: 20px;
+        justify-content: space-between;
+    }
+    .asset-label {
+        margin: 0;
+    }
+    .manage-vault-wrapper .title {
+        font-size: 24px;
+    }
+    .manage-body {
+        margin-top: 30px;
+    }
 }

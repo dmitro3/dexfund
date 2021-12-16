@@ -60,8 +60,6 @@ class FundTrade extends Component {
     render() {
 
         var width = window.innerWidth;
-
-        if (width > 1000) {
             return (
 
                 <>
@@ -81,14 +79,6 @@ class FundTrade extends Component {
                 </>
 
             )
-        } else {
-            return (
-
-                <>
-
-                </>
-            )
-        }
     }
 }
 

@@ -209,8 +209,6 @@ class FundDetailsPage extends Component {
   }
 
   render() {
-    var width = window.innerWidth;
-    if (width > 1000) {
       return (
         <>
           <div className="w-fund-details-page-wrapper">
@@ -260,9 +258,6 @@ class FundDetailsPage extends Component {
           </div>
         </>
       );
-    } else {
-      return <></>;
-    }
   }
 }
 

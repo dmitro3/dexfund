@@ -4,7 +4,7 @@
     background: linear-gradient(45deg, rgba(225,210,255,1) 0%, rgba(202,107,229,0.44021358543417366) 26%, rgba(225,210,255,1) 50%, rgba(139,81,254,0.48503151260504207) 73%, rgba(225,210,255,1) 100%);
     display: flex;
     justify-content: center;
-    padding: 5%;
+    padding: 120px 5% 5% 5%;
     min-height: 100vh;
 }
 .card-container {
@@ -21,4 +21,13 @@
     width: 100%;
     height: fit-content;
     min-height: 100vh;
+}
+
+@media(max-width: 767px) {
+    .card-background-container {
+        padding: 90% 2% 2% 2%;
+    }
+    .card-container {
+        border-radius: 16px;
+    }
 }

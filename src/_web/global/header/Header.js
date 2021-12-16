@@ -5,6 +5,8 @@ import { connect, useDispatch, useSelector } from "react-redux";
 
 // ASSETS
 import logoIcon from "./assets/logo.png";
+import moreIcon from './assets/moreIcon.png';
+import collapseIcon from './assets/collapseIcon.png';
 // import ethIcon from "./assets/eth-icon.svg";
 import ethIcon from '../../../assets/images/eth-icon.svg';
 
@@ -39,6 +41,7 @@ const Header = (props) => {
   const history = useHistory();
   const location = useLocation();
   const [showDisconnectButton, setShowDisconnectButton] = useState(false);
+  const [isExpand, setExpand] = useState(false);
 
   useEffect(() => {
     const pathName = location.pathname;
@@ -66,18 +69,12 @@ const Header = (props) => {
   }, [])
   const toPage = (path) => {
     history.push(path);
-    
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: "smooth",
     });
   }
-
-  const displaySettingsPopup = () => {
-    setSettingsPopup(true);
-    props.displaySettingsPopupEvent();
-  };
 
   const displayAddress = (address) => {
     return `${address.substring(0, 4)} ... ${address.substring(39)}`;
@@ -89,12 +86,6 @@ const Header = (props) => {
       dispatch(checkWallet());
     }
   }
-
-  const selectedNavbarItemStyle = {
-    background: "linear-gradient(to right, #E926C3 10%, #FF4D86 100%)",
-    WebkitBackgroundClip: "text",
-    WebkiTtextFillColor: "transparent",
-  };
 
   const toggleDisconnectButton = () => {
     setShowDisconnectButton(!showDisconnectButton);
@@ -111,6 +102,7 @@ const Header = (props) => {
               className="radar-protocol-icon"
             />
             <h2 className="title"><span className="hightlight">DEX</span><span>IFY</span></h2>
+
             <div
               className={
                 "w-header-navbar-item" +
@@ -120,25 +112,6 @@ const Header = (props) => {
             >
               DEXFUNDS
             </div>
-            {/* <div
-              className={
-                "w-header-navbar-item" +
-                (selectedPage === "vaults" ? "-selected" : "")
-              }
-              onClick={() => toPage("/vaults")}
-            >
-              VAULTS
-            </div>
-
-            <div
-              className={
-                "w-header-navbar-item" +
-                (selectedPage === "yourfunds" ? "-selected" : "")
-              }
-              onClick={() => toPage("/your-funds")}
-            >
-              YOUR VAULTS
-            </div> */}
             {
               onboard.provider && (
                 <>
@@ -169,10 +142,7 @@ const Header = (props) => {
 
             {onboard.walletConnected ? (
               <>
-                <div
-                  className="w-header-address-button"
-                  // onClick={() => dispatch(disconnectAccountOnboard())}
-                >
+                <div className="w-header-address-button">
                   <img src={ethIcon} className="ether-icon" alt="eth-icon"/>
                   <div className="account-information-wrapper">
                     <div className="w-header-address-button-amount-button">
@@ -232,13 +202,97 @@ const Header = (props) => {
                 onClick={() => {
                   dispatch(connectAccountOnboard())
                 }}
-
               >
-                  CONNECT WALLET
+                  CONNECT
               </button>
             )}
+            {
+              onboard.provider && (
+                !isExpand ? (
+                  <img src={moreIcon} className="more-icon" onClick={() => {setExpand(true)}}/>
+                ) : (
+                  <img src={collapseIcon} className="collapse-icon" onClick={() => {setExpand(false)}}/>
+                )
+              )
+            }
           </div>
         </div>
+        {
+          isExpand &&  (
+            <div className="w-header-mobile-content">
+              <div className="mobile-row">
+                <div className="notification-layout">
+                  <Bell className="notification-icon"/>
+                  <span className="badge notification-count">{1}</span>
+                </div>
+                <div className="header-profile-layout" 
+                  onClick={(e) => {
+                    toggleDisconnectButton()
+                  }}
+                >
+                  <img src={avatarImage} className="avatar-image" alt="avatar" />
+                  <div className="user-description">
+                    <span className="username">{'New User'}</span>
+                    <span className="detail">{'New User'}</span>
+                  </div>
+                  <ChevronDown className="user-expand" />
+                  {
+                  showDisconnectButton && (
+                    <button className="btn-disconnect"
+                      onClick={() => {
+                        dispatch(disconnectAccountOnboard())
+                        setShowDisconnectButton(false)
+                      }
+                      }
+                    >Disconnect</button>
+                    )
+                  }
+                </div>
+              </div>
+              <div className="mobile-row">
+
+                <div
+                  className={
+                    "w-header-navbar-item" +
+                    (selectedPage === "home" ? "-selected" : "")
+                  }
+                  onClick={() => {
+                    toPage("/", { name: "home-page" });
+                    setExpand(false);
+                  }}
+                >
+                  DEXFUNDS
+                </div>
+                <div
+                  className={
+                    "w-header-navbar-item" +
+                    (selectedPage === "manage" ? "-selected" : "")
+                  }
+                  onClick={() => {
+                    toPage("/manage")
+                  setExpand(false)
+                  }
+                  }
+                >
+                  MANAGE
+                </div>
+                <div
+                  className={
+                    "w-header-navbar-item" +
+                    (selectedPage === "profile" ? "-selected" : "")
+                  }
+                  onClick={() => {
+                    toPage("/profile")
+                    setExpand(false)
+                  }
+                  }
+                >
+                  PROFILE
+                </div>
+              </div>
+            </div>
+          )
+        }
       </div>
     </>
   );

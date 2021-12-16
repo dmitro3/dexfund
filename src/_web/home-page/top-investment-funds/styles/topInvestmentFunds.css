@@ -133,3 +133,12 @@
   height: 30vh;
   color: rgba(0, 0, 0, 0.75);
 }
+
+@media(max-width: 767px) {
+  .fund-card-wrapper {
+    margin-bottom: 0;
+  }
+  .w-top-investment-funds-content {
+    justify-content: center;
+  }
+}

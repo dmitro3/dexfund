@@ -3,9 +3,12 @@
 .w-header-wrapper {
     width: 100%;
     background-color: white;
-    z-index: 2;
+    z-index: 100;
     top: 0;
     left: 0;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
 }
 
 .w-header-content {
@@ -283,4 +286,87 @@ background-color: transparent;
  }
  .btn-disconnect:hover {
      background: #f7f7f7;
+ }
+ .more-icon, .collapse-icon {
+     display: none;
+     cursor: pointer;
+ }
+ .w-header-mobile-content {
+     display: none;
+     width: 100%;
+ }
+
+ .mobile-row {
+     display: flex;
+     width: 100%;
+     justify-content: space-around;
+ }
+ @media(max-width: 767px) {
+     .w-header-wrapper {
+        box-shadow: 0 0 20px 5px #C96BE4;
+     }
+     .title {
+         font-size: 16px;
+     }
+     .radar-protocol-icon {
+         width: 32px;
+         height: 32px;
+     }
+     .w-header-content .w-header-navbar-item, .w-header-content .w-header-navbar-item-selected {
+         display: none;
+     }
+     .w-header-content .notification-layout {
+         display: none;
+     }
+     .w-header-content .header-profile-layout {
+         display: none;
+     }
+     .w-header-content {
+         width: 100%;
+         padding: 16px 10px;
+     }
+     .w-header-connect-wallet-button {
+         margin: 0;
+         font-size: 12px;
+     }
+     .more-icon {
+        display: flex;
+        width: 32px;
+        margin-left: 20px;
+     }
+     .collapse-icon {
+         display: flex;
+         width: 32px;
+         margin-left: 20px;
+         padding: 10px;
+     }
+     .w-header-address-button-amount-button-text {
+        font-size: 10px;
+     }
+     .w-header-address-button-text {
+         font-size: 9px;
+         margin: 3px;
+     }
+     img.ether-icon {
+         width: 28px;
+         height: 28px;
+     }
+     .w-header-address-button {
+         padding: 4px
+     }
+     .w-header-mobile-content {
+         display: flex;
+         flex-direction: column;
+         width: 100%;
+         padding: 0px 5px 25px 5px;
+     }
+     .mobile-row {
+         margin-top: 25px;
+     }
+     .w-header-mobile-content .notification-layout {
+        margin: 0;
+     }
+     .w-header-mobile-content .w-header-navbar-item, .w-header-mobile-content .w-header-navbar-item-selected {
+         margin: 0;
+     }
  }
