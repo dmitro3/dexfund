@@ -44,6 +44,7 @@ const DexFundCard = (props) => {
             var _fundDetails = await getFundDetails(vaultAddress);
         
             const fundComposition = await getFundCompostion(vaultAddress);
+            if (!fundComposition || !fundComposition.shares) return;
             var totalSupply = fundComposition.shares.totalSupply;
         
             let _ethPrice = await getEthPrice();

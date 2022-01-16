@@ -49,6 +49,50 @@ export const getAllInvestments = async () => {
   } catch (error) {}
 };
 
+//get top 3 funds from enzyme
+export const getEnzymeTopFunds = async () => {
+  try {
+    const endpoint = configs.ENZYME_ENDPOINT;
+    const { data } = await axios.post(endpoint, {
+      query: `
+            {
+                funds(first: 3, orderBy: lastKnowGavInEth, orderDirection: desc) {
+                  id
+                  name
+                  inception
+                  shares {
+                    totalSupply
+                  }
+                  accessor {
+                    denominationAsset {
+                      symbol
+                    }
+                  }
+                  portfolio {
+                    holdings {
+                      amount
+                      asset {
+                        symbol
+                        price {
+                          price
+                        }
+                      }
+                    }
+                  }
+                  investmentCount
+                  lastKnowGavInEth
+                  trackedAssets {
+                    name
+                    symbol
+                  }
+                }
+              }
+        `,
+    });
+    return data.data.funds;
+ } catch (error) {}
+}
+
 // Get all investments
 export const getFiveInvestments = async () => {
   try {
@@ -1283,7 +1327,9 @@ export const getChartdata = async (fundId, timePeriod) => {
 
   let times = [];
   let sharePrices = [];
-
+  if (!result || !result.portfolioHistory) {
+    return {}
+  }
   result.portfolioHistory.map((history) => {
     let holdings = history.holdings;
     let value = 0;

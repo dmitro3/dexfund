@@ -6,7 +6,7 @@ import {
   deactivateLoaderOverlay,
 } from "../../../redux/actions/LoaderAction";
 import configs from "../../../config";
-import { getFiveInvestments } from "../../../sub-graph-integrations";
+import { getEnzymeTopFunds, getFiveInvestments } from "../../../sub-graph-integrations";
 import { getEthPrice } from "../../../ethereum/funds/fund-related";
 import { getAllInvestments } from "../../../sub-graph-integrations";
 import { getAllCreationSharePrices } from "../../../api/vaults";
@@ -75,6 +75,9 @@ class TopInvestmentFunds extends Component {
       ethPrice: await getEthPrice()
     });
     var investments = await getAllInvestments();
+    // var enzymeInvestments = await getEnzymeTopFunds(); // temp, should be removed in future
+    // investments = enzymeInvestments.concat(investments)
+    // console.log('investments: ', investments, enzymeInvestments)
     var creationSharePrices = await getAllCreationSharePrices();
     investments = investments.filter((v) => {
       return !configs.BLACKLISTED_VAULTS.includes(v.id.toLowerCase());

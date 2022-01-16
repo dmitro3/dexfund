@@ -95,7 +95,7 @@ class DexfundChart extends React.Component {
         const chartIncrease = this.calculateIncrease(data, noData);
         const ethPrice = parseFloat(this.props.ethPrice);
         console.log('chartIncrease: ', chartIncrease, data, ethPrice);
-
+        if (!data || !data.times) return ;
         const times = data.times.map(t => parseInt(t) * 1000);
         const priceValues = data.sharePrices.map(p => (parseFloat(p) * ethPrice).toFixed(2));
         console.log('priceValues: ', priceValues)
