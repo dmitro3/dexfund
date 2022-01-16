@@ -28,12 +28,22 @@ const ManageVaultPage = () => {
     const [maxInvestment, setMaxInvestment] = useState(0);
     const [startingAssetAddress, setstartingAssetAddress] = useState();
     const [assets, setAssets] = useState([]);
-
+    const allowedAssets = [
+      "0xe9e7cea3dedca5984780bafc599bd69add087d56",
+      "0x55d398326f99059ff775485246999027b3197955",
+      "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"
+    ]
 
     useEffect(() => {
         (async () => {
             const _assets  =  await getDenominationAssets() || [];
-            setAssets(_assets);
+            let _allowedAssets = [];
+            _assets.map(asset => {
+              if (allowedAssets.indexOf(asset.id) !== -1 ) {
+                _allowedAssets.push(asset);
+              }
+            });
+            setAssets(_allowedAssets);
         })();
     }, [onboard.provider]);
 

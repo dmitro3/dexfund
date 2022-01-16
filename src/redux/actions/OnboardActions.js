@@ -78,8 +78,8 @@ export const connectAccountOnboard = () => {
             networkId: statee.network,
           },
         });
+        toastr.success("Successfully connect to your account");
       }
-      toastr.success("Successfully connect to your account");
     } catch (e) {
       toastr.error("Error connecting: ", e.message);
     }

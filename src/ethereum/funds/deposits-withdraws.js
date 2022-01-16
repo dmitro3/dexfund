@@ -154,6 +154,7 @@ export const redeemAllShares = async (fundAddress, provider) => {
   } = await getContracts(fundAddress, provider);
 
   const receipt = await comptrollerContract.redeemShares();
+  console.log('withdraw: ', receipt);
   await receipt.wait();
 };
 

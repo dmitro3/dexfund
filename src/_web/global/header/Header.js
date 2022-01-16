@@ -30,7 +30,6 @@ import {Bell} from 'react-bootstrap-icons'
 import {useHistory, useLocation} from 'react-router-dom';
 import { getOnboardInformation } from "../../../redux/reducers/OnboardReducer";
 import { getConnectInformation } from "../../../redux/reducers/AccountConnectReducer";
-
 const Header = (props) => {
   const [settingsPopup, setSettingsPopup] = useState(false);
   const [selectedPage, setSelectedPage] = useState('home');
@@ -67,6 +66,7 @@ const Header = (props) => {
       dispatch(connectAccountOnboard());
     }
   }, [])
+
   const toPage = (path) => {
     history.push(path);
     window.scrollTo({
@@ -166,10 +166,6 @@ const Header = (props) => {
                   </div>
                 </div>
                 
-                <div className="notification-layout">
-                  <Bell className="notification-icon"/>
-                  <span className="badge notification-count">{1}</span>
-                </div>
                 <div className="header-profile-layout" 
                   onClick={(e) => {
                     toggleDisconnectButton()
@@ -221,10 +217,6 @@ const Header = (props) => {
           isExpand &&  (
             <div className="w-header-mobile-content">
               <div className="mobile-row">
-                <div className="notification-layout">
-                  <Bell className="notification-icon"/>
-                  <span className="badge notification-count">{1}</span>
-                </div>
                 <div className="header-profile-layout" 
                   onClick={(e) => {
                     toggleDisconnectButton()

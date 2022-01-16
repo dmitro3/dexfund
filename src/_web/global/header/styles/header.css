@@ -148,6 +148,7 @@
     border: 0.5px solid #DCE0E2;
     border-radius: 12px;
     align-items: center;
+    margin-right: 20px;
 }
 img.ether-icon {
     width: 30px;
