@@ -137,8 +137,12 @@
 @media(max-width: 767px) {
   .fund-card-wrapper {
     margin-bottom: 0;
+    width: 100%;
   }
   .w-top-investment-funds-content {
     justify-content: center;
+  }
+  .w-top-investment-funds-header {
+    font-size: 16px;
   }
 }

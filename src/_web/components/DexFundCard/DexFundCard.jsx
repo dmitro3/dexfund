@@ -27,7 +27,10 @@ const DexFundCard = (props) => {
     const [ltr, setLTR] = useState(1);
     const [AUM, setAUM] = useState(0);
     const [loaded, setLoaded] = useState(false);
+    const [isMobile, setMobile] = useState(false);
     useEffect(() => {
+        var width = window.innerWidth;
+        setMobile(width < 768);
         const topAsset = getTopAsset(fund);
         console.log('topAsset Result: ', fund);
         (async () => {
@@ -142,7 +145,7 @@ const DexFundCard = (props) => {
                     </div>
                 </div>
                 <div className="chart-container">
-                    <DexfundChart width={250} height={220} ethPrice={ethPrice} fundAddress={fund ? fund.id : undefined} parentState={props} fundName={fund ? fund.fundName : ''} walletMust={false} currentSharePrice={currentSharePrice}/>
+                    <DexfundChart width={isMobile ? '' : 250} height={220} ethPrice={ethPrice} fundAddress={fund ? fund.id : undefined} parentState={props} fundName={fund ? fund.fundName : ''} walletMust={false} currentSharePrice={currentSharePrice}/>
                 </div>
             </div>
         </div>

@@ -15,7 +15,7 @@ const RoundCard = (props) => {
             setHover(false);
           }}
         style={{
-            width: props.width || 'fit-content',
+            width: props.width || '100%',
             ...style.normal,
             ...(hover ? style.hover : null)
         }}>

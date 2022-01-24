@@ -26,7 +26,7 @@ class InvestmentFundsTableHeader extends Component {
             <>
                 <div className="w-your-transactions-table-header">
                     <div className="w-your-transactions-table-header-cell"
-                    style={{width:'16.6%'}}>
+                    style={{width:'26.6%'}}>
                         Name
                     </div>
                     <div className="w-your-transactions-table-header-cell"
@@ -38,7 +38,7 @@ class InvestmentFundsTableHeader extends Component {
                         AUM ($)
                     </div>
                     <div className="w-your-transactions-table-header-cell"
-                    style={{width:'16.6%'}}>
+                    style={{width:'5%'}}>
                         Depositors
                     </div>
                     <div className="w-your-transactions-table-header-cell"

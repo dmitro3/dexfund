@@ -63,7 +63,7 @@ class InvestmentFundsTableRow extends Component {
         >
           <div
             className="w-your-transactions-table-cell"
-            style={{ width: "16.6%" }}
+            style={{ width: "26.6%" }}
           >
             {this.state.name}
           </div>
@@ -85,7 +85,7 @@ class InvestmentFundsTableRow extends Component {
           </div>
           <div
             className="w-your-transactions-table-cell"
-            style={{ width: "16.6%" }}
+            style={{ width: "5%" }}
           >
             {this.state.depositors}
           </div>

@@ -153,7 +153,6 @@
   display: flex;
   background: #FFFFFF;
   box-shadow: 0px 4px 15px rgba(184, 149, 255, 0.35);
-  border-radius: 12px;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
@@ -243,4 +242,54 @@
 }
 a.transaction-item-link * {
   text-decoration: none;
+}
+.search-bar-input {
+  width: 320px;
+  height: 100%;
+  border-width: 0px 0px 0px 0px;
+  background-color: #fff;
+  color: #222;
+  font-family: "Bai Jamjuree, sans-serif";
+  font-size: 15px;
+  font-weight: "400";
+  outline: none;
+  text-align: left;
+}
+@media(max-width: 767px) {
+  .w-search-bar-wrapper {
+    padding: 0 0 12px 0;
+    flex-direction: column;
+  }
+  .search-bar-input {
+    font-size: 12px;
+    width: 100%;
+  } 
+  .w-search-bar {
+    height: 50px;
+    width: 100%;
+  }
+  .searchbar-sort-layout .label {
+    font-size: 12px;
+    display: none;
+  }
+  .searchbar-sort-layout .filter-input {
+    font-size: 12px;
+    padding: 10px;
+    border-radius: 6px;
+    margin-left: 0;
+    flex: 1;
+  }
+  .searchbar-sort-layout {
+    margin-top: 10px;
+    margin-left: 0;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+  }
+  .w-your-transactions-table-header-cell {
+    font-size: 10px;
+  }
+  .w-your-transactions-table-cell {
+    font-size: 12px;
+  }
 }

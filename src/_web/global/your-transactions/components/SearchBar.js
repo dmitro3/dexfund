@@ -84,18 +84,8 @@ class InvestmentFunds extends Component {
                 onChange={(e) => this.inputField(e)}
                 onFocus={() => this.clearInputValue()}
                 onBlur={() => this.rewriteField()}
-                style={{
-                  width: "320px",
-                  height: "100%",
-                  borderWidth: "0px 0px 0px 0px",
-                  backgroundColor: "#fff",
-                  color: "#222",
-                  fontFamily: "Bai Jamjuree, sans-serif",
-                  fontSize: "15px",
-                  fontWeight: "400",
-                  outline: "none",
-                  textAlign: "left",
-                }}
+                className="search-bar-input"
+                
               />
             </div>
           </div>

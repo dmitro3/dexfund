@@ -9,19 +9,6 @@
     color: #fff;
 }
 
-.w-search-bar-wrapper {
-    padding: 24px 0;
-}
-
-.w-search-bar {
-    display: flex;
-    justify-content: left;
-}
-
-.w-search-bar-input {
-    padding: 0 0 0 16px;
-}
-
 .w-markets-table-header {
     display: flex;
     justify-content: space-between;

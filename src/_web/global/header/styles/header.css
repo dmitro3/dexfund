@@ -332,7 +332,7 @@ background-color: transparent;
      }
      .more-icon {
         display: flex;
-        width: 32px;
+        width: 28px;
         margin-left: 20px;
      }
      .collapse-icon {
@@ -369,5 +369,12 @@ background-color: transparent;
      }
      .w-header-mobile-content .w-header-navbar-item, .w-header-mobile-content .w-header-navbar-item-selected {
          margin: 0;
+         font-size: 12px;
      }
+    .header-profile-layout .user-description .username {
+        font-size: 14px;
+    }
+    .header-profile-layout .user-description .detail {
+        font-size: 10px;
+    }
  }
