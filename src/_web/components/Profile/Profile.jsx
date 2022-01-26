@@ -28,6 +28,7 @@ const Profile = (props) => {
     const [totalIncreasePercent, setTotalIncreasePercent] = useState(0);
     const [weekIncreasePercent, setWeekIncreasePercent] = useState(0);
     const [splitAUM, setSplitAUM] = useState([]);
+    const [isMobile, setMobile] = useState(false);
 
     const calculateAUM = (fund) => {
         let AUM = 0
@@ -61,6 +62,8 @@ const Profile = (props) => {
     }
 
     useEffect(() => {
+        let width = window.innerWidth;
+        setMobile(width < 768);
         (async () => {
             if (onboard) {
                 dispatch(activateLoaderOverlay())
@@ -254,7 +257,7 @@ const Profile = (props) => {
                                 <ThreeDots color={'black'} size={24}/>
                             </div>
                             <div className="overview-card-body">
-                                <DexfundChart outline={false} width={350} yLabel={true}/>
+                                <DexfundChart outline={false} width={!isMobile ? 350 : ''} yLabel={true}/>
                             </div>
                         </div>
                     </RoundCard>

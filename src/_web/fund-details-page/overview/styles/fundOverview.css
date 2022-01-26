@@ -307,3 +307,46 @@
   background-color: white;
   margin-right: 15px;
 }
+
+.w-fund-composition-asset-asset {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 20px;
+  color: #292A32;
+  background-color: #C96AE433;
+  display: flex;
+  border-radius: 8px;
+  padding: 4px 8px;
+  align-items: center;
+}
+
+@media(max-width: 768px) {
+  .w-fund-composition-wrapper {
+    padding: 8px; 
+  }
+  .w-fund-composition-table-header {
+    padding: 4px 8px;
+  }
+  .asset {
+    width: 30%;
+  }
+  .w-fund-composition-table-header-item {
+    font-size: 12px;
+  }
+  .w-fund-composition-asset-bullet {
+    width: 30%
+  }
+  .w-fund-composition-asset-asset {
+    font-size: 10px;
+  }
+  .w-fund-composition-table-row-cell {
+    font-size: 10px;
+  }
+  .btn-layout {
+    margin: 12px auto;
+  }
+  .w-your-transactions-table-header-cell.value {
+    flex: 0;
+  }
+}

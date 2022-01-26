@@ -209,16 +209,32 @@ class FundDetailsPage extends Component {
   }
 
   render() {
+    let width = window.innerWidth;
+    let isMobile = width < 768;
       return (
         <>
           <div className="w-fund-details-page-wrapper">
+            {
+              this.props.onboard.provider && this.state.isManager && (
+                <div className="fund-toolbutton-navbar">
+                  <button className="btn-fund-tool" onClick={(e) => {
+                    this.setState({selectedNavbarItem: 'overview'});
+                  }}>Overview</button>
+                  <button className="btn-fund-tool" onClick={(e) => {
+                    this.setState({selectedNavbarItem: 'trade'});
+                  }}>Trade</button>
+                  {/* <button className="btn-fund-tool">Liquidity Pool (Soon)</button>
+                  <button className="btn-fund-tool">Lend(Soon)</button> */}
+                </div>
+              )
+            }
             <div className="w-fund-details-page-content">
                 {this.state.loaded === false && this.renderPreLoaded()}
                 <div className="fund-content">
-                  <div className="fund-overview">
+                  <div className="fund-overview" style={{order: isMobile && this.state.selectedNavbarItem == 'overview' ? 0 : 1}}>
                     {this.state.loaded === true && this.renderOverview()}
                   </div>
-                  <div className="fund-other-infos">
+                  <div className="fund-other-infos" style={{order: isMobile && this.state.selectedNavbarItem == 'trade' ? 0 : 1}}>
                     {this.state.loaded && this.state.selectedNavbarItem === 'overview' && this.renderTwitter()}
                     {this.state.loaded && this.state.selectedNavbarItem === 'overview' && this.renderFundExtraInfo()}
 
@@ -240,21 +256,6 @@ class FundDetailsPage extends Component {
                   
                 </div>
             </div>
-            {
-              this.props.onboard.provider && this.state.isManager && (
-                <div className="fund-toolbutton-navbar">
-                  <button className="btn-fund-tool" onClick={(e) => {
-                    this.setState({selectedNavbarItem: 'overview'});
-                  }}>Overview</button>
-                  <button className="btn-fund-tool" onClick={(e) => {
-                    this.setState({selectedNavbarItem: 'trade'});
-                  }}>Trade</button>
-                  <button className="btn-fund-tool">Liquidity Pool (Soon)</button>
-                  <button className="btn-fund-tool">Lend(Soon)</button>
-                </div>
-              )
-            }
-            
           </div>
         </>
       );

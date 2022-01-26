@@ -179,7 +179,6 @@
 .fund-header .twitter-icon-layout span {
     font-style: normal;
     font-weight: normal;
-    font-size: 8px;
     line-height: 20px;
     /* identical to box height, or 250% */
 
@@ -200,4 +199,33 @@
 .w-portfolio-wrapper {
     background: white;
     padding: 20px;
+}
+
+@media(max-width: 768px) {
+    .w-portfolio-wrapper {
+        padding: 5px
+    }
+    .fund-header .fund-name {
+        font-size: 16px;
+    }
+    .w-portfolio-header-subtitle {
+        font-size: 12px;
+        margin-right: 0;
+    }
+    .w-portfolio-header-title-section {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .w-portfolio-header {
+        display: flex;
+        flex-direction: column;
+    }
+    .w-portfolio-header-subtitle-section {
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    .fund-header .twitter-icon-layout span {
+        font-size: 12px;
+    }
 }

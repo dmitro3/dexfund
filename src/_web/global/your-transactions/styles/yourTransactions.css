@@ -292,4 +292,13 @@ a.transaction-item-link * {
   .w-your-transactions-table-cell {
     font-size: 12px;
   }
+  .w-your-transactions-table-row {
+    padding: 8px
+  }
+  .w-your-transactions-action-text {
+    display: none;
+  }
+  .w-investment-funds-token-bullet {
+    width: fit-content
+  }
 }

@@ -37,7 +37,7 @@ class PerformanceTableRow extends Component {
       <>
         <div onClick={(e) => this.openNewTab(e, this.state.urlFromParent)} className="w-fund-composition-table-row">
           <div className="w-fund-composition-table-row-cell asset">
-            <div className="w-fund-composition-asset-bullet">
+            <div className="w-fund-composition-asset-asset">
               <div
                 className="w-fund-composition-asset-bullet-text"
                 style={{ marginRight: "10px" }}

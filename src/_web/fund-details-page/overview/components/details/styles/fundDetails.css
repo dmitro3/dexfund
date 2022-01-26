@@ -91,3 +91,22 @@
     width: 30px;
     height: 30px;;
 }
+
+@media(max-width: 768px) {
+    .w-fund-details-navbar-item {
+        font-size: 12px;
+    }
+    .w-fund-details-navbar {
+        height: 40px;
+    }
+    .type {
+        font-size: 12px;
+    }
+    .w-fund-info-row-cell.value {
+        font-size: 12px;
+        flex: 0;
+    }
+    .w-fund-details-wrapper {
+        padding: 8px
+    }
+}
