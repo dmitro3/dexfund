@@ -22,3 +22,10 @@
 .ReactModal__Overlay {
     z-index: 20;
 }
+
+@media(max-width: 767px) {
+    .ReactModal__Content {
+        left: calc(50% - 151px) !important;
+        top: calc(50% - 100px) !important;
+    }
+}

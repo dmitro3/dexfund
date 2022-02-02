@@ -7,7 +7,7 @@ import VaultLib from "./../abis/VaultLib.json";
 import ComptrollerLib from "./../abis/ComptrollerLib.json";
 import MinMaxInvestment from "./../abis/MinMaxInvestment.json";
 
-const getProvider = (onboardProvider) => {
+export const getProvider = (onboardProvider) => {
   return new ethers.providers.Web3Provider(onboardProvider);
 };
 
@@ -158,6 +158,18 @@ export const redeemAllShares = async (fundAddress, provider) => {
   await receipt.wait();
 };
 
+export const redeemSharesAmount = async (fundAddress, provider, amount) => {
+  provider = getProvider(provider);
+  const signer = await provider.getSigner();
+
+  const {
+    comptrollerContract
+  } = await getContracts(fundAddress, provider);
+  console.log('withdraw: ', amount, await comptrollerContract.signer.getAddress());
+  const receipt = await comptrollerContract.redeemSharesDetailed(amount, [], []);
+  console.log('withdraw_amount: ', receipt);
+  await receipt.wait();
+};
 // export const investFundEth = async (
 //     fundAddress,
 //     amount,

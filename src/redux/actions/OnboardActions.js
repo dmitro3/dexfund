@@ -78,7 +78,7 @@ export const connectAccountOnboard = () => {
             networkId: statee.network,
           },
         });
-        toastr.success("Successfully connect to your account");
+        toastr.success("Successful connection");
       }
     } catch (e) {
       toastr.error("Error connecting: ", e.message);
@@ -95,7 +95,7 @@ export const disconnectAccountOnboard = () => {
       });
     };
 
-    toastr.success("Successfully disconnect to your account");
+    toastr.success("Successful disconnection");
 
     return data;
   } catch (e) {

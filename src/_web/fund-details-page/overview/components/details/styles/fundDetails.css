@@ -47,11 +47,11 @@
     width: 100%;
 }
 
-@media(max-width: 1400px) {
+/* @media(max-width: 1400px) {
     .w-fund-info-table {
         width: 90%;
     }
-}
+} */
 
 .w-fund-info-table-row {
     display: flex;
@@ -102,8 +102,11 @@
     .type {
         font-size: 12px;
     }
-    .w-fund-info-row-cell.value {
+    .w-fund-info-row-cell {
         font-size: 12px;
+    }
+    
+    .w-fund-info-row-cell.value {
         flex: 0;
     }
     .w-fund-details-wrapper {

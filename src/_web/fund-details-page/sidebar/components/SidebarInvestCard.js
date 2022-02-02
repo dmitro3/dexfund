@@ -332,19 +332,6 @@ class SidebarInvestCard extends Component {
                     name="amountToInvest"
                     value={this.state.amountToInvest}
                     onChange={(e) => this.inputField(e)}
-                    style={{
-                      color: "#fff",
-                      backgroundColor: "#070708",
-                      fontFamily: "Bai Jamjuree, sans-serif",
-                      borderColor: "#070708",
-                      borderWidth: "2px 0px",
-                      fontSize: "15px",
-                      fontWeight: "400",
-                      outline: "none",
-                      textAlign: "left",
-                      width: "120px",
-                      marginTop: "-4px",
-                    }}
                   ></input>
                 </div>
                 <div

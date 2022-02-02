@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { withdraw } from "../../../../ethereum/funds/fund-related";
+import { getShareBalance, withdraw } from "../../../../ethereum/funds/fund-related";
 
-import { redeemAllShares } from "./../../../../ethereum/funds/deposits-withdraws";
+import { redeemAllShares, redeemSharesAmount } from "./../../../../ethereum/funds/deposits-withdraws";
 
 // COMPONENTS
 // ...
@@ -18,13 +18,16 @@ import {
   activateLoaderOverlay,
 } from "./../../../../redux/actions/LoaderAction";
 import { toastr } from "react-redux-toastr";
+import { fullNumber } from "../../../../ethereum/utils";
+import BigNumber from "bignumber.js";
+import { getIconSource } from "../../../../icons";
 
 class SidebarWithdrawCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       withdrawAmount: "0.00",
-      maxAmountToWithdrawal: "5.00",
+      maxAmountToWithdrawal: "0.00",
       fundAddress: this.props.state.fundAddress,
     };
   }
@@ -45,6 +48,7 @@ class SidebarWithdrawCard extends Component {
   };
 
   async componentDidUpdate(prevProps) {
+    console.log('denominationasset: ', this.props.state)
     if (prevProps.state != this.props.state) {
       this.setState({
         ...this.props.state,
@@ -52,14 +56,26 @@ class SidebarWithdrawCard extends Component {
     }
   }
 
+  async componentDidMount() {
+    const balance = await getShareBalance(this.props.state.fundId, this.props.onboard.provider);
+    this.setState({
+      maxAmountToWithdrawal: balance
+    })
+  }
+
   withdrawAllShares = async (e) => {
     e.preventDefault();
     this.props.activateLoaderOverlay();
-
+    const _withdrawAmount = fullNumber(
+      new BigNumber(this.state.withdrawAmount)
+        .multipliedBy(10 ** this.props.state.denominationAssetDecimals)
+        .toString()
+    );
     try {
-      await redeemAllShares(
+      await redeemSharesAmount(
         this.state.fundAddress,
-        this.props.onboard.provider
+        this.props.onboard.provider,
+        _withdrawAmount
       );
       toastr.success("You have succeffuly withdrawn you shares");
     } catch (er) {
@@ -92,72 +108,59 @@ class SidebarWithdrawCard extends Component {
   }
 
   render() {
-    return this.renderJustRedeemAllShares();
-    // return (
-    //   this.props.onboard.walletConnected && (
-    //     <>
-    //       <div className="w-invest-card">
-    //         <div className="w-invest-card-header">Amount to withdraw</div>
-    //         <div className="w-invest-table">
-    //           <div className="w-invest-table-asset-cell">
-    //             <img
-    //               src={ethIcon}
-    //               alt="eth-icon"
-    //               className="sidebar-eth-icon"
-    //             />
-    //             <div className="w-invest-table-asset">ETH</div>
-    //           </div>
-    //           <div className="w-invest-table-amount-cell">
-    //             <div className="w-invest-table-amount-input">
-    //               <input
-    //                 type="text"
-    //                 id="amount-to-invest"
-    //                 name="withdrawAmount"
-    //                 value={this.state.withdrawAmount}
-    //                 onChange={(e) => this.inputField(e)}
-    //                 style={{
-    //                   color: "#fff",
-    //                   backgroundColor: "#070708",
-    //                   fontFamily: "Bai Jamjuree, sans-serif",
-    //                   borderColor: "#070708",
-    //                   borderWidth: "2px 0px",
-    //                   fontSize: "15px",
-    //                   fontWeight: "400",
-    //                   outline: "none",
-    //                   textAlign: "left",
-    //                   width: "120px",
-    //                   marginTop: "-4px",
-    //                 }}
-    //               ></input>
-    //             </div>
-    //             <div
-    //               className="w-invest-table-amount-max-button"
-    //               onClick={() =>
-    //                 this.setState({
-    //                   withdrawAmount: this.state.maxAmountToWithdrawal,
-    //                 })
-    //               }
-    //             >
-    //               <div className="w-invest-table-amount-max-button-text">
-    //                 Max: {this.state.maxAmountToWithdrawal}
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </div>
-    //         <div
-    //           className="w-invest-card-button"
-    //           onClick={() => {
-    //             this.onWithdraw();
-    //           }}
-    //         >
-    //           <div className="w-invest-card-button-text">
-    //             WITHDRAW {this.state.withdrawAmount} ETH
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </>
-    //   )
-    // );
+    // return this.renderJustRedeemAllShares();
+    return (
+      this.props.onboard.walletConnected && (
+        <>
+          <div className="w-invest-card">
+            <div className="w-invest-card-header">Amount to withdraw</div>
+            <div className="w-invest-table">
+              <div className="w-invest-table-asset-cell">
+                <img
+                  src={getIconSource(this.props.state.denominationAssetSymbol)}
+                  alt="eth-icon"
+                  className="sidebar-eth-icon"
+                />
+                <div className="w-invest-table-asset">{this.props.state.denominationAssetSymbol}</div>
+              </div>
+              <div className="w-invest-table-amount-cell">
+                <div className="w-invest-table-amount-input">
+                  <input
+                    type="text"
+                    id="amount-to-invest"
+                    name="withdrawAmount"
+                    value={this.state.withdrawAmount}
+                    onChange={(e) => this.inputField(e)}
+                  ></input>
+                </div>
+                <div
+                  className="w-invest-table-amount-max-button"
+                  onClick={() =>
+                    this.setState({
+                      withdrawAmount: this.state.maxAmountToWithdrawal,
+                    })
+                  }
+                >
+                  <div className="w-invest-table-amount-max-button-text">
+                    Max: {this.state.maxAmountToWithdrawal}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="w-invest-card-button"
+              onClick={(e) => {
+                this.withdrawAllShares(e);
+              }}
+            >
+              <div className="w-invest-card-button-text">
+                WITHDRAW {this.state.withdrawAmount} {this.props.state.denominationAssetSymbol}
+              </div>
+            </div>
+          </div>
+        </>
+      )
+    );
   }
 }
 

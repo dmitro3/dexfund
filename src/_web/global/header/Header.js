@@ -25,7 +25,7 @@ import {
   deactivateLoaderOverlay,
 } from "./../../../redux/actions/LoaderAction";
 import avatarImage from './assets/avatar.png';
-import { ChevronDown } from 'react-bootstrap-icons';
+import { ChevronDown, ChevronUp } from 'react-bootstrap-icons';
 import {Bell} from 'react-bootstrap-icons'
 import {useHistory, useLocation} from 'react-router-dom';
 import { getOnboardInformation } from "../../../redux/reducers/OnboardReducer";
@@ -93,13 +93,14 @@ const Header = (props) => {
 
   return (
     <>
-      <div className="w-header-wrapper">
+      <div className={"w-header-wrapper" + (isExpand ? " expand" : "")}>
         <div className="w-header-content">
           <div className="w-header-navbar-section">
             <img
               src={logoIcon}
               alt="radar-protocol-icon"
               className="radar-protocol-icon"
+              onClick={() => toPage("/", { name: "home-page" })}
             />
             <h2 className="title"><span className="hightlight">DEX</span><span>IFY</span></h2>
 
@@ -179,13 +180,16 @@ const Header = (props) => {
                   <ChevronDown className="user-expand" />
                   {
                   showDisconnectButton && (
-                    <button className="btn-disconnect"
-                      onClick={() => {
-                        dispatch(disconnectAccountOnboard())
-                        setShowDisconnectButton(false)
-                      }
-                      }
-                    >Disconnect</button>
+                    <div className="dropdown">
+                      <button className="dropdown-item username" >{'New User'}</button>
+                      <button className="dropdown-item btn-disconnect"
+                        onClick={() => {
+                          dispatch(disconnectAccountOnboard())
+                          setShowDisconnectButton(false)
+                        }
+                        }
+                      >Disconnect</button>
+                    </div>
                     )
                   }
                 </div>
@@ -202,47 +206,13 @@ const Header = (props) => {
                   CONNECT
               </button>
             )}
-            {
-              onboard.provider && (
-                !isExpand ? (
-                  <img src={moreIcon} className="more-icon" onClick={() => {setExpand(true)}}/>
-                ) : (
-                  <img src={collapseIcon} className="collapse-icon" onClick={() => {setExpand(false)}}/>
-                )
-              )
-            }
           </div>
         </div>
         {
-          isExpand &&  (
-            <div className="w-header-mobile-content">
-              <div className="mobile-row">
-                <div className="header-profile-layout" 
-                  onClick={(e) => {
-                    toggleDisconnectButton()
-                  }}
-                >
-                  <img src={avatarImage} className="avatar-image" alt="avatar" />
-                  <div className="user-description">
-                    <span className="username">{'New User'}</span>
-                    <span className="detail">{'New User'}</span>
-                  </div>
-                  <ChevronDown className="user-expand" />
-                  {
-                  showDisconnectButton && (
-                    <button className="btn-disconnect"
-                      onClick={() => {
-                        dispatch(disconnectAccountOnboard())
-                        setShowDisconnectButton(false)
-                      }
-                      }
-                    >Disconnect</button>
-                    )
-                  }
-                </div>
-              </div>
-              <div className="mobile-row">
-
+          onboard.provider && (
+          <>
+          <div className="w-header-mobile-content">
+             <div className="mobile-row">
                 <div
                   className={
                     "w-header-navbar-item" +
@@ -282,9 +252,17 @@ const Header = (props) => {
                   PROFILE
                 </div>
               </div>
-            </div>
-          )
+          </div>
+        <div className="overlay-circle" />
+        <div className="overlay-background" />
+        {
+          !isExpand ? 
+          <ChevronDown className="expand-handle" onClick={() => setExpand(!isExpand)}/> :
+          <ChevronUp className="expand-handle" onClick={() => setExpand(!isExpand)}/>
         }
+        </>
+        )
+      }
       </div>
     </>
   );

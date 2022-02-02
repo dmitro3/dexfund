@@ -147,7 +147,7 @@ class DexfundRoundChart extends React.Component {
                     breakpoint: 480,
                     options: {
                         chart: {
-                            width: 200
+                            width: 270
                         },
                         legend: {
                             position: 'bottom'

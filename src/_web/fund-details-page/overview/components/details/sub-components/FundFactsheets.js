@@ -32,32 +32,38 @@ class FundFactsheets extends Component {
     });
   }
 
+  displayAddress(address) {
+    if (!address) return '';
+    return address.slice(0, 6) + '....' + address.slice(-4);
+  }
+
   render() {
     return (
       <>
         <div className="w-fund-info-table">
           <div className="w-fund-info-table-row">
             <div className="w-fund-info-row-cell type">Name</div>
-            <div className="w-fund-info-row-cell value">{this.state.name}</div>
+            <div className="w-fund-info-row-cell">{this.state.name}</div>
           </div>
           <div className="w-fund-info-table-row">
             <div className="w-fund-info-row-cell type">Creation date</div>
-            <div className="w-fund-info-row-cell value">
+            <div className="w-fund-info-row-cell">
               {this.state.creationDate}
             </div>
           </div>
           <div className="w-fund-info-table-row">
             <div className="w-fund-info-row-cell type">Manager</div>
             <div
-              className="w-fund-info-row-cell value"
-              style={{ fontSize: "13px" }}
+              className="w-fund-info-row-cell"
+              style={{ fontSize: "13px", textOverflow:'ellipsis' }}
+              title={this.state.manager}
             >
-              {this.state.manager}
+              {this.displayAddress(this.state.manager)}
             </div>
           </div>
           <div className="w-fund-info-table-row">
             <div className="w-fund-info-row-cell type">Denomination asset</div>
-            <div className="w-fund-info-row-cell value">
+            <div className="w-fund-info-row-cell">
               {this.state.denominationAsset}
             </div>
           </div>

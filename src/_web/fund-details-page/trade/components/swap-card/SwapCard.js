@@ -357,15 +357,7 @@ class SwapCard extends Component {
                                     <input type="number" id="amount" name="amount"
                                         value={this.state.amountToSwap} onChange={(e) => this.inputField(e)}
                                         style={{
-                                            color: '#fff',
-                                            background: 'transparent',
-                                            fontFamily: 'Bai Jamjuree, sans-serif',
-                                            borderWidth: '0',
-                                            fontSize: '15px',
-                                            fontWeight: '400',
-                                            outline: 'none',
-                                            textAlign: 'left',
-                                            width: '100%',
+                                           
                                         }}>
                                     </input>
                                     <div className="w-swap-card-max-amount-bullet"

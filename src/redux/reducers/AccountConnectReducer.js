@@ -19,7 +19,7 @@ export default function connectToAccountReducer(state = initialState, action) {
       return {
         ...state,
         connectSuccess: true,
-        message: "Successfully connected to you account.",
+        message: "Successful connection",
         error: null,
         account: action.payload,
       };

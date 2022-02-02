@@ -4,6 +4,7 @@ import style from './style.js';
 
 const RoundCard = (props) => {
     const [hover, setHover] = useState(false);
+    const isMobile = window.innerWidth < 768;
     return (
         <div className="round-card-container" 
         onMouseEnter={()=>{
@@ -15,7 +16,7 @@ const RoundCard = (props) => {
             setHover(false);
           }}
         style={{
-            width: props.width || '100%',
+            width: props.width || (isMobile ? '100%' : 'fit-content'),
             ...style.normal,
             ...(hover ? style.hover : null)
         }}>

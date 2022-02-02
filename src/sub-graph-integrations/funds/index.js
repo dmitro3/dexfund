@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getEthPrice, getShareBalance } from "../../ethereum/funds/fund-related";
 import { convertScaledPerSecondRateToRate } from "../../ethereum/utils";
 import configs from "./../../config";
 
@@ -160,6 +161,9 @@ export const getYourInvestments = async (address, memberSince) => {
                     accessor {
                       denominationAsset {
                         symbol
+                        price {
+                          price
+                        }
                       }
                     }
                     portfolio {
@@ -210,6 +214,9 @@ export const getYourInvestments = async (address, memberSince) => {
                     accessor {
                       denominationAsset {
                         symbol
+                        price {
+                          price
+                        }
                       }
                     }
                     portfolio {
@@ -261,6 +268,9 @@ export const getYourInvestments = async (address, memberSince) => {
                  accessor {
                    denominationAsset {
                      symbol
+                     price {
+                       price
+                     }
                    }
                  }
                  portfolio {
@@ -1347,4 +1357,187 @@ export const getChartdata = async (fundId, timePeriod) => {
     times,
     sharePrices
   }
+}
+export const getFirstSeenForInvestor = async (address) => {
+  try {
+    const endpoint = configs.DEBUG_MODE
+      ? configs.MAINNET_ENDPOINT
+      : configs.MAINNET_ENDPOINT;
+
+    var q = `
+    { 
+        sharesBoughtEvents(where:  {investor_contains: "${address}"}){
+            investor {
+                firstSeen
+                investorSince
+            }
+        } 
+    }`
+  
+    const { data } = await axios.post(endpoint, {
+      query: q,
+    });
+
+    let investments = data.data.sharesBoughtEvents || [];
+    return {
+      firstSeen: investments ? investments[0].investor.firstSeen : undefined
+    };
+  } catch (error) {}
+}
+//Get investment that happened before particular date
+// Get your investemnt funds
+export const getYourInvestmentsTillDate = async (address, date) => {
+  try {
+    const endpoint = configs.DEBUG_MODE
+      ? configs.MAINNET_ENDPOINT
+      : configs.MAINNET_ENDPOINT;
+
+    var q = `
+    { 
+        sharesBoughtEvents(where:  {investor_contains: "${address}", timestamp_lte: "${date}"}){
+            investmentAmount
+            asset {
+              symbol,
+              price {
+                price
+              }
+            }
+            investmentState {
+                shares
+            }
+            fund {
+              id
+                name
+                inception
+                shares {
+                  totalSupply
+                }
+                accessor {
+                  denominationAsset {
+                    symbol
+                  }
+                }
+                portfolio {
+                  holdings {
+                    amount
+                    asset {
+                      symbol
+                      price {
+                        price
+                      }
+                    }
+                  }
+                }
+                investmentCount
+                lastKnowGavInEth
+                trackedAssets {
+                  name
+                  symbol
+                }
+            }
+            investor {
+                firstSeen
+                investorSince
+            }
+        } 
+    }`
+  
+    const { data } = await axios.post(endpoint, {
+      query: q,
+    });
+
+    let investments = data.data.sharesBoughtEvents || [];
+    return {
+      investments,
+      firstInvestment: investments ? investments[0] : undefined
+    };
+  } catch (error) {}
+};
+
+
+//Get withdraw that happened before particular date
+// Get your investemnt funds
+export const getYourWithdrawTillDate = async (address, date) => {
+  try {
+    const endpoint = configs.DEBUG_MODE
+      ? configs.MAINNET_ENDPOINT
+      : configs.MAINNET_ENDPOINT;
+
+    var q = `
+    { 
+      sharesRedeemedEvents(where:  {investor_contains: "${address}", timestamp_lte: "${date}"}){
+            payoutAssetAmounts {
+              amount
+              price {
+                price
+              }
+            }
+            
+            investmentState {
+                shares
+            }
+            fund {
+              id
+                name
+                inception
+                shares {
+                  totalSupply
+                }
+                accessor {
+                  denominationAsset {
+                    symbol
+                  }
+                }
+                portfolio {
+                  holdings {
+                    amount
+                    asset {
+                      symbol
+                      price {
+                        price
+                      }
+                    }
+                  }
+                }
+                investmentCount
+                lastKnowGavInEth
+                trackedAssets {
+                  name
+                  symbol
+                }
+            }
+            investor {
+                firstSeen
+                investorSince
+            }
+        } 
+    }`
+  
+    const { data } = await axios.post(endpoint, {
+      query: q,
+    });
+
+    let redeems = data.data.sharesRedeemedEvents || [];
+    return {
+      redeems,
+    };
+  } catch (error) {}
+};
+
+export const getTotalAUM = async (provider, address)  => {
+  //my investment funds
+  var yourInvestments = await getYourInvestments(
+    address
+  );
+  var myFunds = yourInvestments.map(investment => investment.fund) || [];
+  //current share price per fund
+  let totalAUM = await myFunds.reduce(async (a, fund) => {
+    let sharePrice = parseFloat(fund.accessor.denominationAsset.price.price) || 0;
+    let balance = await getShareBalance(fund.id, provider) || 0;
+    let ethPrice = await getEthPrice();
+    return a + sharePrice * parseFloat(balance) * ethPrice ;
+  }, 0)
+  
+  console.log('myFundTotalAUM: ', totalAUM)
+  return totalAUM;
 }

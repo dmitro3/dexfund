@@ -30,6 +30,8 @@ import { VaultLib, redeemShares } from "@enzymefinance/protocol";
 import configs from "../../config";
 import { toastr } from "react-redux-toastr";
 import { getYourInvestments } from "../../sub-graph-integrations";
+import { getContracts, getProvider } from "./deposits-withdraws";
+import BigNumber from "bignumber.js";
 
 export {
   PerformanceFee,
@@ -442,11 +444,9 @@ export const getStartAUM = async (address, memberSince, _ethPrice) => {
   const investments = await getYourInvestments(address, memberSince);
   
   const _yourTotalAUM = investments.reduce((investment1, investment2) => {
-    const amount1 = parseFloat(investment1.investmentAmount) || 0;
     const amount2 = parseFloat(investment2.investmentAmount) || 0;
-    const price1 = investment1.asset ? parseFloat(investment1.asset.price.price) : 0;
     const price2 = investment2.asset ? parseFloat(investment2.asset.price.price) : 0;
-    return amount1 * price1 * _ethPrice + amount2 * price2 * _ethPrice;
+    return investment1 + amount2 * price2 * _ethPrice;
   }
   , 0);
   console.log('calc aum: ', _yourTotalAUM);
@@ -454,3 +454,34 @@ export const getStartAUM = async (address, memberSince, _ethPrice) => {
   return _yourTotalAUM;
 }
 
+
+export const getShareBalance = async (fundAddress, provider) => {
+  provider = getProvider(provider);
+  const signer = await provider.getSigner();
+
+  // const {
+  //   comptrollerContract
+  // } = await getContracts(fundAddress, provider);
+
+  const abi = [
+    // Read-Only Functions
+    "function balanceOf(address owner) view returns (uint256)",
+    "function decimals() view returns (uint8)",
+    "function symbol() view returns (string)",
+
+    // Authenticated Functions
+    "function transfer(address to, uint amount) returns (bool)",
+
+    // Events
+    "event Transfer(address indexed from, address indexed to, uint amount)"
+  ];
+
+  const erc20 = new ethers.Contract(fundAddress, abi, signer);
+  console.log('share_balance: ', signer.getAddress());
+  const balance = await erc20.balanceOf(signer.getAddress());
+  const decimals = await erc20.decimals();
+  const _balance = ethers.BigNumber.from(balance);
+  const _decimals = ethers.BigNumber.from(decimals)
+  const __balance = _balance.mul("1000").div(ethers.BigNumber.from(10).pow(_decimals));
+  return ethers.utils.formatUnits(__balance, 3); ;
+}

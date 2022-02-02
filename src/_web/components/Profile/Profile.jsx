@@ -14,6 +14,7 @@ import { getEthPrice, getStartAUM } from '../../../ethereum/funds/fund-related';
 import { getAllCreationSharePrices } from '../../../api/vaults';
 import configs from '../../../config';
 import { activateLoaderOverlay, deactivateLoaderOverlay } from '../../../redux/actions/LoaderAction';
+import ROIChart from '../ROIChart/ROIChart';
 
 const Profile = (props) => {
     const onboard = useSelector(state => getOnboardInformation(state));
@@ -185,7 +186,7 @@ const Profile = (props) => {
                         <div className="overview-card">
                             <div className="overview-card-header">
                                 <h4 className="overview-title">Total AUM</h4>
-                                <ThreeDots color={'black'} size={24}/>
+                                <ThreeDots color={'black'} size={isMobile ? 18 : 24}/>
                             </div>
                             <div className="overview-card-body">
                                 <div className="overview-detail">
@@ -232,7 +233,7 @@ const Profile = (props) => {
                         <div className="overview-card">
                             <div className="overview-card-header">
                                 <h4 className="overview-title">Dexfund Split</h4>
-                                <ThreeDots color={'black'} size={24}/>
+                                <ThreeDots color={'black'} size={isMobile ? 18 : 24}/>
                             </div>
                             
                             <div className="overview-card-body">
@@ -253,11 +254,11 @@ const Profile = (props) => {
                     <RoundCard width="100%">
                         <div className="overview-card">
                             <div className="overview-card-header">
-                                <h4 className="overview-title">Total ROL</h4>
-                                <ThreeDots color={'black'} size={24}/>
+                                <h4 className="overview-title">Total ROI</h4>
+                                <ThreeDots color={'black'} size={isMobile ? 18 : 24}/>
                             </div>
                             <div className="overview-card-body">
-                                <DexfundChart outline={false} width={!isMobile ? 350 : ''} yLabel={true}/>
+                                <ROIChart outline={false} width={!isMobile ? 350 : 270} yLabel={true}/>
                             </div>
                         </div>
                     </RoundCard>
