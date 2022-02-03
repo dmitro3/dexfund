@@ -23,7 +23,6 @@ const ROIChart = (props) => {
                 let now = new Date().getTime() / 1000;
                 let _times = [];
                 let totalAUM = await getTotalAUM(onboard.provider, onboard.address);
-                console.log('roi_aum: ', totalAUM);
                 let _rois = [];
                 let startTime = parseInt(_firstSeen.firstSeen);
                 for (let i = startTime ; i <= now ; i += 86400) {
@@ -44,7 +43,6 @@ const ROIChart = (props) => {
                             }, 0)
                         }, 0);
                     }
-                    console.log('roi_invest_withdraw: ', totalInvestment, totalRedeems)
                     if (totalInvestment) {
                         let roi = (totalAUM + totalRedeems - totalInvestment).toFixed(5) / totalInvestment * 100;
                         _rois.push(roi);
@@ -54,7 +52,6 @@ const ROIChart = (props) => {
                 }
                 setTimes(_times);
                 setROIs(_rois);
-                console.log('ROI: ', _times, _rois);
             }
             
         })();

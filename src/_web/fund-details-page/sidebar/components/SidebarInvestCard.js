@@ -105,7 +105,6 @@ class SidebarInvestCard extends Component {
 
   setAllowance = async () => {
     var allowance;
-    console.log('set allowance: ', this.state.fundAddress, this.props.onboard)
     allowance = await getDenominationAllowance(
       this.state.fundAddress,
       this.props.onboard.address,

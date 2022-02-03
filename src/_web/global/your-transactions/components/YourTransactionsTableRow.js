@@ -17,7 +17,6 @@ import "../styles/yourTransactions.css";
 class YourTransactionsTableRow extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
     this.state = {
       searchedValue: this.props.searchedValueFromParent,
       ethPrice: 1,

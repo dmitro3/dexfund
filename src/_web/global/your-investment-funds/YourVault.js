@@ -66,7 +66,6 @@ class YourInvestmentFunds extends Component {
 
   getData = async () => {
     // get all vaults - address and name
-    console.log(this.props.yourInvestments);
     var investments = this.props.yourInvestments;
     // calculate AUM - AUM
     const ethPrice = await getEthPrice();

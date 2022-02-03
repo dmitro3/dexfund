@@ -12,7 +12,6 @@ import "../styles/fundDetails.css";
 class FundFees extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
     this.state = {
       managementFee: "0.00",
       performanceFee: "0.00",

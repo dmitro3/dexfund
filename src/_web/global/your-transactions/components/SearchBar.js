@@ -51,7 +51,6 @@ class InvestmentFunds extends Component {
 
   handleSortChange = (selectedOption) => {
     this.setState({ sortOption: selectedOption });
-    console.log('sortOption: ', selectedOption);
     if (this.props.handleSortOptionChange) {
       this.props.handleSortOptionChange(selectedOption);
     }
@@ -59,7 +58,6 @@ class InvestmentFunds extends Component {
 
   handleSortDirectionChange = (selectedOption) => {
     this.setState({ sortDirectionOption: selectedOption });
-    console.log('sortDirectionOption: ', selectedOption);
     if (this.props.handleSortDirectionOptionChange) {
       this.props.handleSortDirectionOptionChange(selectedOption);
     }

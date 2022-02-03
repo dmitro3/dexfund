@@ -32,7 +32,6 @@ const DexFundCard = (props) => {
         var width = window.innerWidth;
         setMobile(width < 768);
         const topAsset = getTopAsset(fund);
-        console.log('topAsset Result: ', fund);
         (async () => {
             const policy = await minMaxDepositAmounts(fund.id);
             setPolicy(policy);
@@ -59,7 +58,6 @@ const DexFundCard = (props) => {
             var profit = _currentSharePrice - startingSharePrice;
             var _ltr = (profit / startingSharePrice) * 100;
         
-            console.log("LIFETIME RETURN: "+_ltr)
         
             var isRegistered = _fundDetails.length > 0;
             if (configs.BLACKLISTED_VAULTS.includes(vaultAddress) || !isRegistered) {

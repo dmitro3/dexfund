@@ -75,7 +75,6 @@ const Profile = (props) => {
                 var yourInvestments = await getYourInvestments(
                     onboard.address
                 );
-                console.log('your investment: ', yourInvestments);
                 var yourFunds = yourInvestments.map(investment => investment.fund) || [];
                 const allFundTx = [];
 
@@ -88,7 +87,6 @@ const Profile = (props) => {
 
                 setIsLoaded(false);
                 var creationSharePrices = await getAllCreationSharePrices();
-                console.log('allfundTX: ', allFundTx)
                 //yourInvestments = await getAllInvestments();
                 const aums = allFundTx.map(fundTx => {
                     let priceArrayPerFund =  fundTx.map(tx => {
@@ -114,13 +112,11 @@ const Profile = (props) => {
                     }
                 });
 
-                console.log('AUMS: ', aums);
                 
                 let _total = 0;
                 for (var a of aums) {
                     _total += a.AUM;
                 }
-                console.log('total aum: ', _total);
                 setMyTotalAUM(_total);
                 
                 setSplitAUM(aums);
@@ -144,7 +140,6 @@ const Profile = (props) => {
                     return !configs.BLACKLISTED_VAULTS.includes(v.id.toLowerCase());
                 });
 
-                console.log('your funds: ', yourFunds);
 
                 for(var i = 0; i < yourFunds.length; i++) {
                     yourFunds[i].currentAUM = calculateAUM(yourFunds[i]);

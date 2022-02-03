@@ -440,7 +440,6 @@ export const getTopAsset = (fund) => {
 }
 
 export const getStartAUM = async (address, memberSince, _ethPrice) => {
-  console.log('calc aum: ', address, memberSince, _ethPrice);
   const investments = await getYourInvestments(address, memberSince);
   
   const _yourTotalAUM = investments.reduce((investment1, investment2) => {
@@ -449,7 +448,6 @@ export const getStartAUM = async (address, memberSince, _ethPrice) => {
     return investment1 + amount2 * price2 * _ethPrice;
   }
   , 0);
-  console.log('calc aum: ', _yourTotalAUM);
 
   return _yourTotalAUM;
 }
@@ -477,7 +475,6 @@ export const getShareBalance = async (fundAddress, provider) => {
   ];
 
   const erc20 = new ethers.Contract(fundAddress, abi, signer);
-  console.log('share_balance: ', signer.getAddress());
   const balance = await erc20.balanceOf(signer.getAddress());
   const decimals = await erc20.decimals();
   const _balance = ethers.BigNumber.from(balance);

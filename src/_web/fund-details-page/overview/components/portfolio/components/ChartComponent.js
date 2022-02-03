@@ -140,8 +140,9 @@ class ChartComponent extends React.PureComponent {
     const values = this.state.data;
     const times = values.times.map(t => parseInt(t) * 1000);
     const ethPrice = parseFloat(this.state.ethPrice);
-    const priceValues = values.sharePrices.map(p => (parseFloat(p) * ethPrice).toFixed(2));
-    console.log('priceValues: ', priceValues)
+    const priceValues = values.sharePrices.map(p => (parseFloat(p) * ethPrice));
+    const maxValue = Math.max(...priceValues);
+
     const fundName = this.state.fundName
     const series = [{
       name: fundName,
@@ -177,63 +178,13 @@ class ChartComponent extends React.PureComponent {
                 formatter: function (value) {
                   return value
                 }
-            }
+            },
+            min: 0,
+            max: parseFloat((maxValue + maxValue/10).toFixed(2))
         },
     };
 
     return (
-      // <ResponsiveContainer
-      //   padding={{ top: "10%" }}
-      //   width="100%"
-      //   height={400}
-      //   className={classes.chart}
-      // >
-      //   <AreaChart data={chartData}>
-      //     <defs>
-      //       <linearGradient id="colorSharePrice" x1="0" y1="0" x2="0" y2="1">
-      //         <stop offset="0%" stopColor="#FF4D86" stopOpacity={0.1} />
-      //         <stop offset="100%" stopColor="#E926C3" stopOpacity={0} />
-      //       </linearGradient>
-      //     </defs>
-      //     <Area
-      //       type="monotone"
-      //       fillOpacity={1}
-      //       fill="url(#colorSharePrice)"
-      //       dot={false}
-      //       dataKey="sharePrice"
-      //       stroke="#F135AE"
-      //     />
-      //     <XAxis 
-      //       type="number"
-      //       strokeWidth={0}
-      //       minTickGap={10} 
-      //       dataKey="timestamp" 
-      //       tickFormatter={(date) => moment(date).format('YYYY-MM-DD')}
-      //       type="number"
-      //       domain={['auto', 'auto']}
-      //       />
-      //     <YAxis
-      //       strokeWidth={0}
-      //       domain={["auto", "auto"]}
-      //       dataKey="sharePrice"
-      //     />
-      //     <Tooltip
-      //       animationDuration={200}
-      //       cursor={{ stroke: "#444444", width: "1px" }}
-      //       itemStyle={{ color: "white" }}
-      //       wrapperStyle={{ backgroundColor: "black", color: "white" }}
-      //       labelStyle={{ color: "white" }}
-      //       contentStyle={{
-      //         backgroundColor: "#18181D",
-      //         color: "white",
-      //         border: "0px",
-      //         padding: "10px",
-      //         borderRadius: "8px",
-      //       }}
-      //     />
-      //   </AreaChart>
-      // </ResponsiveContainer>
-
       <ReactApexChart options={options} series={series} type="area" height={height || 400} width={'100%'} />
     );
   }

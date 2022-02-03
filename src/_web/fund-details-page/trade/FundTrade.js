@@ -50,7 +50,6 @@ class FundTrade extends Component {
         this.setState({
             swapHistory: fundTradeHistory
         });
-        console.log('fundTradeHistory: ', fundTradeHistory);
     }
 
     async setPathsLoading(bl) {

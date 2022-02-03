@@ -77,7 +77,6 @@ const ManageVaultPage = () => {
             setMaxInvestment(0);
             toastr.success("Successfully created a new vault");
           } catch (error) {
-            console.log('create fund error: ', error)
             toastr.error("Error occurred while creating a Vault: ", error.message);
             dispatch(deactivateLoaderOverlay());
           }
@@ -90,7 +89,6 @@ const ManageVaultPage = () => {
     }
 
     const isValidate = () => {
-      console.log('validate: ', walletAddress, fundName, performanceFee, entryFee, minimumInvestment, maxInvestment, startingAssetAddress, (maxInvestment >= minimumInvestment), typeof maxInvestment, typeof minimumInvestment)
         return walletAddress && fundName && performanceFee && entryFee && minimumInvestment && maxInvestment && startingAssetAddress && (parseFloat(maxInvestment) >= parseFloat(minimumInvestment));
     }
 
@@ -151,7 +149,6 @@ const ManageVaultPage = () => {
               startingAssetAddress,
               onboard.provider
             );
-            console.log('min: ', denominationAssetDecimals);
             minDeposit =
               minDeposit === 0
                 ? 0

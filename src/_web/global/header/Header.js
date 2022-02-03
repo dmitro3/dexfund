@@ -44,7 +44,6 @@ const Header = (props) => {
 
   useEffect(() => {
     const pathName = location.pathname;
-    console.log('pathname: ', pathName, location)
     let _page = "home";
     switch(pathName) {
       case "/manage":
@@ -100,7 +99,7 @@ const Header = (props) => {
               src={logoIcon}
               alt="radar-protocol-icon"
               className="radar-protocol-icon"
-              onClick={() => toPage("/", { name: "home-page" })}
+              onClick={() => window.location.href="https://dexify.io"}
             />
             <h2 className="title"><span className="hightlight">DEX</span><span>IFY</span></h2>
 

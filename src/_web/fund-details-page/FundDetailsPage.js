@@ -88,7 +88,6 @@ class FundDetailsPage extends Component {
     var profit = currentSharePrice - startingSharePrice;
     var ltr = (profit / startingSharePrice) * 100;
 
-    console.log("LIFETIME RETURN: "+ltr)
 
     var isRegistered = fundDetails.length > 0;
     if (configs.BLACKLISTED_VAULTS.includes(vaultAddress) || !isRegistered) {
@@ -98,7 +97,6 @@ class FundDetailsPage extends Component {
     }
     
     fundDetails = fundDetails[0];
-    console.log('fundDetails: ', fundDetails);
     await this.setState({
       fundId: vaultAddress,
       fundName: fundDetails.name,

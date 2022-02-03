@@ -48,7 +48,6 @@ class SidebarWithdrawCard extends Component {
   };
 
   async componentDidUpdate(prevProps) {
-    console.log('denominationasset: ', this.props.state)
     if (prevProps.state != this.props.state) {
       this.setState({
         ...this.props.state,

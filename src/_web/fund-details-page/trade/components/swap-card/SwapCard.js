@@ -149,7 +149,6 @@ class SwapCard extends Component {
 
     async doSwap(e) {
         e.preventDefault();
-        console.log("Selected path: "+JSON.stringify(this.state.selectedSwapPath))
         if (this.state.selectedSwapPath == null)
             return;
         await this.props.activateLoaderOverlay();

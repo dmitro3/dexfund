@@ -19,7 +19,6 @@ export const getParaswapData = async (
 ) => {
     try {
         const decimalData = await getAssetsDecimals([src, dest]);
-        console.log("DECIMAL DATA: "+JSON.stringify(decimalData));
         if (!decimalData || decimalData.assets.length != 2)
             return false;
         var srcSymbol, srcDecs;
@@ -35,7 +34,6 @@ export const getParaswapData = async (
             destSymbol = decimalData.assets[0].symbol;
             destDecs = parseInt(decimalData.assets[0].decimals);
         }
-        console.log('swap data: ', fundAddress, src, dest, amount, slippage);
         const scaledAmount = fullNumber(amount * 10**srcDecs);
         const networkId = configs.DEBUG_MODE ? configs.networkId_DEBUG : configs.networkId;
 

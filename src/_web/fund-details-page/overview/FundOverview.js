@@ -51,7 +51,6 @@ class FundOverview extends Component {
   }
 
   showModal(value, type=undefined) {
-    console.log('modal: ', value);
     this.setState({
       ...this.state,
       modalShow: value,
@@ -60,7 +59,6 @@ class FundOverview extends Component {
   }
 
   render() {
-    console.log('onboard: ', this.state.onboard, this.state.account)
       return (
         <>
           <div className="w-fund-overview-wrapper">

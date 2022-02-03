@@ -12,7 +12,6 @@ import "../styles/fundDetails.css";
 class FundRuleset extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
     this.state = {
       minimumDeposit: "1.00 WETH",
       maximumDeposit: "10.00 WETH",

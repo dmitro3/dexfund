@@ -108,7 +108,6 @@ class Chart1D extends React.PureComponent {
   async componentDidMount() {
     const chart1D = await chart1d();
 
-    console.log(chart1D);
     this.setState({
       ...this.state,
       unformatedChart1d: chart1D,
@@ -131,7 +130,6 @@ class Chart1D extends React.PureComponent {
       });
     });
 
-    console.log(data);
 
     return data;
   };

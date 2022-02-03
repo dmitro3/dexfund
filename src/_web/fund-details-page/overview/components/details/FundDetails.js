@@ -23,7 +23,6 @@ import {
 class FundDetails extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
 
     this.state = {
       ...this.props.state,
@@ -52,9 +51,6 @@ class FundDetails extends Component {
 
     const entranceFee = await entranceDirectBurnFees(this.props.state.fundId);
 
-    console.log('performanceFee: ', feePerformance);
-    console.log('manageFee: ', manageFee);
-    console.log('entranceFee: ', entranceFee);
     this.setState({
       ...this.state,
       policy,

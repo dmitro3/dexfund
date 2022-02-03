@@ -90,7 +90,6 @@ class Chart1W extends React.PureComponent {
   async componentDidMount() {
     const chart1W = await chart1w();
 
-    console.log(chart1W);
     this.setState({
       ...this.state,
       unformatedChart1w: chart1W,
@@ -112,7 +111,6 @@ class Chart1W extends React.PureComponent {
       });
     });
 
-    console.log(data);
 
     return data;
   };

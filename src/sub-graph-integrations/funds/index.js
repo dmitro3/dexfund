@@ -1025,7 +1025,6 @@ export const minMaxDepositAmounts = async (fundId) => {
   const { data } = await axios.post(url, {
     query,
   });
-  console.log(data.data);
 
   return data.data.minMaxInvestmentFundSettingsSetEvents.length
     ? data.data.minMaxInvestmentFundSettingsSetEvents[0]
@@ -1121,15 +1120,10 @@ export const chart1d = async () => {
     ? configs.TESTNET_ENDPOINT
     : configs.MAINNET_ENDPOINT;
 
-  console.log(url);
 
   var now = Math.floor(new Date().getTime() / 1000);
 
   var aday = 3600 * 25;
-
-  console.log("NOW", now);
-  console.log("A D", aday);
-  console.log(now - aday);
 
   try {
     const { data } = await axios.post(url, {
@@ -1161,7 +1155,6 @@ export const chart1d = async () => {
       }`,
     });
 
-    console.log("Our data ", data);
     return data.data.fundStates;
   } catch (error) {
     console.log("Data");
@@ -1178,10 +1171,6 @@ export const chart1w = async () => {
   var now = Math.floor(new Date().getTime() / 1000);
 
   var aday = 3600 * 24 * 8;
-
-  console.log("NOW", now);
-  console.log("A D", aday);
-  console.log(now - aday);
 
   try {
     const { data } = await axios.post(url, {
@@ -1213,7 +1202,6 @@ export const chart1w = async () => {
       }`,
     });
 
-    console.log("Our data ", data);
     return data.data.fundStates;
   } catch (error) {
     console.log("Data");
@@ -1231,9 +1219,6 @@ export const chart1m = async () => {
 
   var aday = 3600 * 24 * 30;
 
-  console.log("NOW", now);
-  console.log("A D", aday);
-  console.log(now - aday);
 
   try {
     const { data } = await axios.post(url, {
@@ -1279,46 +1264,57 @@ export const getChartdata = async (fundId, timePeriod) => {
   : configs.MAINNET_ENDPOINT
 
   console.log('chartType: ', timePeriod);
-
+  var ethPrice = await getEthPrice();
   var now = Math.floor(new Date().getTime() / 1000);
 
-  var aday = 3600 * 24 * 30;
+  var aday = 3600 * 24;
   var aWeek = 7 * aday;
   var aMonth = 31 * aday;
   var _3Month = 3 * aMonth;
   var _6Month = 6 * aMonth;
   var aYear = 365 * aday;
 
+  var interval = 0;
   var time1 = now;
   var time2;
   switch(timePeriod) {
     case '1D':
       time2 = now - aday;
+      interval = 3600;
       break;
     case '1W':
       time2 = now - aWeek;
+      interval = 3600 * 24;
       break;
     case '1M':
-      time2 = now - aMonth
+      time2 = now - aMonth;
+      interval = 3600 * 24 * 3;
       break;
     case '3M':
-      time2 = now - _3Month
+      time2 = now - _3Month;
+      interval = 3600 * 24 * 15;
       break;
     case '6M':
-      time2 = now - _6Month
+      time2 = now - _6Month;
+      interval = 3600 * 24 * 20;
       break;
     case '1Y':
-      time2 = now - aYear
+      time2 = now - aYear;
+      interval = 3600 * 24 * 30;
       break;
   }
-
+console.log('fundDeatil_Time: ', time2, time1);
   let result = await axios
   .post(url, {
     query: `
   {
     fund(id: "${fundId}") {
       name
-      portfolioHistory(where: {timestamp_gte: "${time2}", timestamp_lte: "${time1}"}) {
+      sharesHistory {
+				totalSupply
+        timestamp
+      }
+      portfolioHistory {
         timestamp
         holdings {
           amount
@@ -1336,26 +1332,79 @@ export const getChartdata = async (fundId, timePeriod) => {
   });
 
   let times = [];
+  let shareHistory = [];
   let sharePrices = [];
+  let _holdingHistory = [];
+  let holdingHistory = [];
+
   if (!result || !result.portfolioHistory) {
     return {}
   }
-  result.portfolioHistory.map((history) => {
+  shareHistory = result.sharesHistory.map(history => {
+    return  {
+      shareAmount: history.totalSupply,
+      time: history.timestamp
+    }
+  }) || [];
+
+  result.portfolioHistory.map(history => {
     let holdings = history.holdings;
     let value = 0;
     let amount = 0;
     holdings.map(holding => {
-      let valuePerAsset = parseFloat(holding.amount) * parseFloat(holding.price.price);
+      let valuePerAsset = parseFloat(holding.amount) * parseFloat(holding.price.price) ;
       value += valuePerAsset;
-      amount += holding.amount;
     });
-    times.push(history.timestamp);
-    sharePrices.push(amount > 0 ? value / amount : 0);
+    _holdingHistory.push({
+      holdingValue: value,
+      time: history.timestamp
+    });
   });
+
+  console.log('_fundSharePrice: ', _holdingHistory);
+
+  for (let i = time2; i <= time1 ; i += interval) {
+    let time = i;
+    times.push(time);
+    let shareIndex = shareHistory.findIndex(shareData => shareData.time > time);
+    let shareData;
+    if (shareIndex === -1) {
+      shareIndex = shareHistory.length;
+      shareData = shareIndex > 0 ? shareHistory[shareIndex - 1] : undefined;
+    } else {
+      shareData = shareIndex > 0 ? shareHistory[shareIndex - 1] : shareHistory[shareIndex];
+    }
+
+    let holdingIndex = _holdingHistory.findIndex(holding => holding.time > time);
+    let holdingData;
+    if (holdingIndex === -1) {
+      holdingIndex = _holdingHistory.length;
+      holdingData = holdingIndex > 0 ? _holdingHistory[holdingIndex - 1] : undefined;
+    } else {
+      holdingData = holdingIndex > 0 ? _holdingHistory[holdingIndex - 1] : _holdingHistory[holdingIndex];
+    }
+    if (holdingData) {
+      holdingHistory.push(holdingData.holdingValue);
+      if (shareData && shareData.shareAmount) {
+        let price = (holdingData.holdingValue / shareData.shareAmount);
+        if (price) {
+          sharePrices.push(price);
+        } else {
+          sharePrices.push(0)
+        }
+      } else {
+        sharePrices.push(0);
+      }
+    } else {
+      holdingHistory.push(0);
+      sharePrices.push(0);
+    }
+  }
 
   return {
     times,
-    sharePrices
+    sharePrices,
+    holdingHistory
   }
 }
 export const getFirstSeenForInvestor = async (address) => {

@@ -25,7 +25,6 @@ class Sidebar extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('sidebar: ', this.state)
     if (prevProps.state != this.props.state) {
       this.setState({
         ...this.props.state

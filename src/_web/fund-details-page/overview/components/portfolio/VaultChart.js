@@ -115,7 +115,6 @@ class VaultChart extends Component {
     // const data = await getChartData(this.state.fundAddress, from, 0, interval);
     // const data = await chart1d();
     const data = await getChartdata(this.state.fundAddress, selectedChart);
-    console.log('chardData: ', data);
     if (!data) {
       noData = true;
     }
@@ -128,7 +127,6 @@ class VaultChart extends Component {
     // }
 
     const chartIncrease = this.calculateIncrease(data, noData);
-    console.log('chartIncrease: ', chartIncrease)
     await this.setState({ loading: false, selectedData: data, noData: noData, portfolioPercent: chartIncrease });
   }
 

@@ -27,7 +27,6 @@ export const getContracts = async (fundAddress, provider) => {
     signer
   );
 
-  console.log('getContracts: ', fundAddress, vaultLibContract);
 
   // Estimation
   let comptroller;
@@ -40,7 +39,6 @@ export const getContracts = async (fundAddress, provider) => {
       signer
     );
 
-    console.log('getComptroller Contracts: ', comptroller)
     const denominationAsset = await comptrollerContract.getDenominationAsset();
 
     // Use VaultLib interface for shares functions
@@ -68,7 +66,6 @@ export const getDenominationAllowance = async (
 ) => {
   provider = getProvider(provider);
   const signer = await provider.getSigner();
-  console.log('signer: ', signer);
   const {
     assetContract,
     comptrollerContract
@@ -154,7 +151,6 @@ export const redeemAllShares = async (fundAddress, provider) => {
   } = await getContracts(fundAddress, provider);
 
   const receipt = await comptrollerContract.redeemShares();
-  console.log('withdraw: ', receipt);
   await receipt.wait();
 };
 
@@ -165,9 +161,7 @@ export const redeemSharesAmount = async (fundAddress, provider, amount) => {
   const {
     comptrollerContract
   } = await getContracts(fundAddress, provider);
-  console.log('withdraw: ', amount, await comptrollerContract.signer.getAddress());
   const receipt = await comptrollerContract.redeemSharesDetailed(amount, [], []);
-  console.log('withdraw_amount: ', receipt);
   await receipt.wait();
 };
 // export const investFundEth = async (

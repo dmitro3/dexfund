@@ -69,7 +69,6 @@ class DexfundRoundChart extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        console.log('props: ', props)
         const titles = props.values.map(v => v.fundName) || ['unknow funds']
         this.setState({
             titles,
@@ -159,8 +158,6 @@ class DexfundRoundChart extends React.Component {
     }
 
     render() {
-        console.log('current options: ', this.state.options)
-        console.log('current series: ', this.state.series)
         return (
             <ReactApexChart options={this.state.options} series={this.state.series} type="donut" width={350}/>
         );
