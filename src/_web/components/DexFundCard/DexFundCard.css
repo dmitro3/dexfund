@@ -162,3 +162,9 @@
         font-size: 9px;
     }
 }
+
+@media(min-width: 1920px) {
+    .dexfund-card {
+        width: 420px;
+    }
+}

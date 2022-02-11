@@ -31,3 +31,9 @@
         border-radius: 16px;
     }
 }
+
+@media(min-width: 1920px) {
+    .card-background-container {
+        padding: 120px 3% 5% 3%;
+    }
+}
