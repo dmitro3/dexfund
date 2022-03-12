@@ -139,8 +139,8 @@ class ChartComponent extends React.PureComponent {
     const {height} = this.props;
     const values = this.state.data;
     const times = values.times.map(t => parseInt(t) * 1000);
-    const ethPrice = parseFloat(this.state.ethPrice);
-    const priceValues = values.sharePrices.map(p => (parseFloat(p) * ethPrice));
+    // const ethPrice = parseFloat(this.state.ethPrice);
+    const priceValues = values.holdingHistory;
     const maxValue = Math.max(...priceValues);
 
     const fundName = this.state.fundName
@@ -176,7 +176,7 @@ class ChartComponent extends React.PureComponent {
             type: 'numeric',
             labels: {
                 formatter: function (value) {
-                  return value
+                  return value.toFixed(2);
                 }
             },
             min: 0,

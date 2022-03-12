@@ -610,135 +610,109 @@ export const allFundTransactions = async (fundId) => {
     : configs.MAINNET_ENDPOINT;
   const { data } = await axios.post(url, {
     query: `{
-    fund(id: "${fundId}") {
-     id 
-     name
-      sharesChanges(orderBy: timestamp, orderDirection: desc) {
+      sharesBoughtEvents(where: {fund:"${fundId}"}) {
+        id
+        fund {
+          id
+          name
+        }
+        shares
+        investmentAmount
+        timestamp
+        investor {
+          id
+        }
+        transaction {
+          id
+          from
+          to
+        }
+        asset {
+          symbol
+          price {
+            price
+          }
+        }
+      }
+        
+      sharesRedeemedEvents(where: {fund: "${fundId}"}) {
+        fund {
+          id
+          name
+        }
+        id
         shares
         timestamp
-        fundState{
+        investor {
           id
-          portfolio{
-            id
-            holdings{
-              id
-              asset{
-                id
-                symbol
-                name
-              }
-              price{
-                price
-              }
-            }
-          }  
         }
-        ... on SharesBoughtEvent{
-          id 
-          investmentAmount
-          asset{
-            id
-            name
+        transaction {
+          id
+          from
+          to
+        }
+        payoutAssetAmounts {
+          asset {
             symbol
-            price{
-              price
-            }
           }
-          investor{
-            id 
+          price {
+            price
           }
-          transaction{
-            id
-            from
-            to 
-          }
-        }
-        
-        ...on SharesRedeemedEvent{
-          id 
-          investor{
-            id
-          }
-          fund {
-            id
-            name
-            accessor{
-              id
-              denominationAsset{
-                id 
-                name
-                symbol
-              }
-            }
-          }
-          
-          payoutAssetAmounts{
-            asset{
-              id
-              name
-              symbol
-            }
-            amount
-            price{
-              price
-            }
-          }
-          transaction{
-            id 
-            from 
-            to
-          }
+          amount
         }
       }
-    } 
-  }`,
+    }`
   });
 
-  const transaction = data.data.fund.sharesChanges
-    .map((item) => {
-      if (item.fund) {
-        // withdraw
-        return {
-          shares: item.shares,
-          timestamp: parseInt(item.timestamp),
-          transaction_id: item.transaction.id,
-          to: item.transaction.to,
-          type: "WITHDRAW",
-          from: item.transaction.from,
-          amount: item.payoutAssetAmounts
-            ? item.payoutAssetAmounts[0].amount
-            : 0,
-          symbol: item.payoutAssetAmounts
-            ? item.payoutAssetAmounts[0].asset.symbol
-            : "",
-          price: item.payoutAssetAmounts
-            ? item.payoutAssetAmounts[0].price.price
-            : "",
-          investor: item.investor.id,
-          fundName: item.fund.name,
-          fundId: item.fund.id,
-        };
-      } else if (item.asset && item.transaction) {
-        return {
-          shares: item.shares,
-          timestamp: parseInt(item.timestamp),
-          transaction_id: item.transaction.id,
-          to: item.transaction.to,
-          type: "INVEST",
-          from: item.transaction.from,
-          amount: item.investmentAmount,
-          symbol: item.asset.symbol,
-          price: item.asset.price.price,
-          investor: item.investor.id,
-          fundName: data.data.fund.name,
-          fundId: data.data.fund.id,
-        };
-      }
-      return;
-    })
-    .filter((item) => item);
+  const boughtEvents = data.data.sharesBoughtEvents.map (item => (
+    {
+      shares: item.shares,
+      timestamp: parseInt(item.timestamp),
+      transaction_id: item.transaction.id,
+      from: item.transaction.from,
+      to: item.transaction.to,
+      type: "INVEST",
+      amount: item.investmentAmount,
+      symbol: item.asset.symbol,
+      price: item.asset.price.price,
+      investor: item.investor.id,
+      fundName: item.fund.name,
+      fundId: item.fund.id
+    }
+  ));
+  const redeemEvents = data.data.sharesRedeemedEvents.map (item => (
+    {
+      shares: item.shares,
+      timestamp: parseInt(item.timestamp),
+      transaction_id: item.transaction.id,
+      from: item.transaction.from,
+      to: item.transaction.to,
+      type: "WITHDRAWN",
 
-  return transaction;
+      payoutAssetAmounts: item.payoutAssetAmounts,
+
+      investor: item.investor.id,
+      fundName: item.fund.name,
+      fundId: item.fund.id
+    }
+  ));
+
+  let withdrawnEvents =[];
+  redeemEvents.map(item => {
+    item.payoutAssetAmounts.map(payoutItem => {
+      let event = {
+        ...item,
+        amount: payoutItem.amount,
+        symbol: payoutItem.asset.symbol,
+        price: payoutItem.price.price
+      }
+      withdrawnEvents.push(event);
+    });
+  });
+
+  const result = [].concat(boughtEvents).concat(withdrawnEvents);
+  result.sort((a, b) => b.timestamp - a.timestamp)
+  return result;
 };
 
 export const currentUserAllTransactions = async (walletAddress) => {
@@ -1280,27 +1254,27 @@ export const getChartdata = async (fundId, timePeriod) => {
   switch(timePeriod) {
     case '1D':
       time2 = now - aday;
-      interval = 3600;
+      interval = aday / 24;
       break;
     case '1W':
       time2 = now - aWeek;
-      interval = 3600 * 24;
+      interval = aWeek / 24;
       break;
     case '1M':
       time2 = now - aMonth;
-      interval = 3600 * 24 * 3;
+      interval = aMonth / 60;
       break;
     case '3M':
       time2 = now - _3Month;
-      interval = 3600 * 24 * 15;
+      interval = _3Month / 90;
       break;
     case '6M':
       time2 = now - _6Month;
-      interval = 3600 * 24 * 20;
+      interval = _6Month / 90;
       break;
     case '1Y':
       time2 = now - aYear;
-      interval = 3600 * 24 * 30;
+      interval = aYear / 60;
       break;
   }
 console.log('fundDeatil_Time: ', time2, time1);
@@ -1318,6 +1292,11 @@ console.log('fundDeatil_Time: ', time2, time1);
         timestamp
         holdings {
           amount
+          asset {
+            price {
+              price
+            }
+          } 
           price {
             price
           }
@@ -1333,7 +1312,6 @@ console.log('fundDeatil_Time: ', time2, time1);
 
   let times = [];
   let shareHistory = [];
-  let sharePrices = [];
   let _holdingHistory = [];
   let holdingHistory = [];
 
@@ -1356,24 +1334,23 @@ console.log('fundDeatil_Time: ', time2, time1);
       value += valuePerAsset;
     });
     _holdingHistory.push({
-      holdingValue: value,
+      holdingValue: (value * ethPrice), //TODO ethPrice history
       time: history.timestamp
     });
   });
 
-  console.log('_fundSharePrice: ', _holdingHistory);
 
   for (let i = time2; i <= time1 ; i += interval) {
     let time = i;
     times.push(time);
-    let shareIndex = shareHistory.findIndex(shareData => shareData.time > time);
-    let shareData;
-    if (shareIndex === -1) {
-      shareIndex = shareHistory.length;
-      shareData = shareIndex > 0 ? shareHistory[shareIndex - 1] : undefined;
-    } else {
-      shareData = shareIndex > 0 ? shareHistory[shareIndex - 1] : shareHistory[shareIndex];
-    }
+    // let shareIndex = shareHistory.findIndex(shareData => shareData.time > time);
+    // let shareData;
+    // if (shareIndex === -1) {
+    //   shareIndex = shareHistory.length;
+    //   shareData = shareIndex > 0 ? shareHistory[shareIndex - 1] : undefined;
+    // } else {
+    //   shareData = shareIndex > 0 ? shareHistory[shareIndex - 1] : shareHistory[shareIndex];
+    // }
 
     let holdingIndex = _holdingHistory.findIndex(holding => holding.time > time);
     let holdingData;
@@ -1385,25 +1362,35 @@ console.log('fundDeatil_Time: ', time2, time1);
     }
     if (holdingData) {
       holdingHistory.push(holdingData.holdingValue);
-      if (shareData && shareData.shareAmount) {
-        let price = (holdingData.holdingValue / shareData.shareAmount);
-        if (price) {
-          sharePrices.push(price);
-        } else {
-          sharePrices.push(0)
-        }
-      } else {
-        sharePrices.push(0);
-      }
+      // if (shareData && shareData.shareAmount) {
+      //   let price = (holdingData.holdingValue / shareData.shareAmount);
+      //   if (price) {
+      //     sharePrices.push(price);
+      //   } else {
+      //     sharePrices.push(0)
+      //   }
+      // } else {
+      //   sharePrices.push(0);
+      // }
     } else {
       holdingHistory.push(0);
-      sharePrices.push(0);
+      // sharePrices.push(0);
     }
   }
+  // times.push(time1);
+  // const lastHoldings = (result.portfolioHistory && result.portfolioHistory.length > 0) ? result.portfolioHistory[result.portfolioHistory.length - 1] : 0;
+  // let currentValue = 0;
+  // if (lastHoldings) {
+  //   currentValue = lastHoldings.holdings.reduce((sum, holding) => {
+  //     return sum +  parseFloat(holding.amount) * parseFloat(holding.asset.price.price) ;
+  //   }, 0);
+  // }
+  // holdingHistory.push(currentValue * ethPrice);
+    console.log('_fundSharePrice: ', holdingHistory ,_holdingHistory);
 
   return {
     times,
-    sharePrices,
+    // sharePrices,
     holdingHistory
   }
 }

@@ -73,7 +73,7 @@ class InvestmentFunds extends Component {
     let _ethPrice = await getEthPrice();
 
     const allFundTx = await allFundTransactions(this.props.fundId) || [];
-
+    console.log('allTx: ', allFundTx);
     const _total = allFundTx.reduce((a, b) => {
       const sign2 = b.type === 'INVEST' ? 1: -1;
       return a + (sign2) * parseFloat(b.price || 0) * parseFloat(b.amount || 0) * _ethPrice

@@ -31,6 +31,7 @@ class FundOverview extends Component {
       denominationAssetName: "",
       modalShow: false
     };
+    console.log('aum: ', this.state.AUM)
     this.showModal = this.showModal.bind(this);
   }
   componentWillReceiveProps(props) {
@@ -70,7 +71,7 @@ class FundOverview extends Component {
             }
             <div className="w-fund-overview-content">
               <RoundCard width="100%">
-                <VaultChart ethPrice={this.state.ethPrice} fundAddress={this.state.fundId} parentState={this.state} fundName={this.state.fundName} walletMust={false} currentSharePrice={this.state.currentSharePrice} state={this.state}/>
+                <VaultChart ethPrice={this.state.ethPrice} fundAddress={this.state.fundId} parentState={this.state} fundName={this.state.fundName} walletMust={false} aum={this.state.AUM} state={this.state}/>
               </RoundCard>
 
               {/* <FundOverviewCards state={this.state} /> */}

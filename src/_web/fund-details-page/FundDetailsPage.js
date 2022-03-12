@@ -53,7 +53,7 @@ class FundDetailsPage extends Component {
       fundName: "",
       fundDetails: {},
       loaded: false,
-      aum: 0,
+      AUM: 0,
       currentSharePrice: "INTERNAL_API",
       startingSharePrice: 0,
       ethPrice: 1,
@@ -81,6 +81,7 @@ class FundDetailsPage extends Component {
 
     let _ethPrice = await getEthPrice();
     let aum = await getAUM(vaultAddress);
+    console.log('aum: ', aum)
     let currentSharePrice = (aum * _ethPrice) / parseFloat(totalSupply);
     var startingSharePrice = await getCreationSharePrices([vaultAddress]);
     startingSharePrice = startingSharePrice[vaultAddress]

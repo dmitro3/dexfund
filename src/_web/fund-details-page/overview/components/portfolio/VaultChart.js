@@ -35,8 +35,10 @@ class VaultChart extends Component {
       loading: true,
       selectedData: [],
       ethPrice: props.ethPrice,
-      fundAddress: this.props.fundAddress
+      fundAddress: this.props.fundAddress,
+      ...props
     };
+    console.log('aum: ', this.state.aum)
   }
 
   componentDidUpdate() {
@@ -52,15 +54,15 @@ class VaultChart extends Component {
   }
 
   calculateIncrease = (data, nodata) => {
-    if (!data.sharePrices) {
+    if (!data.holdingHistory) {
       return 0.00;
     }
     if (nodata) {
       return 0.00;
     }
 
-    const first = data.sharePrices[0];
-    const last = data.sharePrices[data.sharePrices.length - 1];
+    const first = data.holdingHistory[0];
+    const last = data.holdingHistory[data.holdingHistory.length - 1];
     const increase = first > 0 ? (((last-first)/first)*100).toFixed(2) : 100;
     return increase;
   }
@@ -77,54 +79,15 @@ class VaultChart extends Component {
     // await this.setState({ loading: true });
 
     const { selectedChart } = this.state;
-    const now = Math.floor(this.roundMinutes(new Date()).getTime() / 1000);
-    var from;
-    var interval;
     var noData = false;
-    switch(selectedChart) {
-      case "1D":
-        from = now-(60*60*24);
-        interval = 3600;
-        break;
-      case "1W":
-        from = now-(60*60*24*8);
-        interval = 60*60*6;
-        break;
-      case "1M":
-        from = now-(60*60*24*30);
-        interval = 60*60*24;
-        break;
-      case "3M":
-        from = now-(60*60*24*30*3);
-        interval = 60*60*24*3;
-        break;
-      case "6M":
-        from = now-(60*60*24*30*6);
-        interval = 60*60*24*6;
-        break;
-      case "1Y":
-        from = now-(60*60*24*365);
-        interval = 60*60*24*15;
-        break;
-      default:
-        from = now-(60*60*24);
-        interval = 3600;
-        break;
-    }
 
-    // const data = await getChartData(this.state.fundAddress, from, 0, interval);
-    // const data = await chart1d();
     const data = await getChartdata(this.state.fundAddress, selectedChart);
     if (!data) {
       noData = true;
     }
 
-    // for(var i = 0; i < data.length; i++) {
-    //   if (data[i].sharePrice == 0) {
-    //     noData = true;
-    //     break;
-    //   }
-    // }
+
+    console.log('holdingHistory: ', data.holdingHistory);
 
     const chartIncrease = this.calculateIncrease(data, noData);
     await this.setState({ loading: false, selectedData: data, noData: noData, portfolioPercent: chartIncrease });
@@ -217,7 +180,7 @@ class VaultChart extends Component {
                   AUM
                 </div>
                 <div className="w-portfolio-header-subtitle">
-                  $ {currencyFormat(this.props.currentSharePrice)} 
+                  $ {currencyFormat(this.state.aum)} 
                 </div>
                 <div className="w-portfolio-header-subtitle">
                   {this.state.portfolioTimeframe}

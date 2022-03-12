@@ -54,15 +54,15 @@ class DexfundChart extends React.Component {
     }
 
     calculateIncrease = (data, nodata) => {
-        if (!data.sharePrices) {
+        if (!data.holdingHistory) {
           return 0.00;
         }
         if (nodata) {
           return 0.00;
         }
     
-        const first = data.sharePrices[0];
-        const last = data.sharePrices[data.sharePrices.length - 1];
+        const first = data.holdingHistory[0];
+        const last = data.holdingHistory[data.holdingHistory.length - 1];
         const increase = first > 0 ? (((last-first)/first)*100).toFixed(2) : 100;
         return increase;
       }
@@ -79,7 +79,8 @@ class DexfundChart extends React.Component {
         // await this.setState({ loading: true });
     
         var noData = false;
-        const data = await getChartdata(this.state.fundAddress, '1M');
+        const data = await getChartdata(this.state.fundAddress, '3M');
+        console.log('dexfundchart: ', data)
         if (!data) {
           noData = true;
         }
@@ -92,10 +93,9 @@ class DexfundChart extends React.Component {
         // }
     
         const chartIncrease = this.calculateIncrease(data, noData);
-        const ethPrice = parseFloat(this.props.ethPrice);
         if (!data || !data.times) return ;
         const times = data.times.map(t => parseInt(t) * 1000);
-        const priceValues = data.sharePrices.map(p => (parseFloat(p) * ethPrice));
+        const priceValues = data.holdingHistory;
         const maxValue = Math.max(...priceValues);
         const fundName = this.props.fundName
         const series = [{
@@ -117,7 +117,7 @@ class DexfundChart extends React.Component {
                     type: 'numeric',
                     labels: {
                         formatter: function (value) {
-                          return value
+                          return value.toFixed(2)
                         }
                     },
                     min: 0,
